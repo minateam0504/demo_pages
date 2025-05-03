@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Onboarding</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .onboarding-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .onboarding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .onboarding-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.2);
+            margin: 0 4px;
+        }
+        .indicator-dot.active {
+            background-color: var(--terracotta);
+            width: 24px;
+            border-radius: 10px;
+        }
+        .onboarding-illustration {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: center;
+        }
+        .illustration-placeholder {
+            width: 280px;
+            height: 280px;
+            background-color: var(--sage-green);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px;
+        }
+        .onboarding-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .onboarding-description {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 32px;
+            color: rgba(0,0,0,0.6);
+        }
+        .onboarding-actions {
+            margin-top: auto;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 20px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .btn-text {
+            color: var(--charcoal);
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Onboarding Content -->
+    <div class="onboarding-content">
+        <div class="onboarding-header">
+            <div></div>
+            <div class="text-sm font-medium text-gray-500">Skip</div>
+        </div>
+        
+        <div class="onboarding-indicator">
+            <div class="indicator-dot active"></div>
+            <div class="indicator-dot"></div>
+            <div class="indicator-dot"></div>
+        </div>
+        
+        <div class="onboarding-illustration">
+            <div class="illustration-placeholder">
+                <i class="fas fa-camera fa-2x"></i>
+            </div>
+        </div>
+        
+        <h1 class="onboarding-title">Snap & Sell in Seconds</h1>
+        
+        <p class="onboarding-description">
+            Our AI recognizes baby gear from your photos and auto-fills your listing details. Just snap, confirm, and post!
+        </p>
+        
+        <div class="onboarding-actions">
+            <a href="#" class="btn-primary">Next</a>
+            <a href="#" class="btn-text">Sign In</a>
+        </div>
+    </div>
+</body>
+</html> 

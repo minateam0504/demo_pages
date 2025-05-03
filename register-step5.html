@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 71.4%; /* 5/7 steps completed */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .registry-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .registry-option {
+            position: relative;
+        }
+        .registry-radio {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+        .registry-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+        .registry-radio:checked + .registry-card {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .registry-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 16px;
+            color: #666;
+        }
+        .registry-info {
+            flex: 1;
+        }
+        .registry-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .registry-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .hint-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+        .file-upload {
+            display: none;
+        }
+        .url-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+            margin-top: 12px;
+            display: none;
+        }
+        .url-input:focus {
+            outline: none;
+            border-color: var(--terracotta);
+            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step4.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">Import your registry</h1>
+        <p class="subheading">Have an existing registry? Import items from another platform to get started.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <form action="register-step6.html" method="GET">
+            <div class="form-group">
+                <label class="form-label">Select a platform to import from</label>
+                
+                <div class="registry-options">
+                    <div class="registry-option">
+                        <input type="radio" id="babylist" name="registry_platform" value="babylist" class="registry-radio">
+                        <label for="babylist" class="registry-card">
+                            <div class="registry-icon">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <div class="registry-info">
+                                <div class="registry-name">Babylist</div>
+                                <div class="registry-desc">Import your Babylist baby registry</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="registry-option">
+                        <input type="radio" id="amazon" name="registry_platform" value="amazon" class="registry-radio">
+                        <label for="amazon" class="registry-card">
+                            <div class="registry-icon">
+                                <i class="fab fa-amazon"></i>
+                            </div>
+                            <div class="registry-info">
+                                <div class="registry-name">Amazon</div>
+                                <div class="registry-desc">Import your Amazon baby registry</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="registry-option">
+                        <input type="radio" id="target" name="registry_platform" value="target" class="registry-radio">
+                        <label for="target" class="registry-card">
+                            <div class="registry-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="registry-info">
+                                <div class="registry-name">Target</div>
+                                <div class="registry-desc">Import your Target baby registry</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="registry-option">
+                        <input type="radio" id="buybuyBaby" name="registry_platform" value="buybuyBaby" class="registry-radio">
+                        <label for="buybuyBaby" class="registry-card">
+                            <div class="registry-icon">
+                                <i class="fas fa-shopping-basket"></i>
+                            </div>
+                            <div class="registry-info">
+                                <div class="registry-name">buybuy BABY</div>
+                                <div class="registry-desc">Import your buybuy BABY registry</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="registry-option">
+                        <input type="radio" id="none" name="registry_platform" value="none" class="registry-radio" checked>
+                        <label for="none" class="registry-card">
+                            <div class="registry-icon">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div class="registry-info">
+                                <div class="registry-name">No registry to import</div>
+                                <div class="registry-desc">Skip this step and continue</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Registry URL input (hidden by default) -->
+                <input type="text" id="registry_url" name="registry_url" class="url-input" placeholder="Paste the URL to your registry">
+                
+                <!-- File upload option (hidden by default) -->
+                <input type="file" id="registry_file" name="registry_file" class="file-upload">
+                
+                <div class="hint-text">
+                    We'll analyze your registry and suggest items that are commonly available secondhand.
+                </div>
+            </div>
+            
+            <button type="button" id="importBtn" class="btn-secondary" style="display: none;">Import Registry</button>
+            <button type="submit" class="btn-primary">Continue</button>
+        </form>
+        
+        <div class="step-indicator">Step 5 of 7</div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('.registry-radio');
+            const urlInput = document.querySelector('.url-input');
+            const importBtn = document.getElementById('importBtn');
+            const fileUpload = document.getElementById('registry_file');
+            
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    
+                    if (selectedValue === 'none') {
+                        urlInput.style.display = 'none';
+                        importBtn.style.display = 'none';
+                    } else {
+                        urlInput.style.display = 'block';
+                        importBtn.style.display = 'block';
+                    }
+                });
+            });
+            
+            importBtn.addEventListener('click', function() {
+                const selectedPlatform = document.querySelector('.registry-radio:checked').value;
+                
+                if (selectedPlatform === 'babylist' || selectedPlatform === 'amazon') {
+                    const url = urlInput.value.trim();
+                    if (url) {
+                        // Here you would handle the API call to import the registry
+                        alert('Registry import started. This may take a few minutes.');
+                    } else {
+                        alert('Please enter your registry URL');
+                    }
+                } else {
+                    fileUpload.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

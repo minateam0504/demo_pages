@@ -1,0 +1,74 @@
+/* Mina Logo Styles */
+.mina-header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mina-header-logo-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+}
+
+.mina-header-logo-text {
+    font-family: serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #4A4656;
+}
+
+.mina-centered-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto;
+}
+
+.mina-centered-logo-img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 8px;
+}
+
+.mina-centered-logo-text {
+    font-family: serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #4A4656;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 480px) {
+    .mina-centered-logo-img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .mina-centered-logo-text {
+        font-size: 28px;
+    }
+    
+    .mina-header-logo-img {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .mina-header-logo-text {
+        font-size: 18px;
+    }
+}
+
+/* Special styling for welcome screen */
+.welcome-content .mina-centered-logo {
+    margin-bottom: 40px;
+}
+
+/* Animation for logo on hover */
+.mina-header-logo:hover .mina-header-logo-img,
+.mina-centered-logo:hover .mina-centered-logo-img {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+} 

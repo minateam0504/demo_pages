@@ -1,0 +1,33 @@
+/* Logo styling for Mina app */
+.mina-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.mina-logo-stroller {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.mina-logo-cloud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+}
+
+.mina-logo-text {
+    font-family: serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #4A4656;
+    text-align: center;
+    margin-top: 8px;
+} 

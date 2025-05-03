@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Message Seller</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .chat-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .back-button {
+            margin-right: 16px;
+            font-size: 20px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .chat-user {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .user-status {
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+        }
+        .menu-button {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: var(--cream);
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin-bottom: 16px;
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+        }
+        .message-incoming {
+            align-self: flex-start;
+        }
+        .message-outgoing {
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .message-bubble {
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+        }
+        .message-incoming .message-bubble {
+            background-color: white;
+            border-bottom-left-radius: 4px;
+        }
+        .message-outgoing .message-bubble {
+            background-color: var(--terracotta);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message-time {
+            font-size: 11px;
+            color: rgba(0,0,0,0.4);
+            margin-top: 4px;
+            text-align: right;
+        }
+        .message-outgoing .message-time {
+            color: rgba(255,255,255,0.7);
+        }
+        .chat-input {
+            padding: 16px;
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .input-field {
+            flex: 1;
+            background-color: #f0f0f0;
+            border-radius: 24px;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+        }
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--terracotta);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+        }
+        .input-field:focus {
+            outline: none;
+        }
+        .chat-date {
+            align-self: center;
+            background-color: rgba(0,0,0,0.1);
+            color: rgba(0,0,0,0.6);
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        .message-product {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            max-width: 90%;
+        }
+        .product-thumb {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            flex-shrink: 0;
+        }
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 10px;
+            flex: 1;
+        }
+        .product-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .product-price {
+            color: var(--terracotta);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .product-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 12px;
+            background-color: white;
+            border-radius: 16px;
+            width: fit-content;
+            margin-bottom: 16px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ccc;
+            opacity: 0.6;
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        @keyframes typingAnimation {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Chat Header -->
+    <div class="chat-header">
+        <a href="buyer-success.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="chat-user">
+            <div class="user-avatar">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller Profile">
+            </div>
+            <div class="user-info">
+                <div class="user-name">Sarah Johnson</div>
+                <div class="user-status">Online • Typically responds in 15 minutes</div>
+            </div>
+        </div>
+        <div class="menu-button">
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </div>
+    
+    <!-- Chat Messages -->
+    <div class="chat-messages">
+        <!-- Chat Date -->
+        <div class="chat-date">
+            Today
+        </div>
+        
+        <!-- Product Context -->
+        <div class="message message-incoming">
+            <div class="message-product">
+                <div class="product-thumb">
+                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Uppababy Vista V2 + RumbleSeat</div>
+                    <div class="product-price">$400</div>
+                    <div class="product-meta">Pickup: Tuesday, June 17, 9:30 AM</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Messages -->
+        <div class="message message-incoming">
+            <div class="message-bubble">
+                You've booked to pick up this item from Sarah. You can chat directly with Sarah here regarding any questions.
+            </div>
+            <div class="message-time">9:45 AM</div>
+        </div>
+        
+        <!-- Seller Message -->
+        <div class="message message-incoming">
+            <div class="message-bubble">
+                Thanks for your purchase! I'll have the stroller ready for you at 9:30 AM on Tuesday. The address is 123 Maple Street. Please let me know if you have any questions about the stroller before pickup.
+            </div>
+            <div class="message-time">9:47 AM</div>
+        </div>
+        
+        <!-- Buyer Message -->
+        <div class="message message-outgoing">
+            <div class="message-bubble">
+                Thanks Sarah! I'm excited to get the stroller. Do you happen to have the original manual that came with it? Also, does it fold up easily to fit in a car trunk?
+            </div>
+            <div class="message-time">9:50 AM</div>
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    </div>
+    
+    <!-- Chat Input -->
+    <div class="chat-input">
+        <input type="text" class="input-field" placeholder="Message Sarah...">
+        <button class="send-button">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</body>
+</html> 

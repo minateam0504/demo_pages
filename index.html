@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Smart Marketplace for Baby Gear</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .phone-container {
+            width: 390px;
+            height: 844px;
+            background: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            margin: 20px;
+            border: 10px solid #111;
+        }
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .screen-label {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--charcoal);
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--terracotta);
+            text-align: center;
+            margin: 30px 0 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto py-8">
+        <h1 class="text-4xl font-bold text-center mb-4" style="color: var(--terracotta);">Mina Prototype</h1>
+        
+        <!-- Mina Centered Logo -->
+        <div class="mina-centered-logo">
+            <svg class="mina-centered-logo-img" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cloud shape -->
+                <path d="M220 170C234.5 170 246 158.5 246 144C246 129.5 234.5 118 220 118C219.3 118 218.6 118 217.9 118.1C214.4 104.2 202 94 187 94C171.5 94 158.8 104.9 156 119.2C152.4 116.7 148.1 115.3 143.5 115.3C132.9 115.3 124.2 123.2 123 133.4C115.2 136.6 110 144.3 110 153C110 165.2 120.2 175 132.5 175" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
+                
+                <!-- Stroller -->
+                <circle cx="160" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                <circle cx="220" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                <path d="M235 210H240C242.8 210 245 207.8 245 205V195C245 192.2 242.8 190 240 190H235" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
+                <path d="M190 130V210" stroke="#4A4656" stroke-width="9"/>
+                <path d="M145 170H235" stroke="#4A4656" stroke-width="9"/>
+                <path d="M145 130C145 130 167 130 190 130C213 130 190 170 190 170H145V130Z" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                <path d="M145 130H190L190 170" fill="#D9DFCC" stroke="#4A4656" stroke-width="9"/>
+            </svg>
+            <div class="mina-centered-logo-text">mina</div>
+        </div>
+        
+        <p class="text-center mb-8 max-w-3xl mx-auto">A smart and trusted marketplace for secondhand baby gear. These screens represent the high-fidelity prototype for development.</p>
+        
+        <div class="preview-container">
+            <!-- Registration Flow -->
+            <div class="section-title">Registration Flow</div>
+            
+            <!-- Welcome Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Welcome</div>
+                <div class="phone-container">
+                    <iframe src="welcome.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 1 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Basic Information</div>
+                <div class="phone-container">
+                    <iframe src="register-step1.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 2 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Address</div>
+                <div class="phone-container">
+                    <iframe src="register-step2.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 3 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Neighborhood</div>
+                <div class="phone-container">
+                    <iframe src="register-step3.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 4 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Shopping Areas</div>
+                <div class="phone-container">
+                    <iframe src="register-step4.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 5 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Import Registry</div>
+                <div class="phone-container">
+                    <iframe src="register-step5.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 6 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Payment Method</div>
+                <div class="phone-container">
+                    <iframe src="register-step7.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 7 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Profile Complete</div>
+                <div class="phone-container">
+                    <iframe src="register-step8.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 8 -->
+            <div class="flex flex-col">
+                <div class="screen-label">List Your First Item</div>
+                <div class="phone-container">
+                    <iframe src="register-step9.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Registration Step 9 -->
+            <div class="flex flex-col">
+                <div class="screen-label">Discover Products</div>
+                <div class="phone-container">
+                    <iframe src="register-step6.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Flow Screens -->
+            <div class="section-title">AI-Powered Seller Flow</div>
+            
+            <!-- Seller Flow Intro -->
+            <div class="flex flex-col">
+                <div class="screen-label">Seller Flow Intro</div>
+                <div class="phone-container">
+                    <iframe src="seller-flow.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 1 - Upload Photos -->
+            <div class="flex flex-col">
+                <div class="screen-label">Upload Photos</div>
+                <div class="phone-container">
+                    <iframe src="seller-step1.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 2 - Product Details -->
+            <div class="flex flex-col">
+                <div class="screen-label">Product Details</div>
+                <div class="phone-container">
+                    <iframe src="seller-step2.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 3 - Additional Details Prompts -->
+            <div class="flex flex-col">
+                <div class="screen-label">Additional Details</div>
+                <div class="phone-container">
+                    <iframe src="seller-step3-prompts.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 4 - Set Price -->
+            <div class="flex flex-col">
+                <div class="screen-label">Set Price</div>
+                <div class="phone-container">
+                    <iframe src="seller-step3.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 5 - Delivery Preferences -->
+            <div class="flex flex-col">
+                <div class="screen-label">Delivery Preferences</div>
+                <div class="phone-container">
+                    <iframe src="seller-step4-delivery.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 6 - Preview & Publish -->
+            <div class="flex flex-col">
+                <div class="screen-label">Preview & Publish</div>
+                <div class="phone-container">
+                    <iframe src="seller-step4.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 7 - Success -->
+            <div class="flex flex-col">
+                <div class="screen-label">Listing Success</div>
+                <div class="phone-container">
+                    <iframe src="seller-step5-success.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- AI-Powered Buyer Flow -->
+            <div class="section-title">AI-Powered Buyer Flow</div>
+            
+            <!-- Category Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Browse Categories</div>
+                <div class="phone-container">
+                    <iframe src="buyer-category.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- AI Chat Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">AI Chat Experience</div>
+                <div class="phone-container">
+                    <iframe src="buyer-chat.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Product Detail Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Product Details</div>
+                <div class="phone-container">
+                    <iframe src="buyer-product.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Pickup Scheduling Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Schedule Pickup</div>
+                <div class="phone-container">
+                    <iframe src="buyer-pickup.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Payment Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Payment</div>
+                <div class="phone-container">
+                    <iframe src="buyer-payment.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Messaging Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Message Seller</div>
+                <div class="phone-container">
+                    <iframe src="buyer-message.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Success Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Booking Confirmation</div>
+                <div class="phone-container">
+                    <iframe src="buyer-success.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Notification Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Seller Booking Notification</div>
+                <div class="phone-container">
+                    <iframe src="seller-booking-notification.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Post-Pickup Survey Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">Post-Pickup Survey</div>
+                <div class="phone-container">
+                    <iframe src="pickup-survey.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Account Management Screens -->
+            <div class="section-title">Account Management Screens</div>
+            
+            <!-- Account Management Hub -->
+            <div class="flex flex-col">
+                <div class="screen-label">Account Management</div>
+                <div class="phone-container">
+                    <iframe src="account-management.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Active Listings -->
+            <div class="flex flex-col">
+                <div class="screen-label">Active Listings</div>
+                <div class="phone-container">
+                    <iframe src="account-active-listings.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Sold Items -->
+            <div class="flex flex-col">
+                <div class="screen-label">Sold Items</div>
+                <div class="phone-container">
+                    <iframe src="account-sold-items.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Purchases -->
+            <div class="flex flex-col">
+                <div class="screen-label">Purchases</div>
+                <div class="phone-container">
+                    <iframe src="account-purchases.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Pickup Calendar -->
+            <div class="flex flex-col">
+                <div class="screen-label">Pickup Calendar</div>
+                <div class="phone-container">
+                    <iframe src="account-pickup-calendar.html"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

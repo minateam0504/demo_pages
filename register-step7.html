@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 100%; /* 7/7 steps completed */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--terracotta);
+            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .payment-option {
+            position: relative;
+        }
+        .payment-radio {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+        .payment-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+        .payment-radio:checked + .payment-card {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 16px;
+            color: #666;
+        }
+        .payment-info {
+            flex: 1;
+        }
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .payment-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .hint-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+        .card-form {
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+        .row {
+            display: flex;
+            gap: 16px;
+        }
+        .col {
+            flex: 1;
+        }
+        .security-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            justify-content: center;
+        }
+        .security-icon {
+            font-size: 20px;
+            color: #9CA3AF;
+        }
+        .security-text {
+            font-size: 12px;
+            color: #9CA3AF;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .payment-method-icon {
+            font-size: 24px;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step6.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">Add payment method</h1>
+        <p class="subheading">Set up a payment method for buying and selling.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <form action="register-step8.html" method="GET">
+            <div class="form-group">
+                <label class="form-label">Select a payment method</label>
+                
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <input type="radio" id="creditCard" name="payment_method" value="credit_card" class="payment-radio" checked>
+                        <label for="creditCard" class="payment-card">
+                            <div class="payment-icon">
+                                <i class="far fa-credit-card"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Credit or Debit Card</div>
+                                <div class="payment-desc">For buying and receiving payments</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <input type="radio" id="bankAccount" name="payment_method" value="bank_account" class="payment-radio">
+                        <label for="bankAccount" class="payment-card">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Bank Account</div>
+                                <div class="payment-desc">For receiving payments when selling</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <input type="radio" id="paypal" name="payment_method" value="paypal" class="payment-radio">
+                        <label for="paypal" class="payment-card">
+                            <div class="payment-icon">
+                                <i class="fab fa-paypal"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">PayPal</div>
+                                <div class="payment-desc">For buying and receiving payments</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <input type="radio" id="later" name="payment_method" value="later" class="payment-radio">
+                        <label for="later" class="payment-card">
+                            <div class="payment-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Add later</div>
+                                <div class="payment-desc">Skip for now (you'll need this to buy or sell)</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Credit Card Form (shown when credit card is selected) -->
+            <div id="creditCardForm" class="card-form">
+                <div class="form-group">
+                    <label for="cardName" class="form-label">Name on Card</label>
+                    <input type="text" id="cardName" name="card_name" class="form-input" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardNumber" class="form-label">Card Number</label>
+                    <input type="text" id="cardNumber" name="card_number" class="form-input" placeholder="1234 5678 9012 3456">
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="expiryDate" class="form-label">Expiry Date</label>
+                            <input type="text" id="expiryDate" name="expiry_date" class="form-input" placeholder="MM/YY">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="text" id="cvv" name="cvv" class="form-input" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-method-icon"><i class="fab fa-cc-visa"></i></div>
+                    <div class="payment-method-icon"><i class="fab fa-cc-mastercard"></i></div>
+                    <div class="payment-method-icon"><i class="fab fa-cc-amex"></i></div>
+                    <div class="payment-method-icon"><i class="fab fa-cc-discover"></i></div>
+                </div>
+            </div>
+            
+            <!-- Bank Account Form (hidden by default) -->
+            <div id="bankAccountForm" class="card-form" style="display: none;">
+                <div class="form-group">
+                    <label for="accountName" class="form-label">Account Holder Name</label>
+                    <input type="text" id="accountName" name="account_name" class="form-input" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="routingNumber" class="form-label">Routing Number</label>
+                    <input type="text" id="routingNumber" name="routing_number" class="form-input" placeholder="123456789">
+                </div>
+                
+                <div class="form-group">
+                    <label for="accountNumber" class="form-label">Account Number</label>
+                    <input type="text" id="accountNumber" name="account_number" class="form-input" placeholder="1234567890123">
+                </div>
+                
+                <div class="form-group">
+                    <label for="accountType" class="form-label">Account Type</label>
+                    <select id="accountType" name="account_type" class="form-input">
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- PayPal Form (hidden by default) -->
+            <div id="paypalForm" class="card-form" style="display: none;">
+                <div class="form-group">
+                    <label for="paypalEmail" class="form-label">PayPal Email Address</label>
+                    <input type="email" id="paypalEmail" name="paypal_email" class="form-input" placeholder="your-email@example.com">
+                </div>
+                
+                <div class="text-center my-4">
+                    <i class="fab fa-paypal text-4xl text-blue-600"></i>
+                </div>
+                
+                <div class="hint-text text-center">
+                    You'll be redirected to PayPal to complete the connection.
+                </div>
+            </div>
+            
+            <div class="security-icons">
+                <div class="security-icon"><i class="fas fa-lock"></i></div>
+                <div class="security-icon"><i class="fas fa-shield-alt"></i></div>
+            </div>
+            <div class="security-text">Your payment details are encrypted and securely stored</div>
+            
+            <div class="hint-text">
+                We never store your full card details on our servers. Your information is securely processed and stored with our payment provider.
+            </div>
+            
+            <button type="submit" class="btn-primary">Complete Registration</button>
+        </form>
+        
+        <div class="step-indicator">Step 7 of 7</div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('.payment-radio');
+            const creditCardForm = document.getElementById('creditCardForm');
+            const bankAccountForm = document.getElementById('bankAccountForm');
+            const paypalForm = document.getElementById('paypalForm');
+            
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    
+                    // Hide all forms
+                    creditCardForm.style.display = 'none';
+                    bankAccountForm.style.display = 'none';
+                    paypalForm.style.display = 'none';
+                    
+                    // Show selected form
+                    if (selectedValue === 'credit_card') {
+                        creditCardForm.style.display = 'block';
+                    } else if (selectedValue === 'bank_account') {
+                        bankAccountForm.style.display = 'block';
+                    } else if (selectedValue === 'paypal') {
+                        paypalForm.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Format credit card input
+            const cardNumberInput = document.getElementById('cardNumber');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+            }
+            
+            // Format expiry date input
+            const expiryDateInput = document.getElementById('expiryDate');
+            if (expiryDateInput) {
+                expiryDateInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

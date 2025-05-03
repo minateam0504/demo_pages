@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Smart Listing Process</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .heading {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--charcoal);
+            line-height: 1.2;
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 32px;
+            color: #666;
+        }
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+        .phone-mockup {
+            border: 2px solid #333;
+            border-radius: 24px;
+            overflow: hidden;
+            width: 100%;
+            height: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .screen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .ai-badge i {
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="screen-header">
+            <div class="logo-container">
+                <a href="home.html">
+                    <i class="fas fa-arrow-left" style="font-size: 20px; color: var(--charcoal);"></i>
+                </a>
+            </div>
+            <div class="ai-badge">
+                <i class="fas fa-magic"></i> AI-Powered
+            </div>
+        </div>
+        
+        <h1 class="heading">Drastically reduce the guesswork in listing your products</h1>
+        <p class="subheading">Mina's AI technology makes selling your baby gear effortless and accurate. Here's how it works:</p>
+        
+        <div class="step-container">
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Upload the right photos</div>
+                </div>
+                <p>Take clear photos of your item. We'll guide you on capturing the product label and important details for accurate identification.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Mina fills in listing details</div>
+                </div>
+                <p>Our AI automatically identifies your product and fills in specifications like brand, model, dimensions, weight, suitable age range, and materials.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Mina suggests price</div>
+                </div>
+                <p>We analyze similar items in your area to suggest a competitive price range, and provide options to add value with accessories or services.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Preview & publish listing</div>
+                </div>
+                <p>Review your listing with Mina's quality verification badges. You can make final edits before publishing it to nearby neighborhoods.</p>
+            </div>
+        </div>
+        
+        <a href="seller-step1.html" class="btn-primary">Start Selling Now</a>
+        <a href="home.html" class="btn-secondary">Not Now</a>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="#" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+</body>
+</html> 

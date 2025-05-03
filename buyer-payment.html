@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .back-button {
+            font-size: 24px;
+            color: var(--charcoal);
+            margin-right: 12px;
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 24px;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .product-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .product-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 16px;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+        .product-meta {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+        }
+        .pickup-details {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .pickup-icon {
+            font-size: 20px;
+            color: var(--sage-green);
+            margin-right: 12px;
+        }
+        .pickup-info {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .payment-options {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .payment-option:last-child {
+            border-bottom: none;
+        }
+        .payment-radio {
+            margin-right: 16px;
+        }
+        .payment-logo {
+            width: 40px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        .payment-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        .payment-select {
+            color: var(--terracotta);
+            font-size: 14px;
+        }
+        .fee-breakdown {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .fee-row.total {
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .fee-label {
+            color: rgba(0,0,0,0.7);
+        }
+        .fee-info {
+            color: var(--terracotta);
+            cursor: pointer;
+            margin-left: 4px;
+            font-size: 14px;
+        }
+        .info-section {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .info-card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .info-icon {
+            color: var(--sage-green);
+            font-size: 18px;
+            margin-right: 12px;
+            margin-top: 2px;
+        }
+        .info-text {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(0,0,0,0.7);
+        }
+        .policy-link {
+            color: var(--terracotta);
+            text-decoration: underline;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 16px;
+            border: none;
+        }
+        .error-message {
+            color: var(--terracotta);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="buyer-pickup.html" class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <div class="page-title">Complete Payment</div>
+        </div>
+        
+        <!-- Product Card -->
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Uppababy Vista V2 + RumbleSeat</div>
+                    <div class="product-price">$400</div>
+                </div>
+            </div>
+            <div class="pickup-details">
+                <div class="pickup-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="pickup-info">
+                    <strong>Pickup:</strong> Tuesday, June 17 • 9:30 AM<br>
+                    <span class="text-sm">123 Maple Street, San Francisco</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Options -->
+        <div class="section-title">Payment Method</div>
+        <div class="payment-options">
+            <div class="payment-option">
+                <input type="radio" name="payment-method" id="credit-card" class="payment-radio" checked>
+                <div class="payment-logo">
+                    <i class="far fa-credit-card" style="font-size: 20px;"></i>
+                </div>
+                <label for="credit-card" class="payment-label">Credit / Debit Card</label>
+                <div class="payment-select">Change</div>
+            </div>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment-method" id="apple-pay" class="payment-radio">
+                <div class="payment-logo">
+                    <i class="fab fa-apple-pay" style="font-size: 24px;"></i>
+                </div>
+                <label for="apple-pay" class="payment-label">Apple Pay</label>
+            </div>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment-method" id="google-pay" class="payment-radio">
+                <div class="payment-logo">
+                    <i class="fab fa-google-pay" style="font-size: 24px;"></i>
+                </div>
+                <label for="google-pay" class="payment-label">Google Pay</label>
+            </div>
+        </div>
+        
+        <!-- Fee Breakdown -->
+        <div class="section-title">Fee Breakdown</div>
+        <div class="fee-breakdown">
+            <div class="fee-row">
+                <div class="fee-label">Item price</div>
+                <div>$400.00</div>
+            </div>
+            <div class="fee-row">
+                <div class="fee-label">
+                    Service fee <i class="fas fa-info-circle fee-info"></i>
+                </div>
+                <div>$20.00</div>
+            </div>
+            <div class="fee-row">
+                <div class="fee-label">
+                    Processing fee <i class="fas fa-info-circle fee-info"></i>
+                </div>
+                <div>$12.00</div>
+            </div>
+            <div class="fee-row">
+                <div class="fee-label">Sales tax</div>
+                <div>$36.00</div>
+            </div>
+            <div class="fee-row total">
+                <div>Total</div>
+                <div>$468.00</div>
+            </div>
+        </div>
+        
+        <!-- Payment Policies Info -->
+        <div class="info-section">
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="info-text">
+                    <strong>Secure Payment</strong><br>
+                    Mina holds your payment until you confirm receipt of the item. Your money is protected throughout the transaction.
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-calendar-times"></i></div>
+                <div class="info-text">
+                    <strong>Cancellation Policy</strong><br>
+                    Seller can cancel for free up to 72 hours before pickup. Late cancellations incur a fee. <a href="#" class="policy-link">View details</a>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="info-text">
+                    <strong>Secure Processing</strong><br>
+                    Payments processed securely through Stripe and PayPal. Sellers receive payment via Stripe Connect or PayPal.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Checkout Button -->
+        <a href="buyer-success.html" class="btn-primary">
+            Pay Now • $468.00
+        </a>
+    </div>
+</body>
+</html> 

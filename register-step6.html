@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 100%; /* 9/9 steps completed */
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .category-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #E5E7EB;
+        }
+        .category-card:hover {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .category-icon {
+            font-size: 24px;
+            color: var(--terracotta);
+            margin-bottom: 8px;
+        }
+        .category-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+        }
+        .product-image {
+            width: 100%;
+            height: 120px;
+            background-color: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .product-price {
+            font-size: 14px;
+            color: var(--terracotta);
+            font-weight: 500;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            margin-top: 24px;
+        }
+        .hint-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step9.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">Discover Products</h1>
+        <p class="subheading">You're all set! Here are some great secondhand items in your neighborhood.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <div class="search-container">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" placeholder="Search for strollers, cribs, etc." class="search-input">
+        </div>
+        
+        <div class="section-title">Popular Categories</div>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-baby-carriage"></i>
+                </div>
+                <div class="category-name">Strollers</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <div class="category-name">Cribs & Bassinets</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <div class="category-name">Clothing</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-chair"></i>
+                </div>
+                <div class="category-name">High Chairs</div>
+            </div>
+        </div>
+        
+        <div class="section-title">Recently Added Near You</div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/150?text=Stroller" alt="Uppababy Vista">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Uppababy Vista Stroller</div>
+                    <div class="product-price">$450</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/150?text=Crib" alt="Babyletto Crib">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Babyletto Hudson 3-in-1 Crib</div>
+                    <div class="product-price">$275</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/150?text=Clothing" alt="Baby Clothes">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">0-3m Clothing Bundle (15 items)</div>
+                    <div class="product-price">$65</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/150?text=Toys" alt="Toys">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Montessori Wooden Toy Set</div>
+                    <div class="product-price">$40</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hint-text">
+            We've curated these items based on your location and preferences. You'll be able to browse more after completing registration.
+        </div>
+        
+        <form action="home.html" method="GET">
+            <button type="submit" class="btn-primary">Complete Registration</button>
+        </form>
+        
+        <div class="step-indicator">Step 9 of 9</div>
+    </div>
+</body>
+</html> 

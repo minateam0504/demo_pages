@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Add Item</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .screen-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            margin-right: 16px;
+            font-size: 20px;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .input-field {
+            background-color: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            width: 100%;
+        }
+        .text-area {
+            height: 100px;
+            resize: none;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            margin-top: 32px;
+            text-align: center;
+        }
+        .btn-secondary {
+            background-color: var(--sage-green);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .camera-upload {
+            background-color: white;
+            border: 2px dashed rgba(0,0,0,0.2);
+            border-radius: 12px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: rgba(0,0,0,0.5);
+        }
+        .camera-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: var(--sage-green);
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .photo-item {
+            aspect-ratio: 1;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+        }
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .ai-badge i {
+            margin-right: 4px;
+        }
+        .ai-detected {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 24px;
+        }
+        .ai-icon {
+            background-color: var(--sage-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .ai-text {
+            font-size: 14px;
+        }
+        .ai-text strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .suggested-price {
+            margin-top: 16px;
+            background-color: rgba(183, 94, 69, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .price-range {
+            flex: 1;
+        }
+        .price-label {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .price-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+        .condition-options {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding-bottom: 8px;
+            margin-top: 8px;
+            scrollbar-width: none;
+        }
+        .condition-options::-webkit-scrollbar {
+            display: none;
+        }
+        .condition-option {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: white;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .condition-option.selected {
+            background-color: var(--terracotta);
+            color: white;
+            border-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="screen-header">
+            <div class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="header-title">Sell an Item</div>
+        </div>
+        
+        <div class="ai-detected">
+            <div class="ai-icon">
+                <i class="fas fa-magic"></i>
+            </div>
+            <div class="ai-text">
+                <strong>We detected this item!</strong>
+                Based on your photos, this appears to be an Uppababy Vista Stroller (2019-2020 model).
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Photos
+                <span class="text-xs text-gray-500">(1/5)</span>
+            </label>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Stroller">
+                    <div class="photo-remove">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="camera-upload">
+                    <div class="camera-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Title <span class="ai-badge"><i class="fas fa-magic"></i> AI filled</span></label>
+            <input type="text" class="input-field" value="Uppababy Vista Stroller - Slate Grey">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Category <span class="ai-badge"><i class="fas fa-magic"></i> AI filled</span></label>
+            <input type="text" class="input-field" value="Strollers & Car Seats > Full-Size Strollers">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Condition</label>
+            <div class="condition-options">
+                <div class="condition-option">New</div>
+                <div class="condition-option">Like New</div>
+                <div class="condition-option selected">Gently Used</div>
+                <div class="condition-option">Well Used</div>
+                <div class="condition-option">Worn</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Description <span class="ai-badge"><i class="fas fa-magic"></i> AI filled</span></label>
+            <textarea class="input-field text-area">Uppababy Vista stroller in great condition. This is the 2019 model in Slate Grey. Has some minor wear on the wheels but everything works perfectly. Includes toddler seat, bassinet, and rain cover. No accidents or damage.</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Price ($)</label>
+            <input type="text" class="input-field" value="320">
+            
+            <div class="suggested-price">
+                <div class="price-range">
+                    <div class="price-label">Suggested price range:</div>
+                    <div class="price-value">$300 - $350</div>
+                </div>
+                <i class="fas fa-info-circle text-xl text-gray-500"></i>
+            </div>
+        </div>
+        
+        <a href="#" class="btn-primary">Post Listing</a>
+        <a href="#" class="btn-secondary">Save Draft</a>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </div>
+        <div class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-heart"></i></div>
+            <div class="tab-label">Registry</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </div>
+    </div>
+</body>
+</html> 

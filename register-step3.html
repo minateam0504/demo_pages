@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 42.9%; /* 3/7 steps completed */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--terracotta);
+            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .map-container {
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid #E5E7EB;
+            background-color: #f7f7f7;
+            height: 200px;
+            position: relative;
+        }
+        .map-placeholder {
+            background-color: #e8e8e8;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .map-pin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--terracotta);
+            font-size: 30px;
+        }
+        .location-info {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .location-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .location-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+        .toggle-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: var(--terracotta);
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step2.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">Confirm your neighborhood</h1>
+        <p class="subheading">Based on your address, we've identified your San Francisco neighborhood.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <div class="map-container">
+            <div class="map-placeholder">Map of San Francisco</div>
+            <div class="map-pin"><i class="fas fa-map-marker-alt"></i></div>
+        </div>
+        
+        <div class="location-info">
+            <div class="location-label">Your neighborhood</div>
+            <div class="location-value">Mission District</div>
+        </div>
+        
+        <form action="register-step4.html" method="GET">
+            <div class="form-group">
+                <label for="neighborhood" class="form-label">Is this correct?</label>
+                <select id="neighborhood" name="neighborhood" class="form-input" required>
+                    <option value="Mission District" selected>Mission District</option>
+                    <option value="SoMa">SoMa</option>
+                    <option value="Noe Valley">Noe Valley</option>
+                    <option value="Castro">Castro</option>
+                    <option value="Marina">Marina</option>
+                    <option value="Haight-Ashbury">Haight-Ashbury</option>
+                    <option value="Richmond">Richmond</option>
+                    <option value="Sunset">Sunset</option>
+                    <option value="North Beach">North Beach</option>
+                    <option value="Pacific Heights">Pacific Heights</option>
+                    <option value="Potrero Hill">Potrero Hill</option>
+                    <option value="Bernal Heights">Bernal Heights</option>
+                </select>
+            </div>
+            
+            <div class="toggle-container">
+                <div class="toggle-label">Enable location services</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" name="location_services" checked required>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <p class="text-sm text-gray-500 mb-4">
+                We use your location to show you nearby items and connect you with local parents. You can change this later in settings.
+            </p>
+            
+            <button type="submit" class="btn-primary">Continue</button>
+        </form>
+        
+        <div class="step-indicator">Step 3 of 7</div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Add Your First Item</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+            min-height: 100px;
+            resize: none;
+        }
+        .form-select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .camera-upload {
+            background-color: white;
+            border: 2px dashed rgba(0,0,0,0.2);
+            border-radius: 12px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        .camera-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: var(--sage-green);
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .photo-item {
+            aspect-ratio: 1;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+        }
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .ai-badge i {
+            margin-right: 4px;
+        }
+        .ai-detected {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 24px;
+        }
+        .ai-icon {
+            background-color: var(--sage-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-right: 12px;
+        }
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .toggle-label {
+            font-weight: 500;
+        }
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: var(--terracotta);
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step8.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">List Your First Item</h1>
+        <p class="subheading">Add details about an item you'd like to sell. You can add more items later.</p>
+        
+        <div class="camera-upload">
+            <div class="camera-icon">
+                <i class="fas fa-camera"></i>
+            </div>
+            <p>Tap to add photos</p>
+            <span class="text-sm text-gray-500 mt-2">Add up to 8 photos</span>
+        </div>
+        
+        <div class="photo-grid">
+            <!-- These would be populated when the user adds photos -->
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Item Name <span class="ai-badge"><i class="fas fa-magic"></i> AI</span></label>
+            <input type="text" class="form-input" placeholder="e.g. Uppababy Vista Stroller 2022">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select">
+                <option value="">Select a category</option>
+                <option value="strollers">Strollers</option>
+                <option value="car_seats">Car Seats</option>
+                <option value="cribs">Cribs & Bassinets</option>
+                <option value="clothing">Clothing</option>
+                <option value="toys">Toys & Books</option>
+                <option value="feeding">Feeding</option>
+                <option value="diapering">Diapering</option>
+                <option value="gear">Baby Gear</option>
+                <option value="furniture">Furniture</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Condition</label>
+            <select class="form-select">
+                <option value="">Select condition</option>
+                <option value="new">New with tags</option>
+                <option value="like_new">Like new</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+                <option value="worn">Well worn</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Description <span class="ai-badge"><i class="fas fa-magic"></i> AI</span></label>
+            <textarea class="form-textarea" placeholder="Describe your item. Include details about condition, brand, age, etc."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Price ($)</label>
+            <input type="number" class="form-input" placeholder="0.00">
+        </div>
+        
+        <div class="toggle-container">
+            <div class="toggle-label">I'm open to offers</div>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <div class="toggle-label">Free local pickup</div>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <form action="register-step6.html" method="GET">
+            <button type="submit" class="btn-primary">List Item</button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='register-step6.html'">Save as Draft</button>
+        </form>
+    </div>
+</body>
+</html> 

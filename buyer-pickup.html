@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Schedule Pickup</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .screen-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            margin-right: 16px;
+            font-size: 20px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .product-summary {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .product-price {
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 4px;
+        }
+        .pickup-location {
+            color: rgba(0,0,0,0.6);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .pickup-location i {
+            margin-right: 4px;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        .section-subtitle {
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .date-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .date-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        .date-tab {
+            flex: 0 0 auto;
+            margin-right: 10px;
+            padding: 12px 24px;
+            text-align: center;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .date-tab.active {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .date-weekday {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .date-number {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .time-slot {
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .time-slot.selected {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .time-slot.unavailable {
+            background-color: #f0f0f0;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+        .note-input {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .note-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .note-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            resize: none;
+            font-size: 14px;
+        }
+        .note-field:focus {
+            outline: none;
+            border-color: var(--sage-green);
+        }
+        .button-container {
+            margin-top: 24px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .seller-note {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .seller-note-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .seller-note-header i {
+            color: var(--sage-green);
+            margin-right: 8px;
+        }
+        .seller-note-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .seller-note-content {
+            color: rgba(0,0,0,0.7);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Screen Header -->
+        <div class="screen-header">
+            <a href="buyer-product.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-title">Choose Pickup Time</div>
+        </div>
+        
+        <!-- Product Summary -->
+        <div class="product-summary">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+            </div>
+            <div class="product-details">
+                <div class="product-name">Uppababy Vista V2 + RumbleSeat</div>
+                <div class="product-price">$400</div>
+                <div class="pickup-location">
+                    <i class="fas fa-map-marker-alt"></i> Porch pickup (address will be shown once you book it)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seller Note -->
+        <div class="seller-note">
+            <div class="seller-note-header">
+                <i class="fas fa-info-circle"></i>
+                <div class="seller-note-title">Note from seller</div>
+            </div>
+            <div class="seller-note-content">
+                Let's also choose general pickup times that would work for you in the next 2 days. (Tip: more times = higher chances of selling the item. Actual pickup will be 15-minute windows)
+            </div>
+        </div>
+        
+        <!-- Date Selection -->
+        <div class="section-title">Select date</div>
+        <div class="date-tabs">
+            <div class="date-tab">
+                <div class="date-weekday">Mon</div>
+                <div class="date-number">6/16</div>
+            </div>
+            <div class="date-tab active">
+                <div class="date-weekday">Tue</div>
+                <div class="date-number">6/17</div>
+            </div>
+            <div class="date-tab">
+                <div class="date-weekday">Wed</div>
+                <div class="date-number">6/18</div>
+            </div>
+            <div class="date-tab">
+                <div class="date-weekday">Thu</div>
+                <div class="date-number">6/19</div>
+            </div>
+            <div class="date-tab">
+                <div class="date-weekday">Fri</div>
+                <div class="date-number">6/20</div>
+            </div>
+        </div>
+        
+        <!-- Time Selection -->
+        <div class="section-title">Select time</div>
+        <div class="time-grid">
+            <div class="time-slot">8:30 am</div>
+            <div class="time-slot">8:45 am</div>
+            <div class="time-slot">9:00 am</div>
+            <div class="time-slot">9:15 am</div>
+            <div class="time-slot selected">9:30 am</div>
+            <div class="time-slot">9:45 am</div>
+            <div class="time-slot">10:00 am</div>
+            <div class="time-slot">10:15 am</div>
+            <div class="time-slot unavailable">10:30 am</div>
+            <div class="time-slot unavailable">10:45 am</div>
+            <div class="time-slot">11:00 am</div>
+            <div class="time-slot">11:15 am</div>
+            <div class="time-slot">11:30 am</div>
+            <div class="time-slot">11:45 am</div>
+            <div class="time-slot">12:00 pm</div>
+            <div class="time-slot">12:15 pm</div>
+        </div>
+        
+        <!-- Note to Seller -->
+        <div class="note-input">
+            <div class="note-label">Note to seller (optional)</div>
+            <textarea class="note-field" rows="3" placeholder="Any special instructions or questions..."></textarea>
+        </div>
+        
+        <!-- Button -->
+        <div class="button-container">
+            <a href="buyer-payment.html" class="btn-primary">Continue to Payment</a>
+        </div>
+    </div>
+</body>
+</html> 

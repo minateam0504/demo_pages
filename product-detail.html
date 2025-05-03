@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Product Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 16px;
+        }
+        .product-header {
+            position: relative;
+            height: 300px;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .header-actions {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .back-button {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .action-buttons {
+            display: flex;
+        }
+        .action-button {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+            margin-left: 8px;
+        }
+        .image-indicators {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            margin: 0 4px;
+        }
+        .indicator-dot.active {
+            background-color: white;
+        }
+        .product-info {
+            padding: 20px 16px;
+        }
+        .product-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 16px;
+        }
+        .seller-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .seller-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        .seller-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .seller-details {
+            flex: 1;
+        }
+        .seller-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .seller-rating {
+            display: flex;
+            align-items: center;
+            color: rgba(0,0,0,0.6);
+            font-size: 14px;
+        }
+        .seller-rating i {
+            color: var(--sage-green);
+            margin-right: 4px;
+        }
+        .product-section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .section-content {
+            color: rgba(0,0,0,0.7);
+            line-height: 1.5;
+        }
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .detail-item {
+            margin-bottom: 8px;
+        }
+        .detail-label {
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 2px;
+        }
+        .detail-value {
+            font-weight: 500;
+        }
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--sage-green);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+        }
+        .trust-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        .trust-text strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+        .action-bar {
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            padding: 16px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 12px;
+        }
+        .btn-favorite {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            border: 2px solid var(--terracotta);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--terracotta);
+            font-size: 20px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 14px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+        .btn-primary i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="product-header">
+            <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Uppababy Vista Stroller" class="product-image">
+            
+            <div class="header-actions">
+                <div class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="action-buttons">
+                    <div class="action-button">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-indicators">
+                <div class="indicator-dot active"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+            </div>
+        </div>
+        
+        <div class="product-info">
+            <h1 class="product-title">Uppababy Vista Stroller - Slate Grey</h1>
+            <div class="product-price">$320</div>
+            
+            <div class="seller-info">
+                <div class="seller-avatar">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Seller Avatar">
+                </div>
+                <div class="seller-details">
+                    <div class="seller-name">Emma S.</div>
+                    <div class="seller-rating">
+                        <i class="fas fa-shield-alt"></i> 98% Trust Score
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Description</div>
+                <div class="section-content">
+                    Uppababy Vista stroller in great condition. This is the 2019 model in Slate Grey. Has some minor wear on the wheels but everything works perfectly. Includes toddler seat, bassinet, and rain cover. No accidents or damage.
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Details</div>
+                <div class="product-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Condition</div>
+                        <div class="detail-value">Gently Used</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Brand</div>
+                        <div class="detail-value">Uppababy</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Age Range</div>
+                        <div class="detail-value">0-3 years</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Palo Alto (2 miles)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trust-badge">
+                <div class="trust-icon">
+                    <i class="fas fa-badge-check"></i>
+                </div>
+                <div class="trust-text">
+                    <strong>Mina Verified</strong>
+                    This item has been independently verified for quality, safety, and authenticity.
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-bar">
+            <div class="btn-favorite">
+                <i class="far fa-heart"></i>
+            </div>
+            <a href="#" class="btn-primary">
+                <i class="fas fa-comment-alt"></i> Message Seller
+            </a>
+        </div>
+    </div>
+</body>
+</html> 

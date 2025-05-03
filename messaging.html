@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Messaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .back-button {
+            margin-right: 16px;
+            font-size: 20px;
+        }
+        .chat-user {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .user-status {
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+        }
+        .menu-button {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: var(--cream);
+        }
+        .message {
+            margin-bottom: 16px;
+            max-width: 80%;
+        }
+        .message-incoming {
+            align-self: flex-start;
+        }
+        .message-outgoing {
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .message-bubble {
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+        }
+        .message-incoming .message-bubble {
+            background-color: white;
+            border-bottom-left-radius: 4px;
+        }
+        .message-outgoing .message-bubble {
+            background-color: var(--terracotta);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message-time {
+            font-size: 11px;
+            color: rgba(0,0,0,0.4);
+            margin-top: 4px;
+            text-align: right;
+        }
+        .message-outgoing .message-time {
+            color: rgba(255,255,255,0.7);
+        }
+        .chat-input {
+            padding: 16px;
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .input-field {
+            flex: 1;
+            background-color: #f0f0f0;
+            border-radius: 24px;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+        }
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--terracotta);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+        .message-product {
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            width: 90%;
+        }
+        .product-thumb {
+            width: 70px;
+            height: 70px;
+            background-color: #f0f0f0;
+        }
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .product-price {
+            color: var(--terracotta);
+            font-weight: 700;
+        }
+        .date-divider {
+            text-align: center;
+            margin: 24px 0;
+            color: rgba(0,0,0,0.5);
+            font-size: 12px;
+            position: relative;
+        }
+        .date-divider::before, .date-divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: rgba(0,0,0,0.1);
+        }
+        .date-divider::before {
+            left: 0;
+        }
+        .date-divider::after {
+            right: 0;
+        }
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+        }
+        .quick-replies::-webkit-scrollbar {
+            display: none;
+        }
+        .quick-reply {
+            background-color: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="chat-header">
+            <div class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="chat-user">
+                <div class="user-avatar">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="User Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="user-name">Emma S.</div>
+                    <div class="user-status">Online now</div>
+                </div>
+            </div>
+            <div class="menu-button">
+                <i class="fas fa-ellipsis-v"></i>
+            </div>
+        </div>
+        
+        <div class="chat-messages">
+            <div class="message-product">
+                <div class="product-thumb">
+                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista Stroller">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Uppababy Vista Stroller</div>
+                    <div class="product-price">$320</div>
+                </div>
+            </div>
+            
+            <div class="date-divider">Today</div>
+            
+            <div class="message message-outgoing">
+                <div class="message-bubble">
+                    Hi! Is this stroller still available?
+                </div>
+                <div class="message-time">10:23 AM</div>
+            </div>
+            
+            <div class="message message-incoming">
+                <div class="message-bubble">
+                    Yes it is! Are you interested in seeing it?
+                </div>
+                <div class="message-time">10:25 AM</div>
+            </div>
+            
+            <div class="message message-outgoing">
+                <div class="message-bubble">
+                    Definitely! Could you tell me a bit more about the condition? Any issues I should know about?
+                </div>
+                <div class="message-time">10:28 AM</div>
+            </div>
+            
+            <div class="message message-incoming">
+                <div class="message-bubble">
+                    It's in great condition overall. We used it for about a year, but our child has outgrown it. There's some minor wear on the wheels, but everything works perfectly. It comes with the bassinet, toddler seat, and rain cover.
+                </div>
+                <div class="message-time">10:30 AM</div>
+            </div>
+            
+            <div class="message message-outgoing">
+                <div class="message-bubble">
+                    That sounds good. Would you be open to meeting tomorrow to check it out?
+                </div>
+                <div class="message-time">10:32 AM</div>
+            </div>
+            
+            <div class="message message-incoming">
+                <div class="message-bubble">
+                    Sure, I'm free in the afternoon around 3pm. We could meet at the Starbucks on Main Street if that works for you?
+                </div>
+                <div class="message-time">10:34 AM</div>
+            </div>
+            
+            <div class="quick-replies">
+                <div class="quick-reply">Sounds good!</div>
+                <div class="quick-reply">Could we meet earlier?</div>
+                <div class="quick-reply">Would you take $300?</div>
+                <div class="quick-reply">Can I bring my baby to try it?</div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" class="input-field" placeholder="Type a message...">
+            <div class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

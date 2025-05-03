@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 16px;
+        }
+        .product-header {
+            position: relative;
+            height: 300px;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .header-actions {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .back-button {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .action-buttons {
+            display: flex;
+        }
+        .action-button {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--charcoal);
+            margin-left: 8px;
+        }
+        .image-indicators {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            margin: 0 4px;
+        }
+        .indicator-dot.active {
+            background-color: white;
+        }
+        .product-info {
+            padding: 20px 16px;
+        }
+        .product-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 16px;
+        }
+        .seller-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .seller-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        .seller-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .seller-details {
+            flex: 1;
+        }
+        .seller-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .seller-rating {
+            display: flex;
+            align-items: center;
+            color: rgba(0,0,0,0.6);
+            font-size: 14px;
+        }
+        .seller-rating i {
+            color: var(--sage-green);
+            margin-right: 4px;
+        }
+        .product-section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .section-content {
+            color: rgba(0,0,0,0.7);
+            line-height: 1.5;
+        }
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .detail-item {
+            margin-bottom: 8px;
+        }
+        .detail-label {
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 2px;
+        }
+        .detail-value {
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .badge-success {
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+        }
+        .badge i {
+            margin-right: 4px;
+        }
+        .button-container {
+            padding: 16px;
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 14px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            flex: 1;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-outline {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            flex: 1;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .verification-section {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .verification-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .verification-item i {
+            color: var(--sage-green);
+            margin-right: 12px;
+        }
+        .verification-text {
+            font-size: 14px;
+        }
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .star {
+            color: #FFD700;
+            font-size: 14px;
+            margin-right: 2px;
+        }
+        .rating-score {
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .review-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .reviewer-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .review-date {
+            color: rgba(0,0,0,0.5);
+            font-size: 12px;
+        }
+        .review-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: rgba(0,0,0,0.8);
+        }
+        .badge-warning {
+            background-color: rgba(255, 173, 51, 0.2);
+            color: #FF9800;
+        }
+        .badge-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+        }
+        .seller-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .metric-item {
+            flex: 1;
+            min-width: 120px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--sage-green);
+            margin-bottom: 4px;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: rgba(0,0,0,0.6);
+        }
+        .source-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 4px;
+            font-size: 10px;
+            color: rgba(0,0,0,0.5);
+            margin-left: 6px;
+        }
+        .expandable-section {
+            margin-top: 6px;
+        }
+        .expand-button {
+            color: var(--terracotta);
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .expand-button i {
+            font-size: 10px;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Product Header with Images -->
+        <div class="product-header">
+            <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Uppababy Vista V2" class="product-image">
+            
+            <div class="header-actions">
+                <a href="buyer-chat.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div class="action-buttons">
+                    <div class="action-button">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-indicators">
+                <div class="indicator-dot active"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+            </div>
+        </div>
+        
+        <!-- Product Information -->
+        <div class="product-info">
+            <h1 class="product-title">Uppababy Vista V2 + RumbleSeat</h1>
+            <div class="product-price">$400</div>
+            
+            <div class="seller-info">
+                <div class="seller-avatar">
+                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller Profile">
+                </div>
+                <div class="seller-details">
+                    <div class="seller-name">Sarah Johnson</div>
+                    <div class="seller-rating">
+                        <i class="fas fa-shield-alt"></i> 98% Trust Score • 2 miles away
+                    </div>
+                </div>
+            </div>
+            
+            <div class="verification-section">
+                <div class="section-title">Mina verified listing</div>
+                <div class="verification-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="verification-text">First-hand resale (receipt verified)</div>
+                </div>
+                <div class="verification-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="verification-text">Within expiry date (photo verified)</div>
+                </div>
+                <div class="verification-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="verification-text">Basic quality check (photo verified)</div>
+                </div>
+                <div class="verification-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="verification-text">Not a recalled model</div>
+                </div>
+                <div class="verification-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="verification-text">Certified neighbor (location verified)</div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Description</div>
+                <div class="section-content">
+                    Slightly used Uppababy Vista V2 (2020) with RumbleSeat attachment for second child. In great condition with minor wear on wheels. Purchased 3 years ago and used mostly for neighborhood walks. Comes with original rain cover and bug shield.
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Features</div>
+                <div>
+                    <div class="badge badge-success"><i class="fas fa-tag"></i> Perfect for Siblings</div>
+                    <div class="badge badge-success"><i class="fas fa-tag"></i> Expandable</div>
+                    <div class="badge badge-success"><i class="fas fa-tag"></i> All Accessories</div>
+                    <div class="badge badge-success"><i class="fas fa-tag"></i> Great Condition</div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Product Details</div>
+                <div class="product-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Brand</div>
+                        <div class="detail-value">Uppababy</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Model</div>
+                        <div class="detail-value">Vista V2 (with RumbleSeat)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Dimensions</div>
+                        <div class="detail-value">36″ H x 25.7″ W x 33.3″ L</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Weight</div>
+                        <div class="detail-value">20 lbs frame, 7 lbs seat</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Suitable age</div>
+                        <div class="detail-value">0-48 months (4-50 lbs)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Purchase date</div>
+                        <div class="detail-value">January 2020</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Expiration date</div>
+                        <div class="detail-value">January 2027</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Usage frequency</div>
+                        <div class="detail-value">2-3 times per week</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">AI Condition Report</div>
+                <div>
+                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Frame & Structure: Excellent</div>
+                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Fabric & Padding: Very Good</div>
+                    <div class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Wheels: Minor Wear</div>
+                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Brakes & Safety: Excellent</div>
+                </div>
+                <div class="section-content mt-3">
+                    AI analysis of submitted photos shows minor wear on the wheels and slight fading on the fabric, which is normal for a 3-year-old stroller. No structural issues or safety concerns detected. Braking system appears to be in excellent condition.
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">Reviews from Other Platforms</div>
+                <div class="rating-stars">
+                    <div class="star"><i class="fas fa-star"></i></div>
+                    <div class="star"><i class="fas fa-star"></i></div>
+                    <div class="star"><i class="fas fa-star"></i></div>
+                    <div class="star"><i class="fas fa-star"></i></div>
+                    <div class="star"><i class="fas fa-star-half-alt"></i></div>
+                    <span class="rating-score">4.5/5</span>
+                    <span class="source-tag">Aggregated from 324 reviews</span>
+                </div>
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-name">Michael R.</div>
+                        <div class="review-date">3 months ago <span class="source-tag">Amazon</span></div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="review-text">
+                        The Vista V2 is absolutely worth the investment. It's incredibly versatile and grows with your family. The basket is huge, and it handles like a dream even with two kids.
+                    </div>
+                </div>
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-name">Jessica T.</div>
+                        <div class="review-date">5 months ago <span class="source-tag">BabyGear</span></div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="far fa-star"></i></div>
+                    </div>
+                    <div class="review-text">
+                        Great stroller but on the heavier side. The rumble seat works well for a second child but does limit basket access. Suspension is excellent even on bumpy sidewalks.
+                    </div>
+                </div>
+                
+                <div class="expandable-section">
+                    <div class="expand-button">
+                        See more reviews <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <div class="section-title">About the Seller</div>
+                <div class="seller-metrics">
+                    <div class="metric-item">
+                        <div class="metric-value">98%</div>
+                        <div class="metric-label">Positive Ratings</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">24</div>
+                        <div class="metric-label">Successful Sales</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">Item as Described</div>
+                    </div>
+                </div>
+                
+                <div class="review-item mt-3">
+                    <div class="review-header">
+                        <div class="reviewer-name">Emma K. (Buyer)</div>
+                        <div class="review-date">2 weeks ago</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="review-text">
+                        Sarah was fantastic! The baby carrier I bought was exactly as described. She even included some extra straps that weren't mentioned in the listing. Very friendly and accommodating with pickup times.
+                    </div>
+                </div>
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-name">David M. (Buyer)</div>
+                        <div class="review-date">1 month ago</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                        <div class="star"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="review-text">
+                        Smooth transaction. The play gym was in even better condition than the photos showed. Sarah responded quickly and was very helpful. Would definitely buy from her again.
+                    </div>
+                </div>
+                
+                <div class="expandable-section">
+                    <div class="expand-button">
+                        See more seller reviews <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="button-container">
+        <a href="buyer-pickup.html" class="btn-primary">Purchase</a>
+        <a href="buyer-message.html" class="btn-outline">Message Seller</a>
+    </div>
+</body>
+</html> 

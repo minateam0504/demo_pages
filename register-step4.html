@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .registration-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 44.4%; /* 4/9 steps completed */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .map-container {
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid #E5E7EB;
+            height: 200px;
+            position: relative;
+        }
+        .neighborhood-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .neighborhood-item {
+            position: relative;
+        }
+        .neighborhood-checkbox {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+        .neighborhood-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            min-height: 120px;
+        }
+        .neighborhood-checkbox:checked + .neighborhood-card {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .neighborhood-checkbox:checked + .neighborhood-card .check-icon {
+            display: flex;
+        }
+        .neighborhood-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: rgba(183, 94, 69, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--terracotta);
+            font-size: 24px;
+        }
+        .neighborhood-checkbox:checked + .neighborhood-card .neighborhood-icon {
+            background-color: rgba(183, 94, 69, 0.3);
+        }
+        .neighborhood-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+        .neighborhood-distance {
+            font-size: 13px;
+            color: #666;
+        }
+        .check-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--terracotta);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .hint-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step3.html" class="btn-back">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        
+        <div class="logo-small">M</div>
+        
+        <h1 class="heading">Choose your shopping areas</h1>
+        <p class="subheading">Select up to 3 neighborhoods where you'd like to shop or sell.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <form action="register-step5.html" method="GET">
+            <div class="form-group">
+                <label class="form-label">Preferred neighborhoods (select up to 3)</label>
+                
+                <div class="neighborhood-grid">
+                    <!-- Home neighborhood (pre-selected and disabled) -->
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood1" name="preferred_neighborhoods[]" value="Mission District" class="neighborhood-checkbox" checked disabled>
+                        <label for="neighborhood1" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="neighborhood-name">Mission District</div>
+                            <div class="neighborhood-distance">Home neighborhood</div>
+                        </label>
+                    </div>
+                    
+                    <!-- Nearby neighborhoods -->
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood2" name="preferred_neighborhoods[]" value="Noe Valley" class="neighborhood-checkbox">
+                        <label for="neighborhood2" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <div class="neighborhood-name">Noe Valley</div>
+                            <div class="neighborhood-distance">1.2 miles away</div>
+                        </label>
+                    </div>
+                    
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood3" name="preferred_neighborhoods[]" value="Castro" class="neighborhood-checkbox">
+                        <label for="neighborhood3" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-theater-masks"></i>
+                            </div>
+                            <div class="neighborhood-name">Castro</div>
+                            <div class="neighborhood-distance">1.3 miles away</div>
+                        </label>
+                    </div>
+                    
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood4" name="preferred_neighborhoods[]" value="Potrero Hill" class="neighborhood-checkbox">
+                        <label for="neighborhood4" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div class="neighborhood-name">Potrero Hill</div>
+                            <div class="neighborhood-distance">1.5 miles away</div>
+                        </label>
+                    </div>
+                    
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood5" name="preferred_neighborhoods[]" value="SoMa" class="neighborhood-checkbox">
+                        <label for="neighborhood5" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="neighborhood-name">SoMa</div>
+                            <div class="neighborhood-distance">1.7 miles away</div>
+                        </label>
+                    </div>
+                    
+                    <div class="neighborhood-item">
+                        <input type="checkbox" id="neighborhood6" name="preferred_neighborhoods[]" value="Bernal Heights" class="neighborhood-checkbox">
+                        <label for="neighborhood6" class="neighborhood-card">
+                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                            <div class="neighborhood-icon">
+                                <i class="fas fa-hiking"></i>
+                            </div>
+                            <div class="neighborhood-name">Bernal Heights</div>
+                            <div class="neighborhood-distance">1.9 miles away</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="hint-text">
+                    We'll show you items and buyers from these neighborhoods. Your home neighborhood is automatically included.
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">Continue</button>
+        </form>
+        
+        <div class="step-indicator">Step 4 of 9</div>
+    </div>
+
+    <script>
+        // Limit checkbox selection to 3 items (including pre-selected home neighborhood)
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.neighborhood-checkbox:not(:disabled)');
+            const max = 2; // Max 2 additional neighborhoods (3 total with home)
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const checkedCount = document.querySelectorAll('.neighborhood-checkbox:not(:disabled):checked').length;
+                    
+                    if(checkedCount > max) {
+                        this.checked = false;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

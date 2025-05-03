@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Active Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            font-size: 24px;
+            margin-right: 16px;
+            color: var(--charcoal);
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .filters-row {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .filters-row::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-pill {
+            flex: 0 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin-right: 8px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .filter-pill.active {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .listing-card {
+            background-color: white;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .listing-content {
+            display: flex;
+            padding: 16px;
+        }
+        .listing-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        .listing-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .listing-details {
+            flex: 1;
+        }
+        .listing-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .listing-price {
+            color: var(--terracotta);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .listing-meta {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .listing-meta i {
+            margin-right: 4px;
+        }
+        .listing-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .status-active {
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+        }
+        .status-pending {
+            background-color: rgba(246, 192, 80, 0.2);
+            color: #b87503;
+        }
+        .status-paused {
+            background-color: rgba(74, 70, 86, 0.2);
+            color: var(--charcoal);
+        }
+        .listing-actions {
+            display: flex;
+            border-top: 1px solid #e5e7eb;
+        }
+        .listing-action {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            color: var(--charcoal);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .listing-action i {
+            margin-right: 6px;
+        }
+        .listing-action:not(:last-child) {
+            border-right: 1px solid #e5e7eb;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: rgba(183, 94, 69, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            color: var(--terracotta);
+            font-size: 32px;
+        }
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .empty-description {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--terracotta);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: rgba(0,0,0,0.6);
+            text-transform: uppercase;
+        }
+        .info-banner {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .info-banner i {
+            color: var(--sage-green);
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .info-text {
+            font-size: 14px;
+            color: rgba(0,0,0,0.7);
+            line-height: 1.4;
+        }
+        .boost-link {
+            color: var(--terracotta);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="account-management.html" class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <div class="page-title">Active Listings</div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Paused</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">547</div>
+                <div class="stat-label">Views</div>
+            </div>
+        </div>
+        
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <i class="fas fa-lightbulb"></i>
+            <div class="info-text">
+                Tip: Lower prices and adding more photos increases your chance of selling by 70%. <a href="#" class="boost-link">Boost your listings</a>
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="filters-row">
+            <div class="filter-pill active">All (7)</div>
+            <div class="filter-pill">Active (4)</div>
+            <div class="filter-pill">Pending (1)</div>
+            <div class="filter-pill">Paused (2)</div>
+            <div class="filter-pill">Recently Sold</div>
+        </div>
+        
+        <!-- Listings -->
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">UPPAbaby Vista V2 Stroller</div>
+                    <div class="listing-price">$400</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 184 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Listed 3 days ago
+                    </div>
+                    <div class="listing-status status-active">Active</div>
+                </div>
+            </div>
+            <div class="listing-actions">
+                <a href="#" class="listing-action">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-pause"></i> Pause
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-chart-line"></i> Insights
+                </a>
+            </div>
+        </div>
+        
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <img src="https://images.unsplash.com/photo-1567538096622-2a3d050ae220?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Baby Bjorn Bouncer">
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">Baby Bjorn Bouncer Bliss</div>
+                    <div class="listing-price">$150</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 126 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Listed 1 week ago
+                    </div>
+                    <div class="listing-status status-pending">Pickup Scheduled</div>
+                </div>
+            </div>
+            <div class="listing-actions">
+                <a href="#" class="listing-action">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-trash-alt"></i> Cancel
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-chart-line"></i> Insights
+                </a>
+            </div>
+        </div>
+        
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <img src="https://images.unsplash.com/photo-1629139822826-4dda2986a5ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Crib Mobile">
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">Wooden Crib Mobile</div>
+                    <div class="listing-price">$35</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 42 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Listed 5 days ago
+                    </div>
+                    <div class="listing-status status-active">Active</div>
+                </div>
+            </div>
+            <div class="listing-actions">
+                <a href="#" class="listing-action">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-pause"></i> Pause
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-chart-line"></i> Insights
+                </a>
+            </div>
+        </div>
+        
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <img src="https://images.unsplash.com/photo-1598946861678-4767f3686db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Baby Clothes">
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">6-12m Baby Girl Clothes Bundle</div>
+                    <div class="listing-price">$75</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 94 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Listed 2 weeks ago
+                    </div>
+                    <div class="listing-status status-paused">Paused</div>
+                </div>
+            </div>
+            <div class="listing-actions">
+                <a href="#" class="listing-action">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-play"></i> Activate
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-chart-line"></i> Insights
+                </a>
+            </div>
+        </div>
+        
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <img src="https://images.unsplash.com/photo-1604162953577-c2f7cf8a42df?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="High Chair">
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">Stokke Tripp Trapp High Chair</div>
+                    <div class="listing-price">$180</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 101 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Listed 4 days ago
+                    </div>
+                    <div class="listing-status status-active">Active</div>
+                </div>
+            </div>
+            <div class="listing-actions">
+                <a href="#" class="listing-action">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-pause"></i> Pause
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-chart-line"></i> Insights
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+</body>
+</html> 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Booking Notification</title>
+    <title>Mina - Booking Request</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/mina-logo.css">
@@ -68,37 +68,38 @@
             width: 100%;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
         .notification-icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 50px;
-            background-color: rgba(183, 94, 69, 0.1);
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            background-color: rgba(155, 158, 138, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px auto;
-            color: var(--terracotta);
-            font-size: 40px;
+            margin: 40px 0 24px;
+            color: var(--sage-green);
+            font-size: 48px;
         }
-        .notification-title {
+        .title {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 16px;
             color: var(--charcoal);
-            text-align: center;
         }
-        .notification-message {
+        .message {
             font-size: 16px;
             color: rgba(0,0,0,0.6);
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            max-width: 320px;
             line-height: 1.5;
-            text-align: center;
         }
         .details-card {
             background-color: white;
             border-radius: 16px;
-            padding: 20px;
+            padding: 24px;
             width: 100%;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             margin-bottom: 24px;
@@ -106,7 +107,7 @@
         .details-header {
             display: flex;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         .product-image {
             width: 60px;
@@ -114,7 +115,6 @@
             border-radius: 8px;
             overflow: hidden;
             margin-right: 16px;
-            flex-shrink: 0;
         }
         .product-image img {
             width: 100%;
@@ -123,6 +123,7 @@
         }
         .product-details {
             flex: 1;
+            text-align: left;
         }
         .product-name {
             font-weight: 600;
@@ -131,44 +132,6 @@
         .product-price {
             color: var(--terracotta);
             font-weight: 700;
-        }
-        .buyer-info {
-            display: flex;
-            align-items: center;
-            background-color: rgba(155, 158, 138, 0.1);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
-        }
-        .buyer-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: #f0f0f0;
-            overflow: hidden;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        .buyer-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .buyer-details {
-            flex: 1;
-        }
-        .buyer-name {
-            font-weight: 600;
-        }
-        .buyer-rating {
-            font-size: 14px;
-            color: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-        }
-        .buyer-rating i {
-            color: var(--sage-green);
-            margin-right: 4px;
         }
         .divider {
             height: 1px;
@@ -186,92 +149,30 @@
         }
         .detail-value {
             font-weight: 500;
+            text-align: right;
         }
-        .location-address {
-            font-size: 14px;
-            color: rgba(0,0,0,0.7);
-            line-height: 1.4;
+        .seller-note {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            margin-top: 16px;
         }
-        .confirm-section {
-            background-color: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-        }
-        .confirm-title {
-            font-weight: 600;
-            margin-bottom: 16px;
-            font-size: 18px;
-        }
-        .toggle-option {
+        .seller-note-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .toggle-option:last-child {
-            border-bottom: none;
-        }
-        .toggle-label {
-            font-size: 15px;
-        }
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #e5e7eb;
-            border-radius: 34px;
-            transition: .4s;
-        }
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            border-radius: 50%;
-            transition: .4s;
-        }
-        input:checked + .toggle-slider {
-            background-color: var(--sage-green);
-        }
-        input:checked + .toggle-slider:before {
-            transform: translateX(22px);
-        }
-        .additional-note {
-            background-color: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px;
-            width: 100%;
-            min-height: 60px;
-            margin-top: 12px;
-            margin-bottom: 4px;
-            font-size: 14px;
-            color: var(--charcoal);
-        }
-        .note-label {
-            font-size: 14px;
-            color: rgba(0,0,0,0.6);
             margin-bottom: 8px;
+        }
+        .seller-note-header i {
+            color: var(--sage-green);
+            margin-right: 8px;
+        }
+        .seller-note-title {
+            font-weight: 600;
+        }
+        .seller-note-content {
+            font-size: 14px;
+            line-height: 1.4;
         }
         .btn-primary {
             background-color: var(--terracotta);
@@ -300,111 +201,18 @@
             text-align: center;
             text-decoration: none;
         }
-        .highlight-text {
-            color: var(--terracotta);
-            font-weight: 500;
-        }
-        .payment-card {
-            background-color: white;
-            border-radius: 16px;
-            padding: 20px;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-        }
-        .payment-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .payment-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: rgba(155, 158, 138, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 16px;
-            flex-shrink: 0;
-            color: var(--sage-green);
-            font-size: 18px;
-        }
-        .payment-title {
-            font-weight: 600;
-            font-size: 18px;
-        }
-        .payment-badge {
+        .status-badge {
             display: inline-block;
             background-color: rgba(155, 158, 138, 0.2);
             color: var(--sage-green);
-            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 12px;
-            margin-left: 8px;
+            margin-bottom: 16px;
         }
-        .fee-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .fee-label {
-            font-size: 14px;
-            color: rgba(0,0,0,0.6);
-        }
-        .fee-value {
-            font-weight: 500;
-        }
-        .fee-row.total {
-            margin-top: 8px;
-            padding-top: 12px;
-            border-top: 1px solid #f0f0f0;
-            font-weight: 700;
-        }
-        .info-box {
-            background-color: rgba(183, 94, 69, 0.05);
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 16px;
-            display: flex;
-            align-items: flex-start;
-        }
-        .info-box i {
-            color: var(--terracotta);
-            margin-right: 8px;
-            font-size: 16px;
-            margin-top: 2px;
-        }
-        .info-text {
-            font-size: 14px;
-            color: rgba(0,0,0,0.7);
-            line-height: 1.4;
-        }
-        .trust-boost {
-            display: flex;
-            align-items: center;
-            background-color: rgba(155, 158, 138, 0.1);
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 16px;
-        }
-        .trust-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: rgba(155, 158, 138, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-            color: var(--sage-green);
-            font-size: 18px;
-        }
-        .trust-text {
-            font-size: 14px;
-            line-height: 1.4;
+        .status-badge i {
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -423,159 +231,64 @@
     <div class="main-content">
         <!-- Notification Icon -->
         <div class="notification-icon">
-            <i class="fas fa-shopping-bag"></i>
+            <i class="fas fa-paper-plane"></i>
+        </div>
+        
+        <!-- Status Badge -->
+        <div class="status-badge">
+            <i class="fas fa-clock"></i> Awaiting Seller Confirmation
         </div>
         
         <!-- Notification Message -->
-        <h1 class="notification-title">Your Item is Booked!</h1>
-        <p class="notification-message">
-            Good news! A buyer has booked and paid for your Uppababy Vista V2 stroller. Please confirm the pickup details to complete this booking.
+        <h1 class="title">Booking Request Sent!</h1>
+        <p class="message">
+            We've sent a notification to Julia to confirm the availability of this item and your requested pickup time.
         </p>
         
-        <!-- Payment Card -->
-        <div class="payment-card">
-            <div class="payment-header">
-                <div class="payment-icon">
-                    <i class="fas fa-credit-card"></i>
-                </div>
-                <div>
-                    <div class="payment-title">Payment Received</div>
-                    <div class="payment-badge">IN-APP PAYMENT</div>
-                </div>
-            </div>
-            
-            <div class="fee-row">
-                <div class="fee-label">Item price</div>
-                <div class="fee-value">$400.00</div>
-            </div>
-            <div class="fee-row">
-                <div class="fee-label">Mina service fee (5%)</div>
-                <div class="fee-value">-$20.00</div>
-            </div>
-            <div class="fee-row">
-                <div class="fee-label">Processing fee (3%)</div>
-                <div class="fee-value">-$12.00</div>
-            </div>
-            <div class="fee-row total">
-                <div>You'll receive</div>
-                <div>$368.00</div>
-            </div>
-            
-            <div class="info-box">
-                <i class="fas fa-info-circle"></i>
-                <div class="info-text">
-                    Funds will be processed via your selected payout method (Stripe Connect/PayPal) 24 hours after successful pickup.
-                </div>
-            </div>
-            
-            <div class="trust-boost">
-                <div class="trust-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="trust-text">
-                    <strong>Trust Score Boost!</strong><br>
-                    You'll receive a Trust Score boost for using Mina's in-app payment. Higher trust scores lead to more visibility for your listings!
-                </div>
-            </div>
-        </div>
-        
-        <!-- Booking Details Card -->
+        <!-- Details Card -->
         <div class="details-card">
-            <!-- Product Info -->
             <div class="details-header">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                    <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX Car Seat">
                 </div>
                 <div class="product-details">
-                    <div class="product-name">Uppababy Vista V2 + RumbleSeat</div>
-                    <div class="product-price">$400</div>
-                </div>
-            </div>
-            
-            <!-- Buyer Info -->
-            <div class="buyer-info">
-                <div class="buyer-avatar">
-                    <img src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer Profile">
-                </div>
-                <div class="buyer-details">
-                    <div class="buyer-name">Michael Thompson</div>
-                    <div class="buyer-rating">
-                        <i class="fas fa-shield-alt"></i> 96% Trust Score • 7 previous purchases
-                    </div>
+                    <div class="product-name">Nuna PIPA RX Infant Car Seat with RELX Base</div>
+                    <div class="product-price">$175 <span style="text-decoration: line-through; font-size: 14px; color: #999; font-weight: normal;">$399</span></div>
                 </div>
             </div>
             
             <div class="divider"></div>
             
-            <!-- Booking Details -->
             <div class="detail-row">
-                <div class="detail-label">Pickup Date</div>
+                <div class="detail-label">Requested Pickup Date</div>
                 <div class="detail-value">Tuesday, June 17</div>
             </div>
             <div class="detail-row">
-                <div class="detail-label">Pickup Time</div>
-                <div class="detail-value highlight-text">9:30 AM</div>
+                <div class="detail-label">Requested Pickup Time</div>
+                <div class="detail-value">9:30 AM</div>
             </div>
             <div class="detail-row">
-                <div class="detail-label">Method</div>
-                <div class="detail-value">Porch Pickup</div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-label">Payment</div>
-                <div class="detail-value">In-app Payment (Processed)</div>
+                <div class="detail-label">Location</div>
+                <div class="detail-value">Mission District</div>
             </div>
             
-            <div class="divider"></div>
-            
-            <!-- Pickup Location -->
-            <div class="detail-row">
-                <div class="detail-label">Pickup Location</div>
-                <div class="detail-value">Your Address</div>
+            <div class="seller-note">
+                <div class="seller-note-header">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="seller-note-title">What happens next?</div>
+                </div>
+                <div class="seller-note-content">
+                    Julia has 24 hours to confirm your booking request. Once confirmed, you'll get the exact address and payment will be processed. You can cancel anytime before confirmation.
+                </div>
             </div>
-            <div class="location-address">
-                123 Maple Street<br>
-                San Francisco, CA 94110
-            </div>
-        </div>
-        
-        <!-- Confirmation Section -->
-        <div class="confirm-section">
-            <div class="confirm-title">Confirm Pickup Details</div>
-            
-            <div class="toggle-option">
-                <div class="toggle-label">Confirm pickup time & location</div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            
-            <div class="toggle-option">
-                <div class="toggle-label">Item is still available</div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            
-            <div class="toggle-option">
-                <div class="toggle-label">Receive pickup reminders</div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            
-            <div class="note-label">Additional instructions for buyer (optional)</div>
-            <textarea class="additional-note" placeholder="E.g., The stroller will be in a box on the porch..."></textarea>
         </div>
         
         <!-- Buttons -->
         <a href="buyer-message.html" class="btn-primary">
-            Confirm Booking
+            Message Seller
         </a>
-        <a href="#" class="btn-outline">
-            Message Buyer
+        <a href="home.html" class="btn-outline">
+            Back to Home
         </a>
     </div>
     
@@ -602,5 +315,14 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <!-- Simulation Script - For demo purposes only -->
+    <script>
+        // For demo purposes only: This simulates the seller confirming the booking
+        setTimeout(function() {
+            // Simulate seller confirmation and redirect to the confirmed booking page
+            window.location.href = "buyer-booking-confirmed.html";
+        }, 3000); // Redirect after 3 seconds
+    </script>
 </body>
 </html> 

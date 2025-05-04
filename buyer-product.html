@@ -62,95 +62,157 @@
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 16px;
         }
-        .product-header {
-            position: relative;
-            height: 300px;
-        }
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .header-actions {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            right: 16px;
+        .screen-header {
             display: flex;
             justify-content: space-between;
-            z-index: 10;
+            align-items: center;
+            padding: 16px;
+            background-color: var(--cream);
         }
         .back-button {
-            width: 36px;
-            height: 36px;
-            background-color: rgba(255,255,255,0.8);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-size: 20px;
             color: var(--charcoal);
-            text-decoration: none;
         }
-        .action-buttons {
+        .header-actions {
             display: flex;
-        }
-        .action-button {
-            width: 36px;
-            height: 36px;
-            background-color: rgba(255,255,255,0.8);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
             align-items: center;
-            color: var(--charcoal);
-            margin-left: 8px;
+            gap: 16px;
         }
-        .image-indicators {
+        .header-icon {
+            font-size: 20px;
+            color: var(--charcoal);
+        }
+        .product-gallery {
+            position: relative;
+            height: 280px;
+            background-color: white;
+            overflow: hidden;
+        }
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .gallery-nav {
             position: absolute;
             bottom: 16px;
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
+            gap: 8px;
         }
-        .indicator-dot {
+        .gallery-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background-color: rgba(255,255,255,0.5);
-            margin: 0 4px;
         }
-        .indicator-dot.active {
+        .gallery-dot.active {
             background-color: white;
+        }
+        .badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-verified {
+            background-color: var(--sage-green);
+            color: white;
         }
         .product-info {
             padding: 20px 16px;
-        }
-        .product-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            background-color: white;
         }
         .product-price {
-            font-size: 28px;
             font-weight: 700;
+            font-size: 28px;
             color: var(--terracotta);
+            margin-bottom: 8px;
+        }
+        .product-price-original {
+            text-decoration: line-through;
+            font-size: 16px;
+            color: #999;
+        }
+        .product-title {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .product-brand {
+            font-size: 16px;
+            color: #666;
             margin-bottom: 16px;
+        }
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .age-badge {
+            background-color: rgba(155,158,138,0.1);
+            color: var(--sage-green);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+        .product-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+        .detail-label {
+            color: #666;
+        }
+        .detail-value {
+            font-weight: 500;
         }
         .seller-info {
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
+            gap: 12px;
+            padding: 16px;
+            background-color: white;
+            margin-top: 16px;
         }
         .seller-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 22px;
-            background-color: #f0f0f0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #eee;
             overflow: hidden;
-            margin-right: 12px;
         }
         .seller-avatar img {
             width: 100%;
@@ -158,214 +220,140 @@
             object-fit: cover;
         }
         .seller-details {
-            flex: 1;
+            flex-grow: 1;
         }
         .seller-name {
             font-weight: 600;
-            margin-bottom: 2px;
+            font-size: 16px;
+            margin-bottom: 4px;
         }
         .seller-rating {
             display: flex;
             align-items: center;
-            color: rgba(0,0,0,0.6);
+            gap: 4px;
             font-size: 14px;
+            color: #666;
         }
-        .seller-rating i {
-            color: var(--sage-green);
-            margin-right: 4px;
-        }
-        .product-section {
-            margin-bottom: 24px;
-        }
-        .section-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        .section-content {
-            color: rgba(0,0,0,0.7);
-            line-height: 1.5;
-        }
-        .product-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .detail-item {
-            margin-bottom: 8px;
-        }
-        .detail-label {
-            font-size: 14px;
-            color: rgba(0,0,0,0.5);
-            margin-bottom: 2px;
-        }
-        .detail-value {
-            font-weight: 500;
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-        .badge-success {
-            background-color: rgba(155, 158, 138, 0.2);
-            color: var(--sage-green);
-        }
-        .badge i {
-            margin-right: 4px;
-        }
-        .button-container {
-            padding: 16px;
-            position: sticky;
-            bottom: 0;
-            background-color: white;
-            border-top: 1px solid rgba(0,0,0,0.1);
+        .seller-stats {
             display: flex;
-            gap: 12px;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        .seller-action {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+        .safety-notice {
+            padding: 16px;
+            background-color: rgba(155,158,138,0.1);
+            margin-top: 16px;
+            border-radius: 12px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .safety-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            color: var(--sage-green);
+        }
+        .safety-text {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #444;
+        }
+        .cta-container {
+            padding: 16px;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
         .btn-primary {
+            width: 100%;
             background-color: var(--terracotta);
             color: white;
-            border-radius: 24px;
-            padding: 14px 24px;
             font-weight: 600;
             font-size: 16px;
-            flex: 1;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-        }
-        .btn-outline {
-            background-color: white;
-            color: var(--terracotta);
-            border: 2px solid var(--terracotta);
-            border-radius: 24px;
-            padding: 14px 24px;
-            font-weight: 600;
-            font-size: 16px;
-            flex: 1;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-        }
-        .verification-section {
-            background-color: rgba(155, 158, 138, 0.1);
+            padding: 14px 0;
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(183, 94, 69, 0.3);
+            border: none;
+            cursor: pointer;
         }
-        .verification-item {
+        .section-divider {
+            height: 10px;
+            background-color: var(--cream);
+        }
+        .similar-items {
+            padding: 20px 16px;
+            background-color: white;
+            margin-top: 16px;
+        }
+        .similar-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 16px;
+            padding-bottom: 16px;
+        }
+        .similar-card {
+            min-width: 140px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .similar-image {
+            height: 120px;
+            background-color: #eee;
+        }
+        .similar-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .similar-info {
+            padding: 8px;
+        }
+        .similar-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .similar-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+        .verification-details {
+            background-color: white;
+            padding: 20px 16px;
+            margin-top: 16px;
+        }
+        .verification-row {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
-        .verification-item i {
-            color: var(--sage-green);
-            margin-right: 12px;
+        .verification-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: var(--sage-green);
+            color: white;
         }
         .verification-text {
             font-size: 14px;
-        }
-        .rating-stars {
-            display: flex;
-            align-items: center;
-            margin-bottom: 4px;
-        }
-        .star {
-            color: #FFD700;
-            font-size: 14px;
-            margin-right: 2px;
-        }
-        .rating-score {
-            font-weight: 600;
-            margin-left: 6px;
-        }
-        .review-item {
-            background-color: white;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-        .reviewer-name {
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .review-date {
-            color: rgba(0,0,0,0.5);
-            font-size: 12px;
-        }
-        .review-text {
-            font-size: 13px;
             line-height: 1.4;
-            color: rgba(0,0,0,0.8);
-        }
-        .badge-warning {
-            background-color: rgba(255, 173, 51, 0.2);
-            color: #FF9800;
-        }
-        .badge-danger {
-            background-color: rgba(244, 67, 54, 0.2);
-            color: #F44336;
-        }
-        .seller-metrics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 10px;
-        }
-        .metric-item {
-            flex: 1;
-            min-width: 120px;
-            background-color: white;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .metric-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--sage-green);
-            margin-bottom: 4px;
-        }
-        .metric-label {
-            font-size: 12px;
-            color: rgba(0,0,0,0.6);
-        }
-        .source-tag {
-            display: inline-block;
-            padding: 2px 6px;
-            background-color: rgba(0,0,0,0.05);
-            border-radius: 4px;
-            font-size: 10px;
-            color: rgba(0,0,0,0.5);
-            margin-left: 6px;
-        }
-        .expandable-section {
-            margin-top: 6px;
-        }
-        .expand-button {
-            color: var(--terracotta);
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .expand-button i {
-            font-size: 10px;
-            margin-left: 4px;
+            color: #444;
         }
     </style>
 </head>
@@ -382,258 +370,432 @@
     
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Product Header with Images -->
-        <div class="product-header">
-            <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Uppababy Vista V2" class="product-image">
-            
+        <!-- Header -->
+        <div class="screen-header">
+            <a href="car-seats-listing.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
             <div class="header-actions">
-                <a href="buyer-chat.html" class="back-button">
-                    <i class="fas fa-arrow-left"></i>
+                <a href="#" class="header-icon">
+                    <i class="far fa-heart"></i>
                 </a>
-                <div class="action-buttons">
-                    <div class="action-button">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <div class="action-button">
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                </div>
+                <a href="#" class="header-icon">
+                    <i class="fas fa-share-alt"></i>
+                </a>
             </div>
-            
-            <div class="image-indicators">
-                <div class="indicator-dot active"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
+        </div>
+        
+        <!-- Product Gallery -->
+        <div class="product-gallery">
+            <div class="badge badge-verified">Verified & Safe</div>
+            <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX Car Seat" class="gallery-image">
+            <div class="gallery-nav">
+                <div class="gallery-dot active"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
             </div>
         </div>
         
         <!-- Product Information -->
         <div class="product-info">
-            <h1 class="product-title">Uppababy Vista V2 + RumbleSeat</h1>
-            <div class="product-price">$400</div>
+            <div class="product-price">
+                $175 <span class="product-price-original">$399</span>
+            </div>
+            <h1 class="product-title">Nuna PIPA RX Infant Car Seat with RELX Base</h1>
+            <div class="product-brand">By Nuna</div>
             
-            <div class="seller-info">
-                <div class="seller-avatar">
-                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller Profile">
+            <div class="product-meta">
+                <div class="age-badge">
+                    <i class="fas fa-baby"></i>
+                    <span>0-18 months</span>
                 </div>
-                <div class="seller-details">
-                    <div class="seller-name">Sarah Johnson</div>
-                    <div class="seller-rating">
-                        <i class="fas fa-shield-alt"></i> 98% Trust Score • 2 miles away
+                <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Mission District - 0.5 miles away</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Listed 2 days ago</span>
+                </div>
+            </div>
+            
+            <!-- Seller Info (Moved Up) -->
+            <div style="margin: 16px -16px; padding: 16px; background-color: rgba(155,158,138,0.05); border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="seller-avatar">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Seller">
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <div style="font-weight: 600; font-size: 16px; margin-bottom: 2px;">Julia R.</div>
+                        <div style="display: flex; align-items: center; gap: 4px; font-size: 14px;">
+                            <i class="fas fa-star" style="color: #FFC107;"></i>
+                            <span>4.9 (24 reviews)</span>
+                        </div>
+                    </div>
+                    <a href="#seller-profile-modal" style="color: var(--terracotta); font-weight: 600; font-size: 14px;">View Profile</a>
+                </div>
+                
+                <div style="display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px;">
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Great communication
+                    </div>
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Quality items
+                    </div>
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Timely responses
                     </div>
                 </div>
             </div>
             
-            <div class="verification-section">
-                <div class="section-title">Mina verified listing</div>
-                <div class="verification-item">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="verification-text">First-hand resale (receipt verified)</div>
-                </div>
-                <div class="verification-item">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="verification-text">Within expiry date (photo verified)</div>
-                </div>
-                <div class="verification-item">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="verification-text">Basic quality check (photo verified)</div>
-                </div>
-                <div class="verification-item">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="verification-text">Not a recalled model</div>
-                </div>
-                <div class="verification-item">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="verification-text">Certified neighbor (location verified)</div>
-                </div>
+            <div class="section-title">Description</div>
+            <div class="product-description">
+                Excellent condition Nuna PIPA RX with RELX base. Purchased new 8 months ago and lightly used as a secondary car seat. No accidents, stains, or damage. Includes infant insert and canopy. Clean and sanitized, ready for pickup.
             </div>
             
-            <div class="product-section">
-                <div class="section-title">Description</div>
-                <div class="section-content">
-                    Slightly used Uppababy Vista V2 (2020) with RumbleSeat attachment for second child. In great condition with minor wear on wheels. Purchased 3 years ago and used mostly for neighborhood walks. Comes with original rain cover and bug shield.
-                </div>
+            <div class="section-title">Details</div>
+            <div class="detail-row">
+                <div class="detail-label">Condition</div>
+                <div class="detail-value">Excellent (9/10)</div>
             </div>
+            <div class="detail-row">
+                <div class="detail-label">Age</div>
+                <div class="detail-value">8 months old</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Weight Limit</div>
+                <div class="detail-value">4-32 lbs</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Height Limit</div>
+                <div class="detail-value">Up to 32 inches</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Expiration Date</div>
+                <div class="detail-value">September 2027 (5 years remaining)</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Original Price</div>
+                <div class="detail-value">$399</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Why Selling</div>
+                <div class="detail-value">Baby outgrew the infant seat</div>
+            </div>
+        </div>
+        
+        <!-- Product Reviews from Other Platforms -->
+        <div style="background-color: white; padding: 20px 16px; margin-top: 16px;">
+            <div class="section-title">Reviews from Other Platforms</div>
             
-            <div class="product-section">
-                <div class="section-title">Features</div>
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <div style="font-size: 32px; font-weight: 700; color: var(--sage-green); margin-right: 12px;">4.8</div>
                 <div>
-                    <div class="badge badge-success"><i class="fas fa-tag"></i> Perfect for Siblings</div>
-                    <div class="badge badge-success"><i class="fas fa-tag"></i> Expandable</div>
-                    <div class="badge badge-success"><i class="fas fa-tag"></i> All Accessories</div>
-                    <div class="badge badge-success"><i class="fas fa-tag"></i> Great Condition</div>
+                    <div style="display: flex; margin-bottom: 4px;">
+                        <i class="fas fa-star" style="color: #FFC107; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; margin-right: 2px;"></i>
+                        <i class="fas fa-star-half-alt" style="color: #FFC107;"></i>
+                    </div>
+                    <div style="font-size: 13px; color: #666;">Based on 847 reviews across platforms</div>
                 </div>
             </div>
             
-            <div class="product-section">
-                <div class="section-title">Product Details</div>
-                <div class="product-details">
-                    <div class="detail-item">
-                        <div class="detail-label">Brand</div>
-                        <div class="detail-value">Uppababy</div>
+            <!-- Review Sources -->
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px;">
+                <div style="background-color: rgba(155,158,138,0.1); border-radius: 16px; padding: 6px 12px; font-size: 13px; white-space: nowrap;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png" style="height: 14px; display: inline-block; margin-right: 4px; vertical-align: middle;">
+                    <span style="vertical-align: middle;">4.7 (432)</span>
+                </div>
+                <div style="background-color: rgba(155,158,138,0.1); border-radius: 16px; padding: 6px 12px; font-size: 13px; white-space: nowrap;">
+                    <img src="https://www.babylist.com/favicon.ico" style="height: 14px; display: inline-block; margin-right: 4px; vertical-align: middle;">
+                    <span style="vertical-align: middle;">4.9 (213)</span>
+                </div>
+                <div style="background-color: rgba(155,158,138,0.1); border-radius: 16px; padding: 6px 12px; font-size: 13px; white-space: nowrap;">
+                    <img src="https://www.google.com/favicon.ico" style="height: 14px; display: inline-block; margin-right: 4px; vertical-align: middle;">
+                    <span style="vertical-align: middle;">4.8 (202)</span>
+                </div>
+            </div>
+            
+            <!-- Review Highlights -->
+            <div style="margin-bottom: 16px;">
+                <div style="font-weight: 600; font-size: 15px; margin-bottom: 8px;">What parents love:</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 10px 12px; font-size: 13px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">Easy Installation</div>
+                        <div style="color: #666;">92% of reviews mention</div>
                     </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Model</div>
-                        <div class="detail-value">Vista V2 (with RumbleSeat)</div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 10px 12px; font-size: 13px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">High Quality</div>
+                        <div style="color: #666;">88% of reviews mention</div>
                     </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Dimensions</div>
-                        <div class="detail-value">36″ H x 25.7″ W x 33.3″ L</div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 10px 12px; font-size: 13px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">Lightweight</div>
+                        <div style="color: #666;">75% of reviews mention</div>
                     </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Weight</div>
-                        <div class="detail-value">20 lbs frame, 7 lbs seat</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Suitable age</div>
-                        <div class="detail-value">0-48 months (4-50 lbs)</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Purchase date</div>
-                        <div class="detail-value">January 2020</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Expiration date</div>
-                        <div class="detail-value">January 2027</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Usage frequency</div>
-                        <div class="detail-value">2-3 times per week</div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 10px 12px; font-size: 13px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">Good Value</div>
+                        <div style="color: #666;">62% of reviews mention</div>
                     </div>
                 </div>
             </div>
             
-            <div class="product-section">
-                <div class="section-title">AI Condition Report</div>
+            <a href="#all-reviews" style="color: var(--terracotta); font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                See all reviews <i class="fas fa-chevron-right" style="font-size: 10px; margin-left: 4px;"></i>
+            </a>
+        </div>
+        
+        <!-- Combined Mina Safety Verification -->
+        <div style="background-color: white; padding: 20px 16px; margin-top: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                    <i class="fas fa-shield-alt" style="color: white; font-size: 20px;"></i>
+                </div>
                 <div>
-                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Frame & Structure: Excellent</div>
-                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Fabric & Padding: Very Good</div>
-                    <div class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Wheels: Minor Wear</div>
-                    <div class="badge badge-success"><i class="fas fa-check-circle"></i> Brakes & Safety: Excellent</div>
-                </div>
-                <div class="section-content mt-3">
-                    AI analysis of submitted photos shows minor wear on the wheels and slight fading on the fabric, which is normal for a 3-year-old stroller. No structural issues or safety concerns detected. Braking system appears to be in excellent condition.
+                    <div style="font-weight: 600; font-size: 18px; margin-bottom: 2px;">Mina Verified & Safe</div>
+                    <div style="font-size: 14px; color: #666;">All safety checks passed</div>
                 </div>
             </div>
             
-            <div class="product-section">
-                <div class="section-title">Reviews from Other Platforms</div>
-                <div class="rating-stars">
-                    <div class="star"><i class="fas fa-star"></i></div>
-                    <div class="star"><i class="fas fa-star"></i></div>
-                    <div class="star"><i class="fas fa-star"></i></div>
-                    <div class="star"><i class="fas fa-star"></i></div>
-                    <div class="star"><i class="fas fa-star-half-alt"></i></div>
-                    <span class="rating-score">4.5/5</span>
-                    <span class="source-tag">Aggregated from 324 reviews</span>
-                </div>
-                
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="reviewer-name">Michael R.</div>
-                        <div class="review-date">3 months ago <span class="source-tag">Amazon</span></div>
-                    </div>
-                    <div class="rating-stars">
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                    </div>
-                    <div class="review-text">
-                        The Vista V2 is absolutely worth the investment. It's incredibly versatile and grows with your family. The basket is huge, and it handles like a dream even with two kids.
-                    </div>
-                </div>
-                
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="reviewer-name">Jessica T.</div>
-                        <div class="review-date">5 months ago <span class="source-tag">BabyGear</span></div>
-                    </div>
-                    <div class="rating-stars">
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="far fa-star"></i></div>
-                    </div>
-                    <div class="review-text">
-                        Great stroller but on the heavier side. The rumble seat works well for a second child but does limit basket access. Suspension is excellent even on bumpy sidewalks.
-                    </div>
-                </div>
-                
-                <div class="expandable-section">
-                    <div class="expand-button">
-                        See more reviews <i class="fas fa-chevron-down"></i>
-                    </div>
+            <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                <div style="font-size: 15px; line-height: 1.5; color: #444;">
+                    This car seat has been verified by Mina to meet all safety standards. Our checks confirm it has no recalls, a valid expiration date, has never been in an accident, and is in excellent condition as described.
                 </div>
             </div>
             
-            <div class="product-section">
-                <div class="section-title">About the Seller</div>
-                <div class="seller-metrics">
-                    <div class="metric-item">
-                        <div class="metric-value">98%</div>
-                        <div class="metric-label">Positive Ratings</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">24</div>
-                        <div class="metric-label">Successful Sales</div>
+                    <div style="font-size: 13px;">No recalls</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">100%</div>
-                        <div class="metric-label">Item as Described</div>
+                    <div style="font-size: 13px;">Valid expiration</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                    </div>
+                    <div style="font-size: 13px;">Legal to sell</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                    </div>
+                    <div style="font-size: 13px;">Condition verified</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Similar Items -->
+        <div class="similar-items">
+            <div class="section-title">Similar Items</div>
+            <div class="similar-scroll">
+                <div class="similar-card">
+                    <div class="similar-image">
+                        <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Car Seat">
+                    </div>
+                    <div class="similar-info">
+                        <div class="similar-name">Cybex Cloud Q</div>
+                        <div class="similar-price">$150</div>
                     </div>
                 </div>
                 
-                <div class="review-item mt-3">
-                    <div class="review-header">
-                        <div class="reviewer-name">Emma K. (Buyer)</div>
-                        <div class="review-date">2 weeks ago</div>
+                <div class="similar-card">
+                    <div class="similar-image">
+                        <img src="https://i5.walmartimages.com/asr/c80be30d-055e-4ef9-b8c8-fa2fda56baae.e55198ab17f362abcbdff5bc3e7a5a8d.jpeg" alt="Car Seat">
                     </div>
-                    <div class="rating-stars">
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                    </div>
-                    <div class="review-text">
-                        Sarah was fantastic! The baby carrier I bought was exactly as described. She even included some extra straps that weren't mentioned in the listing. Very friendly and accommodating with pickup times.
+                    <div class="similar-info">
+                        <div class="similar-name">Chicco KeyFit 30</div>
+                        <div class="similar-price">$120</div>
                     </div>
                 </div>
                 
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="reviewer-name">David M. (Buyer)</div>
-                        <div class="review-date">1 month ago</div>
+                <div class="similar-card">
+                    <div class="similar-image">
+                        <img src="https://www.nuna.eu/rw/image/upload/c_limit,w_2100/fl_lossy,f_auto/q_60/v1685441064/product-images/pipa-next/lifestyle/lifestyle_PIPANX_St_01.jpg" alt="Car Seat">
                     </div>
-                    <div class="rating-stars">
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                        <div class="star"><i class="fas fa-star"></i></div>
-                    </div>
-                    <div class="review-text">
-                        Smooth transaction. The play gym was in even better condition than the photos showed. Sarah responded quickly and was very helpful. Would definitely buy from her again.
+                    <div class="similar-info">
+                        <div class="similar-name">Nuna PIPA Next</div>
+                        <div class="similar-price">$180</div>
                     </div>
                 </div>
                 
-                <div class="expandable-section">
-                    <div class="expand-button">
-                        See more seller reviews <i class="fas fa-chevron-down"></i>
+                <div class="similar-card">
+                    <div class="similar-image">
+                        <img src="https://s.yimg.com/ny/api/res/1.2/8oYdQ_QgB1FgFupNZ2z6gQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en/insider_articles_922/d71a1205c629af6bc8ef02e5455360c1" alt="Car Seat">
+                    </div>
+                    <div class="similar-info">
+                        <div class="similar-name">UPPAbaby MESA</div>
+                        <div class="similar-price">$210</div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- CTA Button -->
+        <div class="cta-container">
+            <a href="buyer-pickup.html" class="btn-primary">Continue Booking</a>
+        </div>
     </div>
     
-    <!-- Action Buttons -->
-    <div class="button-container">
-        <a href="buyer-pickup.html" class="btn-primary">Purchase</a>
-        <a href="buyer-message.html" class="btn-outline">Message Seller</a>
+    <!-- Seller Profile Modal -->
+    <div id="seller-profile-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+        <div style="background-color: white; border-radius: 16px 16px 0 0; position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 16px; max-height: 90vh; overflow-y: auto;">
+            <!-- Modal Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 20px; font-weight: 600;">Seller Profile</h2>
+                <a href="#" style="font-size: 20px; color: var(--charcoal);" onclick="document.getElementById('seller-profile-modal').style.display='none'; return false;">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+            
+            <!-- Seller Info -->
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                <div style="width: 64px; height: 64px; border-radius: 50%; overflow: hidden;">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Seller" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div>
+                    <div style="font-size: 22px; font-weight: 600; margin-bottom: 4px;">Julia R.</div>
+                    <div style="display: flex; align-items: center; gap: 4px; font-size: 14px; margin-bottom: 4px;">
+                        <i class="fas fa-star" style="color: #FFC107;"></i>
+                        <span>4.9 (24 reviews)</span>
+                    </div>
+                    <div style="font-size: 14px; color: #666;">Member since Nov 2022</div>
+                </div>
+            </div>
+            
+            <!-- Trust Scores -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Trust Scores</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 12px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--sage-green); margin-bottom: 4px;">98%</div>
+                        <div style="font-size: 14px; color: #666;">Item as described</div>
+                    </div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 12px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--sage-green); margin-bottom: 4px;">100%</div>
+                        <div style="font-size: 14px; color: #666;">On-time delivery</div>
+                    </div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 12px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--sage-green); margin-bottom: 4px;">42</div>
+                        <div style="font-size: 14px; color: #666;">Items sold</div>
+                    </div>
+                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 12px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--sage-green); margin-bottom: 4px;">95%</div>
+                        <div style="font-size: 14px; color: #666;">Response rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feedback Highlights -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Feedback Highlights</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Great communication (18)
+                    </div>
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Quality items (23)
+                    </div>
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Timely responses (20)
+                    </div>
+                    <div style="background-color: white; border-radius: 16px; padding: 8px 12px; font-size: 13px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                        <i class="fas fa-check-circle" style="color: var(--sage-green); margin-right: 4px;"></i> Accurate descriptions (22)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Reviews -->
+            <div>
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Recent Reviews</h3>
+                <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <div style="font-weight: 600;">Emma W.</div>
+                        <div style="font-size: 12px; color: #666;">2 weeks ago</div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 6px;">
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px;"></i>
+                    </div>
+                    <div style="font-size: 14px;">The high chair was in excellent condition as described. Julia was very responsive and accommodating with pickup times.</div>
+                </div>
+                
+                <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <div style="font-weight: 600;">Michael P.</div>
+                        <div style="font-size: 12px; color: #666;">1 month ago</div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 6px;">
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px; margin-right: 2px;"></i>
+                        <i class="fas fa-star" style="color: #FFC107; font-size: 12px;"></i>
+                    </div>
+                    <div style="font-size: 14px;">Great transaction! The stroller was clean and exactly as pictured. Julia responded quickly and was very friendly.</div>
+                </div>
+                
+                <a href="#" style="color: var(--terracotta); font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                    See all 24 reviews <i class="fas fa-chevron-right" style="font-size: 10px; margin-left: 4px;"></i>
+                </a>
+            </div>
+        </div>
     </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+    
+    <script>
+        // Show the seller profile modal when "View Profile" is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileLinks = document.querySelectorAll('a[href="#seller-profile-modal"]');
+            profileLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('seller-profile-modal').style.display = 'block';
+                });
+            });
+            
+            // Allow clicking outside the modal to close it
+            const modal = document.getElementById('seller-profile-modal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html> 

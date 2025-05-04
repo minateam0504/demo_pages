@@ -96,10 +96,28 @@
         .upload-container {
             border: 2px dashed #ccc;
             border-radius: 16px;
-            padding: 16px;
+            padding: 32px 16px;
             text-align: center;
             margin-bottom: 24px;
             background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-icon {
+            font-size: 48px;
+            color: var(--sage-green);
+            margin-bottom: 16px;
+        }
+        .upload-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .upload-subtext {
+            color: #666;
+            font-size: 14px;
         }
         .uploaded-image {
             width: 100%;
@@ -107,6 +125,7 @@
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 16px;
+            display: none;
         }
         .ai-container {
             display: flex;
@@ -218,6 +237,31 @@
             gap: 8px;
             font-weight: 500;
         }
+        .heading {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
+            margin-bottom: 24px;
+            color: #666;
+        }
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .ai-badge i {
+            margin-right: 4px;
+        }
     </style>
 </head>
 <body>
@@ -234,11 +278,11 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="screen-header">
-            <a href="seller-flow.html" class="back-button">
+            <a href="home.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <div>
-                <div class="header-title">Add Photos</div>
+                <div class="header-title">Sell an Item <span class="ai-badge"><i class="fas fa-magic"></i> AI</span></div>
                 <div class="progress-dots">
                     <div class="dot active"></div>
                     <div class="dot"></div>
@@ -249,11 +293,43 @@
             <div></div> <!-- Empty div for spacing -->
         </div>
         
-        <div class="upload-container">
-            <img src="https://www.nuna.eu/rw/image/upload/c_limit,w_2100/fl_lossy,f_auto/q_60/v1685441064/product-images/pipa-next/lifestyle/lifestyle_PIPANX_St_01.jpg" alt="Nuna PIPA car seat photo" class="uploaded-image">
+        <h1 class="heading">Just upload your photo.</h1>
+        <p class="subheading">We'll do the rest.</p>
+        
+        <div class="upload-container" id="uploadArea">
+            <div class="upload-icon">
+                <i class="fas fa-camera"></i>
+            </div>
+            <div class="upload-text">Upload photos</div>
+            <div class="upload-subtext">Tap to take a photo or upload from gallery</div>
+            
+            <div class="photo-tips" style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 16px; text-align: left;">
+                <div style="font-weight: 500; margin-bottom: 8px; font-size: 14px; color: var(--sage-green);">
+                    <i class="fas fa-lightbulb"></i> Photo Tips:
+                </div>
+                <ul style="padding-left: 16px; font-size: 13px; color: #666;">
+                    <li style="margin-bottom: 4px;">Take clear photos of your item from multiple angles</li>
+                    <li style="margin-bottom: 4px;"><strong>Include photos of product labels showing model details</strong></li>
+                    <li style="margin-bottom: 4px;">Capture the expiration date if applicable</li>
+                    <li style="margin-bottom: 4px;">Show any wear or damage clearly</li>
+                </ul>
+            </div>
+            
+            <img src="https://www.nuna.eu/rw/image/upload/c_limit,w_2100/fl_lossy,f_auto/q_60/v1685441064/product-images/pipa-next/lifestyle/lifestyle_PIPANX_St_01.jpg" alt="Nuna PIPA car seat photo" class="uploaded-image" id="uploadedImage">
         </div>
         
-        <div class="ai-container">
+        <div class="camera-actions">
+            <button class="camera-button" id="cameraBtn">
+                <i class="fas fa-camera"></i>
+                <span>Take Photo</span>
+            </button>
+            <button class="gallery-button" id="galleryBtn">
+                <i class="fas fa-images"></i>
+                <span>Gallery</span>
+            </button>
+        </div>
+        
+        <div class="ai-container" id="aiSuggestion" style="display: none;">
             <div class="ai-avatar">
                 <i class="fas fa-robot"></i>
             </div>
@@ -273,21 +349,14 @@
                     <span>Underneath the seat cover (may require unzipping or lifting)</span>
                 </div>
                 
-                <div class="camera-actions">
-                    <button class="camera-button">
-                        <i class="fas fa-camera"></i>
-                        <span>Take Photo</span>
-                    </button>
-                    <button class="gallery-button">
-                        <i class="fas fa-images"></i>
-                        <span>Gallery</span>
-                    </button>
+                <div class="ai-text" style="margin-top: 10px;">
+                    <strong>Why this matters:</strong> Product labels contain important information like model number, manufacture date, expiration date, and safety certifications that buyers want to see.
                 </div>
             </div>
         </div>
         
         <form action="seller-step2.html" method="GET">
-            <button type="submit" class="btn-primary">Continue</button>
+            <button type="submit" class="btn-primary" id="continueBtn" disabled>Continue</button>
         </form>
     </div>
     
@@ -314,5 +383,38 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const uploadedImage = document.getElementById('uploadedImage');
+            const aiSuggestion = document.getElementById('aiSuggestion');
+            const continueBtn = document.getElementById('continueBtn');
+            const cameraBtn = document.getElementById('cameraBtn');
+            const galleryBtn = document.getElementById('galleryBtn');
+            
+            // Simulate upload on click
+            uploadArea.addEventListener('click', simulateUpload);
+            cameraBtn.addEventListener('click', simulateUpload);
+            galleryBtn.addEventListener('click', simulateUpload);
+            
+            function simulateUpload() {
+                // Show the uploaded image
+                uploadedImage.style.display = 'block';
+                
+                // Hide the upload icon and text
+                document.querySelector('.upload-icon').style.display = 'none';
+                document.querySelector('.upload-text').style.display = 'none';
+                document.querySelector('.upload-subtext').style.display = 'none';
+                
+                // Show AI suggestion after a delay
+                setTimeout(() => {
+                    aiSuggestion.style.display = 'flex';
+                    // Enable continue button
+                    continueBtn.disabled = false;
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 </html> 

@@ -99,6 +99,11 @@
             border-color: var(--terracotta);
             box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
         }
+        .form-hint {
+            font-size: 12px;
+            color: #6B7280;
+            margin-top: 6px;
+        }
         .btn-primary {
             background-color: var(--terracotta);
             color: white;
@@ -159,6 +164,15 @@
             <div class="form-group">
                 <label for="fullname" class="form-label">Full Name</label>
                 <input type="text" id="fullname" name="fullname" class="form-input" placeholder="Your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nickname" class="form-label">Nickname (Optional)</label>
+                <input type="text" id="nickname" name="nickname" class="form-input" placeholder="Choose a nickname for privacy">
+                <div class="form-hint">
+                    <i class="fas fa-shield-alt mr-1"></i> 
+                    Recommended for privacy when interacting with other users
+                </div>
             </div>
             
             <div class="form-group">

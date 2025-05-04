@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Car Seats</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/mina-logo.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .screen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            font-size: 20px;
+            color: var(--charcoal);
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--charcoal);
+        }
+        .section-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .search-box {
+            background-color: white;
+            border-radius: 20px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .search-icon {
+            color: #999;
+            margin-right: 8px;
+        }
+        .search-input {
+            border: none;
+            background: transparent;
+            flex: 1;
+            font-size: 16px;
+            color: var(--charcoal);
+        }
+        .search-input::placeholder {
+            color: #999;
+        }
+        .search-input:focus {
+            outline: none;
+        }
+        .filter-bar {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        .filter-chip {
+            background-color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .filter-chip.active {
+            background-color: var(--sage-green);
+            color: white;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-decoration: none;
+            color: var(--charcoal);
+            transition: transform 0.2s;
+        }
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        .product-image {
+            height: 160px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-save {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 42px;
+        }
+        .product-brand {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .product-price {
+            font-weight: 700;
+            color: var(--terracotta);
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        .product-age {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .product-distance {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-verified {
+            background-color: var(--sage-green);
+            color: white;
+        }
+        .badge-deal {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .ai-match {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Header with Back Button -->
+        <div class="screen-header">
+            <a href="buyer-category.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="mina-header-logo">
+                <svg class="mina-header-logo-img" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Cloud shape -->
+                    <path d="M220 170C234.5 170 246 158.5 246 144C246 129.5 234.5 118 220 118C219.3 118 218.6 118 217.9 118.1C214.4 104.2 202 94 187 94C171.5 94 158.8 104.9 156 119.2C152.4 116.7 148.1 115.3 143.5 115.3C132.9 115.3 124.2 123.2 123 133.4C115.2 136.6 110 144.3 110 153C110 165.2 120.2 175 132.5 175" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
+                    
+                    <!-- Stroller -->
+                    <circle cx="160" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                    <circle cx="220" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                    <path d="M235 210H240C242.8 210 245 207.8 245 205V195C245 192.2 242.8 190 240 190H235" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
+                    <path d="M190 130V210" stroke="#4A4656" stroke-width="9"/>
+                    <path d="M145 170H235" stroke="#4A4656" stroke-width="9"/>
+                    <path d="M145 130C145 130 167 130 190 130C213 130 190 170 190 170H145V130Z" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
+                    <path d="M145 130H190L190 170" fill="#D9DFCC" stroke="#4A4656" stroke-width="9"/>
+                </svg>
+                <div class="mina-header-logo-text">mina</div>
+            </div>
+            <div></div> <!-- Empty div for spacing -->
+        </div>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" class="search-input" placeholder="Search for car seats...">
+        </div>
+        
+        <!-- Category Title -->
+        <h1 class="section-title">Car Seats</h1>
+        <p class="section-subtitle">173 items near you</p>
+        
+        <!-- Personalization Notice -->
+        <div style="background-color: rgba(155, 158, 138, 0.1); border-radius: 12px; padding: 14px; margin-bottom: 24px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <i class="fas fa-magic" style="color: var(--sage-green); margin-top: 2px; font-size: 16px;"></i>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 4px; font-size: 15px;">Personalized for your 8-month-old</div>
+                    <div style="font-size: 14px; color: #666; line-height: 1.4;">
+                        Showing car seats appropriate for 6-18 month olds, prioritizing items with clear expiration dates and safety certifications.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter Chips -->
+        <div class="filter-bar">
+            <div class="filter-chip active">
+                <i class="fas fa-sliders-h"></i>
+                <span>All</span>
+            </div>
+            <div class="filter-chip">
+                <span>Infant (0-12mo)</span>
+            </div>
+            <div class="filter-chip">
+                <span>Convertible</span>
+            </div>
+            <div class="filter-chip">
+                <span>With Base</span>
+            </div>
+            <div class="filter-chip">
+                <span>Price <i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="filter-chip">
+                <span>Distance <i class="fas fa-chevron-down"></i></span>
+            </div>
+        </div>
+        
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-verified">Verified</div>
+                    <div class="ai-match"><i class="fas fa-magic"></i> 98% match</div>
+                    <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Nuna PIPA RX Infant Car Seat with RELX Base</div>
+                    <div class="product-brand">Nuna</div>
+                    <div class="product-price">$175</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-18 months</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>0.5 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Product 2 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-verified">Verified</div>
+                    <div class="ai-match"><i class="fas fa-magic"></i> 95% match</div>
+                    <img src="https://www.nuna.eu/rw/image/upload/c_limit,w_2100/fl_lossy,f_auto/q_60/v1685441064/product-images/pipa-next/lifestyle/lifestyle_PIPANX_St_01.jpg" alt="Nuna PIPA Next">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Nuna PIPA Next Infant Car Seat + Base</div>
+                    <div class="product-brand">Nuna</div>
+                    <div class="product-price">$180</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-12 months</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>0.8 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Product 3 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-deal">Great Deal</div>
+                    <div class="ai-match"><i class="fas fa-magic"></i> 87% match</div>
+                    <img src="https://m.media-amazon.com/images/I/81vTPN+DxFL._AC_UF894,1000_QL80_.jpg" alt="Graco SnugRide">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Graco SnugRide 35 Lite LX Infant Car Seat</div>
+                    <div class="product-brand">Graco</div>
+                    <div class="product-price">$85</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-12 months</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>1.2 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Product 4 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-verified">Verified</div>
+                    <div class="ai-match"><i class="fas fa-magic"></i> 91% match</div>
+                    <img src="https://s.yimg.com/ny/api/res/1.2/8oYdQ_QgB1FgFupNZ2z6gQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en/insider_articles_922/d71a1205c629af6bc8ef02e5455360c1" alt="Uppababy Mesa">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">UPPAbaby MESA Infant Car Seat - Merino Wool</div>
+                    <div class="product-brand">UPPAbaby</div>
+                    <div class="product-price">$210</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-12 months</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>0.4 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Product 5 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-deal">Great Deal</div>
+                    <img src="https://www.britax.com/dw/image/v2/BBSR_PRD/on/demandware.static/-/Sites-britax-master-catalog/default/dwea100d1e/car-seats/convertible/one4life/One4Life_Drift_3QF_Full.png" alt="Britax One4Life">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Britax One4Life Convertible Car Seat - Drift</div>
+                    <div class="product-brand">Britax</div>
+                    <div class="product-price">$195</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-10 years</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>1.6 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Product 6 -->
+            <a href="buyer-product.html" class="product-card">
+                <div class="product-image">
+                    <div class="badge badge-verified">Verified</div>
+                    <div class="ai-match"><i class="fas fa-magic"></i> 82% match</div>
+                    <img src="https://i5.walmartimages.com/asr/c80be30d-055e-4ef9-b8c8-fa2fda56baae.e55198ab17f362abcbdff5bc3e7a5a8d.jpeg" alt="Chicco KeyFit 30">
+                    <div class="product-save">
+                        <i class="far fa-heart"></i>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Chicco KeyFit 30 Infant Car Seat - Orion</div>
+                    <div class="product-brand">Chicco</div>
+                    <div class="product-price">$120</div>
+                    <div class="product-meta">
+                        <div class="product-age">
+                            <i class="fas fa-baby"></i>
+                            <span>0-12 months</span>
+                        </div>
+                        <div class="product-distance">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>0.9 mi</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+</body>
+</html> 

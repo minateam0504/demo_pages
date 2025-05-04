@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Listing Declined</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+            --error-red: #E53E3E;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--error-red);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            margin: 30px auto;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .subheading {
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        .declined-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        .declined-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .declined-product-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 16px;
+        }
+        .declined-product-details {
+            flex: 1;
+        }
+        .declined-product-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .declined-product-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        .declined-reason-section {
+            border-top: 1px solid #E5E7EB;
+            padding-top: 16px;
+        }
+        .declined-section-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .declined-section-title i {
+            color: var(--error-red);
+            margin-right: 8px;
+        }
+        .declined-reason {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .declined-reason-icon {
+            color: var(--error-red);
+            margin-right: 10px;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+        .declined-reason-text {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .more-info-link {
+            color: var(--terracotta);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .help-section {
+            background-color: rgba(155, 158, 138, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+        .help-section-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .help-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .help-item:last-child {
+            margin-bottom: 0;
+        }
+        .help-item-icon {
+            color: var(--sage-green);
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+        .help-item-text {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 12px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>10:40PM</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="status-icon">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        
+        <h1 class="heading">Listing Declined</h1>
+        <p class="subheading">We're unable to list this item for safety and legal reasons.</p>
+        
+        <div class="declined-card">
+            <div class="declined-header">
+                <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX car seat" class="declined-product-image">
+                <div class="declined-product-details">
+                    <div class="declined-product-title">Nuna PIPA RX Infant Car Seat</div>
+                    <div class="declined-product-subtitle">PIPA RX (with RELX base)</div>
+                </div>
+            </div>
+            
+            <div class="declined-reason-section">
+                <div class="declined-section-title">
+                    <i class="fas fa-shield-alt"></i> Safety Concerns
+                </div>
+                
+                <div class="declined-reason">
+                    <div class="declined-reason-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="declined-reason-text">
+                        <strong>Recall Status:</strong> This model appears on the CPSC recall list dated March 2023 (Recall #23-157).
+                    </div>
+                </div>
+                
+                <div class="declined-reason">
+                    <div class="declined-reason-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="declined-reason-text">
+                        <strong>Expiration Date:</strong> The car seat appears to be expired or the expiration date is not clearly visible on the product label.
+                    </div>
+                </div>
+                
+                <div class="declined-reason">
+                    <div class="declined-reason-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="declined-reason-text">
+                        <strong>Safety Standards:</strong> This item doesn't meet current US safety regulations for secondhand sales.
+                        <a href="#" class="more-info-link">Learn more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="help-section">
+            <div class="help-section-title">What can I do?</div>
+            
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="help-item-text">
+                    <strong>List other baby items</strong> - You can still list other baby gear that meets our safety requirements.
+                </div>
+            </div>
+            
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="help-item-text">
+                    <strong>Contact the manufacturer</strong> - For recalled items, many manufacturers offer repair or replacement programs.
+                </div>
+            </div>
+            
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="help-item-text">
+                    <strong>Proper disposal</strong> - For expired car seats, consider local recycling programs specialized for car seats.
+                </div>
+            </div>
+        </div>
+        
+        <a href="seller-flow.html" class="btn-primary">List a Different Item</a>
+        <a href="home.html" class="btn-secondary">Back to Home</a>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="#" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+</body>
+</html> 

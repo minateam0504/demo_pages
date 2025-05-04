@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Additional Details</title>
+    <title>Mina - Details & Pricing</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -62,9 +62,11 @@
             flex: 1;
             overflow-y: auto;
             padding: 16px;
+            padding-bottom: 230px; /* Add padding for the fixed price section */
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
         }
         .screen-header {
             display: flex;
@@ -120,6 +122,59 @@
             font-size: 15px;
             margin-bottom: 12px;
         }
+        .price-section {
+            position: fixed;
+            bottom: 83px; /* Height of the tab bar */
+            left: 0;
+            right: 0;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding: 16px;
+            z-index: 10;
+        }
+        .price-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-right: 24px; /* Add padding to avoid badge overlap */
+        }
+        .price-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .price-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+        .original-price {
+            font-size: 14px;
+            color: #888;
+            text-decoration: line-through;
+            margin-right: 8px;
+            display: none; /* Hidden by default, shown when options toggled */
+        }
+        .price-adj-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
         .prompt-container {
             background-color: white;
             border-radius: 16px;
@@ -133,10 +188,27 @@
             margin-bottom: 16px;
         }
         .prompt-info {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             line-height: 1.4;
+        }
+        .payout-info {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #E5E7EB;
+        }
+        .payout-value {
+            font-weight: 600;
+            color: var(--sage-green);
+        }
+        .fee-info {
+            font-style: italic;
         }
         .option-row {
             display: flex;
@@ -146,6 +218,18 @@
         }
         .option-row:last-child {
             border-bottom: none;
+        }
+        .option-info {
+            flex: 1;
+            padding-left: 12px;
+        }
+        .option-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .option-price {
+            font-size: 14px;
+            color: var(--terracotta);
         }
         .checkbox-wrapper {
             position: relative;
@@ -200,7 +284,6 @@
             font-size: 18px;
             display: inline-block;
             width: 100%;
-            margin-top: 16px;
             text-align: center;
             border: none;
             cursor: pointer;
@@ -261,6 +344,89 @@
         .prompt-section {
             margin-bottom: 30px;
         }
+        .free-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .free-label {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .textarea-container {
+            margin-top: 16px;
+        }
+        .textarea-label {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .textarea-field {
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 15px;
+            resize: none;
+            height: 100px;
+        }
+        .textarea-field:focus {
+            outline: none;
+            border-color: var(--terracotta);
+        }
+        .selection-hidden {
+            display: none;
+        }
+        .price-input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .price-input {
+            flex: 1;
+            height: 40px;
+            border: 2px solid var(--terracotta);
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: var(--terracotta);
+            background-color: white;
+            padding: 0 8px;
+        }
+        .price-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        }
+        .price-input-label {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .dollar-sign {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--terracotta);
+        }
+        .price-input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+        .price-input-wrapper input {
+            padding-left: 28px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -281,40 +447,71 @@
                 <i class="fas fa-arrow-left"></i>
             </a>
             <div>
-                <div class="header-title">Additional Details</div>
+                <div class="header-title">Details & Pricing</div>
                 <div class="progress-dots">
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot active"></div>
-                    <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
             <div></div> <!-- Empty div for spacing -->
         </div>
         
-        <div class="ai-container">
-            <div class="ai-avatar">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div class="ai-message">
-                <div class="ai-text">
-                    <strong>A few more questions to help optimize your listing</strong><br>
-                    These details will help me suggest the best price and improve your listing's visibility.
-                </div>
+        <!-- Free Item Toggle -->
+        <div class="free-toggle">
+            <div class="free-label">Are you giving this away for free?</div>
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="freeItemToggle">
+                    <span class="slider"></span>
+                </label>
             </div>
         </div>
         
-        <div class="prompt-section">
+        <!-- Why Selling Section -->
+        <div class="prompt-container">
+            <div class="prompt-header">Why are you selling this item?</div>
+            <div class="prompt-info">This helps buyers understand the item's history.</div>
+            
+            <div class="radio-wrapper">
+                <input type="radio" id="reason1" name="selling_reason" class="radio-input" checked>
+                <label for="reason1" class="radio-label">Baby grew out of it</label>
+            </div>
+            <div class="radio-wrapper">
+                <input type="radio" id="reason2" name="selling_reason" class="radio-input">
+                <label for="reason2" class="radio-label">Didn't work for our needs</label>
+            </div>
+            <div class="radio-wrapper">
+                <input type="radio" id="reason3" name="selling_reason" class="radio-input">
+                <label for="reason3" class="radio-label">Compatibility issues</label>
+            </div>
+            <div class="radio-wrapper">
+                <input type="radio" id="reason4" name="selling_reason" class="radio-input">
+                <label for="reason4" class="radio-label">Received duplicates</label>
+            </div>
+            <div class="radio-wrapper">
+                <input type="radio" id="reason5" name="selling_reason" class="radio-input">
+                <label for="reason5" class="radio-label">Other</label>
+            </div>
+            
+            <div id="otherReasonContainer" class="textarea-container selection-hidden">
+                <label for="otherReason" class="textarea-label">Please describe:</label>
+                <textarea id="otherReason" class="textarea-field" placeholder="Share why you're selling this item..."></textarea>
+            </div>
+        </div>
+        
+        <!-- Pricing Factors -->
+        <div id="pricingFactors" class="prompt-section">
             <div class="prompt-container">
-                <div class="prompt-header">Household Environment</div>
-                <div class="prompt-info">Parents often pay premium for items from smoke-free and pet-free homes due to allergen concerns.</div>
+                <div class="prompt-header">Included Items & Condition</div>
+                <div class="prompt-info">These details can affect your item's final price.</div>
                 
                 <div class="toggle-row">
                     <div class="toggle-label">Smoke-free home</div>
                     <div class="toggle-container">
                         <label class="toggle-switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" class="pricing-toggle" data-value="10" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -324,82 +521,108 @@
                     <div class="toggle-label">Pet-free home</div>
                     <div class="toggle-container">
                         <label class="toggle-switch">
-                            <input type="checkbox">
+                            <input type="checkbox" class="pricing-toggle" data-value="5">
                             <span class="slider"></span>
                         </label>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="prompt-section">
-            <div class="prompt-container">
-                <div class="prompt-header">Original Purchase & Usage</div>
-                <div class="prompt-info">Items with proof of purchase and minimal usage typically command higher prices.</div>
                 
                 <div class="toggle-row">
                     <div class="toggle-label">Have original receipt</div>
                     <div class="toggle-container">
                         <label class="toggle-switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" class="pricing-toggle" data-value="5" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
                 </div>
                 
-                <div class="prompt-header" style="margin-top:16px;">How long was this car seat used?</div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="usage1" name="usage" class="radio-input" checked>
-                    <label for="usage1" class="radio-label">Less than 6 months</label>
+                <div class="toggle-row" style="border-bottom: 2px solid #E5E7EB; padding-bottom: 16px;">
+                    <div class="toggle-label">Clear expiration date shown</div>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="pricing-toggle" data-value="15" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="usage2" name="usage" class="radio-input">
-                    <label for="usage2" class="radio-label">6-12 months</label>
+                
+                <div class="legal-verification" style="margin-top: 16px; background-color: rgba(240, 249, 235, 0.7); padding: 12px; border-radius: 8px;">
+                    <div style="font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-shield-alt" style="color: green;"></i>
+                        <span>Legal Compliance Verified</span>
+                    </div>
+                    <div style="font-size: 13px; color: #555; line-height: 1.4;">
+                        We've confirmed this item:
+                        <ul style="margin-top: 6px; padding-left: 20px;">
+                            <li>Is not on any recall lists</li>
+                            <li>Has a valid, unexpired safety certification</li>
+                            <li>Can legally be resold in this condition</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="usage3" name="usage" class="radio-input">
-                    <label for="usage3" class="radio-label">More than 12 months</label>
-                </div>
-            </div>
-        </div>
-        
-        <div class="prompt-section">
-            <div class="prompt-container">
-                <div class="prompt-header">Included Accessories</div>
-                <div class="prompt-info">Additional accessories can increase perceived value and final selling price.</div>
                 
                 <div class="option-row">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" class="custom-checkbox" id="acc1" checked>
+                        <input type="checkbox" class="custom-checkbox pricing-checkbox" id="acc1" data-value="0" checked>
                     </div>
                     <label for="acc1">Original instruction manual</label>
                 </div>
                 
                 <div class="option-row">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" class="custom-checkbox" id="acc2" checked>
+                        <input type="checkbox" class="custom-checkbox pricing-checkbox" id="acc2" data-value="80" checked>
                     </div>
                     <label for="acc2">Base included</label>
                 </div>
                 
                 <div class="option-row">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" class="custom-checkbox" id="acc3">
+                        <input type="checkbox" class="custom-checkbox pricing-checkbox" id="acc3" data-value="15">
                     </div>
                     <label for="acc3">Winter weather cover</label>
                 </div>
                 
                 <div class="option-row">
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" class="custom-checkbox" id="acc4">
+                        <input type="checkbox" class="custom-checkbox pricing-checkbox" id="acc4" data-value="10">
                     </div>
                     <label for="acc4">Extra infant insert</label>
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Fixed Price Section at Bottom -->
+    <div class="price-section">
+        <div class="price-card">
+            <div id="priceAdjustmentBadge" class="price-adj-badge">+$20</div>
+            <div class="price-header">
+                <div class="price-title">Recommended Price</div>
+                <div>
+                    <span id="originalPrice" class="original-price">$120</span>
+                    <span id="currentPrice" class="price-value">$140</span>
+                </div>
+            </div>
+            <div class="prompt-info">
+                Based on your Nuna PIPA car seat's condition and similar items in your area.
+            </div>
+            
+            <div class="price-input-container">
+                <div class="price-input-wrapper">
+                    <span class="dollar-sign">$</span>
+                    <input type="number" id="customPrice" class="price-input" value="140">
+                </div>
+            </div>
+            
+            <div class="payout-info">
+                <div>Your payout: <span id="payoutValue" class="payout-value">$133.00</span></div>
+                <div class="fee-info">5% platform fee</div>
+            </div>
+        </div>
         
-        <form action="seller-step3.html" method="GET">
-            <button type="submit" class="btn-primary">Continue to Pricing</button>
+        <form action="seller-step4-delivery.html" method="GET">
+            <button type="submit" class="btn-primary">Continue</button>
         </form>
     </div>
     
@@ -426,5 +649,163 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const freeItemToggle = document.getElementById('freeItemToggle');
+            const pricingFactors = document.getElementById('pricingFactors');
+            const reason5 = document.getElementById('reason5');
+            const otherReasonContainer = document.getElementById('otherReasonContainer');
+            const pricingToggles = document.querySelectorAll('.pricing-toggle');
+            const pricingCheckboxes = document.querySelectorAll('.pricing-checkbox');
+            const originalPrice = document.getElementById('originalPrice');
+            const currentPrice = document.getElementById('currentPrice');
+            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
+            const customPrice = document.getElementById('customPrice');
+            const payoutValue = document.getElementById('payoutValue');
+            
+            const basePrice = 120;
+            let totalAdjustment = 20; // Start with the existing adjustment
+            let recommendedPrice = basePrice + totalAdjustment;
+            const platformFeePercent = 0.05; // 5% platform fee
+            
+            // Toggle free item section
+            freeItemToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    pricingFactors.classList.add('selection-hidden');
+                    updatePrice(0);
+                    customPrice.value = 0;
+                    customPrice.disabled = true;
+                    originalPrice.style.display = 'none';
+                } else {
+                    pricingFactors.classList.remove('selection-hidden');
+                    recalculatePrice();
+                    customPrice.disabled = false;
+                }
+            });
+            
+            // Toggle "Other" reason textarea
+            reason5.addEventListener('change', function() {
+                if (this.checked) {
+                    otherReasonContainer.classList.remove('selection-hidden');
+                } else {
+                    otherReasonContainer.classList.add('selection-hidden');
+                }
+            });
+            
+            // Price adjustment from toggles
+            pricingToggles.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    recalculatePrice();
+                });
+            });
+            
+            // Price adjustment from checkboxes
+            pricingCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    recalculatePrice();
+                });
+            });
+            
+            // Custom price input handling
+            customPrice.addEventListener('input', function() {
+                if (!freeItemToggle.checked) {
+                    let newPrice = parseInt(this.value) || 0;
+                    currentPrice.textContent = '$' + newPrice;
+                    updatePayout(newPrice);
+                    
+                    // Show recommendation badge if custom price differs from recommended
+                    if (newPrice !== recommendedPrice) {
+                        if (newPrice > recommendedPrice) {
+                            priceAdjustmentBadge.textContent = '+$' + (newPrice - recommendedPrice);
+                        } else {
+                            priceAdjustmentBadge.textContent = '-$' + (recommendedPrice - newPrice);
+                        }
+                        priceAdjustmentBadge.style.display = 'block';
+                        
+                        // Always show baseline when price differs from recommended
+                        if (totalAdjustment > 0) {
+                            originalPrice.style.display = 'inline';
+                        }
+                    } else {
+                        priceAdjustmentBadge.style.display = 'none';
+                        
+                        // Only show baseline when options are toggled
+                        if (totalAdjustment === 0) {
+                            originalPrice.style.display = 'none';
+                        }
+                    }
+                }
+            });
+            
+            // Calculate total price based on selections
+            function recalculatePrice() {
+                let adjustment = 0;
+                
+                // Add value from toggles
+                pricingToggles.forEach(toggle => {
+                    if (toggle.checked) {
+                        adjustment += parseInt(toggle.dataset.value || 0);
+                    }
+                });
+                
+                // Add value from checkboxes
+                pricingCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        adjustment += parseInt(checkbox.dataset.value || 0);
+                    }
+                });
+                
+                totalAdjustment = adjustment;
+                recommendedPrice = basePrice + adjustment;
+                updatePrice(recommendedPrice);
+                customPrice.value = recommendedPrice;
+                
+                // Only show baseline price when options are toggled
+                if (adjustment > 0) {
+                    originalPrice.style.display = 'inline';
+                } else {
+                    originalPrice.style.display = 'none';
+                }
+            }
+            
+            // Update displayed price
+            function updatePrice(newPrice) {
+                if (newPrice === 0) {
+                    currentPrice.textContent = 'FREE';
+                    originalPrice.style.display = 'none';
+                    priceAdjustmentBadge.style.display = 'none';
+                    updatePayout(0);
+                } else {
+                    currentPrice.textContent = '$' + newPrice;
+                    updatePayout(newPrice);
+                    
+                    // Don't change original price display here - handled in recalculatePrice
+                    originalPrice.textContent = '$' + basePrice;
+                    
+                    if (totalAdjustment > 0) {
+                        priceAdjustmentBadge.textContent = '+$' + totalAdjustment;
+                        priceAdjustmentBadge.style.display = 'block';
+                    } else {
+                        priceAdjustmentBadge.style.display = 'none';
+                    }
+                }
+            }
+            
+            // Calculate and update payout value (listing price minus platform fee)
+            function updatePayout(listingPrice) {
+                if (listingPrice === 0) {
+                    payoutValue.textContent = 'FREE';
+                } else {
+                    const fee = listingPrice * platformFeePercent;
+                    const payout = listingPrice - fee;
+                    payoutValue.textContent = '$' + payout.toFixed(2);
+                }
+            }
+            
+            // Initialize payout value
+            updatePayout(recommendedPrice);
+        });
+    </script>
 </body>
 </html> 

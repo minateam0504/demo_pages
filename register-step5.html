@@ -75,16 +75,7 @@
         .progress {
             height: 100%;
             background-color: var(--terracotta);
-            width: 71.4%; /* 5/7 steps completed */
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--charcoal);
+            width: 100%; /* 5/5 steps completed */
         }
         .btn-primary {
             background-color: var(--terracotta);
@@ -128,79 +119,128 @@
             padding-top: 20px;
             text-align: center;
         }
-        .registry-options {
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            margin-bottom: 24px;
+            min-height: 300px;
+            max-height: 400px;
         }
-        .registry-option {
-            position: relative;
-        }
-        .registry-radio {
-            position: absolute;
-            opacity: 0;
-            height: 0;
-            width: 0;
-        }
-        .registry-card {
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            padding: 16px;
+        .message {
             display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background-color: white;
+            max-width: 85%;
         }
-        .registry-radio:checked + .registry-card {
-            border-color: var(--terracotta);
-            background-color: rgba(183, 94, 69, 0.05);
+        .message-bot {
+            align-self: flex-start;
         }
-        .registry-icon {
-            width: 50px;
-            height: 50px;
+        .message-user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-right: 16px;
-            color: #666;
+            margin: 0 8px;
         }
-        .registry-info {
+        .avatar-bot {
+            background-color: var(--sage-green);
+            color: white;
+        }
+        .avatar-user {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 15px;
+            max-width: calc(100% - 52px);
+        }
+        .message-bot .message-content {
+            background-color: #F3F4F6;
+            border-bottom-left-radius: 4px;
+        }
+        .message-user .message-content {
+            background-color: var(--terracotta);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-input-container {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #E5E7EB;
+            background-color: white;
+        }
+        .chat-input {
             flex: 1;
+            border: 1px solid #E5E7EB;
+            border-radius: 24px;
+            padding: 12px 16px;
+            font-size: 15px;
+            outline: none;
         }
-        .registry-name {
-            font-weight: 600;
-            margin-bottom: 4px;
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            cursor: pointer;
+            border: none;
         }
-        .registry-desc {
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .option-button {
+            padding: 8px 16px;
+            border-radius: 16px;
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
             font-size: 14px;
-            color: #666;
+            cursor: pointer;
         }
-        .hint-text {
-            font-size: 14px;
-            color: #666;
-            margin-top: 12px;
-            margin-bottom: 24px;
+        .option-button:hover {
+            background-color: #E5E7EB;
         }
-        .file-upload {
-            display: none;
-        }
-        .url-input {
+        .input-field {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: 1px solid #E5E7EB;
             border-radius: 12px;
-            font-size: 16px;
-            background-color: white;
-            margin-top: 12px;
-            display: none;
+            font-size: 15px;
+            margin-top: 8px;
+            display: block;
         }
-        .url-input:focus {
+        .input-field:focus {
             outline: none;
             border-color: var(--terracotta);
-            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        }
+        .form-hidden {
+            display: none;
         }
     </style>
 </head>
@@ -223,137 +263,234 @@
         
         <div class="logo-small">M</div>
         
-        <h1 class="heading">Import your registry</h1>
-        <p class="subheading">Have an existing registry? Import items from another platform to get started.</p>
+        <h1 class="heading">Additional Information</h1>
+        <p class="subheading">Tell us a bit about yourself to help personalize your experience.</p>
         
         <div class="progress-bar">
             <div class="progress"></div>
         </div>
         
-        <form action="register-step6.html" method="GET">
-            <div class="form-group">
-                <label class="form-label">Select a platform to import from</label>
-                
-                <div class="registry-options">
-                    <div class="registry-option">
-                        <input type="radio" id="babylist" name="registry_platform" value="babylist" class="registry-radio">
-                        <label for="babylist" class="registry-card">
-                            <div class="registry-icon">
-                                <i class="fas fa-baby"></i>
-                            </div>
-                            <div class="registry-info">
-                                <div class="registry-name">Babylist</div>
-                                <div class="registry-desc">Import your Babylist baby registry</div>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="registry-option">
-                        <input type="radio" id="amazon" name="registry_platform" value="amazon" class="registry-radio">
-                        <label for="amazon" class="registry-card">
-                            <div class="registry-icon">
-                                <i class="fab fa-amazon"></i>
-                            </div>
-                            <div class="registry-info">
-                                <div class="registry-name">Amazon</div>
-                                <div class="registry-desc">Import your Amazon baby registry</div>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="registry-option">
-                        <input type="radio" id="target" name="registry_platform" value="target" class="registry-radio">
-                        <label for="target" class="registry-card">
-                            <div class="registry-icon">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="registry-info">
-                                <div class="registry-name">Target</div>
-                                <div class="registry-desc">Import your Target baby registry</div>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="registry-option">
-                        <input type="radio" id="buybuyBaby" name="registry_platform" value="buybuyBaby" class="registry-radio">
-                        <label for="buybuyBaby" class="registry-card">
-                            <div class="registry-icon">
-                                <i class="fas fa-shopping-basket"></i>
-                            </div>
-                            <div class="registry-info">
-                                <div class="registry-name">buybuy BABY</div>
-                                <div class="registry-desc">Import your buybuy BABY registry</div>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="registry-option">
-                        <input type="radio" id="none" name="registry_platform" value="none" class="registry-radio" checked>
-                        <label for="none" class="registry-card">
-                            <div class="registry-icon">
-                                <i class="fas fa-times-circle"></i>
-                            </div>
-                            <div class="registry-info">
-                                <div class="registry-name">No registry to import</div>
-                                <div class="registry-desc">Skip this step and continue</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- Registry URL input (hidden by default) -->
-                <input type="text" id="registry_url" name="registry_url" class="url-input" placeholder="Paste the URL to your registry">
-                
-                <!-- File upload option (hidden by default) -->
-                <input type="file" id="registry_file" name="registry_file" class="file-upload">
-                
-                <div class="hint-text">
-                    We'll analyze your registry and suggest items that are commonly available secondhand.
-                </div>
-            </div>
-            
-            <button type="button" id="importBtn" class="btn-secondary" style="display: none;">Import Registry</button>
-            <button type="submit" class="btn-primary">Continue</button>
+        <form id="familyInfoForm" action="home.html" method="GET" class="form-hidden">
+            <input type="hidden" id="is_parent" name="is_parent" value="">
+            <input type="hidden" id="number_of_children" name="number_of_children" value="">
+            <input type="hidden" id="children_ages" name="children_ages" value="">
         </form>
         
-        <div class="step-indicator">Step 5 of 7</div>
+        <div class="chat-container">
+            <div id="chatMessages" class="chat-messages">
+                <!-- Initial bot message -->
+                <div class="message message-bot">
+                    <div class="avatar avatar-bot">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        Hi there! Would you like to share some information about your family? This helps us personalize your experience, but it's completely optional.
+                        <div class="options-container">
+                            <button class="option-button" data-response="yes">Yes, I'd like to share</button>
+                            <button class="option-button" data-response="no">Skip for now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button type="button" id="continueBtn" class="btn-primary">Continue</button>
+        
+        <div class="step-indicator">Step 5 of 5</div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const radioButtons = document.querySelectorAll('.registry-radio');
-            const urlInput = document.querySelector('.url-input');
-            const importBtn = document.getElementById('importBtn');
-            const fileUpload = document.getElementById('registry_file');
+            const chatMessages = document.getElementById('chatMessages');
+            const continueBtn = document.getElementById('continueBtn');
+            const form = document.getElementById('familyInfoForm');
             
-            radioButtons.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const selectedValue = this.value;
-                    
-                    if (selectedValue === 'none') {
-                        urlInput.style.display = 'none';
-                        importBtn.style.display = 'none';
-                    } else {
-                        urlInput.style.display = 'block';
-                        importBtn.style.display = 'block';
-                    }
+            // Store chat state
+            const state = {
+                step: 1,
+                isParent: null,
+                numberOfChildren: null,
+                childrenAges: null,
+                completed: false
+            };
+            
+            // Add user response to chat
+            function addUserMessage(message) {
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'message message-user';
+                userMessageDiv.innerHTML = `
+                    <div class="avatar avatar-user">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="message-content">${message}</div>
+                `;
+                chatMessages.appendChild(userMessageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Add bot message to chat
+            function addBotMessage(message, options = null, inputType = null) {
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'message message-bot';
+                
+                let optionsHtml = '';
+                if (options) {
+                    optionsHtml = `
+                        <div class="options-container">
+                            ${options.map(opt => `<button class="option-button" data-response="${opt.value}">${opt.text}</button>`).join('')}
+                        </div>
+                    `;
+                }
+                
+                let inputHtml = '';
+                if (inputType === 'text') {
+                    inputHtml = `
+                        <input type="text" class="input-field" placeholder="Type your answer">
+                        <div class="options-container">
+                            <button class="option-button submit-text">Submit</button>
+                        </div>
+                    `;
+                } else if (inputType === 'number') {
+                    inputHtml = `
+                        <input type="number" class="input-field" min="1" max="10" value="1">
+                        <div class="options-container">
+                            <button class="option-button submit-number">Submit</button>
+                        </div>
+                    `;
+                }
+                
+                botMessageDiv.innerHTML = `
+                    <div class="avatar avatar-bot">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        ${message}
+                        ${optionsHtml}
+                        ${inputHtml}
+                    </div>
+                `;
+                
+                chatMessages.appendChild(botMessageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Add event listeners to new options
+                if (options) {
+                    botMessageDiv.querySelectorAll('.option-button').forEach(button => {
+                        button.addEventListener('click', handleOptionClick);
+                    });
+                }
+                
+                // Add event listeners for input submissions
+                if (inputType === 'text') {
+                    const submitBtn = botMessageDiv.querySelector('.submit-text');
+                    submitBtn.addEventListener('click', function() {
+                        const input = botMessageDiv.querySelector('.input-field');
+                        handleTextInput(input.value);
+                    });
+                } else if (inputType === 'number') {
+                    const submitBtn = botMessageDiv.querySelector('.submit-number');
+                    submitBtn.addEventListener('click', function() {
+                        const input = botMessageDiv.querySelector('.input-field');
+                        handleNumberInput(parseInt(input.value, 10));
+                    });
+                }
+            }
+            
+            // Handle option button clicks
+            function handleOptionClick(e) {
+                const response = e.target.dataset.response;
+                
+                // Disable all option buttons after selection
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
                 });
+                
+                // Highlight selected option
+                e.target.style.backgroundColor = '#E5E7EB';
+                e.target.style.borderColor = '#9CA3AF';
+                
+                addUserMessage(e.target.textContent);
+                
+                if (state.step === 1) {
+                    // Initial yes/no response
+                    if (response === 'yes') {
+                        state.step = 2;
+                        setTimeout(() => {
+                            addBotMessage('Great! Are you a parent or expecting?', [
+                                { value: 'parent', text: 'I\'m a parent' },
+                                { value: 'expecting', text: 'I\'m expecting' },
+                                { value: 'neither', text: 'Neither' }
+                            ]);
+                        }, 500);
+                    } else {
+                        // Skip family info
+                        state.completed = true;
+                        setTimeout(() => {
+                            addBotMessage('No problem! You can always update this information later in your profile.');
+                        }, 500);
+                    }
+                } else if (state.step === 2) {
+                    // Parent status response
+                    state.isParent = response === 'neither' ? 'no' : 'yes';
+                    document.getElementById('is_parent').value = state.isParent;
+                    
+                    if (response === 'neither') {
+                        state.completed = true;
+                        setTimeout(() => {
+                            addBotMessage('Thanks for letting us know! We\'ll customize your experience accordingly.');
+                        }, 500);
+                    } else {
+                        state.step = 3;
+                        setTimeout(() => {
+                            addBotMessage('How many children do you have?', null, 'number');
+                        }, 500);
+                    }
+                }
+            }
+            
+            // Handle number input submission
+            function handleNumberInput(value) {
+                if (state.step === 3) {
+                    state.numberOfChildren = value;
+                    document.getElementById('number_of_children').value = value;
+                    
+                    addUserMessage(value.toString());
+                    
+                    state.step = 4;
+                    setTimeout(() => {
+                        if (value === 1) {
+                            addBotMessage('How old is your child? Please enter their age in years (use 0 for under 1 year)', null, 'text');
+                        } else {
+                            addBotMessage(`Please enter the ages of your ${value} children, separated by commas (use 0 for under 1 year)`, null, 'text');
+                        }
+                    }, 500);
+                }
+            }
+            
+            // Handle text input submission
+            function handleTextInput(value) {
+                if (state.step === 4) {
+                    state.childrenAges = value;
+                    document.getElementById('children_ages').value = value;
+                    
+                    addUserMessage(value);
+                    
+                    state.completed = true;
+                    setTimeout(() => {
+                        addBotMessage('Thank you for sharing this information! We\'ll customize your experience based on your family needs.');
+                    }, 500);
+                }
+            }
+            
+            // Initial option button event listeners
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', handleOptionClick);
             });
             
-            importBtn.addEventListener('click', function() {
-                const selectedPlatform = document.querySelector('.registry-radio:checked').value;
-                
-                if (selectedPlatform === 'babylist' || selectedPlatform === 'amazon') {
-                    const url = urlInput.value.trim();
-                    if (url) {
-                        // Here you would handle the API call to import the registry
-                        alert('Registry import started. This may take a few minutes.');
-                    } else {
-                        alert('Please enter your registry URL');
-                    }
-                } else {
-                    fileUpload.click();
-                }
+            // Continue button handler
+            continueBtn.addEventListener('click', function() {
+                form.submit();
             });
         });
     </script>

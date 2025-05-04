@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Delivery Preferences</title>
+    <title>Mina - Meet up Preference</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -280,6 +280,123 @@
             color: white;
             border-color: var(--sage-green);
         }
+        .safety-message {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-left: 3px solid var(--sage-green);
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #666;
+            border-radius: 4px;
+        }
+        .safety-message i {
+            color: var(--sage-green);
+            margin-right: 6px;
+        }
+        .default-prefs {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E5E7EB;
+        }
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            margin-right: 10px;
+        }
+        .custom-checkbox:checked {
+            background-color: var(--terracotta);
+            border-color: var(--terracotta);
+        }
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .default-label {
+            font-size: 14px;
+        }
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            display: none;
+        }
+        .modal {
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-close {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .meetup-option {
+            display: flex;
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+            cursor: pointer;
+        }
+        .meetup-option:last-child {
+            border-bottom: none;
+        }
+        .meetup-icon {
+            font-size: 16px;
+            color: var(--sage-green);
+            margin-right: 12px;
+            min-width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .meetup-details {
+            flex: 1;
+        }
+        .meetup-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .meetup-address {
+            font-size: 13px;
+            color: #666;
+        }
+        .meetup-distance {
+            font-size: 12px;
+            color: var(--terracotta);
+            display: block;
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
@@ -296,17 +413,16 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="screen-header">
-            <a href="seller-step3.html" class="back-button">
+            <a href="seller-step3-prompts.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <div>
-                <div class="header-title">Delivery Preferences</div>
+                <div class="header-title">Meet up Preference</div>
                 <div class="progress-dots">
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot active"></div>
-                    <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
@@ -319,32 +435,37 @@
             </div>
             <div class="ai-message">
                 <div class="ai-text">
-                    <strong>Let's set up how buyers can get your item</strong><br>
-                    Clear pickup/delivery options increase the likelihood of a successful transaction.
+                    <strong>Let's set up how buyers can meet with you</strong><br>
+                    Clear meet up preferences ensure safe and successful transactions.
                 </div>
             </div>
         </div>
         
         <div class="prompt-section">
             <div class="prompt-container">
-                <div class="prompt-header">Preferred Handoff Method</div>
-                <div class="prompt-info">Select all the options you're comfortable with. More flexibility usually means faster sales.</div>
+                <div class="prompt-header">Meet up Method</div>
+                <div class="prompt-info">Select the option you're comfortable with for exchanging the item.</div>
                 
                 <div class="radio-wrapper">
-                    <input type="radio" id="handoff1" name="handoff" class="radio-input" checked>
-                    <label for="handoff1" class="radio-label">Pickup only (at my location)</label>
+                    <input type="radio" id="meetup1" name="meetup" class="radio-input" checked>
+                    <label for="meetup1" class="radio-label">Pickup at my location</label>
                 </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="handoff2" name="handoff" class="radio-input">
-                    <label for="handoff2" class="radio-label">Dropoff only (at buyer's location)</label>
+                <div id="locationSection">
+                    <div class="prompt-header" style="font-size:15px;margin-top:12px;">Specify safe meeting place details:</div>
+                    <input type="text" class="input-field" placeholder="e.g., Building lobby, Front door" value="Front lobby of my building">
+                    
+                    <div class="safety-message">
+                        <i class="fas fa-shield-alt"></i> Your address will only be shared with confirmed buyers after payment is completed.
+                    </div>
                 </div>
+                
                 <div class="radio-wrapper">
-                    <input type="radio" id="handoff3" name="handoff" class="radio-input">
-                    <label for="handoff3" class="radio-label">Flexible (both pickup or dropoff)</label>
+                    <input type="radio" id="meetup2" name="meetup" class="radio-input">
+                    <label for="meetup2" class="radio-label">Meet in public place</label>
                 </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="handoff4" name="handoff" class="radio-input">
-                    <label for="handoff4" class="radio-label">Meet in public place</label>
+                <div id="publicPlaceSection" style="display:none;">
+                    <div class="prompt-header" style="font-size:15px;margin-top:12px;">Select a public meeting place:</div>
+                    <input type="text" id="publicPlaceInput" class="input-field" placeholder="Search or select a nearby location" readonly>
                 </div>
             </div>
         </div>
@@ -352,7 +473,7 @@
         <div class="prompt-section">
             <div class="prompt-container">
                 <div class="prompt-header">Available Days</div>
-                <div class="prompt-info">Select days when you're typically available for handoff.</div>
+                <div class="prompt-info">Select days when you're typically available to meet.</div>
                 
                 <div class="day-selector">
                     <div class="day-box">
@@ -394,25 +515,13 @@
                     <div class="time-slot">Afternoon (2-5pm)</div>
                     <div class="time-slot selected">Evening (5-8pm)</div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="prompt-section">
-            <div class="prompt-container">
-                <div class="prompt-header">Location & Notes</div>
                 
-                <div class="prompt-header" style="font-size:15px;margin-top:0px;">If pickup, specify safe meeting place details:</div>
-                <input type="text" class="input-field" placeholder="e.g., Building lobby, Starbucks at 123 Main St" value="Front lobby of my building, 280 Park Ave">
+                <div class="prompt-header" style="font-size:15px;margin-top:20px;">Additional notes:</div>
+                <textarea class="textarea-field" placeholder="Any special instructions for meetup...">Please message me 30 minutes before arrival.</textarea>
                 
-                <div class="prompt-header" style="font-size:15px;margin-top:0px;">Additional delivery notes:</div>
-                <textarea class="textarea-field" placeholder="Any special instructions for handoff...">Please message me 30 minutes before arrival. I can meet at the entrance.</textarea>
-                
-                <div class="prompt-header" style="font-size:15px;margin-top:0px;">Willing to travel up to:</div>
-                <div class="tag-container">
-                    <div class="tag"><i class="fas fa-map-marker-alt tag-icon"></i>0.5 miles</div>
-                    <div class="tag selected"><i class="fas fa-map-marker-alt tag-icon"></i>1 mile</div>
-                    <div class="tag"><i class="fas fa-map-marker-alt tag-icon"></i>3 miles</div>
-                    <div class="tag"><i class="fas fa-map-marker-alt tag-icon"></i>5+ miles</div>
+                <div class="default-prefs">
+                    <input type="checkbox" id="defaultPrefs" class="custom-checkbox">
+                    <label for="defaultPrefs" class="default-label">Use these as default preferences for all listings</label>
                 </div>
             </div>
         </div>
@@ -420,6 +529,61 @@
         <form action="seller-step4.html" method="GET">
             <button type="submit" class="btn-primary">Continue to Preview</button>
         </form>
+    </div>
+    
+    <!-- Public Places Selection Modal -->
+    <div class="modal-bg" id="publicPlacesModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>Choose a public meeting place</div>
+                <div class="modal-close" id="modalClose"><i class="fas fa-times"></i></div>
+            </div>
+            
+            <div class="meetup-option" data-name="Ritual Coffee Roasters" data-address="1026 Valencia St">
+                <div class="meetup-icon"><i class="fas fa-coffee"></i></div>
+                <div class="meetup-details">
+                    <div class="meetup-name">Ritual Coffee Roasters</div>
+                    <div class="meetup-address">1026 Valencia St, San Francisco, CA</div>
+                    <span class="meetup-distance">0.3 miles away</span>
+                </div>
+            </div>
+            
+            <div class="meetup-option" data-name="Dolores Park" data-address="Dolores St & 19th St">
+                <div class="meetup-icon"><i class="fas fa-tree"></i></div>
+                <div class="meetup-details">
+                    <div class="meetup-name">Dolores Park</div>
+                    <div class="meetup-address">Dolores St & 19th St, San Francisco, CA</div>
+                    <span class="meetup-distance">0.5 miles away</span>
+                </div>
+            </div>
+            
+            <div class="meetup-option" data-name="Bi-Rite Market" data-address="3639 18th St">
+                <div class="meetup-icon"><i class="fas fa-shopping-basket"></i></div>
+                <div class="meetup-details">
+                    <div class="meetup-name">Bi-Rite Market</div>
+                    <div class="meetup-address">3639 18th St, San Francisco, CA</div>
+                    <span class="meetup-distance">0.6 miles away</span>
+                </div>
+            </div>
+            
+            <div class="meetup-option" data-name="Mission Branch Library" data-address="300 Bartlett St">
+                <div class="meetup-icon"><i class="fas fa-book"></i></div>
+                <div class="meetup-details">
+                    <div class="meetup-name">Mission Branch Library</div>
+                    <div class="meetup-address">300 Bartlett St, San Francisco, CA</div>
+                    <span class="meetup-distance">0.7 miles away</span>
+                </div>
+            </div>
+            
+            <div class="meetup-option" data-name="Tartine Bakery" data-address="600 Guerrero St">
+                <div class="meetup-icon"><i class="fas fa-birthday-cake"></i></div>
+                <div class="meetup-details">
+                    <div class="meetup-name">Tartine Bakery</div>
+                    <div class="meetup-address">600 Guerrero St, San Francisco, CA</div>
+                    <span class="meetup-distance">0.4 miles away</span>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -445,5 +609,76 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Meetup method selection
+            const meetup1 = document.getElementById('meetup1');
+            const meetup2 = document.getElementById('meetup2');
+            const locationSection = document.getElementById('locationSection');
+            const publicPlaceSection = document.getElementById('publicPlaceSection');
+            const publicPlaceInput = document.getElementById('publicPlaceInput');
+            const publicPlacesModal = document.getElementById('publicPlacesModal');
+            const modalClose = document.getElementById('modalClose');
+            const meetupOptions = document.querySelectorAll('.meetup-option');
+            
+            // Handle meetup method selection
+            meetup1.addEventListener('change', function() {
+                if (this.checked) {
+                    locationSection.style.display = 'block';
+                    publicPlaceSection.style.display = 'none';
+                }
+            });
+            
+            meetup2.addEventListener('change', function() {
+                if (this.checked) {
+                    locationSection.style.display = 'none';
+                    publicPlaceSection.style.display = 'block';
+                }
+            });
+            
+            // Public place selection modal
+            publicPlaceInput.addEventListener('click', function() {
+                publicPlacesModal.style.display = 'flex';
+            });
+            
+            modalClose.addEventListener('click', function() {
+                publicPlacesModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            publicPlacesModal.addEventListener('click', function(e) {
+                if (e.target === publicPlacesModal) {
+                    publicPlacesModal.style.display = 'none';
+                }
+            });
+            
+            // Handle meetup location selection
+            meetupOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const name = this.dataset.name;
+                    const address = this.dataset.address;
+                    publicPlaceInput.value = name;
+                    publicPlacesModal.style.display = 'none';
+                });
+            });
+            
+            // Day selection
+            const dayBoxes = document.querySelectorAll('.day-box');
+            dayBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+            
+            // Time slot selection
+            const timeSlots = document.querySelectorAll('.time-slot');
+            timeSlots.forEach(slot => {
+                slot.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+        });
+    </script>
 </body>
 </html> 

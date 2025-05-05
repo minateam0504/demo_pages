@@ -583,11 +583,11 @@
             <div class="mina-assistant-message">
                 Need help finding the perfect car seat? I can answer safety questions or compare models.
             </div>
-            <div class="mina-assistant-action">Ask me anything</div>
+            <a href="buyer-chat.html" class="mina-assistant-action">Ask me anything</a>
         </div>
-        <div class="mina-assistant-button">
+        <a href="buyer-chat.html" class="mina-assistant-button">
             <span style="font-weight: bold; font-size: 20px;">M</span>
-        </div>
+        </a>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -620,12 +620,16 @@
             const assistantButton = document.querySelector('.mina-assistant-button');
             const assistantPopup = document.querySelector('.mina-assistant-popup');
             
-            assistantButton.addEventListener('click', function() {
-                // Toggle popup visibility
-                if (assistantPopup.style.display === 'block') {
-                    assistantPopup.style.display = 'none';
-                } else {
-                    assistantPopup.style.display = 'block';
+            // Show popup on hover or initially
+            assistantButton.addEventListener('mouseover', function() {
+                assistantPopup.style.display = 'block';
+            });
+            
+            // Make sure clicking anywhere on the popup doesn't prevent navigation
+            assistantPopup.addEventListener('click', function(e) {
+                // Only if the click was directly on the popup (not on a link inside it)
+                if (e.target === assistantPopup) {
+                    window.location.href = 'buyer-chat.html';
                 }
             });
         });

@@ -78,20 +78,8 @@
         .header-title {
             font-size: 20px;
             font-weight: 600;
-        }
-        .progress-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #E5E7EB;
-        }
-        .dot.active {
-            background-color: var(--terracotta);
+            text-align: center;
+            flex: 1;
         }
         .ai-container {
             display: flex;
@@ -119,6 +107,15 @@
         .ai-text {
             font-size: 15px;
             margin-bottom: 12px;
+        }
+        .option-card {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         .prompt-container {
             background-color: white;
@@ -416,18 +413,7 @@
             <a href="seller-step3-prompts.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div>
-                <div class="header-title">Meet up Preference</div>
-                <div class="progress-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-            <div>
-    </div> <!-- Empty div for spacing -->
+            <div class="header-title">Meetup Preference</div>
         </div>
         
         <div class="ai-container">
@@ -527,8 +513,8 @@
             </div>
         </div>
         
-        <form action="seller-step4.html" method="GET">
-            <button type="submit" class="btn-primary">Preview</button>
+        <form action="register-step7.html" method="GET">
+            <button type="submit" class="btn-primary">Continue to Payment Method</button>
         </form>
     </div>
     

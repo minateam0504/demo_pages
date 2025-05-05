@@ -270,7 +270,7 @@
             <div class="progress"></div>
         </div>
         
-        <form id="familyInfoForm" action="home.html" method="GET" class="form-hidden">
+        <form id="familyInfoForm" action="register-step8.html" method="GET" class="form-hidden">
             <input type="hidden" id="is_parent" name="is_parent" value="">
             <input type="hidden" id="number_of_children" name="number_of_children" value="">
             <input type="hidden" id="children_ages" name="children_ages" value="">
@@ -462,7 +462,7 @@
                         if (value === 1) {
                             addBotMessage('How old is your child? Please enter their age in years (use 0 for under 1 year)', null, 'text');
                         } else {
-                            addBotMessage(`Please enter the ages of your ${value} children, separated by commas (use 0 for under 1 year)`, null, 'text');
+                            addBotMessage(`Please enter the ages of your ${value} children`, null, 'text');
                         }
                     }, 500);
                 }

@@ -80,20 +80,8 @@
         .header-title {
             font-size: 20px;
             font-weight: 600;
-        }
-        .progress-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #E5E7EB;
-        }
-        .dot.active {
-            background-color: var(--terracotta);
+            text-align: center;
+            flex: 1;
         }
         .ai-container {
             display: flex;
@@ -136,8 +124,8 @@
         .price-card {
             background-color: white;
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
+            padding: 12px 12px 8px; /* Reduced bottom padding */
+            margin-bottom: 12px; /* Reduced margin */
             position: relative;
         }
         .price-header {
@@ -145,7 +133,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 4px; /* Reduced margin */
-            padding-right: 40px; /* Increased padding to avoid badge overlap */
+            padding-right: 55px; /* Increased padding to avoid badge overlap */
         }
         .price-title {
             font-size: 13px; /* Reduced size */
@@ -197,7 +185,7 @@
             color: #666;
             display: flex;
             justify-content: space-between;
-            margin-top: 6px; /* Reduced margin */
+            margin-top: 4px; /* Reduced margin */
         }
         .payout-value {
             font-weight: 600;
@@ -380,7 +368,10 @@
             display: none;
         }
         .price-input-container {
-            margin: 8px 0; /* Reduced margin */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0; /* Reduced margin */
         }
         
         .price-input-wrapper {
@@ -408,7 +399,7 @@
             color: #666;
             display: flex;
             justify-content: space-between;
-            margin-top: 6px; /* Reduced margin */
+            margin-top: 4px; /* Reduced margin */
         }
         
         .payout-value {
@@ -442,17 +433,7 @@
             <a href="seller-step2.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div>
-                <div class="header-title">Details & Pricing</div>
-                <div class="progress-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-            <div>
-    </div> <!-- Empty div for spacing -->
+            <div class="header-title">Pricing</div>
         </div>
         
         <!-- Free Item Toggle -->
@@ -601,7 +582,7 @@
                     <span id="currentPrice" class="price-value">$140</span>
                 </div>
             </div>
-            <div class="prompt-info" style="margin-bottom: 4px;">
+            <div class="prompt-info" style="margin-bottom: 2px; font-size: 12px;">
                 Based on condition and similar items in your area.
             </div>
             

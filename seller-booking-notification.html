@@ -6,7 +6,7 @@
     <title>Mina - Booking Request</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/mina-logo.css">
+    
     <style>
         :root {
             --sage-green: #9B9E8A;
@@ -68,33 +68,34 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            text-align: left;
         }
         .notification-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
             background-color: rgba(155, 158, 138, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 40px 0 24px;
+            margin: 24px auto;
             color: var(--sage-green);
-            font-size: 48px;
+            font-size: 36px;
         }
         .title {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 16px;
             color: var(--charcoal);
+            text-align: center;
         }
         .message {
             font-size: 16px;
             color: rgba(0,0,0,0.6);
-            margin-bottom: 32px;
-            max-width: 320px;
+            margin-bottom: 24px;
+            max-width: 100%;
             line-height: 1.5;
+            text-align: center;
         }
         .details-card {
             background-color: white;
@@ -151,28 +152,43 @@
             font-weight: 500;
             text-align: right;
         }
-        .seller-note {
+        .buyer-info {
             background-color: rgba(155, 158, 138, 0.1);
             border-radius: 12px;
             padding: 16px;
             text-align: left;
-            margin-top: 16px;
-        }
-        .seller-note-header {
+            margin: 16px 0;
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
         }
-        .seller-note-header i {
-            color: var(--sage-green);
-            margin-right: 8px;
+        .buyer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-right: 16px;
         }
-        .seller-note-title {
+        .buyer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .buyer-details {
+            flex: 1;
+        }
+        .buyer-name {
             font-weight: 600;
+            margin-bottom: 4px;
         }
-        .seller-note-content {
+        .buyer-rating {
+            display: flex;
+            align-items: center;
             font-size: 14px;
-            line-height: 1.4;
+            color: rgba(0,0,0,0.6);
+        }
+        .buyer-rating i {
+            color: var(--terracotta);
+            margin-right: 4px;
         }
         .btn-primary {
             background-color: var(--terracotta);
@@ -186,8 +202,10 @@
             margin-bottom: 16px;
             text-align: center;
             text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
-        .btn-outline {
+        .btn-secondary {
             background-color: white;
             color: var(--terracotta);
             border: 2px solid var(--terracotta);
@@ -200,6 +218,22 @@
             margin-bottom: 16px;
             text-align: center;
             text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: white;
+            color: #e53e3e;
+            border: 2px solid #e53e3e;
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
         }
         .status-badge {
             display: inline-block;
@@ -210,9 +244,113 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 16px;
+            align-self: center;
         }
         .status-badge i {
             margin-right: 6px;
+        }
+        .fee-breakdown {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .fee-label {
+            color: rgba(0,0,0,0.6);
+        }
+        .fee-value {
+            font-weight: 500;
+        }
+        .fee-row.total {
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .feedback-text {
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 100px;
+            margin: 16px 0;
+            font-size: 14px;
+            color: var(--charcoal);
+            resize: none;
+        }
+        .feedback-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .modal-content {
+            background-color: white;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 24px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .datetime-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .date-option, .time-option {
+            flex: 1 0 30%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .date-option.selected, .time-option.selected {
+            background-color: var(--sage-green);
+            color: white;
+            border-color: var(--sage-green);
+        }
+        .payment-summary {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .payout-highlight {
+            background-color: rgba(155, 158, 138, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .payout-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--sage-green);
         }
     </style>
 </head>
@@ -231,25 +369,27 @@
     <div class="main-content">
         <!-- Notification Icon -->
         <div class="notification-icon">
-            <i class="fas fa-paper-plane"></i>
+            <i class="fas fa-shopping-bag"></i>
         </div>
         
         <!-- Status Badge -->
         <div class="status-badge">
-            <i class="fas fa-clock"></i> Awaiting Seller Confirmation
+            <i class="fas fa-clock"></i> New Purchase Request
         </div>
         
         <!-- Notification Message -->
-        <h1 class="title">Booking Request Sent!</h1>
+        <h1 class="title">Congratulations, Julia!</h1>
         <p class="message">
-            We've sent a notification to Julia to confirm the availability of this item and your requested pickup time.
+            Morgan is interested in purchasing your Nuna PIPA RX Infant Car Seat! Please review and respond to their pickup request.
         </p>
         
         <!-- Details Card -->
         <div class="details-card">
             <div class="details-header">
                 <div class="product-image">
-                    <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX Car Seat">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-baby-carriage" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
                 </div>
                 <div class="product-details">
                     <div class="product-name">Nuna PIPA RX Infant Car Seat with RELX Base</div>
@@ -258,6 +398,19 @@
             </div>
             
             <div class="divider"></div>
+            
+            <!-- Buyer Information -->
+            <div class="buyer-info">
+                <div class="buyer-avatar">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Morgan's Profile">
+                </div>
+                <div class="buyer-details">
+                    <div class="buyer-name">Morgan Chen</div>
+                    <div class="buyer-rating">
+                        <i class="fas fa-star"></i> 4.9 (15 transactions)
+                    </div>
+                </div>
+            </div>
             
             <div class="detail-row">
                 <div class="detail-label">Requested Pickup Date</div>
@@ -268,28 +421,101 @@
                 <div class="detail-value">9:30 AM</div>
             </div>
             <div class="detail-row">
-                <div class="detail-label">Location</div>
+                <div class="detail-label">Your Location</div>
                 <div class="detail-value">Mission District</div>
             </div>
             
-            <div class="seller-note">
-                <div class="seller-note-header">
-                    <i class="fas fa-info-circle"></i>
-                    <div class="seller-note-title">What happens next?</div>
+            <!-- Payment Summary -->
+            <div class="fee-breakdown">
+                <div class="fee-row">
+                    <div class="fee-label">Item price</div>
+                    <div class="fee-value">$175.00</div>
                 </div>
-                <div class="seller-note-content">
-                    Julia has 24 hours to confirm your booking request. Once confirmed, you'll get the exact address and payment will be processed. You can cancel anytime before confirmation.
+                <div class="fee-row">
+                    <div class="fee-label">Service fee (5%)</div>
+                    <div class="fee-value">-$8.75</div>
                 </div>
+                <div class="fee-row total">
+                    <div>Your payout</div>
+                    <div>$166.25</div>
+                </div>
+            </div>
+            
+            <div class="payout-highlight">
+                <div>You'll receive</div>
+                <div class="payout-amount">$166.25</div>
+                <div style="font-size: 12px; color: rgba(0,0,0,0.5);">Deposited 2-3 business days after pickup</div>
             </div>
         </div>
         
-        <!-- Buttons -->
-        <a href="buyer-message.html" class="btn-primary">
-            Message Seller
-        </a>
-        <a href="home.html" class="btn-outline">
-            Back to Home
-        </a>
+        <!-- Action Buttons -->
+        <button class="btn-primary" onclick="acceptRequest()">
+            Confirm Pickup Request
+        </button>
+        
+        <button class="btn-secondary" onclick="showProposeTimeModal()">
+            Propose Different Time
+        </button>
+        
+        <button class="btn-danger" onclick="showDeclineModal()">
+            Decline Request
+        </button>
+        
+        <!-- Propose Time Modal -->
+        <div id="proposeTimeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-title">Propose a Different Time</div>
+                
+                <div class="feedback-label">Available Dates</div>
+                <div class="datetime-picker">
+                    <div class="date-option" onclick="selectDate(this)">June 17<br>Tuesday</div>
+                    <div class="date-option" onclick="selectDate(this)">June 18<br>Wednesday</div>
+                    <div class="date-option" onclick="selectDate(this)">June 19<br>Thursday</div>
+                    <div class="date-option" onclick="selectDate(this)">June 20<br>Friday</div>
+                    <div class="date-option" onclick="selectDate(this)">June 21<br>Saturday</div>
+                    <div class="date-option" onclick="selectDate(this)">June 22<br>Sunday</div>
+                </div>
+                
+                <div class="feedback-label">Available Times</div>
+                <div class="datetime-picker">
+                    <div class="time-option" onclick="selectTime(this)">8:00 AM</div>
+                    <div class="time-option" onclick="selectTime(this)">10:00 AM</div>
+                    <div class="time-option" onclick="selectTime(this)">12:00 PM</div>
+                    <div class="time-option" onclick="selectTime(this)">2:00 PM</div>
+                    <div class="time-option" onclick="selectTime(this)">4:00 PM</div>
+                    <div class="time-option" onclick="selectTime(this)">6:00 PM</div>
+                </div>
+                
+                <div class="feedback-label">Let Morgan know why</div>
+                <textarea class="feedback-text" placeholder="I'm not available at the requested time, but I can meet at..."></textarea>
+                
+                <button class="btn-primary" onclick="proposeNewTime()">
+                    Send New Time Proposal
+                </button>
+                
+                <button class="btn-secondary" onclick="hideModals()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        
+        <!-- Decline Modal -->
+        <div id="declineModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-title">Decline Purchase Request</div>
+                
+                <div class="feedback-label">Reason for declining</div>
+                <textarea class="feedback-text" placeholder="Please explain why you're declining this purchase request..."></textarea>
+                
+                <button class="btn-danger" onclick="declineRequest()">
+                    Decline Request
+                </button>
+                
+                <button class="btn-secondary" onclick="hideModals()">
+                    Cancel
+                </button>
+            </div>
+        </div>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -302,11 +528,11 @@
             <div class="tab-icon"><i class="fas fa-search"></i></div>
             <div class="tab-label">Search</div>
         </a>
-        <a href="seller-flow.html" class="tab-item">
+        <a href="seller-flow.html" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
             <div class="tab-label">Sell</div>
         </a>
-        <a href="messaging.html" class="tab-item active">
+        <a href="messaging.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-comments"></i></div>
             <div class="tab-label">Messages</div>
         </a>
@@ -316,13 +542,55 @@
         </a>
     </div>
     
-    <!-- Simulation Script - For demo purposes only -->
+    <!-- JavaScript for interactions -->
     <script>
-        // For demo purposes only: This simulates the seller confirming the booking
-        setTimeout(function() {
-            // Simulate seller confirmation and redirect to the confirmed booking page
+        function showProposeTimeModal() {
+            document.getElementById('proposeTimeModal').style.display = 'flex';
+        }
+        
+        function showDeclineModal() {
+            document.getElementById('declineModal').style.display = 'flex';
+        }
+        
+        function hideModals() {
+            document.getElementById('proposeTimeModal').style.display = 'none';
+            document.getElementById('declineModal').style.display = 'none';
+        }
+        
+        function selectDate(element) {
+            // Remove selected class from all date options
+            document.querySelectorAll('.date-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            // Add selected class to clicked element
+            element.classList.add('selected');
+        }
+        
+        function selectTime(element) {
+            // Remove selected class from all time options
+            document.querySelectorAll('.time-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            // Add selected class to clicked element
+            element.classList.add('selected');
+        }
+        
+        function acceptRequest() {
+            // For demo purposes: Redirect to buyer-booking-confirmed.html
             window.location.href = "buyer-booking-confirmed.html";
-        }, 3000); // Redirect after 3 seconds
+        }
+        
+        function proposeNewTime() {
+            // In a real app, this would send the proposal to the buyer
+            alert("Time proposal sent to Morgan!");
+            hideModals();
+        }
+        
+        function declineRequest() {
+            // In a real app, this would decline the request and notify the buyer
+            alert("Request declined. Morgan will be notified.");
+            window.location.href = "home.html";
+        }
     </script>
 </body>
 </html> 

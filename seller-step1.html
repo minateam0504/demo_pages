@@ -262,6 +262,14 @@
         .ai-badge i {
             margin-right: 4px;
         }
+        .assistant-bubble {
+            background-color: var(--cream);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -290,7 +298,8 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            <div></div> <!-- Empty div for spacing -->
+            <div>
+    </div> <!-- Empty div for spacing -->
         </div>
         
         <h1 class="heading">Just upload your photo.</h1>
@@ -315,7 +324,9 @@
                 </ul>
             </div>
             
-            <img src="https://www.nuna.eu/rw/image/upload/c_limit,w_2100/fl_lossy,f_auto/q_60/v1685441064/product-images/pipa-next/lifestyle/lifestyle_PIPANX_St_01.jpg" alt="Nuna PIPA car seat photo" class="uploaded-image" id="uploadedImage">
+            <div style="height: 180px; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0; border-radius: 8px; display: none;" class="uploaded-image" id="uploadedImage">
+                <i class="fas fa-baby-carriage" style="font-size: 80px; color: var(--terracotta);"></i>
+            </div>
         </div>
         
         <div class="camera-actions">
@@ -331,7 +342,9 @@
         
         <div class="ai-container" id="aiSuggestion" style="display: none;">
             <div class="ai-avatar">
-                <i class="fas fa-robot"></i>
+                <div class="assistant-bubble">
+                    <span style="font-weight: bold; font-size: 20px;">M</span>
+                </div>
             </div>
             <div class="ai-message">
                 <div class="ai-text">

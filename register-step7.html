@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Create Account</title>
+    <title>Mina - Add Payment Method</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -34,9 +34,8 @@
         }
         .registration-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
+            overflow-y: auto;
+            padding: 16px;
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
@@ -239,12 +238,69 @@
             font-size: 24px;
             color: #9CA3AF;
         }
+        
+        /* Add screen header styling similar to Preview & Publish screen */
+        .screen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            font-size: 20px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .progress-dots {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #E5E7EB;
+        }
+        .dot.active {
+            background-color: var(--terracotta);
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
     <!-- iOS Status Bar -->
     <div class="ios-status-bar">
-        <div>9:41</div>
+        <div>10:40PM</div>
         <div>
             <span class="mr-1"><i class="fas fa-signal"></i></span>
             <span class="mr-1"><i class="fas fa-wifi"></i></span>
@@ -254,18 +310,24 @@
     
     <!-- Registration Content -->
     <div class="registration-content">
-        <a href="register-step6.html" class="btn-back">
-            <i class="fas fa-arrow-left mr-2"></i> Back
-        </a>
-        
-        <div class="logo-small">M</div>
-        
-        <h1 class="heading">Add payment method</h1>
-        <p class="subheading">Set up a payment method for buying and selling.</p>
-        
-        <div class="progress-bar">
-            <div class="progress"></div>
+        <div class="screen-header">
+            <a href="register-step6.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="header-title">Add payment method</div>
+                <div class="progress-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot active"></div>
+                </div>
+            </div>
+            <div>
+            </div> <!-- Empty div for spacing -->
         </div>
+        
+        <p class="subheading">Set up a payment method for buying and selling.</p>
         
         <form action="register-step8.html" method="GET">
             <div class="form-group">
@@ -413,10 +475,32 @@
                 We never store your full card details on our servers. Your information is securely processed and stored with our payment provider.
             </div>
             
-            <button type="submit" class="btn-primary">Complete Registration</button>
+            <button type="submit" class="btn-primary">Continue to Preview</button>
         </form>
-        
-        <div class="step-indicator">Step 7 of 7</div>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="home.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="#" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
     </div>
     
     <script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Pickup Survey</title>
+    <title>Mina - Buyer Pickup Survey</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -139,45 +139,6 @@
             margin-bottom: 12px;
             font-size: 16px;
         }
-        .rating-stars {
-            display: flex;
-            margin-bottom: 16px;
-        }
-        .rating-star {
-            width: 48px;
-            height: 48px;
-            background-color: rgba(0,0,0,0.05);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 10px;
-            color: rgba(0,0,0,0.3);
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .rating-star.active {
-            background-color: var(--terracotta);
-            color: white;
-        }
-        .rating-star.hover {
-            background-color: rgba(183, 94, 69, 0.3);
-            color: var(--terracotta);
-        }
-        .rating-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: rgba(0,0,0,0.6);
-            margin-bottom: 16px;
-        }
-        .label-left {
-            margin-left: 8px;
-        }
-        .label-right {
-            margin-right: 18px;
-        }
         .radio-group {
             display: flex;
             margin-bottom: 16px;
@@ -189,30 +150,6 @@
         }
         .radio-option input[type="radio"] {
             margin-right: 6px;
-        }
-        .checkbox-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .checkbox-option input[type="checkbox"] {
-            margin-right: 8px;
-        }
-        .feedback-text {
-            width: 100%;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px;
-            min-height: 80px;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--charcoal);
-        }
-        .text-counter {
-            text-align: right;
-            font-size: 12px;
-            color: rgba(0,0,0,0.5);
-            margin-bottom: 16px;
         }
         .user-info {
             display: flex;
@@ -243,6 +180,22 @@
         .user-type {
             font-size: 14px;
             color: rgba(0,0,0,0.6);
+        }
+        .feedback-text {
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 80px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .text-counter {
+            text-align: right;
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 16px;
         }
         .btn-primary {
             background-color: var(--terracotta);
@@ -286,9 +239,100 @@
             background-color: var(--sage-green);
             border-radius: 2px;
         }
+        .notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 1000;
+            padding-top: 100px;
+        }
+        .notification-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .notification-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: rgba(155, 158, 138, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 16px;
+            color: var(--sage-green);
+            font-size: 24px;
+        }
+        .notification-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .notification-text {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .notification-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .notification-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .notification-btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border: none;
+        }
+        .notification-btn-secondary {
+            background-color: #f1f1f1;
+            color: var(--charcoal);
+            border: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Notification Overlay -->
+    <div class="notification-overlay">
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h3 class="notification-title">How Was Your Pickup?</h3>
+            <p class="notification-text">
+                It looks like you picked up the Nuna PIPA RX Infant Car Seat 2 hours ago. Please share your experience with Julia R.
+            </p>
+            <div class="notification-buttons">
+                <button class="notification-btn notification-btn-primary" onclick="closeNotification()">
+                    Fill Out Survey
+                </button>
+                <button class="notification-btn notification-btn-secondary" onclick="closeNotification()">
+                    Later
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- iOS Status Bar -->
     <div class="ios-status-bar">
         <div>10:30</div>
@@ -306,9 +350,9 @@
             <div class="header-icon">
                 <i class="fas fa-clipboard-check"></i>
             </div>
-            <h1 class="header-title">How did it go?</h1>
+            <h1 class="header-title">Confirm Your Pickup</h1>
             <p class="header-subtitle">
-                Please take a moment to share your experience. Your feedback helps build trust in our community.
+                Please confirm the details of your Nuna PIPA RX Infant Car Seat pickup.
             </p>
         </div>
         
@@ -322,11 +366,11 @@
             <!-- Transaction Info -->
             <div class="transaction-info">
                 <div class="transaction-image">
-                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                    <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX Car Seat">
                 </div>
                 <div class="transaction-details">
-                    <div class="transaction-name">Uppababy Vista V2 + RumbleSeat</div>
-                    <div class="transaction-meta">Picked up at 9:30 AM today</div>
+                    <div class="transaction-name">Nuna PIPA RX Infant Car Seat with RELX Base</div>
+                    <div class="transaction-meta">Scheduled pickup: 9:30 AM, June 17</div>
                 </div>
             </div>
             
@@ -334,101 +378,86 @@
             <div class="question-section">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller Profile">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Seller Profile">
                     </div>
                     <div class="user-details">
-                        <div class="user-name">Sarah Johnson</div>
+                        <div class="user-name">Julia R.</div>
                         <div class="user-type">Seller</div>
                     </div>
                 </div>
-                <div class="question-title">How was your experience with Sarah?</div>
-                <div class="rating-stars">
-                    <div class="rating-star" data-value="1"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="2"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="3"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="4"><i class="fas fa-star"></i></div>
-                    <div class="rating-star active" data-value="5"><i class="fas fa-star"></i></div>
-                </div>
-                <div class="rating-labels">
-                    <div class="label-left">Poor</div>
-                    <div class="label-right">Excellent</div>
+            </div>
+            
+            <!-- Pickup Confirmation -->
+            <div class="question-section">
+                <div class="question-title">Did you pick up the item?</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="pickup-yes" name="pickup" checked>
+                        <label for="pickup-yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="pickup-no" name="pickup">
+                        <label for="pickup-no">No</label>
+                    </div>
                 </div>
             </div>
             
-            <!-- Item Condition Question -->
+            <!-- On-time Question -->
+            <div class="question-section">
+                <div class="question-title">Was the seller on time?</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="ontime-yes" name="ontime" checked>
+                        <label for="ontime-yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="ontime-no" name="ontime">
+                        <label for="ontime-no">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item as described Question -->
             <div class="question-section">
                 <div class="question-title">Was the item as described?</div>
                 <div class="radio-group">
                     <div class="radio-option">
-                        <input type="radio" id="condition-yes" name="condition" checked>
-                        <label for="condition-yes">Yes</label>
+                        <input type="radio" id="description-yes" name="description" checked>
+                        <label for="description-yes">Yes</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="condition-somewhat" name="condition">
-                        <label for="condition-somewhat">Somewhat</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="condition-no" name="condition">
-                        <label for="condition-no">No</label>
+                        <input type="radio" id="description-no" name="description">
+                        <label for="description-no">No</label>
                     </div>
                 </div>
             </div>
             
-            <!-- Pickup Experience -->
+            <!-- Payment Question -->
             <div class="question-section">
-                <div class="question-title">How was the pickup experience?</div>
-                <div class="rating-stars">
-                    <div class="rating-star" data-value="1"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="2"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="3"><i class="fas fa-star"></i></div>
-                    <div class="rating-star" data-value="4"><i class="fas fa-star"></i></div>
-                    <div class="rating-star active" data-value="5"><i class="fas fa-star"></i></div>
-                </div>
-            </div>
-            
-            <!-- Experience Tags -->
-            <div class="question-section">
-                <div class="question-title">What went well? (Select all that apply)</div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-communication" checked>
-                    <label for="tag-communication">Good communication</label>
-                </div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-punctual" checked>
-                    <label for="tag-punctual">Punctual</label>
-                </div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-item">
-                    <label for="tag-item">Item was better than expected</label>
-                </div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-helpful" checked>
-                    <label for="tag-helpful">Helpful & friendly</label>
-                </div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-directions">
-                    <label for="tag-directions">Clear directions</label>
-                </div>
-                <div class="checkbox-option">
-                    <input type="checkbox" id="tag-fair">
-                    <label for="tag-fair">Fair price</label>
+                <div class="question-title">Did your payment process correctly?</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="payment-yes" name="payment" checked>
+                        <label for="payment-yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="payment-no" name="payment">
+                        <label for="payment-no">No</label>
+                    </div>
                 </div>
             </div>
             
             <!-- Additional Comments -->
             <div class="question-section">
                 <div class="question-title">Anything else you'd like to share?</div>
-                <textarea class="feedback-text" placeholder="Share any additional feedback about your experience...">Sarah was wonderful and the stroller was in perfect condition as described. The pickup was smooth and she even helped me load it into my car.</textarea>
-                <div class="text-counter">120/200</div>
+                <textarea class="feedback-text" placeholder="Share any additional feedback about your experience..."></textarea>
+                <div class="text-counter">0/200</div>
             </div>
         </div>
         
         <!-- Buttons -->
-        <a href="buyer-message.html" class="btn-primary">
-            Submit & Message Seller
-        </a>
-        <a href="home.html" class="btn-secondary">
-            Skip
+        <a href="home.html" class="btn-primary">
+            Submit
         </a>
     </div>
     
@@ -455,31 +484,11 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
-
+    
     <script>
-        // Star rating functionality
-        document.querySelectorAll('.rating-star').forEach(star => {
-            star.addEventListener('click', function() {
-                const value = this.getAttribute('data-value');
-                
-                // Reset all stars
-                document.querySelectorAll('.rating-star').forEach(s => {
-                    s.classList.remove('active');
-                });
-                
-                // Set active stars
-                document.querySelectorAll(`.rating-star[data-value="${value}"]`).forEach(s => {
-                    s.classList.add('active');
-                });
-                
-                // Set all previous stars active
-                for (let i = 1; i < value; i++) {
-                    document.querySelectorAll(`.rating-star[data-value="${i}"]`).forEach(s => {
-                        s.classList.add('active');
-                    });
-                }
-            });
-        });
+        function closeNotification() {
+            document.querySelector('.notification-overlay').style.display = 'none';
+        }
     </script>
 </body>
 </html> 

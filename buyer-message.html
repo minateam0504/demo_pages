@@ -6,7 +6,7 @@
     <title>Mina - Message Seller</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/mina-logo.css">
+    
     <style>
         :root {
             --sage-green: #9B9E8A;
@@ -260,15 +260,15 @@
     
     <!-- Chat Header -->
     <div class="chat-header">
-        <a href="pickup-survey.html" class="back-button">
+        <a href="pickup-survey-buyer.html" class="back-button">
             <i class="fas fa-arrow-left"></i>
         </a>
         <div class="chat-user">
             <div class="user-avatar">
-                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller Profile">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Julia's Profile">
             </div>
             <div class="user-info">
-                <div class="user-name">Sarah Johnson</div>
+                <div class="user-name">Julia R.</div>
                 <div class="user-status">Online • Typically responds in 15 minutes</div>
             </div>
         </div>
@@ -288,11 +288,13 @@
         <div class="message message-incoming">
             <div class="message-product">
                 <div class="product-thumb">
-                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Uppababy Vista V2">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-baby-carriage" style="font-size: 30px; color: var(--sage-green);"></i>
+                    </div>
                 </div>
                 <div class="product-info">
-                    <div class="product-title">Uppababy Vista V2 + RumbleSeat</div>
-                    <div class="product-price">$400</div>
+                    <div class="product-title">Nuna PIPA RX Infant Car Seat with RELX Base</div>
+                    <div class="product-price">$175 <span style="text-decoration: line-through; font-size: 12px; color: #999;">$399</span></div>
                     <div class="product-meta">Pickup: Tuesday, June 17, 9:30 AM</div>
                 </div>
             </div>
@@ -301,7 +303,7 @@
         <!-- System Messages -->
         <div class="message message-incoming">
             <div class="message-bubble">
-                You've booked to pick up this item from Sarah. You can chat directly with Sarah here regarding any questions.
+                You've booked to pick up this item from Julia. You can chat directly with Julia here regarding any questions.
             </div>
             <div class="message-time">9:45 AM</div>
         </div>
@@ -309,7 +311,7 @@
         <!-- Seller Message -->
         <div class="message message-incoming">
             <div class="message-bubble">
-                Thanks for your purchase! I'll have the stroller ready for you at 9:30 AM on Tuesday. The address is 123 Maple Street. Please let me know if you have any questions about the stroller before pickup.
+                Thanks for your purchase! I'll have the car seat ready for you at 9:30 AM on Tuesday. The address is 456 Valencia Street. Please let me know if you have any questions about the car seat before pickup.
             </div>
             <div class="message-time">9:47 AM</div>
         </div>
@@ -317,7 +319,7 @@
         <!-- Buyer Message -->
         <div class="message message-outgoing">
             <div class="message-bubble">
-                Thanks Sarah! I'm excited to get the stroller. Do you happen to have the original manual that came with it? Also, does it fold up easily to fit in a car trunk?
+                Thanks Julia! I'm excited to get the car seat. Do you happen to have the original manual that came with it? Also, does it have the infant insert included?
             </div>
             <div class="message-time">9:50 AM</div>
         </div>
@@ -332,7 +334,7 @@
     
     <!-- Chat Input -->
     <div class="chat-input">
-        <input type="text" class="input-field" placeholder="Message Sarah...">
+        <input type="text" class="input-field" placeholder="Message Julia...">
         <button class="send-button">
             <i class="fas fa-paper-plane"></i>
         </button>

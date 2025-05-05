@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Julia's Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .notification-bell {
+            position: relative;
+        }
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+        }
+        .profile-section {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            overflow: hidden;
+            margin-right: 16px;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .profile-meta {
+            color: rgba(0,0,0,0.6);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .profile-meta i {
+            color: var(--sage-green);
+            margin-right: 4px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--terracotta);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: rgba(0,0,0,0.6);
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .see-all {
+            font-size: 14px;
+            color: var(--terracotta);
+            font-weight: normal;
+            text-decoration: none;
+        }
+        .action-card {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-decoration: none;
+            color: var(--charcoal);
+        }
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            background-color: rgba(183, 94, 69, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+            color: var(--terracotta);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .action-details {
+            flex: 1;
+        }
+        .action-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .action-description {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+        }
+        .action-badge {
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        .chevron {
+            color: rgba(0,0,0,0.3);
+            font-size: 16px;
+            margin-left: 12px;
+        }
+        .notification-card {
+            display: flex;
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .notification-card.unread {
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .notification-card.unread:before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: -4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background-color: var(--terracotta);
+        }
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            background-color: rgba(155, 158, 138, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+            color: var(--sage-green);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .notification-icon.purchase {
+            background-color: rgba(183, 94, 69, 0.1);
+            color: var(--terracotta);
+        }
+        .notification-details {
+            flex: 1;
+        }
+        .notification-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .notification-message {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            line-height: 1.4;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: rgba(0,0,0,0.4);
+            margin-top: 4px;
+        }
+        .notification-product {
+            display: flex;
+            background-color: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .product-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            flex: 1;
+        }
+        .product-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .product-price {
+            font-size: 13px;
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+        .trending-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .trending-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .trending-items {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding-bottom: 8px;
+        }
+        .trending-item {
+            flex: 0 0 120px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .trending-image {
+            width: 120px;
+            height: 120px;
+            background-color: #f0f0f0;
+        }
+        .trending-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .trending-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin: 8px 0 2px;
+        }
+        .trending-price {
+            font-size: 12px;
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+        .notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .notification-modal-content {
+            background-color: white;
+            border-radius: 24px;
+            padding: 30px 24px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: rgba(183, 94, 69, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            color: var(--terracotta);
+            font-size: 36px;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .modal-message {
+            font-size: 16px;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 14px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 12px;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--charcoal);
+            padding: 12px 24px;
+            font-weight: 500;
+            font-size: 16px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">Home</div>
+            <div onclick="showNotificationsModal()" class="notification-bell" style="cursor: pointer;">
+                <i class="fas fa-bell fa-lg" style="color: var(--charcoal);"></i>
+                <div class="notification-count">3</div>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Julia R.">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">Julia R.</div>
+                    <div class="profile-meta">
+                        <i class="fas fa-shield-alt"></i> 98% Trust Score
+                    </div>
+                    <div class="profile-meta">
+                        <i class="fas fa-map-marker-alt"></i> Mission District, San Francisco
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">ITEMS SOLD</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">ITEMS BOUGHT</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">SAVED ITEMS</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notifications Section -->
+        <div class="section-title">
+            Recent Notifications
+            <a href="notifications.html" class="see-all">See All</a>
+        </div>
+        
+        <!-- Purchase Request Notification (unread) -->
+        <a href="morgan-notification-detail.html" class="notification-card unread">
+            <div class="notification-icon purchase">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="notification-details">
+                <div class="notification-title">New Purchase Request</div>
+                <div class="notification-message">
+                    Morgan wants to buy your Nuna PIPA RX Infant Car Seat. Confirm the pickup time.
+                </div>
+                <div class="notification-time">10 mins ago</div>
+                
+                <div class="notification-product">
+                    <div class="product-thumb">
+                        <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX Car Seat">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nuna PIPA RX Infant Car Seat</div>
+                        <div class="product-price">$175</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        
+        <!-- Other Notifications -->
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="fas fa-tag"></i>
+            </div>
+            <div class="notification-details">
+                <div class="notification-title">Item Interest Alert</div>
+                <div class="notification-message">
+                    Your UPPAbaby stroller has 5 new people watching it this week.
+                </div>
+                <div class="notification-time">2 days ago</div>
+            </div>
+        </div>
+        
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="notification-details">
+                <div class="notification-title">Pickup Reminder</div>
+                <div class="notification-message">
+                    Alex is coming to pick up the Baby Bjorn carrier tomorrow at 3:30 PM.
+                </div>
+                <div class="notification-time">Yesterday</div>
+            </div>
+        </div>
+        
+        <!-- Trending Section -->
+        <div class="section-title">
+            Trending Near You
+            <a href="#" class="see-all">See All</a>
+        </div>
+        
+        <div class="trending-card">
+            <div class="trending-items">
+                <div class="trending-item">
+                    <div class="trending-image">
+                        <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA">
+                    </div>
+                    <div class="trending-name">Nuna PIPA Car Seats</div>
+                    <div class="trending-price">From $150</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="UPPAbaby Vista">
+                    </div>
+                    <div class="trending-name">UPPAbaby Strollers</div>
+                    <div class="trending-price">From $350</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1623950307386-fa320f348be1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Baby Bjorn">
+                    </div>
+                    <div class="trending-name">Baby Carriers</div>
+                    <div class="trending-price">From $45</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Crib">
+                    </div>
+                    <div class="trending-name">Convertible Cribs</div>
+                    <div class="trending-price">From $200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Modal -->
+    <div id="notificationsModal" class="notification-modal">
+        <div class="notification-modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="modal-title">New Purchase Request</div>
+            <div class="modal-message">
+                Morgan wants to buy your Nuna PIPA RX Infant Car Seat and has requested pickup on Tuesday, June 17 at 9:30 AM.
+            </div>
+            <a href="seller-booking-notification.html" class="btn-primary">View Details</a>
+            <a href="#" onclick="hideNotificationsModal()" class="btn-secondary">Dismiss</a>
+        </div>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="#" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Search</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+    
+    <script>
+        // Show notification modal on page load
+        window.onload = function() {
+            setTimeout(function() {
+                showNotificationsModal();
+            }, 1000); // Show after 1 second
+        };
+        
+        function showNotificationsModal() {
+            document.getElementById('notificationsModal').style.display = 'flex';
+        }
+        
+        function hideNotificationsModal() {
+            document.getElementById('notificationsModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

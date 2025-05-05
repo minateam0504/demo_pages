@@ -6,7 +6,7 @@
     <title>Mina - Browse Categories</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/mina-logo.css">
+    
     <style>
         :root {
             --sage-green: #9B9E8A;
@@ -165,48 +165,20 @@
             outline: none;
         }
         .chatbot-bubble {
+            display: none; /* Hide the old chatbot bubble */
+        }
+        
+        /* Mina AI Assistant Bubble */
+        .mina-assistant {
             position: fixed;
             bottom: 100px;
             right: 20px;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s;
         }
-        .chatbot-message {
-            background-color: white;
-            border-radius: 18px;
-            padding: 12px 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            margin-bottom: 12px;
-            max-width: 240px;
-            position: relative;
-        }
-        .chatbot-message::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            right: 12px;
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            transform: rotate(45deg);
-            box-shadow: 3px 3px 3px rgba(0,0,0,0.1);
-        }
-        .chatbot-text {
-            font-size: 14px;
-            line-height: 1.4;
-            margin-bottom: 4px;
-        }
-        .chatbot-cta {
-            color: var(--terracotta);
-            font-weight: 600;
-            font-size: 13px;
-        }
-        .chatbot-button {
+        .mina-assistant-button {
             width: 56px;
             height: 56px;
             border-radius: 28px;
@@ -217,10 +189,9 @@
             align-items: center;
             font-size: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            cursor: pointer;
             position: relative;
         }
-        .chatbot-button::after {
+        .mina-assistant-button::after {
             content: '';
             position: absolute;
             top: -4px;
@@ -231,9 +202,44 @@
             border-radius: 50%;
             border: 2px solid white;
         }
-        .chatbot-bubble.show {
-            opacity: 1;
-            transform: translateY(0);
+        .mina-assistant-popup {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            max-width: 240px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .mina-assistant-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 16px;
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: 3px 3px 3px rgba(0,0,0,0.08);
+        }
+        .mina-assistant-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mina-assistant-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .mina-assistant-action {
+            color: var(--terracotta);
+            font-weight: 600;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -250,26 +256,12 @@
     
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Header with Logo -->
+        <!-- Header with Title -->
         <div class="screen-header">
-            <div class="mina-header-logo">
-                <svg class="mina-header-logo-img" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Cloud shape -->
-                    <path d="M220 170C234.5 170 246 158.5 246 144C246 129.5 234.5 118 220 118C219.3 118 218.6 118 217.9 118.1C214.4 104.2 202 94 187 94C171.5 94 158.8 104.9 156 119.2C152.4 116.7 148.1 115.3 143.5 115.3C132.9 115.3 124.2 123.2 123 133.4C115.2 136.6 110 144.3 110 153C110 165.2 120.2 175 132.5 175" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
-                    
-                    <!-- Stroller -->
-                    <circle cx="160" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                    <circle cx="220" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                    <path d="M235 210H240C242.8 210 245 207.8 245 205V195C245 192.2 242.8 190 240 190H235" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
-                    <path d="M190 130V210" stroke="#4A4656" stroke-width="9"/>
-                    <path d="M145 170H235" stroke="#4A4656" stroke-width="9"/>
-                    <path d="M145 130C145 130 167 130 190 130C213 130 190 170 190 170H145V130Z" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                    <path d="M145 130H190L190 170" fill="#D9DFCC" stroke="#4A4656" stroke-width="9"/>
-                </svg>
-                <div class="mina-header-logo-text">mina</div>
-            </div>
+            <h2 class="section-title" style="margin-bottom: 0;">Browse Categories</h2>
             <div class="ai-badge">
-                <i class="fas fa-magic"></i> AI-Powered
+                <i class="fas fa-magic"></i>
+                <span>Personalized</span>
             </div>
         </div>
         
@@ -281,133 +273,132 @@
             <input type="text" class="search-input" placeholder="Search for baby gear...">
         </div>
         
-        <!-- Category Title -->
-        <h1 class="section-title">Find the perfect baby gear</h1>
-        <p class="section-subtitle">Browse categories or chat with Mina to get personalized recommendations</p>
-        
-        <!-- Personalization Notice -->
-        <div style="background-color: rgba(155, 158, 138, 0.1); border-radius: 12px; padding: 14px; margin-bottom: 24px;">
-            <div style="display: flex; align-items: flex-start; gap: 10px;">
-                <i class="fas fa-sparkles" style="color: var(--sage-green); margin-top: 2px; font-size: 16px;"></i>
-                <div>
-                    <div style="font-weight: 600; margin-bottom: 4px; font-size: 15px;">Personalized for you</div>
-                    <div style="font-size: 14px; color: #666; line-height: 1.4;">
-                        Categories and products shown are prioritized based on your baby's age (6-12 months) and your preferences for sustainable products.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Category Grid -->
         <div class="category-grid">
-            <!-- Category 1 -->
-            <a href="buyer-chat.html?category=strollers" class="category-card">
-                <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1578897366546-1a2ef1befb9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Strollers">
-                </div>
-                <div class="category-info">
-                    <div class="category-name">Strollers</div>
-                    <div class="category-count">248 items nearby</div>
-                </div>
-            </a>
-            
-            <!-- Category 2 -->
+            <!-- Car Seats Category -->
             <a href="car-seats-listing.html" class="category-card">
                 <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1607230729280-9974e4a67fab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Car Seats">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-car" style="font-size: 60px; color: var(--terracotta);"></i></div>
                 </div>
                 <div class="category-info">
                     <div class="category-name">Car Seats</div>
-                    <div class="category-count">173 items nearby</div>
+                    <div class="category-count">173 listings</div>
                 </div>
             </a>
             
-            <!-- Category 3 -->
-            <a href="buyer-chat.html?category=highchairs" class="category-card">
+            <!-- Strollers Category -->
+            <a href="#" class="category-card">
                 <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1594817612817-a2beb7a8007d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Highchairs">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-baby-carriage" style="font-size: 60px; color: var(--sage-green);"></i></div>
                 </div>
                 <div class="category-info">
-                    <div class="category-name">Highchairs</div>
-                    <div class="category-count">142 items nearby</div>
+                    <div class="category-name">Strollers</div>
+                    <div class="category-count">205 listings</div>
                 </div>
             </a>
             
-            <!-- Category 4 -->
-            <a href="buyer-chat.html?category=cribs" class="category-card">
+            <!-- Cribs & Bassinets Category -->
+            <a href="#" class="category-card">
                 <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1588136613410-096701d2e8c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Cribs">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-bed" style="font-size: 60px; color: var(--terracotta);"></i></div>
                 </div>
                 <div class="category-info">
                     <div class="category-name">Cribs & Bassinets</div>
-                    <div class="category-count">98 items nearby</div>
+                    <div class="category-count">131 listings</div>
                 </div>
             </a>
             
-            <!-- Category 5 -->
-            <a href="buyer-chat.html?category=toys" class="category-card">
+            <!-- High Chairs Category -->
+            <a href="#" class="category-card">
                 <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1563901935883-cb9ac09d806c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Toys">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-chair" style="font-size: 60px; color: var(--sage-green);"></i></div>
+                </div>
+                <div class="category-info">
+                    <div class="category-name">High Chairs</div>
+                    <div class="category-count">98 listings</div>
+                </div>
+            </a>
+            
+            <!-- Toys Category -->
+            <a href="#" class="category-card">
+                <div class="category-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-gamepad" style="font-size: 60px; color: var(--terracotta);"></i></div>
                 </div>
                 <div class="category-info">
                     <div class="category-name">Toys</div>
-                    <div class="category-count">312 items nearby</div>
+                    <div class="category-count">425 listings</div>
                 </div>
             </a>
             
-            <!-- Category 6 -->
-            <a href="buyer-chat.html?category=clothes" class="category-card">
+            <!-- Clothes Category -->
+            <a href="#" class="category-card">
                 <div class="category-image">
-                    <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Clothes">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-tshirt" style="font-size: 60px; color: var(--sage-green);"></i></div>
                 </div>
                 <div class="category-info">
                     <div class="category-name">Clothes</div>
-                    <div class="category-count">485 items nearby</div>
+                    <div class="category-count">731 listings</div>
                 </div>
             </a>
         </div>
-    </div>
-    
-    <!-- Floating Chatbot Button -->
-    <div class="chatbot-bubble" id="chatbot-bubble">
-        <div class="chatbot-message">
-            <div class="chatbot-text">Hi there! I'm Mina, your AI assistant. Need help finding the right baby gear?</div>
-            <div class="chatbot-cta">Tap to chat with me</div>
+        
+        <!-- Replace old chatbot with new Mina AI Assistant -->
+        <div class="mina-assistant">
+            <div class="mina-assistant-popup">
+                <div class="mina-assistant-title">
+                    <i class="fas fa-magic" style="color: var(--sage-green);"></i>
+                    <span>Mina Assistant</span>
+                </div>
+                <div class="mina-assistant-message">
+                    Welcome! I can help you find the perfect baby gear based on your needs and preferences.
+                </div>
+                <div class="mina-assistant-action">Ask me anything</div>
+            </div>
+            <div class="mina-assistant-button">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
         </div>
-        <a href="buyer-chat.html" class="chatbot-button">
-            <i class="fas fa-comment-dots"></i>
-        </a>
     </div>
     
     <!-- iOS Tab Bar -->
     <div class="ios-tab-bar">
-        <a href="home.html" class="tab-item active">
+        <a href="home.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-home"></i></div>
             <div class="tab-label">Home</div>
         </a>
-        <a href="#" class="tab-item">
+        <a href="#" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-search"></i></div>
             <div class="tab-label">Search</div>
         </a>
-        <a href="seller-flow.html" class="tab-item">
+        <a href="#" class="tab-item">
             <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
             <div class="tab-label">Sell</div>
         </a>
-        <a href="messaging.html" class="tab-item">
+        <a href="#" class="tab-item">
             <div class="tab-icon"><i class="fas fa-comments"></i></div>
             <div class="tab-label">Messages</div>
         </a>
-        <a href="profile.html" class="tab-item">
+        <a href="#" class="tab-item">
             <div class="tab-icon"><i class="fas fa-user"></i></div>
             <div class="tab-label">Profile</div>
         </a>
     </div>
-
-    <script>
-        // Show chatbot bubble after a 2-second delay
-        setTimeout(function() {
-            document.getElementById('chatbot-bubble').classList.add('show');
-        }, 2000);
-    </script>
 </body>
-</html> 
+
+<script>
+    // Mina Assistant Popup Toggling
+    document.addEventListener('DOMContentLoaded', function() {
+        const assistantButton = document.querySelector('.mina-assistant-button');
+        const assistantPopup = document.querySelector('.mina-assistant-popup');
+        
+        assistantButton.addEventListener('click', function() {
+            // Toggle popup visibility
+            if (assistantPopup.style.display === 'block') {
+                assistantPopup.style.display = 'none';
+            } else {
+                assistantPopup.style.display = 'block';
+            }
+        });
+    });
+</script>
+</html>

@@ -119,7 +119,7 @@ struct WelcomeView: View {
             }
         }
         .sheet(isPresented: $showingCreateAccount) {
-            Text("Create Account Screen")
+            RegisterView()
                 .environmentObject(authManager)
         }
         .sheet(isPresented: $showingPhoneLogin) {

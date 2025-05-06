@@ -13,10 +13,15 @@ class AuthManager: NSObject, ObservableObject {
     static let shared = AuthManager()
     
     // MARK: - Sign In with Email
-    func createAccount(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func createAccount(email: String, password: String, fullName: String? = nil, phoneNumber: String? = nil, completion: @escaping (Result<User, Error>) -> Void) {
         // In a real app, this would create a new user in the database
         // For now, we'll just create a dummy user
-        let user = User(email: email, authProvider: .email)
+        let user = User(
+            email: email,
+            name: fullName,
+            phoneNumber: phoneNumber,
+            authProvider: .email
+        )
         self.currentUser = user
         self.isAuthenticated = true
         completion(.success(user))

@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		73F73D0D5B3E2F1CC2563CED /* Pods_Mina.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4032A1D902BAE7CBF0172F /* Pods_Mina.framework */; };
+		76179F9D2DC9CCEC0023D8F2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179F9A2DC9CCEC0023D8F2 /* AuthManager.swift */; };
+		76179F9E2DC9CCEC0023D8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179F9B2DC9CCEC0023D8F2 /* Constants.swift */; };
+		76179F9F2DC9CCEC0023D8F2 /* PostgresConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179F982DC9CCEC0023D8F2 /* PostgresConfig.swift */; };
+		76179FA62DC9CD070023D8F2 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179FA32DC9CD070023D8F2 /* RegisterView.swift */; };
+		76179FA72DC9CD070023D8F2 /* SocialLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179FA12DC9CD070023D8F2 /* SocialLoginButton.swift */; };
+		76179FA82DC9CD070023D8F2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179FA42DC9CD070023D8F2 /* WelcomeView.swift */; };
+		76179FA92DC9CD070023D8F2 /* MinaLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179FA02DC9CD070023D8F2 /* MinaLogo.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E6F /* Assets.xcassets */; };
@@ -23,6 +30,13 @@
 /* Begin PBXFileReference section */
 		5F4032A1D902BAE7CBF0172F /* Pods_Mina.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mina.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAB1911E64FF7999E803979 /* Pods-Mina.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mina.release.xcconfig"; path = "Target Support Files/Pods-Mina/Pods-Mina.release.xcconfig"; sourceTree = "<group>"; };
+		76179F982DC9CCEC0023D8F2 /* PostgresConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostgresConfig.swift; sourceTree = "<group>"; };
+		76179F9A2DC9CCEC0023D8F2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		76179F9B2DC9CCEC0023D8F2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		76179FA02DC9CD070023D8F2 /* MinaLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaLogo.swift; sourceTree = "<group>"; };
+		76179FA12DC9CD070023D8F2 /* SocialLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginButton.swift; sourceTree = "<group>"; };
+		76179FA32DC9CD070023D8F2 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		76179FA42DC9CD070023D8F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E0F /* Mina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mina.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaApp.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeView.swift; path = Views/WelcomeView.swift; sourceTree = "<group>"; };
@@ -64,8 +78,44 @@
 				D305D24BF62CF008FA108887 /* Pods-Mina.debug.xcconfig */,
 				6BAB1911E64FF7999E803979 /* Pods-Mina.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		76179F992DC9CCEC0023D8F2 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				76179F982DC9CCEC0023D8F2 /* PostgresConfig.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		76179F9C2DC9CCEC0023D8F2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				76179F992DC9CCEC0023D8F2 /* Database */,
+				76179F9A2DC9CCEC0023D8F2 /* AuthManager.swift */,
+				76179F9B2DC9CCEC0023D8F2 /* Constants.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		76179FA22DC9CD070023D8F2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				76179FA02DC9CD070023D8F2 /* MinaLogo.swift */,
+				76179FA12DC9CD070023D8F2 /* SocialLoginButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		76179FA52DC9CD070023D8F2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				76179FA22DC9CD070023D8F2 /* Components */,
+				76179FA32DC9CD070023D8F2 /* RegisterView.swift */,
+				76179FA42DC9CD070023D8F2 /* WelcomeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8A1B2C3D4E5F6A7B8C9D0F7F = {
@@ -89,6 +139,8 @@
 		8A1B2C3D4E5F6A7B8C9D0F9F /* Mina */ = {
 			isa = PBXGroup;
 			children = (
+				76179FA52DC9CD070023D8F2 /* Views */,
+				76179F9C2DC9CCEC0023D8F2 /* Helpers */,
 				8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */,
 				8A1B2C3D4E5F6A7B8C9D0F5F /* Info.plist */,
 				8A1B2C3D4E5F6A7B8C9D0EAF /* User.swift */,
@@ -210,9 +262,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Mina/Pods-Mina-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Mina/Pods-Mina-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -231,8 +287,15 @@
 				8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0E9F /* User.swift in Sources */,
+				76179FA62DC9CD070023D8F2 /* RegisterView.swift in Sources */,
+				76179FA72DC9CD070023D8F2 /* SocialLoginButton.swift in Sources */,
+				76179FA82DC9CD070023D8F2 /* WelcomeView.swift in Sources */,
+				76179FA92DC9CD070023D8F2 /* MinaLogo.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0EBF /* AuthManager.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0EDF /* Constants.swift in Sources */,
+				76179F9D2DC9CCEC0023D8F2 /* AuthManager.swift in Sources */,
+				76179F9E2DC9CCEC0023D8F2 /* Constants.swift in Sources */,
+				76179F9F2DC9CCEC0023D8F2 /* PostgresConfig.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0EFF /* PostgresConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

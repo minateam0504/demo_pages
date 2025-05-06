@@ -42,16 +42,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -251,11 +245,20 @@
             color: var(--charcoal);
             text-decoration: none;
         }
+        .header-logo {
+            width: 30px;
+            height: auto;
+            margin-right: 10px;
+            object-fit: contain;
+        }
         .header-title {
             font-size: 20px;
             font-weight: 600;
             text-align: center;
             flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .ios-tab-bar {
             height: 83px;
@@ -283,6 +286,80 @@
         .tab-label {
             font-size: 10px;
         }
+        .ai-container {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            gap: 16px;
+            align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
+        }
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(155,158,138,0) 70%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+        .ai-message {
+            flex: 1;
+        }
+        .ai-text {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .typing-animation {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--sage-green);
+            margin-right: 4px;
+            animation: typing 1s infinite;
+        }
+        .typing-animation:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-animation:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -302,7 +379,25 @@
             <a href="register-step6.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div class="header-title">Add payment method</div>
+            <div class="header-title">
+                Add payment method
+            </div>
+        </div>
+        
+        <div class="ai-container">
+            <div class="ai-avatar">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
+            <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
+                <div class="ai-text">
+                    <strong>I've securely connected your payment options.</strong> All payment information is encrypted and never shared with sellers. Choose your preferred payment method for buying items on Mina.
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
+                    <i class="fas fa-lock" style="margin-right: 6px;"></i>
+                    <span>Your data is encrypted and protected</span>
+                </div>
+            </div>
         </div>
         
         <p class="subheading">Set up a payment method for buying and selling.</p>

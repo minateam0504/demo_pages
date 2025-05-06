@@ -94,6 +94,60 @@
             margin-bottom: 32px;
             line-height: 1.5;
         }
+        .ai-container {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            gap: 16px;
+            align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
+        }
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(155,158,138,0) 70%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+        .ai-message {
+            flex: 1;
+        }
+        .ai-text {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
         .declined-card {
             background-color: white;
             border-radius: 16px;
@@ -238,7 +292,23 @@
         </div>
         
         <h1 class="heading">Listing Declined</h1>
-        <p class="subheading">We're unable to list this item for safety and legal reasons.</p>
+        
+        
+        <div class="ai-container">
+            <div class="ai-avatar">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
+            <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
+                <div class="ai-text">
+                    <strong>I've identified some safety concerns with this listing.</strong> For your protection and the safety of buyers, we can't list items that have been recalled or don't meet current safety standards.
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
+                    <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
+                    <span>I've suggested alternative options below</span>
+                </div>
+            </div>
+        </div>
         
         <div class="declined-reason-section" style="margin-bottom: 24px;">
             <div class="declined-section-title">
@@ -289,6 +359,72 @@
                 <div class="help-item-icon"><i class="fas fa-check-circle"></i></div>
                 <div class="help-item-text">
                     <strong>Proper disposal</strong> - For expired car seats, consider local recycling programs specialized for car seats.
+                    <button id="showRecyclingOptions" class="recycling-button" style="background-color: var(--sage-green); color: white; border: none; border-radius: 12px; padding: 6px 12px; font-size: 12px; margin-top: 8px; cursor: pointer; display: flex; align-items: center;">
+                        <i class="fas fa-recycle" style="margin-right: 6px;"></i>
+                        View local recycling options
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recycling Options Modal -->
+        <div id="recyclingModal" class="modal-bg" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+            <div class="modal" style="background-color: white; border-radius: 16px; padding: 24px; width: 90%; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+                <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-weight: 600; font-size: 18px;">Local Car Seat Recycling Options</h3>
+                    <button id="closeRecyclingModal" style="background: none; border: none; font-size: 20px; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="recycling-options">
+                    <div class="recycling-option" style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">Target Car Seat Trade-In Program</div>
+                        <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                            Trade in your expired or damaged car seat for a 20% off coupon for a new car seat, stroller, or select baby gear.
+                        </div>
+                        <div style="font-size: 14px; color: var(--sage-green);">
+                            <i class="fas fa-map-marker-alt"></i> 3 locations within 10 miles
+                        </div>
+                    </div>
+                    
+                    <div class="recycling-option" style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">TerraCycle® Baby Gear Recycling Program</div>
+                        <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                            Mail-in program for recycling car seats and other baby gear when they reach their expiration date.
+                        </div>
+                        <div style="font-size: 14px; color: var(--sage-green);">
+                            <i class="fas fa-globe"></i> Available nationwide
+                        </div>
+                    </div>
+                    
+                    <div class="recycling-option" style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">County Waste Management Center</div>
+                        <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                            Special drop-off events for baby gear and car seats throughout the year.
+                        </div>
+                        <div style="font-size: 14px; color: var(--sage-green);">
+                            <i class="fas fa-map-marker-alt"></i> 1 location within 15 miles
+                        </div>
+                    </div>
+                    
+                    <div class="recycling-option" style="padding: 12px 0;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">Baby Earth RENEW Program</div>
+                        <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                            Mail-in recycling program for car seats, strollers, and other baby gear.
+                        </div>
+                        <div style="font-size: 14px; color: var(--sage-green);">
+                            <i class="fas fa-globe"></i> Available nationwide
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #E5E7EB;">
+                    <div style="font-size: 14px; color: #666; margin-bottom: 12px;">
+                        <i class="fas fa-info-circle" style="color: var(--sage-green);"></i>
+                        Before recycling, most programs require you to dismantle the car seat by removing fabric, foam padding, and harness straps.
+                    </div>
+                    <button id="findMoreRecycling" class="btn-secondary" style="margin: 0; width: 100%;">Find more recycling options</button>
                 </div>
             </div>
         </div>
@@ -321,5 +457,44 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Recycling options modal functionality
+            const showRecyclingOptionsBtn = document.getElementById('showRecyclingOptions');
+            const recyclingModal = document.getElementById('recyclingModal');
+            const closeRecyclingModalBtn = document.getElementById('closeRecyclingModal');
+            const findMoreRecyclingBtn = document.getElementById('findMoreRecycling');
+            
+            if (showRecyclingOptionsBtn) {
+                showRecyclingOptionsBtn.addEventListener('click', function() {
+                    recyclingModal.style.display = 'flex';
+                });
+            }
+            
+            if (closeRecyclingModalBtn) {
+                closeRecyclingModalBtn.addEventListener('click', function() {
+                    recyclingModal.style.display = 'none';
+                });
+            }
+            
+            // Close modal when clicking outside
+            if (recyclingModal) {
+                recyclingModal.addEventListener('click', function(e) {
+                    if (e.target === recyclingModal) {
+                        recyclingModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Find more recycling options button (this would typically link to a search page)
+            if (findMoreRecyclingBtn) {
+                findMoreRecyclingBtn.addEventListener('click', function() {
+                    // In a real app, this could link to a search page or show more results
+                    alert('This would search for additional recycling options in your area.');
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

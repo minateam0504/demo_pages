@@ -43,16 +43,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -261,7 +255,7 @@
             <i class="fas fa-arrow-left"></i>
         </a>
         
-        <div class="logo-small">M</div>
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Additional Information</h1>
         <p class="subheading">Tell us a bit about yourself to help personalize your experience.</p>
@@ -281,7 +275,7 @@
                 <!-- Initial bot message -->
                 <div class="message message-bot">
                     <div class="avatar avatar-bot">
-                        <span style="font-weight: bold; font-size: 20px;">M</span>
+                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
                     </div>
                     <div class="message-content">
                         Hi there! Would you like to share some information about your family? This helps us personalize your experience, but it's completely optional.
@@ -361,7 +355,7 @@
                 
                 botMessageDiv.innerHTML = `
                     <div class="avatar avatar-bot">
-                        <span style="font-weight: bold; font-size: 20px;">M</span>
+                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
                     </div>
                     <div class="message-content">
                         ${message}

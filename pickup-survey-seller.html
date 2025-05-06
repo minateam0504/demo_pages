@@ -320,7 +320,7 @@
             </div>
             <h3 class="notification-title">Share Your Pickup Experience</h3>
             <p class="notification-text">
-                It looks like Morgan Chen picked up the Nuna PIPA RX Infant Car Seat 2 hours ago. Please take a moment to confirm the pickup details.
+                Please take a moment to confirm the pickup details.
             </p>
             <div class="notification-buttons">
                 <button class="notification-btn notification-btn-primary" onclick="closeNotification()">
@@ -441,9 +441,27 @@
         </div>
         
         <!-- Buttons -->
-        <a href="home.html" class="btn-primary">
+        <button onclick="showThankYouPopup()" class="btn-primary">
             Submit
-        </a>
+        </button>
+    </div>
+    
+    <!-- Thank You Popup -->
+    <div id="thankYouPopup" class="notification-overlay" style="display: none;">
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="notification-title">Thank You!</h3>
+            <p class="notification-text">
+                Thanks for filling out the survey. Your feedback helps improve the Mina community. We hope to see you back on Mina soon!
+            </p>
+            <div class="notification-buttons">
+                <a href="home.html" class="notification-btn notification-btn-primary">
+                    Return to Home
+                </a>
+            </div>
+        </div>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -473,6 +491,10 @@
     <script>
         function closeNotification() {
             document.querySelector('.notification-overlay').style.display = 'none';
+        }
+        
+        function showThankYouPopup() {
+            document.getElementById('thankYouPopup').style.display = 'flex';
         }
     </script>
 </body>

@@ -151,28 +151,46 @@
             font-weight: 500;
             text-align: right;
         }
-        .location-detail {
+        .buyer-detail {
             background-color: rgba(155, 158, 138, 0.1);
             border-radius: 12px;
             padding: 16px;
             text-align: left;
             margin-top: 16px;
         }
-        .location-header {
+        .buyer-header {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
-        .location-header i {
-            color: var(--sage-green);
-            margin-right: 8px;
+        .buyer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-right: 16px;
         }
-        .location-title {
+        .buyer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .buyer-info {
+            flex: 1;
+        }
+        .buyer-name {
             font-weight: 600;
+            margin-bottom: 2px;
         }
-        .location-address {
+        .buyer-rating {
+            display: flex;
+            align-items: center;
             font-size: 14px;
-            line-height: 1.4;
+            color: rgba(0,0,0,0.6);
+        }
+        .buyer-rating i {
+            color: var(--terracotta);
+            margin-right: 4px;
         }
         .fee-breakdown {
             margin-top: 20px;
@@ -220,20 +238,6 @@
             color: white;
             border-radius: 24px;
             padding: 16px 32px;
-            font-weight: 600;
-            font-size: 18px;
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 16px;
-            text-align: center;
-            text-decoration: none;
-        }
-        .btn-outline {
-            background-color: white;
-            color: var(--terracotta);
-            border: 2px solid var(--terracotta);
-            border-radius: 24px;
-            padding: 14px 30px;
             font-weight: 600;
             font-size: 18px;
             display: inline-block;
@@ -355,6 +359,18 @@
         .calendar-btn.outlook {
             color: #0078D4;
         }
+        .earnings-highlight {
+            background-color: rgba(183, 94, 69, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .earnings-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body>
@@ -381,9 +397,9 @@
         </div>
         
         <!-- Success Message -->
-        <h1 class="success-title">It's Official!</h1>
+        <h1 class="success-title">Congratulations, Julia!</h1>
         <p class="success-message">
-            Julia has confirmed your booking request. Your payment has been processed and you're all set for pickup!
+            You've confirmed Morgan's request to purchase your Nuna PIPA RX Infant Car Seat. They've been notified about the pickup details.
         </p>
         
         <!-- Details Card -->
@@ -391,7 +407,7 @@
             <div class="details-header">
                 <div class="product-image">
                     <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: white; border-radius: 8px;">
-                        <img src="images/baby_stroller.jpg" alt="Baby Stroller" style="max-height: 90%; max-width: 90%; object-fit: contain; border-radius: 4px;">
+                        <img src="images/baby_stroller.jpg" alt="Car Seat" style="max-height: 90%; max-width: 90%; object-fit: contain; border-radius: 4px;">
                     </div>
                 </div>
                 <div class="product-details">
@@ -412,22 +428,29 @@
             </div>
             <div class="detail-row">
                 <div class="detail-label">Pickup Method</div>
-                <div class="detail-value">pick up at my location</div>
+                <div class="detail-value">Your location</div>
             </div>
             <div class="detail-row">
                 <div class="detail-label">Payment</div>
-                <div class="detail-value">Processed after pick up is confirmed</div>
+                <div class="detail-value">Processed after pickup confirmed</div>
             </div>
             
-            <div class="location-detail">
-                <div class="location-header">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div class="location-title">Pickup Location</div>
+            <div class="buyer-detail">
+                <div class="buyer-header">
+                    <div class="buyer-avatar">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Morgan's Profile">
+                    </div>
+                    <div class="buyer-info">
+                        <div class="buyer-name">Morgan Chen</div>
+                        <div class="buyer-rating">
+                            <i class="fas fa-star"></i> 4.9 (15 transactions)
+                        </div>
+                    </div>
                 </div>
-                <div class="location-address">
+                <div style="font-size: 14px; line-height: 1.4;">
+                    <span style="color: var(--charcoal); font-weight: 500;">Your address:</span><br>
                     456 Valencia Street<br>
-                    San Francisco, CA 94110<br>
-                    <span style="color: var(--charcoal);">Note from seller:</span> Please text me when you arrive, I'll meet you in front of the coffee shop.
+                    San Francisco, CA 94110
                 </div>
             </div>
             
@@ -438,12 +461,18 @@
                 </div>
                 <div class="fee-row">
                     <div class="fee-label">Service fee (5%)</div>
-                    <div class="fee-value">$8.75</div>
+                    <div class="fee-value">-$8.75</div>
                 </div>
                 <div class="fee-row total">
-                    <div>Total</div>
-                    <div>$183.75</div>
+                    <div>Your payout</div>
+                    <div>$166.25</div>
                 </div>
+            </div>
+            
+            <div class="earnings-highlight">
+                <div style="font-weight: 600;">Your earnings</div>
+                <div class="earnings-amount">$166.25</div>
+                <div style="font-size: 12px; color: rgba(0,0,0,0.5);">Deposited 2-3 business days after pickup is confirmed</div>
             </div>
         </div>
         
@@ -474,16 +503,6 @@
                 </label>
             </div>
             
-            <div class="toggle-option">
-                <div class="toggle-label">
-                    <i class="fas fa-map-marked-alt"></i> Directions notification
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            
             <!-- Calendar Integration -->
             <div class="section-header" style="margin-top: 20px; font-size: 16px;">
                 <i class="fas fa-calendar-alt"></i> Add to Calendar
@@ -503,7 +522,7 @@
         </div>
         
         <!-- Buttons -->
-        <a href="morgan-buyer-dashboard.html" class="btn-primary">
+        <a href="julia-dashboard.html" class="btn-primary">
             Done
         </a>
     </div>
@@ -518,11 +537,11 @@
             <div class="tab-icon"><i class="fas fa-search"></i></div>
             <div class="tab-label">Search</div>
         </a>
-        <a href="seller-flow.html" class="tab-item">
+        <a href="seller-flow.html" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
             <div class="tab-label">Sell</div>
         </a>
-        <a href="messaging.html" class="tab-item active">
+        <a href="messaging.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-comments"></i></div>
             <div class="tab-label">Messages</div>
         </a>
@@ -531,5 +550,12 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+    
+    <script>
+        // Initialize toggles and other interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any initialization code would go here
+        });
+    </script>
 </body>
 </html> 

@@ -408,13 +408,13 @@
                 
                 <div class="payment-options">
                     <div class="payment-option">
-                        <input type="radio" id="creditCard" name="payment_method" value="credit_card" class="payment-radio" checked>
-                        <label for="creditCard" class="payment-card">
-                            <div class="payment-icon">
-                                <i class="far fa-credit-card"></i>
+                        <input type="radio" id="venmo" name="payment_method" value="venmo" class="payment-radio" checked>
+                        <label for="venmo" class="payment-card">
+                            <div class="payment-icon" style="color: #008CFF;">
+                                <i class="fas fa-money-bill-wave"></i>
                             </div>
                             <div class="payment-info">
-                                <div class="payment-name">Credit or Debit Card</div>
+                                <div class="payment-name">Venmo</div>
                                 <div class="payment-desc">For buying and receiving payments</div>
                             </div>
                         </label>
@@ -462,7 +462,7 @@
             </div>
             
             <!-- Credit Card Form (shown when credit card is selected) -->
-            <div id="creditCardForm" class="card-form">
+            <div id="creditCardForm" class="card-form" style="display: none;">
                 <div class="form-group">
                     <label for="cardName" class="form-label">Name on Card</label>
                     <input type="text" id="cardName" name="card_name" class="form-input" placeholder="John Doe">
@@ -493,6 +493,32 @@
                     <div class="payment-method-icon"><i class="fab fa-cc-mastercard"></i></div>
                     <div class="payment-method-icon"><i class="fab fa-cc-amex"></i></div>
                     <div class="payment-method-icon"><i class="fab fa-cc-discover"></i></div>
+                </div>
+            </div>
+            
+            <!-- Venmo Form (shown by default) -->
+            <div id="venmoForm" class="card-form">
+                <div class="form-group">
+                    <label for="venmoUsername" class="form-label">Venmo Username</label>
+                    <div class="input-group" style="display: flex;">
+                        <div style="background: #008CFF; color: white; padding: 14px; border-radius: 12px 0 0 12px; display: flex; align-items: center;">@</div>
+                        <input type="text" id="venmoUsername" name="venmo_username" class="form-input" placeholder="username" style="border-radius: 0 12px 12px 0; flex: 1;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="venmoPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="venmoPhone" name="venmo_phone" class="form-input" placeholder="(555) 123-4567">
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="background-color: #008CFF; color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                        <i class="fas fa-money-bill-wave" style="font-size: 28px;"></i>
+                    </div>
+                </div>
+                
+                <div class="hint-text text-center">
+                    You'll receive a verification request from Venmo to link your account.
                 </div>
             </div>
             
@@ -579,6 +605,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const radioButtons = document.querySelectorAll('.payment-radio');
+            const venmoForm = document.getElementById('venmoForm');
             const creditCardForm = document.getElementById('creditCardForm');
             const bankAccountForm = document.getElementById('bankAccountForm');
             const paypalForm = document.getElementById('paypalForm');
@@ -588,12 +615,15 @@
                     const selectedValue = this.value;
                     
                     // Hide all forms
+                    venmoForm.style.display = 'none';
                     creditCardForm.style.display = 'none';
                     bankAccountForm.style.display = 'none';
                     paypalForm.style.display = 'none';
                     
                     // Show selected form
-                    if (selectedValue === 'credit_card') {
+                    if (selectedValue === 'venmo') {
+                        venmoForm.style.display = 'block';
+                    } else if (selectedValue === 'credit_card') {
                         creditCardForm.style.display = 'block';
                     } else if (selectedValue === 'bank_account') {
                         bankAccountForm.style.display = 'block';

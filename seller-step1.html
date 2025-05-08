@@ -313,7 +313,7 @@
             <div class="header-title">Add Photos</div>
         </div>
         
-       
+
         
         <div class="ai-container">
             <div class="ai-avatar">
@@ -322,9 +322,20 @@
             <div class="ai-message">
                 <div class="ai-badge">Mina AI Assistant</div>
                 <div class="ai-text">
-                    <strong>Just upload your photos, and I will do the rest and list your item quickly and accurately.</strong> Quality photos help your item sell faster. Be sure to capture the product labels clearly so I can identify safety information.
+                    <strong>Just upload your photos, and I'll help you list your item quickly and accurately.</strong> 
                 </div>
-                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
+                <div style="margin-top: 12px; border-top: 1px solid rgba(155, 158, 138, 0.3); padding-top: 12px;">
+                    <div style="font-weight: 500; margin-bottom: 8px; font-size: 14px; color: var(--sage-green);">
+                        <i class="fas fa-lightbulb"></i> Photo Tips:
+                    </div>
+                    <ul style="padding-left: 16px; font-size: 13px; color: #666; margin-bottom: 0;">
+                        <li style="margin-bottom: 4px;">Take clear photos of your item from multiple angles</li>
+                        <li style="margin-bottom: 4px;"><strong>Include photos of product labels showing model details</strong></li>
+                        <li style="margin-bottom: 4px;">Capture the expiration date if applicable</li>
+                        <li style="margin-bottom: 4px;">Show any wear or damage clearly</li>
+                    </ul>
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green); margin-top: 12px;">
                     <i class="fas fa-camera" style="margin-right: 6px;"></i>
                     <span>Photos of product labels improve accuracy by 85%</span>
                 </div>
@@ -335,19 +346,10 @@
             <div class="upload-icon">
                 <i class="fas fa-camera"></i>
             </div>
-            <div class="upload-text">Upload photos</div>
             <div class="upload-subtext">Tap to take a photo or upload from gallery</div>
             
-            <div id="photoTips" class="photo-tips" style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 16px; text-align: left;">
-                <div style="font-weight: 500; margin-bottom: 8px; font-size: 14px; color: var(--sage-green);">
-                    <i class="fas fa-lightbulb"></i> Photo Tips:
-                </div>
-                <ul style="padding-left: 16px; font-size: 13px; color: #666;">
-                    <li style="margin-bottom: 4px;">Take clear photos of your item from multiple angles</li>
-                    <li style="margin-bottom: 4px;"><strong>Include photos of product labels showing model details</strong></li>
-                    <li style="margin-bottom: 4px;">Capture the expiration date if applicable</li>
-                    <li style="margin-bottom: 4px;">Show any wear or damage clearly</li>
-                </ul>
+            <div id="photoTips" class="photo-tips" style="display: none;">
+                <!-- Photo tips now moved to AI assistant message -->
             </div>
             
             <div id="labelWarning" class="photo-tips" style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 16px; text-align: left; display: none;">
@@ -379,9 +381,9 @@
             <img id="uploadedImage" class="uploaded-image" style="display: none; height: 180px; width: 100%; object-fit: contain; border-radius: 8px;" alt="Uploaded product image">
             
             <!-- Hidden file inputs for camera and gallery -->
-            <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+            <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;">
             <input type="file" id="galleryInput" accept="image/*" style="display: none;">
-            <input type="file" id="addMoreCameraInput" accept="image/*" capture="environment" style="display: none;">
+            <input type="file" id="addMoreCameraInput" accept="image/*" capture="camera" style="display: none;">
             <input type="file" id="addMoreGalleryInput" accept="image/*" style="display: none;">
         </div>
         
@@ -493,11 +495,9 @@
                         
                         // Hide the upload icon and text
                         document.querySelector('.upload-icon').style.display = 'none';
-                        document.querySelector('.upload-text').style.display = 'none';
                         document.querySelector('.upload-subtext').style.display = 'none';
                         
                         // Hide photo tips and show label warning
-                        photoTips.style.display = 'none';
                         labelWarning.style.display = 'block';
                         
                         // Enable continue button

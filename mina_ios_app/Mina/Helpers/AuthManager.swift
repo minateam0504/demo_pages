@@ -34,53 +34,6 @@ class AuthManager: NSObject, ObservableObject {
         completion(.success(user))
     }
     
-    // MARK: - Sign In with Google
-    func signInWithGoogle(presentingViewController: UIViewController, completion: @escaping (Result<User, Error>) -> Void) {
-        // This would use the GoogleSignIn SDK in a real implementation
-        // For demo purposes, we'll just create a dummy user
-        let user = User(
-            email: "user@example.com",
-            name: "Google User",
-            profilePicture: "https://example.com/profile.jpg",
-            authProvider: .google,
-            providerId: "google-123456"
-        )
-        self.currentUser = user
-        self.isAuthenticated = true
-        completion(.success(user))
-    }
-    
-    // MARK: - Sign In with Facebook
-    func signInWithFacebook(presentingViewController: UIViewController, completion: @escaping (Result<User, Error>) -> Void) {
-        // This would use the Facebook SDK in a real implementation
-        // For demo purposes, we'll just create a dummy user
-        let user = User(
-            email: "user@example.com",
-            name: "Facebook User",
-            profilePicture: "https://example.com/profile.jpg",
-            authProvider: .facebook,
-            providerId: "facebook-123456"
-        )
-        self.currentUser = user
-        self.isAuthenticated = true
-        completion(.success(user))
-    }
-    
-    // MARK: - Sign In with Apple
-    func signInWithApple(completion: @escaping (Result<User, Error>) -> Void) {
-        // This would use the Apple Sign In API in a real implementation
-        // For demo purposes, we'll just create a dummy user
-        let user = User(
-            email: "user@example.com",
-            name: "Apple User",
-            authProvider: .apple,
-            providerId: "apple-123456"
-        )
-        self.currentUser = user
-        self.isAuthenticated = true
-        completion(.success(user))
-    }
-    
     // MARK: - Sign Out
     func signOut() {
         self.currentUser = nil

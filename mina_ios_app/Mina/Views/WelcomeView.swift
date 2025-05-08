@@ -50,39 +50,6 @@ struct WelcomeView: View {
                 }
                 .padding(.horizontal, 32)
                 
-                // Divider
-                HStack {
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(Color.gray.opacity(0.3))
-                    
-                    Text("or continue with")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color.gray)
-                    
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(Color.gray.opacity(0.3))
-                }
-                .padding(.horizontal, 32)
-                .padding(.vertical, 8)
-                
-                // Social login buttons
-                VStack(spacing: 12) {
-                    SocialLoginButton(type: .google) {
-                        loginWithGoogle()
-                    }
-                    
-                    SocialLoginButton(type: .facebook) {
-                        loginWithFacebook()
-                    }
-                    
-                    SocialLoginButton(type: .apple) {
-                        loginWithApple()
-                    }
-                }
-                .padding(.horizontal, 32)
-                
                 // Sign in link
                 HStack {
                     Text("Already have an account?")
@@ -125,59 +92,6 @@ struct WelcomeView: View {
         .sheet(isPresented: $showingPhoneLogin) {
             Text("Phone Login Screen")
                 .environmentObject(authManager)
-        }
-    }
-    
-    // MARK: - Authentication Methods
-    
-    private func loginWithGoogle() {
-        isLoading = true
-        
-        // In a real app, this would use UIApplication.shared.windows.first?.rootViewController
-        // to get the view controller for Google Sign In
-        let viewController = UIViewController()
-        
-        authManager.signInWithGoogle(presentingViewController: viewController) { result in
-            isLoading = false
-            
-            switch result {
-            case .success(let user):
-                print("Successfully logged in with Google: \(user.name ?? "")")
-            case .failure(let error):
-                print("Google login error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func loginWithFacebook() {
-        isLoading = true
-        
-        let viewController = UIViewController()
-        
-        authManager.signInWithFacebook(presentingViewController: viewController) { result in
-            isLoading = false
-            
-            switch result {
-            case .success(let user):
-                print("Successfully logged in with Facebook: \(user.name ?? "")")
-            case .failure(let error):
-                print("Facebook login error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func loginWithApple() {
-        isLoading = true
-        
-        authManager.signInWithApple { result in
-            isLoading = false
-            
-            switch result {
-            case .success(let user):
-                print("Successfully logged in with Apple: \(user.name ?? "")")
-            case .failure(let error):
-                print("Apple login error: \(error.localizedDescription)")
-            }
         }
     }
 }

@@ -1,53 +1,34 @@
 import SwiftUI
 
 enum SocialLoginType {
-    case google, facebook, apple, phone
+    case phone
     
     var title: String {
         switch self {
-        case .google: return "Continue with Google"
-        case .facebook: return "Continue with Facebook"
-        case .apple: return "Continue with Apple"
         case .phone: return "Continue with Phone Number"
         }
     }
     
     var backgroundColor: Color {
         switch self {
-        case .google: return .white
-        case .facebook: return Color(hex: "1877F2")
-        case .apple: return .black
         case .phone: return MinaColors.sageGreen
         }
     }
     
     var foregroundColor: Color {
         switch self {
-        case .google: return .black
-        case .facebook, .apple, .phone: return .white
+        case .phone: return .white
         }
     }
     
     var iconName: String {
         switch self {
-        case .google: return "g.circle.fill"
-        case .facebook: return "f.square.fill"
-        case .apple: return "apple.logo"
         case .phone: return "phone.fill"
         }
     }
     
     var iconImage: some View {
         switch self {
-        case .google:
-            return Image(systemName: "g.circle.fill")
-                .foregroundColor(.red)
-        case .facebook:
-            return Image(systemName: "f.square.fill")
-                .foregroundColor(.white)
-        case .apple:
-            return Image(systemName: "apple.logo")
-                .foregroundColor(.white)
         case .phone:
             return Image(systemName: "phone.fill")
                 .foregroundColor(.white)
@@ -55,10 +36,7 @@ enum SocialLoginType {
     }
     
     var borderColor: Color? {
-        switch self {
-        case .google: return Color(UIColor.lightGray)
-        default: return nil
-        }
+        return nil
     }
 }
 
@@ -93,9 +71,6 @@ struct SocialLoginButton: View {
 struct SocialLoginButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 12) {
-            SocialLoginButton(type: .google) {}
-            SocialLoginButton(type: .facebook) {}
-            SocialLoginButton(type: .apple) {}
             SocialLoginButton(type: .phone) {}
         }
         .padding()

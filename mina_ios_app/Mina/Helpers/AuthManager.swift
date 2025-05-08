@@ -1,8 +1,5 @@
 import Foundation
 import SwiftUI
-import AuthenticationServices
-import GoogleSignIn
-import FBSDKLoginKit
 
 class AuthManager: NSObject, ObservableObject {
     @Published var currentUser: User?

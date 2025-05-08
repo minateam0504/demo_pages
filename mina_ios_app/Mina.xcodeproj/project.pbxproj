@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73F73D0D5B3E2F1CC2563CED /* Pods_Mina.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4032A1D902BAE7CBF0172F /* Pods_Mina.framework */; };
 		76179F9D2DC9CCEC0023D8F2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179F9A2DC9CCEC0023D8F2 /* AuthManager.swift */; };
 		76179F9E2DC9CCEC0023D8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179F9B2DC9CCEC0023D8F2 /* Constants.swift */; };
 		76179FA62DC9CD070023D8F2 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76179FA32DC9CD070023D8F2 /* RegisterView.swift */; };
@@ -28,8 +27,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5F4032A1D902BAE7CBF0172F /* Pods_Mina.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mina.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BAB1911E64FF7999E803979 /* Pods-Mina.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mina.release.xcconfig"; path = "Target Support Files/Pods-Mina/Pods-Mina.release.xcconfig"; sourceTree = "<group>"; };
 		76179F9A2DC9CCEC0023D8F2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		76179F9B2DC9CCEC0023D8F2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		76179FA02DC9CD070023D8F2 /* MinaLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaLogo.swift; sourceTree = "<group>"; };
@@ -45,7 +42,6 @@
 		8A1B2C3D4E5F6A7B8C9D0EEF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Helpers/Constants.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0F2F /* MinaLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MinaLogo.swift; path = Views/Components/MinaLogo.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D305D24BF62CF008FA108887 /* Pods-Mina.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mina.debug.xcconfig"; path = "Target Support Files/Pods-Mina/Pods-Mina.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +49,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73F73D0D5B3E2F1CC2563CED /* Pods_Mina.framework in Frameworks */,
 				76179FAE2DCC62BC0023D8F2 /* FirebaseCore in Frameworks */,
 				76179FB02DCC62BC0023D8F2 /* FirebaseDatabase in Frameworks */,
 				76179FB22DCC62BC0023D8F2 /* FirebaseStorage in Frameworks */,
@@ -64,23 +59,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D377AE24A7B003ADE284D66 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5F4032A1D902BAE7CBF0172F /* Pods_Mina.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		29F775314090B4E9B95D4D11 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D305D24BF62CF008FA108887 /* Pods-Mina.debug.xcconfig */,
-				6BAB1911E64FF7999E803979 /* Pods-Mina.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		76179F9C2DC9CCEC0023D8F2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,8 +91,6 @@
 			children = (
 				8A1B2C3D4E5F6A7B8C9D0F9F /* Mina */,
 				8A1B2C3D4E5F6A7B8C9D0F8F /* Products */,
-				29F775314090B4E9B95D4D11 /* Pods */,
-				1D377AE24A7B003ADE284D66 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,11 +135,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A1B2C3D4E5F6A7B8C9D0FDF /* Build configuration list for PBXNativeTarget "Mina" */;
 			buildPhases = (
-				BE8AB8EA991DB9F8BA24D7CB /* [CP] Check Pods Manifest.lock */,
 				8A1B2C3D4E5F6A7B8C9D0F6F /* Frameworks */,
 				8A1B2C3D4E5F6A7B8C9D0FBF /* Sources */,
 				8A1B2C3D4E5F6A7B8C9D0FFF /* Resources */,
-				C66CDAAEB04420ADF1E18CB5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -221,52 +195,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BE8AB8EA991DB9F8BA24D7CB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Mina-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C66CDAAEB04420ADF1E18CB5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mina/Pods-Mina-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mina/Pods-Mina-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mina/Pods-Mina-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8A1B2C3D4E5F6A7B8C9D0FBF /* Sources */ = {
@@ -406,7 +334,6 @@
 		};
 		8A1B2C3D4E5F6A7B8C9D104F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D305D24BF62CF008FA108887 /* Pods-Mina.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -436,7 +363,6 @@
 		};
 		8A1B2C3D4E5F6A7B8C9D105F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BAB1911E64FF7999E803979 /* Pods-Mina.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

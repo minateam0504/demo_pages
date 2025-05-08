@@ -1,14 +1,22 @@
 import SwiftUI
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
+}
+
 
 @main
 struct MinaApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     // Initialize the auth manager as a StateObject to be used throughout the app
     @StateObject private var authManager = AuthManager()
     
     init() {
-        // Initialize the PostgreSQL client
-//        _ = PostgresClient.shared
-        
         // Configure app appearance
         configureAppearance()
     }

@@ -16,6 +16,7 @@
 		76179FAE2DCC62BC0023D8F2 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FAD2DCC62BC0023D8F2 /* FirebaseCore */; };
 		76179FB02DCC62BC0023D8F2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FAF2DCC62BC0023D8F2 /* FirebaseDatabase */; };
 		76179FB22DCC62BC0023D8F2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FB12DCC62BC0023D8F2 /* FirebaseStorage */; };
+		76179FB42DCC77860023D8F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */; };
 		8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E6F /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		76179FA02DC9CD070023D8F2 /* MinaLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaLogo.swift; sourceTree = "<group>"; };
 		76179FA32DC9CD070023D8F2 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		76179FA42DC9CD070023D8F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E0F /* Mina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mina.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaApp.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeView.swift; path = Views/WelcomeView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		8A1B2C3D4E5F6A7B8C9D0F9F /* Mina */ = {
 			isa = PBXGroup;
 			children = (
+				76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */,
 				76179FA52DC9CD070023D8F2 /* Views */,
 				76179F9C2DC9CCEC0023D8F2 /* Helpers */,
 				8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */,
@@ -191,6 +194,7 @@
 			files = (
 				8A1B2C3D4E5F6A7B8C9D0E7F /* Preview Assets.xcassets in Resources */,
 				8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */,
+				76179FB42DCC77860023D8F2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

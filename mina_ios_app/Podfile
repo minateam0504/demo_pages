@@ -5,7 +5,4 @@ target 'Mina' do
   # Authentication
   pod 'GoogleSignIn', '~> 6.2'
   pod 'FBSDKLoginKit', '~> 14.0'
-  
-  # Database
-  pod 'PostgresClientKit', '~> 1.5'
 end 

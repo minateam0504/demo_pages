@@ -7,7 +7,7 @@ struct MinaApp: App {
     
     init() {
         // Initialize the PostgreSQL client
-        _ = PostgresClient.shared
+//        _ = PostgresClient.shared
         
         // Configure app appearance
         configureAppearance()

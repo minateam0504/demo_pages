@@ -16,8 +16,7 @@ mina_ios_app/
 ├── Views/
 │   ├── WelcomeView.swift     # The welcome screen with authentication options
 │   └── Components/
-│       ├── MinaLogo.swift    # Custom SVG-like logo implementation
-│       └── SocialLoginButton.swift  # Reusable social login buttons
+│       └── MinaLogo.swift    # Custom SVG-like logo implementation
 ├── Helpers/
 │   ├── AuthManager.swift     # Authentication manager
 │   └── Constants.swift       # App colors and configuration

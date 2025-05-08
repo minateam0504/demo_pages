@@ -45,8 +45,23 @@ struct WelcomeView: View {
                 .padding(.horizontal, 32)
                 
                 // Phone login button
-                SocialLoginButton(type: .phone) {
+                Button(action: {
                     showingPhoneLogin = true
+                }) {
+                    HStack {
+                        Image(systemName: "phone.fill")
+                            .font(.system(size: 20))
+                            .frame(width: 24, height: 24)
+                        
+                        Text("Continue with Phone Number")
+                            .font(.system(size: 16, weight: .semibold))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(MinaColors.sageGreen)
+                    .foregroundColor(.white)
+                    .cornerRadius(24)
+                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
                 }
                 .padding(.horizontal, 32)
                 

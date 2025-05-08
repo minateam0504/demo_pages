@@ -175,13 +175,6 @@ struct RegisterView: View {
                     .cornerRadius(24)
                     .padding(.top, 16)
                     .disabled(isLoading)
-                    
-                    // Step indicator
-                    Text("Step 1 of 7")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color.gray)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 20)
                 }
             }
             .padding(.horizontal, 20)

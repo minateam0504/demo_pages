@@ -43,16 +43,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -75,7 +69,7 @@
         .progress {
             height: 100%;
             background-color: var(--terracotta);
-            width: 14.3%; /* 1/7 steps completed */
+            width: 25%; /* 1/5 steps completed */
         }
         .form-group {
             margin-bottom: 20px;
@@ -148,10 +142,10 @@
     <!-- Registration Content -->
     <div class="registration-content">
         <a href="welcome.html" class="btn-back">
-            <i class="fas fa-arrow-left mr-2"></i> Back
+            <i class="fas fa-arrow-left"></i>
         </a>
         
-        <div class="logo-small">M</div>
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Tell us about yourself</h1>
         <p class="subheading">Let's start with your basic information.</p>
@@ -193,7 +187,7 @@
             <button type="submit" class="btn-primary">Continue</button>
         </form>
         
-        <div class="step-indicator">Step 1 of 7</div>
+        <div class="step-indicator">Step 1 of 5</div>
     </div>
 </body>
 </html> 

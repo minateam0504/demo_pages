@@ -43,16 +43,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -258,10 +252,10 @@
     <!-- Registration Content -->
     <div class="registration-content">
         <a href="register-step4.html" class="btn-back">
-            <i class="fas fa-arrow-left mr-2"></i> Back
+            <i class="fas fa-arrow-left"></i>
         </a>
         
-        <div class="logo-small">M</div>
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Additional Information</h1>
         <p class="subheading">Tell us a bit about yourself to help personalize your experience.</p>
@@ -270,7 +264,7 @@
             <div class="progress"></div>
         </div>
         
-        <form id="familyInfoForm" action="home.html" method="GET" class="form-hidden">
+        <form id="familyInfoForm" action="register-step8.html" method="GET" class="form-hidden">
             <input type="hidden" id="is_parent" name="is_parent" value="">
             <input type="hidden" id="number_of_children" name="number_of_children" value="">
             <input type="hidden" id="children_ages" name="children_ages" value="">
@@ -281,7 +275,7 @@
                 <!-- Initial bot message -->
                 <div class="message message-bot">
                     <div class="avatar avatar-bot">
-                        <i class="fas fa-robot"></i>
+                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
                     </div>
                     <div class="message-content">
                         Hi there! Would you like to share some information about your family? This helps us personalize your experience, but it's completely optional.
@@ -361,7 +355,7 @@
                 
                 botMessageDiv.innerHTML = `
                     <div class="avatar avatar-bot">
-                        <i class="fas fa-robot"></i>
+                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
                     </div>
                     <div class="message-content">
                         ${message}
@@ -462,7 +456,7 @@
                         if (value === 1) {
                             addBotMessage('How old is your child? Please enter their age in years (use 0 for under 1 year)', null, 'text');
                         } else {
-                            addBotMessage(`Please enter the ages of your ${value} children, separated by commas (use 0 for under 1 year)`, null, 'text');
+                            addBotMessage(`Please enter the ages of your ${value} children`, null, 'text');
                         }
                     }, 500);
                 }

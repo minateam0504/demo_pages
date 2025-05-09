@@ -62,7 +62,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 16px;
-            padding-bottom: 230px; /* Add padding for the fixed price section */
+            padding-bottom: 150px; /* Adjusted padding to ensure all content is visible */
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
@@ -80,20 +80,8 @@
         .header-title {
             font-size: 20px;
             font-weight: 600;
-        }
-        .progress-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #E5E7EB;
-        }
-        .dot.active {
-            background-color: var(--terracotta);
+            text-align: center;
+            flex: 1;
         }
         .ai-container {
             display: flex;
@@ -103,6 +91,7 @@
             margin-bottom: 24px;
             gap: 16px;
             align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
         }
         .ai-avatar {
             width: 40px;
@@ -114,6 +103,23 @@
             align-items: center;
             color: white;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(155,158,138,0) 70%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
         }
         .ai-message {
             flex: 1;
@@ -122,38 +128,66 @@
             font-size: 15px;
             margin-bottom: 12px;
         }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .typing-animation {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--sage-green);
+            margin-right: 4px;
+            animation: typing 1s infinite;
+        }
+        .typing-animation:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-animation:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
         .price-section {
             position: fixed;
             bottom: 83px; /* Height of the tab bar */
             left: 0;
             right: 0;
-            background-color: var(--cream);
+            background-color: white;
             border-top: 1px solid rgba(0,0,0,0.1);
             padding: 16px;
             z-index: 10;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
         }
         .price-card {
             background-color: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 12px 12px 8px; /* Reduced bottom padding */
+            margin-bottom: 12px; /* Reduced margin */
             position: relative;
-            overflow: hidden;
         }
         .price-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            padding-right: 24px; /* Add padding to avoid badge overlap */
+            margin-bottom: 4px; /* Reduced margin */
+            padding-right: 55px; /* Increased padding to avoid badge overlap */
         }
         .price-title {
-            font-size: 14px;
+            font-size: 13px; /* Reduced size */
             font-weight: 600;
         }
         .price-value {
-            font-size: 22px;
+            font-size: 20px; /* Reduced size */
             font-weight: 700;
             color: var(--terracotta);
         }
@@ -166,13 +200,13 @@
         }
         .price-adj-badge {
             position: absolute;
-            top: 8px;
-            right: 8px;
+            top: 10px;
+            right: 12px;
             background-color: var(--terracotta);
             color: white;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 8px;
         }
         .prompt-container {
@@ -190,7 +224,7 @@
         .prompt-info {
             font-size: 13px;
             color: #666;
-            margin-bottom: 12px;
+            margin-bottom: 8px; /* Reduced margin */
             line-height: 1.4;
         }
         .payout-info {
@@ -198,14 +232,11 @@
             color: #666;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #E5E7EB;
+            margin-top: 4px; /* Reduced margin */
         }
         .payout-value {
             font-weight: 600;
-            color: var(--sage-green);
+            color: var(--charcoal);
         }
         .fee-info {
             font-style: italic;
@@ -213,8 +244,8 @@
         .option-row {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #E5E7EB;
+            padding: 10px 0; /* Reduced padding */
+            border-bottom: 1px solid #f0f0f0;
         }
         .option-row:last-child {
             border-bottom: none;
@@ -285,8 +316,8 @@
             display: inline-block;
             width: 100%;
             text-align: center;
+            text-decoration: none;
             border: none;
-            cursor: pointer;
         }
         .toggle-switch {
             position: relative;
@@ -385,47 +416,50 @@
         }
         .price-input-container {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-top: 8px;
+            margin: 6px 0; /* Reduced margin */
         }
-        .price-input {
-            flex: 1;
-            height: 40px;
-            border: 2px solid var(--terracotta);
+        
+        .price-input-wrapper {
+            background-color: #F5F5F5;
             border-radius: 8px;
-            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px; /* Reduced padding */
+            position: relative; /* Add position relative for absolute positioning of dollar sign */
+        }
+        
+        .price-input {
+            border: none;
+            background: transparent;
+            font-size: 16px; /* Reduced font size */
             font-weight: 600;
-            text-align: center;
-            color: var(--terracotta);
-            background-color: white;
-            padding: 0 8px;
+            width: 100%;
+            padding: 0;
+            padding-left: 16px; /* Add left padding for dollar sign */
+            margin-left: 0; /* Remove left margin */
         }
-        .price-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.2);
+        
+        .payout-info {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px; /* Reduced margin */
         }
-        .price-input-label {
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            display: block;
+        
+        .payout-value {
+            font-weight: 600;
+            color: var(--charcoal);
         }
+        
         .dollar-sign {
             position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
+            left: 12px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--terracotta);
-        }
-        .price-input-wrapper {
-            position: relative;
-            flex: 1;
-        }
-        .price-input-wrapper input {
-            padding-left: 28px;
-            width: 100%;
         }
     </style>
 </head>
@@ -446,16 +480,23 @@
             <a href="seller-step2.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div>
-                <div class="header-title">Details & Pricing</div>
-                <div class="progress-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
+            <div class="header-title">Pricing</div>
+        </div>
+        
+        <div class="ai-container">
+            <div class="ai-avatar">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
+            <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
+                <div class="ai-text">
+                    <strong>I've analyzed market data for your Nuna PIPA RX.</strong> Based on local sales, condition, and current demand, I recommend a price of <span style="color: var(--terracotta); font-weight: 600;">$140</span>.
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
+                    <i class="fas fa-chart-line" style="margin-right: 6px;"></i>
+                    <span>Market data from 73 similar items sold in your area</span>
                 </div>
             </div>
-            <div></div> <!-- Empty div for spacing -->
         </div>
         
         <!-- Free Item Toggle -->
@@ -604,8 +645,8 @@
                     <span id="currentPrice" class="price-value">$140</span>
                 </div>
             </div>
-            <div class="prompt-info">
-                Based on your Nuna PIPA car seat's condition and similar items in your area.
+            <div class="prompt-info" style="margin-bottom: 2px; font-size: 12px;">
+                Based on condition and similar items in your area.
             </div>
             
             <div class="price-input-container">
@@ -621,9 +662,7 @@
             </div>
         </div>
         
-        <form action="seller-step4-delivery.html" method="GET">
-            <button type="submit" class="btn-primary">Continue</button>
-        </form>
+        <a href="seller-step4-delivery.html" class="btn-primary">Continue</a>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -663,6 +702,32 @@
             const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
             const customPrice = document.getElementById('customPrice');
             const payoutValue = document.getElementById('payoutValue');
+            
+            // Ensure the page is scrollable to see the Extra infant insert option
+            const mainContent = document.querySelector('.main-content');
+            const lastOption = document.getElementById('acc4');
+            
+            // Function to ensure the last option is visible by scrolling if needed
+            function ensureLastOptionVisible() {
+                // Wait for layout to complete
+                setTimeout(() => {
+                    // Scroll to the last option to make sure it's visible
+                    lastOption.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Scroll back up slightly to provide context
+                    setTimeout(() => {
+                        window.scrollBy(0, -100);
+                    }, 300);
+                }, 500);
+            }
+            
+            // Call this function when the page loads
+            ensureLastOptionVisible();
+            
+            // Adjust the main content padding when the window resizes
+            window.addEventListener('resize', function() {
+                // Give some time for the resize to complete
+                setTimeout(ensureLastOptionVisible, 300);
+            });
             
             const basePrice = 120;
             let totalAdjustment = 20; // Start with the existing adjustment

@@ -78,20 +78,8 @@
         .header-title {
             font-size: 20px;
             font-weight: 600;
-        }
-        .progress-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #E5E7EB;
-        }
-        .dot.active {
-            background-color: var(--terracotta);
+            text-align: center;
+            flex: 1;
         }
         .product-card {
             background-color: white;
@@ -114,6 +102,7 @@
             margin-bottom: 24px;
             gap: 16px;
             align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
         }
         .ai-avatar {
             width: 40px;
@@ -125,6 +114,23 @@
             align-items: center;
             color: white;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(155,158,138,0) 70%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
         }
         .ai-message {
             flex: 1;
@@ -132,6 +138,35 @@
         .ai-text {
             font-size: 15px;
             margin-bottom: 12px;
+        }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .typing-animation {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--sage-green);
+            margin-right: 4px;
+            animation: typing 1s infinite;
+        }
+        .typing-animation:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-animation:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
         }
         .details-container {
             padding: 20px;
@@ -227,31 +262,34 @@
             <a href="seller-step1.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div>
-                <div class="header-title">Product Details</div>
-                <div class="progress-dots">
-                    <div class="dot"></div>
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-            <div></div> <!-- Empty div for spacing -->
+            <div class="header-title">Product Details</div>
         </div>
         
         <div class="ai-container">
             <div class="ai-avatar">
-                <i class="fas fa-robot"></i>
+                <span style="font-weight: bold; font-size: 20px;">M</span>
             </div>
             <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
                 <div class="ai-text">
-                    <strong>Here's listing details based on your photo.</strong>
+                    <strong>I've automatically filled out details based on your photo.</strong> Feel free to edit anything that's not quite right.
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
+                    <i class="fas fa-robot" style="margin-right: 6px;"></i>
+                    <span>Analyzing safety information</span>
+                    <div style="margin-left: 6px; display: flex;">
+                        <div class="typing-animation"></div>
+                        <div class="typing-animation"></div>
+                        <div class="typing-animation"></div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="product-card">
-            <img src="https://usa.nunababy.com/_nuxt/img/pipa-rx-gallery-1.0e5bbe5.jpg" alt="Nuna PIPA RX car seat" class="product-image">
+            <div style="height: 180px; width: 100%; display: flex; justify-content: center; align-items: center; background-color: white; border-radius: 8px;">
+                <img src="images/Used Product Image/ Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA RX Infant Car Seat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 6px;">
+            </div>
             
             <div class="details-container">
                 <div class="detail-row">
@@ -266,7 +304,7 @@
                 
                 <div class="detail-row">
                     <div class="detail-label">Dims</div>
-                    <div class="detail-value">23.5"" H x 17.5"" W x 25.2"" L</div>
+                    <div class="detail-value">23.5" H x 17.5" W x 25.2" L</div>
                 </div>
                 
                 <div class="detail-row">
@@ -287,8 +325,8 @@
                 <div class="detail-row">
                     <div class="detail-label">Expiration</div>
                     <div class="detail-value">
-                        <select class="input-field">
-                            <option value="not_expired" selected>September 2026 (4 years remaining)</option>
+                        <select class="input-field" style="text-align: right;">
+                            <option value="not_expired" selected>September 2027 (5 years remaining)</option>
                             <option value="near_expiry">Within 1 year of expiry</option>
                             <option value="unknown">Unknown (not visible on label)</option>
                             <option value="expired">Expired</option>

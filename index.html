@@ -6,7 +6,7 @@
     <title>Mina - Smart Marketplace for Baby Gear</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/mina-logo.css">
+    
     <style>
         :root {
             --sage-green: #9B9E8A;
@@ -60,22 +60,6 @@
     <div class="container mx-auto py-8">
         <h1 class="text-4xl font-bold text-center mb-4" style="color: var(--terracotta);">Mina Prototype</h1>
         
-        <!-- Mina Centered Logo -->
-        <div class="mina-centered-logo">
-            <svg class="mina-centered-logo-img" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Cloud shape -->
-                <path d="M220 170C234.5 170 246 158.5 246 144C246 129.5 234.5 118 220 118C219.3 118 218.6 118 217.9 118.1C214.4 104.2 202 94 187 94C171.5 94 158.8 104.9 156 119.2C152.4 116.7 148.1 115.3 143.5 115.3C132.9 115.3 124.2 123.2 123 133.4C115.2 136.6 110 144.3 110 153C110 165.2 120.2 175 132.5 175" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
-                
-                <!-- Stroller -->
-                <circle cx="160" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                <circle cx="220" cy="210" r="14" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                <path d="M235 210H240C242.8 210 245 207.8 245 205V195C245 192.2 242.8 190 240 190H235" stroke="#4A4656" stroke-width="9" stroke-linecap="round"/>
-                <path d="M190 130V210" stroke="#4A4656" stroke-width="9"/>
-                <path d="M145 170H235" stroke="#4A4656" stroke-width="9"/>
-                <path d="M145 130C145 130 167 130 190 130C213 130 190 170 190 170H145V130Z" fill="#9B9E8A" stroke="#4A4656" stroke-width="9"/>
-                <path d="M145 130H190L190 170" fill="#D9DFCC" stroke="#4A4656" stroke-width="9"/>
-            </svg>
-            <div class="mina-centered-logo-text">mina</div>
         </div>
         
         <p class="text-center mb-8 max-w-3xl mx-auto">A smart and trusted marketplace for secondhand baby gear. These screens represent the high-fidelity prototype for development.</p>
@@ -132,14 +116,6 @@
                 </div>
             </div>
             
-            <!-- Registration Step 6 -->
-            <div class="flex flex-col">
-                <div class="screen-label">Payment Method</div>
-                <div class="phone-container">
-                    <iframe src="register-step7.html"></iframe>
-                </div>
-            </div>
-            
             <!-- Registration Step 7 -->
             <div class="flex flex-col">
                 <div class="screen-label">Profile Complete</div>
@@ -175,11 +151,19 @@
                 </div>
             </div>
             
-            <!-- Seller Step 5 - Delivery Preferences -->
+            <!-- Seller Step 4 - Meetup Preferences -->
             <div class="flex flex-col">
-                <div class="screen-label">Delivery Preferences</div>
+                <div class="screen-label">Meet up Preference</div>
                 <div class="phone-container">
                     <iframe src="seller-step4-delivery.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Seller Step 5 - Payment Method -->
+            <div class="flex flex-col">
+                <div class="screen-label">Payment Method</div>
+                <div class="phone-container">
+                    <iframe src="register-step7.html"></iframe>
                 </div>
             </div>
             
@@ -258,35 +242,62 @@
                 </div>
             </div>
             
+            <!-- Booking & Pickup Flow -->
+            <div class="section-title">Booking & Pickup Flow</div>
+            
+            <!-- Julia's Dashboard with Notification -->
+            <div class="flex flex-col">
+                <div class="screen-label">1. Seller Dashboard</div>
+                <div class="phone-container">
+                    <iframe src="julia-dashboard.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Notification Detail -->
+            <div class="flex flex-col">
+                <div class="screen-label">2. Purchase Request Detail</div>
+                <div class="phone-container">
+                    <iframe src="morgan-notification-detail.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Buyer Notification Dashboard -->
+            <div class="flex flex-col">
+                <div class="screen-label">3. Buyer Notification</div>
+                <div class="phone-container">
+                    <iframe src="morgan-buyer-dashboard.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Booking Confirmation Screen -->
+            <div class="flex flex-col">
+                <div class="screen-label">4. Booking Confirmed</div>
+                <div class="phone-container">
+                    <iframe src="buyer-booking-confirmed.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Post-Pickup Survey Screen - Buyer -->
+            <div class="flex flex-col">
+                <div class="screen-label">5a. Buyer Post-Pickup Survey</div>
+                <div class="phone-container">
+                    <iframe src="pickup-survey-buyer.html"></iframe>
+                </div>
+            </div>
+            
+            <!-- Post-Pickup Survey Screen - Seller -->
+            <div class="flex flex-col">
+                <div class="screen-label">5b. Seller Post-Pickup Survey</div>
+                <div class="phone-container">
+                    <iframe src="pickup-survey-seller.html"></iframe>
+                </div>
+            </div>
+            
             <!-- Messaging Screen -->
             <div class="flex flex-col">
-                <div class="screen-label">Message Seller</div>
+                <div class="screen-label">6. Message Seller</div>
                 <div class="phone-container">
                     <iframe src="buyer-message.html"></iframe>
-                </div>
-            </div>
-            
-            <!-- Success Screen -->
-            <div class="flex flex-col">
-                <div class="screen-label">Booking Confirmation</div>
-                <div class="phone-container">
-                    <iframe src="buyer-success.html"></iframe>
-                </div>
-            </div>
-            
-            <!-- Seller Notification Screen -->
-            <div class="flex flex-col">
-                <div class="screen-label">Seller Booking Notification</div>
-                <div class="phone-container">
-                    <iframe src="seller-booking-notification.html"></iframe>
-                </div>
-            </div>
-            
-            <!-- Post-Pickup Survey Screen -->
-            <div class="flex flex-col">
-                <div class="screen-label">Post-Pickup Survey</div>
-                <div class="phone-container">
-                    <iframe src="pickup-survey.html"></iframe>
                 </div>
             </div>
             

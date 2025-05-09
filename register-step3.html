@@ -43,16 +43,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -75,7 +69,7 @@
         .progress {
             height: 100%;
             background-color: var(--terracotta);
-            width: 42.9%; /* 3/7 steps completed */
+            width: 60%; /* 3/5 steps completed */
         }
         .form-group {
             margin-bottom: 20px;
@@ -235,10 +229,10 @@
     <!-- Registration Content -->
     <div class="registration-content">
         <a href="register-step2.html" class="btn-back">
-            <i class="fas fa-arrow-left mr-2"></i> Back
+            <i class="fas fa-arrow-left"></i>
         </a>
         
-        <div class="logo-small">M</div>
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Confirm your neighborhood</h1>
         <p class="subheading">Based on your address, we've identified your San Francisco neighborhood.</p>
@@ -248,8 +242,10 @@
         </div>
         
         <div class="map-container">
-            <div class="map-placeholder">Map of San Francisco</div>
-            <div class="map-pin"><i class="fas fa-map-marker-alt"></i></div>
+            <img src="images/sf map.png" alt="Map of San Francisco" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="map-pin" style="position: absolute; top: 57%; left: 53%; transform: translate(-50%, -50%); color: var(--terracotta); font-size: 30px; text-shadow: 0 0 3px #fff, 0 0 5px #fff;">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
         </div>
         
         <div class="location-info">
@@ -291,7 +287,7 @@
             <button type="submit" class="btn-primary">Continue</button>
         </form>
         
-        <div class="step-indicator">Step 3 of 7</div>
+        <div class="step-indicator">Step 3 of 5</div>
     </div>
 </body>
 </html> 

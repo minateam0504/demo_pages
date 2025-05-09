@@ -43,16 +43,10 @@
         }
         .logo-small {
             width: 50px;
-            height: 50px;
-            background-color: var(--terracotta);
+            height: auto;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
             margin-bottom: 20px;
+            object-fit: contain;
         }
         .heading {
             font-size: 24px;
@@ -75,7 +69,7 @@
         .progress {
             height: 100%;
             background-color: var(--terracotta);
-            width: 28.6%; /* 2/7 steps completed */
+            width: 30%; /* 2/5 steps completed */
         }
         .form-group {
             margin-bottom: 20px;
@@ -150,10 +144,10 @@
     <!-- Registration Content -->
     <div class="registration-content">
         <a href="register-step1.html" class="btn-back">
-            <i class="fas fa-arrow-left mr-2"></i> Back
+            <i class="fas fa-arrow-left"></i>
         </a>
         
-        <div class="logo-small">M</div>
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Where do you live?</h1>
         <p class="subheading">We'll use this information to connect you with nearby sellers and buyers.</p>
@@ -196,7 +190,7 @@
             <button type="submit" class="btn-primary">Continue</button>
         </form>
         
-        <div class="step-indicator">Step 2 of 7</div>
+        <div class="step-indicator">Step 2 of 5</div>
     </div>
 </body>
 </html> 

@@ -12,7 +12,7 @@ struct RegisterView: View {
     @State private var isLoading: Bool = false
     @State private var errorMessage: String = ""
     @State private var showError: Bool = false
-    @State private var showSuccess: Bool = false
+    @State private var showAddPhotos: Bool = false
     
     var body: some View {
         ScrollView {
@@ -188,13 +188,13 @@ struct RegisterView: View {
                 dismissButton: .default(Text("OK"))
             )
         }
-        .alert("Account Created", isPresented: $showSuccess) {
-            Button("OK") {
-                // Dismiss this screen
-                presentationMode.wrappedValue.dismiss()
+        .fullScreenCover(isPresented: $showAddPhotos) {
+            if #available(iOS 16.0, *) {
+                AddPhotosView()
+                    .environmentObject(authManager)
+            } else {
+                // Fallback on earlier versions
             }
-        } message: {
-            Text("Your account has been created successfully. You can now sign in.")
         }
     }
     
@@ -220,8 +220,8 @@ struct RegisterView: View {
             switch result {
             case .success(let user):
                 print("Account created: \(user)")
-                // Show success alert
-                showSuccess = true
+                // Show add photos view
+                showAddPhotos = true
                 
             case .failure(let error):
                 errorMessage = error.localizedDescription

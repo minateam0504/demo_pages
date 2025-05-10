@@ -17,6 +17,7 @@
 		76179FB02DCC62BC0023D8F2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FAF2DCC62BC0023D8F2 /* FirebaseDatabase */; };
 		76179FB22DCC62BC0023D8F2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FB12DCC62BC0023D8F2 /* FirebaseStorage */; };
 		76179FB42DCC77860023D8F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */; };
+		76179FB62DCDB4A80023D8F2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FB52DCDB4A80023D8F2 /* FirebaseFirestore */; };
 		8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E6F /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 				76179FAE2DCC62BC0023D8F2 /* FirebaseCore in Frameworks */,
 				76179FB02DCC62BC0023D8F2 /* FirebaseDatabase in Frameworks */,
 				76179FB22DCC62BC0023D8F2 /* FirebaseStorage in Frameworks */,
+				76179FB62DCDB4A80023D8F2 /* FirebaseFirestore in Frameworks */,
 				76179FAC2DCC62BC0023D8F2 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +450,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76179FAA2DCC62BC0023D8F2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		76179FB52DCDB4A80023D8F2 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76179FAA2DCC62BC0023D8F2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

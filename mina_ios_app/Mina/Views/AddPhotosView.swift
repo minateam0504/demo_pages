@@ -101,29 +101,41 @@ struct AddPhotosView: View {
                 VStack(spacing: 20) {
                     if selectedImages.isEmpty {
                         // Upload Area
-                        VStack(spacing: 16) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 48))
-                                .foregroundColor(MinaColors.sageGreen)
-                            
-                            Text("Upload Photos")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(MinaColors.charcoal)
-                            
-                            Text("Take or select photos of your item")
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
+                        PhotosPicker(selection: $selectedItems,
+                                   maxSelectionCount: 10,
+                                   matching: .images) {
+                            VStack(spacing: 16) {
+                                Image(systemName: "photo.on.rectangle.angled")
+                                    .font(.system(size: 48))
+                                    .foregroundColor(MinaColors.sageGreen)
+                                
+                                Text("Upload Photos")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(MinaColors.charcoal)
+                                
+                                Text("Take or select photos of your item")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                            .background(Color.white)
+                            .cornerRadius(16)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                            )
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        )
-                        .onTapGesture {
-                            // Open photo picker
+                        .onChange(of: selectedItems) { newItems in
+                            Task {
+                                selectedImages = []
+                                for item in newItems {
+                                    if let data = try? await item.loadTransferable(type: Data.self),
+                                       let image = UIImage(data: data) {
+                                        selectedImages.append(image)
+                                    }
+                                }
+                            }
                         }
                     } else {
                         // Selected Images
@@ -143,9 +155,9 @@ struct AddPhotosView: View {
                     
                     // Additional Photo Buttons
                     HStack(spacing: 10) {
-                        Button(action: {
-                            // Add label photo
-                        }) {
+                        PhotosPicker(selection: $selectedItems,
+                                   maxSelectionCount: 10,
+                                   matching: .images) {
                             HStack {
                                 Image(systemName: "camera")
                                 Text("Add Label Photo")
@@ -162,9 +174,9 @@ struct AddPhotosView: View {
                             )
                         }
                         
-                        Button(action: {
-                            // Upload more photos
-                        }) {
+                        PhotosPicker(selection: $selectedItems,
+                                   maxSelectionCount: 10,
+                                   matching: .images) {
                             HStack {
                                 Image(systemName: "photo.on.rectangle")
                                 Text("Upload More")
@@ -276,7 +288,18 @@ struct AddPhotosView: View {
     private func continueToNextStep() {
         isLoading = true
         
-        // TODO: Upload photos to Firebase Storage
+        // Convert images to Data for upload
+        let imageDataArray = selectedImages.compactMap { image -> Data? in
+            return image.jpegData(compressionQuality: 0.8)
+        }
+        
+        // TODO: Implement the actual upload to your backend server
+        // Example of how to prepare for upload:
+        // for imageData in imageDataArray {
+        //     // Create multipart form data
+        //     // Use URLSession to upload to your backend
+        // }
+        
         // For now, just dismiss
         presentationMode.wrappedValue.dismiss()
         

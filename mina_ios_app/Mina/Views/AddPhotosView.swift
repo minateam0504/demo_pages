@@ -275,7 +275,7 @@ struct AddPhotosView: View {
         }
         
         // Create a URL for your local backend server
-        guard let url = URL(string: "http://Yangs-MacBook-Pro.local:8000/api/process") else {
+        guard let url = URL(string: "http://127.0.0.1:8000/api/process") else {
             showError = true
             errorMessage = "Invalid server URL"
             isLoading = false

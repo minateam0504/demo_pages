@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import AVFoundation
 
 @available(iOS 16.0, *)
 struct AddPhotosView: View {
@@ -12,6 +13,8 @@ struct AddPhotosView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var showSuccessMessage = false
+    @State private var showCamera = false
+    @State private var showImagePicker = false
     
     var body: some View {
         ZStack {
@@ -97,46 +100,29 @@ struct AddPhotosView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                // Photo Upload Area
+                // Photo Display Area
                 VStack(spacing: 20) {
                     if selectedImages.isEmpty {
-                        // Upload Area
-                        PhotosPicker(selection: $selectedItems,
-                                   maxSelectionCount: 10,
-                                   matching: .images) {
-                            VStack(spacing: 16) {
-                                Image(systemName: "photo.on.rectangle.angled")
-                                    .font(.system(size: 48))
-                                    .foregroundColor(MinaColors.sageGreen)
-                                
-                                Text("Upload Photos")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(MinaColors.charcoal)
-                                
-                                Text("Take or select photos of your item")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 200)
-                            .background(Color.white)
-                            .cornerRadius(16)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
-                            )
+                        // Empty State
+                        VStack(spacing: 16) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 48))
+                                .foregroundColor(MinaColors.sageGreen)
+                            
+                            Text("Click buttons below to take a photo or upload from gallery")
+                                .font(.system(size: 16))
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 20)
                         }
-                        .onChange(of: selectedItems) { newItems in
-                            Task {
-                                selectedImages = []
-                                for item in newItems {
-                                    if let data = try? await item.loadTransferable(type: Data.self),
-                                       let image = UIImage(data: data) {
-                                        selectedImages.append(image)
-                                    }
-                                }
-                            }
-                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                        .background(Color.white)
+                        .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                        )
                     } else {
                         // Selected Images
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -152,48 +138,6 @@ struct AddPhotosView: View {
                             .padding(.horizontal, 20)
                         }
                     }
-                    
-                    // Additional Photo Buttons
-                    HStack(spacing: 10) {
-                        PhotosPicker(selection: $selectedItems,
-                                   maxSelectionCount: 10,
-                                   matching: .images) {
-                            HStack {
-                                Image(systemName: "camera")
-                                Text("Add Label Photo")
-                            }
-                            .font(.system(size: 14))
-                            .foregroundColor(MinaColors.charcoal)
-                            .frame(maxWidth: .infinity)
-                            .padding(8)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                            )
-                        }
-                        
-                        PhotosPicker(selection: $selectedItems,
-                                   maxSelectionCount: 10,
-                                   matching: .images) {
-                            HStack {
-                                Image(systemName: "photo.on.rectangle")
-                                Text("Upload More")
-                            }
-                            .font(.system(size: 14))
-                            .foregroundColor(MinaColors.charcoal)
-                            .frame(maxWidth: .infinity)
-                            .padding(8)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                            )
-                        }
-                    }
-                    .padding(.horizontal, 20)
                 }
                 
                 Spacer()
@@ -201,7 +145,7 @@ struct AddPhotosView: View {
                 // Camera and Gallery Buttons
                 HStack(spacing: 20) {
                     Button(action: {
-                        // Open camera
+                        checkCameraPermission()
                     }) {
                         HStack {
                             Image(systemName: "camera")
@@ -216,9 +160,9 @@ struct AddPhotosView: View {
                         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
                     }
                     
-                    Button(action: {
-                        // Open gallery
-                    }) {
+                    PhotosPicker(selection: $selectedItems,
+                               maxSelectionCount: 3,
+                               matching: .images) {
                         HStack {
                             Image(systemName: "photo.on.rectangle")
                             Text("Gallery")
@@ -233,6 +177,17 @@ struct AddPhotosView: View {
                     }
                 }
                 .padding(.horizontal, 20)
+                .onChange(of: selectedItems) { newItems in
+                    Task {
+                        selectedImages = []
+                        for item in newItems {
+                            if let data = try? await item.loadTransferable(type: Data.self),
+                               let image = UIImage(data: data) {
+                                selectedImages.append(image)
+                            }
+                        }
+                    }
+                }
                 
                 // Continue Button
                 Button(action: {
@@ -283,6 +238,29 @@ struct AddPhotosView: View {
                 }
             }
         )
+        .sheet(isPresented: $showCamera) {
+            CameraView(image: $selectedImages)
+        }
+    }
+    
+    private func checkCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            showCamera = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    DispatchQueue.main.async {
+                        showCamera = true
+                    }
+                }
+            }
+        case .denied, .restricted:
+            showError = true
+            errorMessage = "Camera access is required to take photos. Please enable it in Settings."
+        @unknown default:
+            break
+        }
     }
     
     private func continueToNextStep() {
@@ -304,6 +282,44 @@ struct AddPhotosView: View {
         presentationMode.wrappedValue.dismiss()
         
         isLoading = false
+    }
+}
+
+// Camera View
+struct CameraView: UIViewControllerRepresentable {
+    @Binding var image: [UIImage]
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = .camera
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: CameraView
+        
+        init(_ parent: CameraView) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.image.append(image)
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 

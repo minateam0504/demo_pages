@@ -266,22 +266,90 @@ struct AddPhotosView: View {
     private func continueToNextStep() {
         isLoading = true
         
-        // Convert images to Data for upload
-        let imageDataArray = selectedImages.compactMap { image -> Data? in
-            return image.jpegData(compressionQuality: 0.8)
+        // Convert first image to Data for upload
+        guard let imageData = selectedImages.first?.jpegData(compressionQuality: 0.8) else {
+            showError = true
+            errorMessage = "No image selected"
+            isLoading = false
+            return
         }
         
-        // TODO: Implement the actual upload to your backend server
-        // Example of how to prepare for upload:
-        // for imageData in imageDataArray {
-        //     // Create multipart form data
-        //     // Use URLSession to upload to your backend
-        // }
+        // Create a URL for your local backend server
+        guard let url = URL(string: "http://Yangs-MacBook-Pro.local:8000/api/process") else {
+            showError = true
+            errorMessage = "Invalid server URL"
+            isLoading = false
+            return
+        }
         
-        // For now, just dismiss
-        presentationMode.wrappedValue.dismiss()
+        // Create a URLRequest
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
         
-        isLoading = false
+        // Create boundary string for multipart form data
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        // Create the body of the request
+        var body = Data()
+        
+        // Add the image file
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n".data(using: .utf8)!)
+        
+        // Add user data
+        let userData: [String: Any] = [
+            "user_id": "unknown",
+            "additional_field": "value"
+        ]
+        
+        if let userDataJson = try? JSONSerialization.data(withJSONObject: userData) {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"user_data\"\r\n\r\n".data(using: .utf8)!)
+            body.append(userDataJson)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+        
+        // Add the final boundary
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        // Set the body of the request
+        request.httpBody = body
+        
+        // Create and start the upload task
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                isLoading = false
+                
+                if let error = error {
+                    showError = true
+                    errorMessage = "Upload failed: \(error.localizedDescription)"
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    showError = true
+                    errorMessage = "Invalid server response"
+                    return
+                }
+                
+                if (200...299).contains(httpResponse.statusCode) {
+                    showSuccessMessage = true
+                    // Dismiss the view after successful upload
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                } else {
+                    showError = true
+                    errorMessage = "Server returned status code \(httpResponse.statusCode)"
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
 

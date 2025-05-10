@@ -1,15 +1,17 @@
 import SwiftUI
 import PhotosUI
 
+@available(iOS 16.0, *)
 struct AddPhotosView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var authManager: AuthManager
     
-    @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImage: UIImage?
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedImages: [UIImage] = []
     @State private var isLoading = false
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var showSuccessMessage = false
     
     var body: some View {
         ZStack {
@@ -17,80 +19,212 @@ struct AddPhotosView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 24) {
-                // Back button
+                // Back button and title
                 HStack {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        HStack {
-                            Image(systemName: "arrow.left")
-                            Text("Back")
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(MinaColors.charcoal)
+                        Image(systemName: "arrow.left")
+                            .font(.system(size: 20))
+                            .foregroundColor(MinaColors.charcoal)
                     }
+                    
+                    Spacer()
+                    
+                    Text("Add Photos")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(MinaColors.charcoal)
+                    
                     Spacer()
                 }
                 .padding(.top, 10)
                 
-                // Logo
-                MinaLogo(size: .medium)
-                
-                // Title
-                Text("Add Your Photos")
-                    .font(.system(size: 32, weight: .bold))
-                    .foregroundColor(MinaColors.charcoal)
-                
-                // Subtitle
-                Text("Add a profile photo to help other users recognize you")
-                    .font(.system(size: 18))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(MinaColors.charcoal)
-                    .padding(.horizontal, 24)
-                
-                Spacer()
-                
-                // Photo Selection Area
-                VStack(spacing: 20) {
-                    if let selectedImage {
-                        Image(uiImage: selectedImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 200, height: 200)
-                            .clipShape(Circle())
-                            .overlay(
-                                Circle()
-                                    .stroke(MinaColors.terracotta, lineWidth: 3)
-                            )
-                    } else {
+                // AI Assistant Message
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(alignment: .top, spacing: 16) {
+                        // AI Avatar
                         Circle()
-                            .fill(Color.white)
-                            .frame(width: 200, height: 200)
+                            .fill(MinaColors.sageGreen)
+                            .frame(width: 40, height: 40)
                             .overlay(
-                                Circle()
-                                    .stroke(MinaColors.terracotta, lineWidth: 3)
+                                Text("M")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(.white)
                             )
-                            .overlay(
-                                Image(systemName: "camera.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(MinaColors.terracotta)
-                            )
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Mina AI Assistant")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(MinaColors.sageGreen)
+                            
+                            Text("Just upload your photos, and I'll help you list your item quickly and accurately.")
+                                .font(.system(size: 16))
+                                .foregroundColor(MinaColors.charcoal)
+                            
+                            // Photo Tips
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Photo Tips:")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(MinaColors.sageGreen)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("• Take clear photos of your item from multiple angles")
+                                    Text("• Include photos of product labels showing model details")
+                                    Text("• Capture the expiration date if applicable")
+                                    Text("• Show any wear or damage clearly")
+                                }
+                                .font(.system(size: 13))
+                                .foregroundColor(.gray)
+                            }
+                            .padding(.top, 8)
+                            
+                            HStack {
+                                Image(systemName: "camera")
+                                    .foregroundColor(MinaColors.sageGreen)
+                                Text("Photos of product labels improve accuracy by 85%")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(MinaColors.sageGreen)
+                            }
+                        }
+                    }
+                    .padding(16)
+                    .background(Color.white.opacity(0.1))
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(MinaColors.sageGreen.opacity(0.3), lineWidth: 1)
+                    )
+                }
+                .padding(.horizontal, 20)
+                
+                // Photo Upload Area
+                VStack(spacing: 20) {
+                    if selectedImages.isEmpty {
+                        // Upload Area
+                        VStack(spacing: 16) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 48))
+                                .foregroundColor(MinaColors.sageGreen)
+                            
+                            Text("Upload Photos")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(MinaColors.charcoal)
+                            
+                            Text("Take or select photos of your item")
+                                .font(.system(size: 14))
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                        .background(Color.white)
+                        .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                        )
+                        .onTapGesture {
+                            // Open photo picker
+                        }
+                    } else {
+                        // Selected Images
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(selectedImages, id: \.self) { image in
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 180, height: 180)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                        }
                     }
                     
-                    PhotosPicker(selection: $selectedItem,
-                               matching: .images,
-                               photoLibrary: .shared()) {
-                        Text(selectedImage == nil ? "Select Photo" : "Change Photo")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(MinaColors.terracotta)
+                    // Additional Photo Buttons
+                    HStack(spacing: 10) {
+                        Button(action: {
+                            // Add label photo
+                        }) {
+                            HStack {
+                                Image(systemName: "camera")
+                                Text("Add Label Photo")
+                            }
+                            .font(.system(size: 14))
+                            .foregroundColor(MinaColors.charcoal)
+                            .frame(maxWidth: .infinity)
+                            .padding(8)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+                        }
+                        
+                        Button(action: {
+                            // Upload more photos
+                        }) {
+                            HStack {
+                                Image(systemName: "photo.on.rectangle")
+                                Text("Upload More")
+                            }
+                            .font(.system(size: 14))
+                            .foregroundColor(MinaColors.charcoal)
+                            .frame(maxWidth: .infinity)
+                            .padding(8)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+                        }
                     }
+                    .padding(.horizontal, 20)
                 }
                 
                 Spacer()
                 
+                // Camera and Gallery Buttons
+                HStack(spacing: 20) {
+                    Button(action: {
+                        // Open camera
+                    }) {
+                        HStack {
+                            Image(systemName: "camera")
+                            Text("Take Photo")
+                        }
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(MinaColors.charcoal)
+                        .frame(maxWidth: .infinity)
+                        .padding(16)
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    }
+                    
+                    Button(action: {
+                        // Open gallery
+                    }) {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle")
+                            Text("Gallery")
+                        }
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(MinaColors.charcoal)
+                        .frame(maxWidth: .infinity)
+                        .padding(16)
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    }
+                }
+                .padding(.horizontal, 20)
+                
                 // Continue Button
                 Button(action: {
-                    continueToMainApp()
+                    continueToNextStep()
                 }) {
                     ZStack {
                         if isLoading {
@@ -105,31 +239,11 @@ struct AddPhotosView: View {
                     }
                 }
                 .padding(16)
-                .background(MinaColors.terracotta)
+                .background(selectedImages.isEmpty ? Color.gray : MinaColors.terracotta)
                 .cornerRadius(24)
                 .padding(.horizontal, 24)
-                .disabled(isLoading)
-                
-                // Skip Option
-                Button(action: {
-                    continueToMainApp()
-                }) {
-                    Text("Skip for now")
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
-                        .underline()
-                }
-                .padding(.top, 12)
+                .disabled(selectedImages.isEmpty || isLoading)
                 .padding(.bottom, 30)
-            }
-            .padding(.horizontal, 20)
-        }
-        .onChange(of: selectedItem) { newItem in
-            Task {
-                if let data = try? await newItem?.loadTransferable(type: Data.self),
-                   let image = UIImage(data: data) {
-                    selectedImage = image
-                }
             }
         }
         .alert(isPresented: $showError) {
@@ -139,20 +253,32 @@ struct AddPhotosView: View {
                 dismissButton: .default(Text("OK"))
             )
         }
+        .overlay(
+            Group {
+                if showSuccessMessage {
+                    VStack {
+                        Spacer()
+                        Text("Photo added successfully!")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(MinaColors.sageGreen)
+                            .cornerRadius(8)
+                            .padding(.bottom, 100)
+                    }
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut, value: showSuccessMessage)
+                }
+            }
+        )
     }
     
-    private func continueToMainApp() {
+    private func continueToNextStep() {
         isLoading = true
         
-        // TODO: Upload photo to Firebase Storage if selected
-        if let image = selectedImage {
-            // Upload image and then dismiss
-            // For now, just dismiss
-            presentationMode.wrappedValue.dismiss()
-        } else {
-            // No image selected, just dismiss
-            presentationMode.wrappedValue.dismiss()
-        }
+        // TODO: Upload photos to Firebase Storage
+        // For now, just dismiss
+        presentationMode.wrappedValue.dismiss()
         
         isLoading = false
     }
@@ -160,7 +286,11 @@ struct AddPhotosView: View {
 
 struct AddPhotosView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPhotosView()
-            .environmentObject(AuthManager.shared)
+        if #available(iOS 16.0, *) {
+            AddPhotosView()
+                .environmentObject(AuthManager.shared)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 } 

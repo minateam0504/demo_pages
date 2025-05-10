@@ -18,7 +18,7 @@
 		76179FB22DCC62BC0023D8F2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FB12DCC62BC0023D8F2 /* FirebaseStorage */; };
 		76179FB42DCC77860023D8F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */; };
 		76179FB62DCDB4A80023D8F2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76179FB52DCDB4A80023D8F2 /* FirebaseFirestore */; };
-		768792452DCFDEA600BEA9BF /* AddPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768792442DCFDEA600BEA9BF /* AddPhotosView.swift */; };
+		7687924B2DCFE11F00BEA9BF /* AddPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7687924A2DCFE11F00BEA9BF /* AddPhotosView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E6F /* Assets.xcassets */; };
@@ -36,7 +36,7 @@
 		76179FA32DC9CD070023D8F2 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		76179FA42DC9CD070023D8F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		76179FB32DCC77860023D8F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		768792442DCFDEA600BEA9BF /* AddPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotosView.swift; sourceTree = "<group>"; };
+		7687924A2DCFE11F00BEA9BF /* AddPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotosView.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E0F /* Mina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mina.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaApp.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeView.swift; path = Views/WelcomeView.swift; sourceTree = "<group>"; };
@@ -77,7 +77,6 @@
 		76179FA22DC9CD070023D8F2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				768792442DCFDEA600BEA9BF /* AddPhotosView.swift */,
 				76179FA02DC9CD070023D8F2 /* MinaLogo.swift */,
 			);
 			path = Components;
@@ -86,6 +85,7 @@
 		76179FA52DC9CD070023D8F2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7687924A2DCFE11F00BEA9BF /* AddPhotosView.swift */,
 				76179FA22DC9CD070023D8F2 /* Components */,
 				76179FA32DC9CD070023D8F2 /* RegisterView.swift */,
 				76179FA42DC9CD070023D8F2 /* WelcomeView.swift */,
@@ -213,7 +213,7 @@
 				8A1B2C3D4E5F6A7B8C9D0F1F /* MinaLogo.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */,
-				768792452DCFDEA600BEA9BF /* AddPhotosView.swift in Sources */,
+				7687924B2DCFE11F00BEA9BF /* AddPhotosView.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0E9F /* User.swift in Sources */,
 				76179FA62DC9CD070023D8F2 /* RegisterView.swift in Sources */,
 				76179FA82DC9CD070023D8F2 /* WelcomeView.swift in Sources */,

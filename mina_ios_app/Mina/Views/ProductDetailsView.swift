@@ -77,27 +77,21 @@ struct ProductDetailsView: View {
                                 .frame(height: 200)
                                 .clipped()
                                 .cornerRadius(8)
-                        } else if let imageUrl = productDetails["image_url"] as? String {
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Color.gray.opacity(0.2)
-                            }
-                            .frame(height: 200)
-                            .clipped()
-                            .cornerRadius(8)
                         }
                         
                         // Details Container
                         VStack(spacing: 16) {
-                            DetailRow(label: "Product Name", value: productDetails["name"] as? String ?? "")
-                            DetailRow(label: "Brand", value: productDetails["brand"] as? String ?? "")
-                            DetailRow(label: "Category", value: productDetails["category"] as? String ?? "")
-                            DetailRow(label: "Condition", value: productDetails["condition"] as? String ?? "")
-                            DetailRow(label: "Price", value: productDetails["price"] as? String ?? "")
-                            DetailRow(label: "Description", value: productDetails["description"] as? String ?? "")
+                            DetailRow(label: "Name", value: productDetails["ObjectName"] as? String ?? "")
+                            DetailRow(label: "Brand", value: productDetails["ObjectBrand"] as? String ?? "")
+                            DetailRow(label: "Model", value: productDetails["ObjectModel"] as? String ?? "")
+                            DetailRow(label: "Year", value: productDetails["ObjectYear"] as? String ?? "")
+                            DetailRow(label: "Condition", value: productDetails["ObjectCondition"] as? String ?? "")
+                            DetailRow(label: "Value", value: productDetails["ObjectValue"] as? String ?? "")
+                            DetailRow(label: "Description", value: productDetails["ObjectDescription"] as? String ?? "")
+                            DetailRow(label: "Safety", value: productDetails["SafetyConsiderations"] as? String ?? "")
+                            DetailRow(label: "Features", value: (productDetails["ObjectFeatures"] as? [String])?.joined(separator: ", ") ?? "")
+                            DetailRow(label: "Recall", value: (productDetails["HasRecall"] as? Bool) == true ? "Has Recall" : "No Recall")
+                            DetailRow(label: "Additional Info", value: productDetails["AdditionalInfo"] as? String ?? "")
                         }
                         .padding(20)
                     }
@@ -187,12 +181,17 @@ struct ProductDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         ProductDetailsView(
             productDetails: [
-                "name": "Sample Product",
-                "brand": "Sample Brand",
-                "category": "Electronics",
-                "condition": "Like New",
-                "price": "$99.99",
-                "description": "This is a sample product description."
+                "ObjectName": "Sample Product",
+                "ObjectBrand": "Sample Brand",
+                "ObjectModel": "Model X",
+                "ObjectYear": "2023",
+                "ObjectCondition": "Like New",
+                "ObjectValue": "$99.99",
+                "ObjectDescription": "This is a sample product description.",
+                "ObjectFeatures": ["Feature 1", "Feature 2"],
+                "SafetyConsiderations": "Safe for children",
+                "HasRecall": false,
+                "AdditionalInfo": "Some additional information"
             ],
             selectedImage: nil
         )

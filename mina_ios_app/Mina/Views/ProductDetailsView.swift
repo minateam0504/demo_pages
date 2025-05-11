@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProductDetailsView: View {
     let productDetails: [String: Any]
+    let selectedImage: UIImage?
     @Environment(\.dismiss) var dismiss
     @State private var isEditing = false
     @State private var editedDetails: [String: String] = [:]
@@ -69,7 +70,14 @@ struct ProductDetailsView: View {
                     // Product Details Card
                     VStack(spacing: 20) {
                         // Product Image
-                        if let imageUrl = productDetails["image_url"] as? String {
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 200)
+                                .clipped()
+                                .cornerRadius(8)
+                        } else if let imageUrl = productDetails["image_url"] as? String {
                             AsyncImage(url: URL(string: imageUrl)) { image in
                                 image
                                     .resizable()
@@ -79,6 +87,7 @@ struct ProductDetailsView: View {
                             }
                             .frame(height: 200)
                             .clipped()
+                            .cornerRadius(8)
                         }
                         
                         // Details Container
@@ -176,13 +185,16 @@ struct DetailRow: View {
 
 struct ProductDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductDetailsView(productDetails: [
-            "name": "Sample Product",
-            "brand": "Sample Brand",
-            "category": "Electronics",
-            "condition": "Like New",
-            "price": "$99.99",
-            "description": "This is a sample product description."
-        ])
+        ProductDetailsView(
+            productDetails: [
+                "name": "Sample Product",
+                "brand": "Sample Brand",
+                "category": "Electronics",
+                "condition": "Like New",
+                "price": "$99.99",
+                "description": "This is a sample product description."
+            ],
+            selectedImage: nil
+        )
     }
 } 

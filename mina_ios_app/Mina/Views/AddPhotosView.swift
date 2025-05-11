@@ -245,7 +245,7 @@ struct AddPhotosView: View {
                 CameraView(image: $selectedImages)
             }
             .navigationDestination(isPresented: $navigateToDetails) {
-                ProductDetailsView(productDetails: productDetails)
+                ProductDetailsView(productDetails: productDetails, selectedImage: selectedImages.first)
             }
         }
     }

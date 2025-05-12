@@ -73,40 +73,10 @@ struct ProductDetailsView: View {
                     .padding(.horizontal, 20)
                     
                     // Action Buttons
-                    HStack(spacing: 16) {
-                        Button(action: {
-                            isEditing.toggle()
-                        }) {
-                            Image(systemName: "pencil")
-                                .font(.system(size: 20))
-                                .foregroundColor(MinaColors.charcoal)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 48)
-                                .background(Color.white)
-                                .cornerRadius(12)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                                )
-                        }
-                        
-                        Button(action: {
-                            // Share functionality
-                        }) {
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.system(size: 20))
-                                .foregroundColor(MinaColors.charcoal)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 48)
-                                .background(Color.white)
-                                .cornerRadius(12)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                                )
-                        }
-                    }
-                    .padding(.horizontal, 20)
+                    ProductDetailsButtonsView(
+                        onEditTap: { isEditing.toggle() },
+                        onShareTap: { /* Share functionality */ }
+                    )
                     
                     // Continue Button
                     Button(action: {

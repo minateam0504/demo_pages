@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Account Management</title>
+    <title>Mina - Kids Profile Management</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -234,8 +234,10 @@
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <div class="page-title">My Account</div>
-            <a href="#" style="color: var(--terracotta);"><i class="fas fa-cog fa-lg"></i></a>
+            <div class="page-title">
+                <i class="fas fa-arrow-left" style="color: var(--charcoal); margin-right: 12px;"></i>
+                Kids Profiles
+            </div>
         </div>
         
         <!-- Profile Section -->
@@ -245,9 +247,9 @@
                     <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=120&q=60" alt="Julia R.">
                 </div>
                 <div class="profile-info">
-                    <div class="profile-name">Julia R.</div>
+                    <div class="profile-name">Sarah J.</div>
                     <div class="profile-meta">
-                        <i class="fas fa-shield-alt"></i> 98% Trust Score
+                        <i class="fas fa-child"></i> 2 Kids
                     </div>
                     <div class="profile-meta">
                         <i class="fas fa-map-marker-alt"></i> Mission District, San Francisco
@@ -257,90 +259,71 @@
             
             <div class="stats-row">
                 <div class="stat-item">
-                    <div class="stat-value">15</div>
-                    <div class="stat-label">ITEMS SOLD</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">KIDS</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">4</div>
+                    <div class="stat-value">12</div>
                     <div class="stat-label">ITEMS BOUGHT</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">ACTIVE LISTINGS</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">WISHLIST</div>
                 </div>
             </div>
         </div>
         
-        <!-- Activity Management Section -->
-        <div class="section-title">Manage Your Activity</div>
+        <!-- Kids Management Section -->
+        <div class="section-title">Manage Kids Profiles</div>
         
-        <a href="account-active-listings.html" class="action-card">
+        <a href="account-kids-profiles.html" class="action-card">
             <div class="action-icon">
-                <i class="fas fa-tag"></i>
+                <i class="fas fa-child"></i>
             </div>
             <div class="action-details">
-                <div class="action-title">Active Listings</div>
-                <div class="action-description">Manage your items for sale</div>
+                <div class="action-title">View All Profiles</div>
+                <div class="action-description">Manage Lucas (3) and Sophia (2m)</div>
             </div>
-            <div class="action-badge">3</div>
+            <div class="action-badge">2</div>
             <div class="chevron"><i class="fas fa-chevron-right"></i></div>
         </a>
         
-        <a href="account-sold-items.html" class="action-card">
+        <a href="account-kids-profile-edit.html" class="action-card">
             <div class="action-icon">
-                <i class="fas fa-dollar-sign"></i>
+                <i class="fas fa-plus"></i>
             </div>
             <div class="action-details">
-                <div class="action-title">Sold Items</div>
-                <div class="action-description">View your sales history</div>
+                <div class="action-title">Add New Profile</div>
+                <div class="action-description">Create a profile for another child</div>
             </div>
-            <div class="action-badge">15</div>
             <div class="chevron"><i class="fas fa-chevron-right"></i></div>
         </a>
         
-        <a href="account-purchases.html" class="action-card">
-            <div class="action-icon">
-                <i class="fas fa-shopping-bag"></i>
-            </div>
-            <div class="action-details">
-                <div class="action-title">Purchases</div>
-                <div class="action-description">Review your buying history</div>
-            </div>
-            <div class="action-badge">4</div>
-            <div class="chevron"><i class="fas fa-chevron-right"></i></div>
-        </a>
-        
-        <!-- Account Section -->
-        <div class="section-title">Account Settings</div>
+        <!-- Shopping Preferences Section -->
+        <div class="section-title">Shopping Preferences</div>
         
         <div class="profile-section">
             <a href="#" class="settings-link">
-                <div class="settings-icon"><i class="fas fa-user"></i></div>
-                <div class="settings-label">Edit Profile</div>
-                <div class="chevron"><i class="fas fa-chevron-right"></i></div>
-            </a>
-            <div class="divider"></div>
-            <a href="#" class="settings-link">
-                <div class="settings-icon"><i class="fas fa-credit-card"></i></div>
-                <div class="settings-label">Payment Methods</div>
+                <div class="settings-icon"><i class="fas fa-gift"></i></div>
+                <div class="settings-label">Wishlist Settings</div>
                 <div class="chevron"><i class="fas fa-chevron-right"></i></div>
             </a>
             <div class="divider"></div>
             <a href="#" class="settings-link">
                 <div class="settings-icon"><i class="fas fa-bell"></i></div>
-                <div class="settings-label">Notifications</div>
+                <div class="settings-label">Age-Appropriate Alerts</div>
                 <div class="chevron"><i class="fas fa-chevron-right"></i></div>
             </a>
             <div class="divider"></div>
             <a href="#" class="settings-link">
-                <div class="settings-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="settings-label">Pickup Locations</div>
+                <div class="settings-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="settings-label">Growth Tracking</div>
                 <div class="chevron"><i class="fas fa-chevron-right"></i></div>
             </a>
             <div class="divider"></div>
             <a href="#" class="settings-link">
-                <div class="settings-icon"><i class="fas fa-question-circle"></i></div>
-                <div class="settings-label">Help Center</div>
+                <div class="settings-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="settings-label">Safety Preferences</div>
                 <div class="chevron"><i class="fas fa-chevron-right"></i></div>
             </a>
         </div>

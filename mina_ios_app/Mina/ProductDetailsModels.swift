@@ -2,7 +2,7 @@ import Foundation
 
 // Main response struct
 struct ProductDetailsResponse: Codable {
-    let processed: Int
+    let processed: Bool
     let result: ProductResult
     let userId: String?
     

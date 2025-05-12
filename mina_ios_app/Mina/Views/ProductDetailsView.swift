@@ -35,37 +35,9 @@ struct ProductDetailsView: View {
                     .padding(.top, 10)
                     
                     // AI Assistant Message
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack(alignment: .top, spacing: 16) {
-                            // AI Avatar
-                            Circle()
-                                .fill(MinaColors.sageGreen)
-                                .frame(width: 40, height: 40)
-                                .overlay(
-                                    Text("M")
-                                        .font(.system(size: 20, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
-                            
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Mina AI Assistant")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(MinaColors.sageGreen)
-                                
-                                Text("I've analyzed your product and filled in the details below. Feel free to edit any information.")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(MinaColors.charcoal)
-                            }
-                        }
-                        .padding(16)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(MinaColors.sageGreen.opacity(0.3), lineWidth: 1)
-                        )
-                    }
-                    .padding(.horizontal, 20)
+                    AIAssistantMessageView(
+                        message: "I've analyzed your product and filled in the details below. Feel free to edit any information."
+                    )
                     
                     // Product Details Card
                     VStack(spacing: 20) {

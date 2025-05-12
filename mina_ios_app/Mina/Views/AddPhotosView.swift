@@ -46,7 +46,16 @@ struct AddPhotosView: View {
                     .padding(.top, 10)
                     
                     // AI Assistant Message
-                    AIAssistantMessageView()
+                    AIAssistantMessageView(
+                        message: "Just upload your photos, and I'll help you list your item quickly and accurately.",
+                        tips: [
+                            "Take clear photos of your item from multiple angles",
+                            "Include photos of product labels showing model details",
+                            "Capture the expiration date if applicable",
+                            "Show any wear or damage clearly"
+                        ],
+                        additionalInfo: "Photos of product labels improve accuracy by 85%"
+                    )
                     
                     // Photo Display Area
                     PhotoDisplayAreaView(selectedImages: selectedImages)

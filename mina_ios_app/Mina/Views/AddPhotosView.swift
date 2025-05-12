@@ -231,6 +231,19 @@ struct AddPhotosView: View {
                     if let data = data,
                        let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                         productDetails = json
+                        let raw_result = json["result"] as? String
+                        guard let jsonData = raw_result?.data(using: .utf8) else {
+                            print("Invalid or nil JSON string")
+                            return
+                        }
+
+                        do {
+                            let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+                            print("dictionary is \(String(describing: dictionary))")
+                        } catch {
+                            print("Failed to parse JSON: \(error)")
+                            return
+                        }
                         navigateToDetails = true
                     } else {
                         showError = true

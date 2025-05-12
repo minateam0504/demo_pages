@@ -22,6 +22,7 @@
 		7687924D2DD01CAE00BEA9BF /* ProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7687924C2DD01CAE00BEA9BF /* ProductDetailsView.swift */; };
 		76A6ACDB2DD19C9400B06C34 /* AIAssistantMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A6ACDA2DD19C9400B06C34 /* AIAssistantMessageView.swift */; };
 		76A6ACDD2DD19F0B00B06C34 /* PhotoDisplayAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A6ACDC2DD19F0B00B06C34 /* PhotoDisplayAreaView.swift */; };
+		76A6ACDF2DD1A07500B06C34 /* CameraGalleryButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A6ACDE2DD1A07500B06C34 /* CameraGalleryButtonsView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E1F /* MinaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E3F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */; };
 		8A1B2C3D4E5F6A7B8C9D0E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1B2C3D4E5F6A7B8C9D0E6F /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		7687924C2DD01CAE00BEA9BF /* ProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsView.swift; sourceTree = "<group>"; };
 		76A6ACDA2DD19C9400B06C34 /* AIAssistantMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIAssistantMessageView.swift; sourceTree = "<group>"; };
 		76A6ACDC2DD19F0B00B06C34 /* PhotoDisplayAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDisplayAreaView.swift; sourceTree = "<group>"; };
+		76A6ACDE2DD1A07500B06C34 /* CameraGalleryButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGalleryButtonsView.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E0F /* Mina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mina.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1B2C3D4E5F6A7B8C9D0E2F /* MinaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaApp.swift; sourceTree = "<group>"; };
 		8A1B2C3D4E5F6A7B8C9D0E4F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeView.swift; path = Views/WelcomeView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		76179FA52DC9CD070023D8F2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				76A6ACDE2DD1A07500B06C34 /* CameraGalleryButtonsView.swift */,
 				76A6ACDC2DD19F0B00B06C34 /* PhotoDisplayAreaView.swift */,
 				76A6ACDA2DD19C9400B06C34 /* AIAssistantMessageView.swift */,
 				7687924C2DD01CAE00BEA9BF /* ProductDetailsView.swift */,
@@ -231,6 +234,7 @@
 				76179FA92DC9CD070023D8F2 /* MinaLogo.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0EBF /* AuthManager.swift in Sources */,
 				8A1B2C3D4E5F6A7B8C9D0EDF /* Constants.swift in Sources */,
+				76A6ACDF2DD1A07500B06C34 /* CameraGalleryButtonsView.swift in Sources */,
 				7687924D2DD01CAE00BEA9BF /* ProductDetailsView.swift in Sources */,
 				76179F9D2DC9CCEC0023D8F2 /* AuthManager.swift in Sources */,
 				76179F9E2DC9CCEC0023D8F2 /* Constants.swift in Sources */,

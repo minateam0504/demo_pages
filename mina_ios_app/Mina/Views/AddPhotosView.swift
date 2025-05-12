@@ -54,51 +54,18 @@ struct AddPhotosView: View {
                     Spacer()
                     
                     // Camera and Gallery Buttons
-                    HStack(spacing: 20) {
-                        Button(action: {
-                            checkCameraPermission()
-                        }) {
-                            HStack {
-                                Image(systemName: "camera")
-                                Text("Take Photo")
-                            }
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(MinaColors.charcoal)
-                            .frame(maxWidth: .infinity)
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(24)
-                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                        }
-                        
-                        PhotosPicker(selection: $selectedItems,
-                                   maxSelectionCount: 3,
-                                   matching: .images) {
-                            HStack {
-                                Image(systemName: "photo.on.rectangle")
-                                Text("Gallery")
-                            }
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(MinaColors.charcoal)
-                            .frame(maxWidth: .infinity)
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(24)
-                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .onChange(of: selectedItems) { newItems in
-                        Task {
-                            selectedImages = []
-                            for item in newItems {
-                                if let data = try? await item.loadTransferable(type: Data.self),
-                                   let image = UIImage(data: data) {
-                                    selectedImages.append(image)
+                    CameraGalleryButtonsView(selectedItems: $selectedItems, onCameraTap: checkCameraPermission)
+                        .onChange(of: selectedItems) { newItems in
+                            Task {
+                                selectedImages = []
+                                for item in newItems {
+                                    if let data = try? await item.loadTransferable(type: Data.self),
+                                       let image = UIImage(data: data) {
+                                        selectedImages.append(image)
+                                    }
                                 }
                             }
                         }
-                    }
                     
                     // Continue Button
                     Button(action: {

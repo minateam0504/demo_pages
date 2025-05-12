@@ -7,15 +7,18 @@ struct ProductDetailsView: View {
     @State private var isEditing = false
     @State private var editedDetails: [String: String] = [:]
     
-    // Move this code to a function or computed property since we can't access
-    // instance properties in property initializers
-    var parsedDetails: [String: Any] {
+    private var _parsedDetails: [String: Any] = [:]
+    
+    init(productDetails: [String: Any], selectedImage: UIImage?) {
+        self.productDetails = productDetails
+        self.selectedImage = selectedImage
+        
+        // Parse the details once during initialization
         if let raw_result = productDetails["result"] as? String,
            let jsonData = raw_result.data(using: .utf8) {
             do {
                 if let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
-                    print("dictionary is \(String(describing: dictionary))")
-                    return dictionary
+                    self._parsedDetails = dictionary
                 }
             } catch {
                 print("Failed to parse JSON: \(error)")
@@ -23,7 +26,10 @@ struct ProductDetailsView: View {
         } else {
             print("Invalid or nil JSON string")
         }
-        return [:]
+    }
+    
+    var parsedDetails: [String: Any] {
+        return _parsedDetails
     }
 
     var body: some View {
@@ -77,7 +83,14 @@ struct ProductDetailsView: View {
                             DetailRow(label: "Model", value: parsedDetails["ObjectModel"] as? String ?? "")
                             DetailRow(label: "Year", value: parsedDetails["ObjectYear"] as? String ?? "")
                             DetailRow(label: "Condition", value: parsedDetails["ObjectCondition"] as? String ?? "")
-                            DetailRow(label: "Value", value: parsedDetails["ObjectValue"] as? String ?? "")
+                            DetailRow(label: "Value", value: {
+                                if let stringValue = parsedDetails["ObjectValue"] as? String {
+                                    return stringValue
+                                } else if let intValue = parsedDetails["ObjectValue"] as? Int {
+                                    return String(intValue)
+                                }
+                                return ""
+                            }())
                             DetailRow(label: "Description", value: parsedDetails["ObjectDescription"] as? String ?? "")
                             DetailRow(label: "Safety", value: parsedDetails["SafetyConsiderations"] as? String ?? "")
                             DetailRow(label: "Features", value: (parsedDetails["ObjectFeatures"] as? [String])?.joined(separator: ", ") ?? "")

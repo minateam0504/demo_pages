@@ -7,6 +7,25 @@ struct ProductDetailsView: View {
     @State private var isEditing = false
     @State private var editedDetails: [String: String] = [:]
     
+    // Move this code to a function or computed property since we can't access
+    // instance properties in property initializers
+    var parsedDetails: [String: Any] {
+        if let raw_result = productDetails["result"] as? String,
+           let jsonData = raw_result.data(using: .utf8) {
+            do {
+                if let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
+                    print("dictionary is \(String(describing: dictionary))")
+                    return dictionary
+                }
+            } catch {
+                print("Failed to parse JSON: \(error)")
+            }
+        } else {
+            print("Invalid or nil JSON string")
+        }
+        return [:]
+    }
+
     var body: some View {
         ZStack {
             MinaColors.cream
@@ -53,17 +72,17 @@ struct ProductDetailsView: View {
                         
                         // Details Container
                         VStack(spacing: 16) {
-                            DetailRow(label: "Name", value: productDetails["ObjectName"] as? String ?? "")
-                            DetailRow(label: "Brand", value: productDetails["ObjectBrand"] as? String ?? "")
-                            DetailRow(label: "Model", value: productDetails["ObjectModel"] as? String ?? "")
-                            DetailRow(label: "Year", value: productDetails["ObjectYear"] as? String ?? "")
-                            DetailRow(label: "Condition", value: productDetails["ObjectCondition"] as? String ?? "")
-                            DetailRow(label: "Value", value: productDetails["ObjectValue"] as? String ?? "")
-                            DetailRow(label: "Description", value: productDetails["ObjectDescription"] as? String ?? "")
-                            DetailRow(label: "Safety", value: productDetails["SafetyConsiderations"] as? String ?? "")
-                            DetailRow(label: "Features", value: (productDetails["ObjectFeatures"] as? [String])?.joined(separator: ", ") ?? "")
-                            DetailRow(label: "Recall", value: (productDetails["HasRecall"] as? Bool) == true ? "Has Recall" : "No Recall")
-                            DetailRow(label: "Additional Info", value: productDetails["AdditionalInfo"] as? String ?? "")
+                            DetailRow(label: "Name", value: parsedDetails["ObjectName"] as? String ?? "")
+                            DetailRow(label: "Brand", value: parsedDetails["ObjectBrand"] as? String ?? "")
+                            DetailRow(label: "Model", value: parsedDetails["ObjectModel"] as? String ?? "")
+                            DetailRow(label: "Year", value: parsedDetails["ObjectYear"] as? String ?? "")
+                            DetailRow(label: "Condition", value: parsedDetails["ObjectCondition"] as? String ?? "")
+                            DetailRow(label: "Value", value: parsedDetails["ObjectValue"] as? String ?? "")
+                            DetailRow(label: "Description", value: parsedDetails["ObjectDescription"] as? String ?? "")
+                            DetailRow(label: "Safety", value: parsedDetails["SafetyConsiderations"] as? String ?? "")
+                            DetailRow(label: "Features", value: (parsedDetails["ObjectFeatures"] as? [String])?.joined(separator: ", ") ?? "")
+                            DetailRow(label: "Recall", value: (parsedDetails["HasRecall"] as? Bool) == true ? "Has Recall" : "No Recall")
+                            DetailRow(label: "Additional Info", value: parsedDetails["AdditionalInfo"] as? String ?? "")
                         }
                         .padding(20)
                     }

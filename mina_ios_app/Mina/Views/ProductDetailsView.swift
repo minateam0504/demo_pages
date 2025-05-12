@@ -93,7 +93,7 @@ struct ProductDetailsView: View {
                             }())
                             DetailRow(label: "Description", value: parsedDetails["ObjectDescription"] as? String ?? "")
                             DetailRow(label: "Safety", value: parsedDetails["SafetyConsiderations"] as? String ?? "")
-                            DetailRow(label: "Features", value: (parsedDetails["ObjectFeatures"] as? [String])?.joined(separator: ", ") ?? "")
+                            DetailRow(label: "Features", value: parsedDetails["ObjectFeatures"] as? String ?? "")
                             DetailRow(label: "Recall", value: (parsedDetails["HasRecall"] as? Bool) == true ? "Has Recall" : "No Recall")
                             DetailRow(label: "Additional Info", value: parsedDetails["AdditionalInfo"] as? String ?? "")
                         }
@@ -162,7 +162,7 @@ struct ProductDetailsView_Previews: PreviewProvider {
                 "ObjectCondition": "Like New",
                 "ObjectValue": "$99.99",
                 "ObjectDescription": "This is a sample product description.",
-                "ObjectFeatures": ["Feature 1", "Feature 2"],
+                "ObjectFeatures": "Feature 1, Feature 2",
                 "SafetyConsiderations": "Safe for children",
                 "HasRecall": false,
                 "AdditionalInfo": "Some additional information"

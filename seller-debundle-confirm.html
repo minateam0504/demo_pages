@@ -132,6 +132,9 @@
             padding: 20px;
             margin-bottom: 16px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         .product-card:hover {
             border-color: var(--sage-green);
@@ -141,6 +144,27 @@
             color: var(--terracotta);
             font-size: 1.25rem;
             font-weight: 600;
+        }
+        .product-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            flex-shrink: 0;
+        }
+        .product-info {
+            flex: 1;
+        }
+        .badge-success {
+            display: inline-block;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -158,12 +182,14 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="screen-header">
-            <div class="header-title">New Listings</div>
+            <div class="header-title">New Individual Listings</div>
         </div>
 
         <div class="notification-card">
             <div class="mina-header flex items-center">
-                <img src="https://placehold.co/48x48" alt="Mina Logo" class="w-12 h-12 rounded-full mr-4">
+                <div class="w-12 h-12 bg-sage-green rounded-full flex items-center justify-center text-white mr-4">
+                    <span style="font-weight: bold; font-size: 20px;">M</span>
+                </div>
                 <div>
                     <h2 class="text-xl font-semibold">Mina</h2>
                     <p class="text-sm opacity-90">AI Assistant</p>
@@ -175,30 +201,73 @@
                 
                 <div class="space-y-4">
                     <div class="product-card">
-                        <h3 class="font-semibold text-lg">Organic Cotton Onesies (3-pack)</h3>
-                        <p class="text-sm text-gray-600 mt-1">Size: 0-3 months</p>
-                        <p class="price-tag mt-3">$24.99</p>
+                        <img src="images/Muslin swaddles.jpg" alt="Muslin swaddles" class="product-img">
+                        <div class="product-info">
+                            <h3 class="font-semibold text-lg">Muslin Swaddles (3-pack)</h3>
+                            <p class="text-sm text-gray-600 mt-1">Size: 0-6 months</p>
+                            <p class="price-tag mt-2">$15</p>
+                            <div class="badge-success">New Listing</div>
+                        </div>
                     </div>
                     
                     <div class="product-card">
-                        <h3 class="font-semibold text-lg">Baby Swaddle Blankets (2-pack)</h3>
-                        <p class="text-sm text-gray-600 mt-1">100% Cotton</p>
-                        <p class="price-tag mt-3">$19.99</p>
+                        <img src="images/Burp cloths set.jpg" alt="Burp cloths set" class="product-img">
+                        <div class="product-info">
+                            <h3 class="font-semibold text-lg">Burp Cloths Set</h3>
+                            <p class="text-sm text-gray-600 mt-1">100% Cotton, Excellent Condition</p>
+                            <p class="price-tag mt-2">$12</p>
+                            <div class="badge-success">New Listing</div>
+                        </div>
                     </div>
                     
                     <div class="product-card">
-                        <h3 class="font-semibold text-lg">Baby Bottle Set</h3>
-                        <p class="text-sm text-gray-600 mt-1">4 bottles, BPA-free</p>
-                        <p class="price-tag mt-3">$29.99</p>
+                        <img src="images/Newborn sleep sack.jpg" alt="Newborn sleep sack" class="product-img">
+                        <div class="product-info">
+                            <h3 class="font-semibold text-lg">Newborn Sleep Sack</h3>
+                            <p class="text-sm text-gray-600 mt-1">0-6 months, Like New</p>
+                            <p class="price-tag mt-2">$18</p>
+                            <div class="badge-success">New Listing</div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="images/Baby mittens.jpg" alt="Baby mittens" class="product-img">
+                        <div class="product-info">
+                            <h3 class="font-semibold text-lg">Baby Mittens</h3>
+                            <p class="text-sm text-gray-600 mt-1">Soft Cotton, 0-3 months</p>
+                            <p class="price-tag mt-2">$8</p>
+                            <div class="badge-success">New Listing</div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="images/Pacifier set.jpg" alt="Pacifier set" class="product-img">
+                        <div class="product-info">
+                            <h3 class="font-semibold text-lg">Pacifier Set</h3>
+                            <p class="text-sm text-gray-600 mt-1">BPA-free, 0-6 months</p>
+                            <p class="price-tag mt-2">$12</p>
+                            <div class="badge-success">New Listing</div>
+                        </div>
                     </div>
                 </div>
                 
-                <p class="text-lg leading-relaxed">I've also updated your inventory and removed the bundle listing. Would you like to make any adjustments to these individual listings?</p>
+                <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium">Original Bundle Price:</span>
+                        <span class="line-through text-gray-500">$65</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="font-semibold">Total Individual Value:</span>
+                        <span class="font-semibold text-terracotta">$65</span>
+                    </div>
+                </div>
+                
+                <p class="text-lg leading-relaxed">I've updated your inventory and removed the bundle listing. Would you like to make any adjustments to these individual listings?</p>
             </div>
             
             <div class="mt-8 space-y-4">
-                <button onclick="window.location.href='seller-dashboard.html'" class="action-button">
-                    Looks Good, Save Changes
+                <button onclick="window.location.href='julia-dashboard.html'" class="action-button">
+                    Looks Good, Publish Listings
                 </button>
                 <button class="secondary-button">
                     Adjust Prices

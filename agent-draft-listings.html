@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Draft Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .screen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            font-size: 20px;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+        }
+        .ai-container {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            gap: 16px;
+            align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
+        }
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .ai-message {
+            flex: 1;
+        }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .ai-text {
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 8px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            flex: 1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--charcoal);
+        }
+        .draft-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .draft-edit-all {
+            font-size: 14px;
+            color: var(--terracotta);
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .product-images {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 2px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        .product-images::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .product-image-item {
+            flex: 0 0 auto;
+            width: 120px;
+            height: 120px;
+            scroll-snap-align: start;
+        }
+        .product-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-multiple-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+        .product-multiple-images .product-image-item {
+            width: 100%;
+            height: 120px;
+        }
+        .product-details {
+            padding: 16px;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 12px;
+        }
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+        .card-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 12px;
+        }
+        .btn-edit {
+            background-color: white;
+            color: var(--charcoal);
+            border: 1px solid #E5E7EB;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+            margin-right: 4px;
+        }
+        .btn-view {
+            background-color: var(--charcoal);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+            margin-right: 4px;
+        }
+        .btn-approve {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .item-count {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        /* Modal styles */
+        .edit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .modal-content {
+            width: 92%;
+            max-width: 500px;
+            max-height: 90vh;
+            background-color: var(--cream);
+            border-radius: 16px;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            color: var(--charcoal);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .bundle-items {
+            margin-bottom: 24px;
+        }
+        
+        .bundle-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .item-value {
+            font-size: 14px;
+            color: var(--terracotta);
+        }
+        
+        .item-remove {
+            color: #666;
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .item-remove:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        .price-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-right: 55px; /* Increased padding to avoid badge overlap */
+        }
+        
+        .price-label {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .price-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+        
+        .price-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+        
+        .price-adjust {
+            background-color: #F5F5F5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--charcoal);
+            cursor: pointer;
+        }
+        
+        .price-input-wrapper {
+            position: relative;
+            flex: 1;
+            margin: 0 12px;
+        }
+        
+        .price-input {
+            width: 100%;
+            background-color: #F5F5F5;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 12px 10px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .dollar-sign {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 600;
+            color: var(--terracotta);
+        }
+        
+        .price-options {
+            margin-top: 16px;
+        }
+        
+        .price-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .price-option:last-child {
+            border-bottom: none;
+        }
+        
+        .price-option-label {
+            font-size: 14px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--terracotta);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 1px solid var(--terracotta);
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-weight: 500;
+            font-size: 16px;
+            flex: 1;
+            margin-right: 8px;
+            text-align: center;
+        }
+        
+        .btn-save {
+            background-color: var(--terracotta);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-weight: 500;
+            font-size: 16px;
+            flex: 1;
+            margin-left: 8px;
+            text-align: center;
+        }
+        
+        .suggested-item {
+            background-color: #F5F5F5;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+        
+        .suggested-header {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--sage-green);
+        }
+        
+        .add-item-btn {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin-left: auto;
+            display: block;
+        }
+        
+        .price-adj-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+        
+        .original-price {
+            font-size: 16px;
+            color: #888;
+            text-decoration: line-through;
+            margin-right: 8px;
+        }
+        
+        .btn-add-custom {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-weight: 500;
+            font-size: 15px;
+            margin-top: 12px;
+            margin-bottom: 16px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="screen-header">
+            <div class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="header-title">
+                Draft Listings
+            </div>
+            <div class="back-button" style="visibility: hidden;">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+
+        <div class="ai-container">
+            <div class="ai-avatar">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
+            <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
+                <div class="ai-text">
+                    I've analyzed your photos and organized them based on item type and age groups. I've created 3 bundles and 4 individual listings. Review and approve each one or make edits as needed.
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Items Detected</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Bundles Created</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Solo Items</div>
+            </div>
+        </div>
+        
+        <div class="draft-section-title">
+            <div>Draft Listings</div>
+            <div class="draft-edit-all">Edit All</div>
+        </div>
+        
+        <!-- Bundle Listing 1 -->
+        <div class="product-card">
+            <div class="product-multiple-images" onclick="viewProductDetails('newborn-essentials-bundle')">
+                <div class="product-image-item">
+                    <img src="images/Muslin swaddles.jpg" alt="Muslin swaddles">
+                </div>
+                <div class="product-image-item">
+                    <img src="images/Burp cloths set.jpg" alt="Burp cloths set">
+                </div>
+                <div class="product-image-item" style="position: relative;">
+                    <img src="images/Newborn sleep sack.jpg" alt="Newborn sleep sack">
+                    <div class="item-count">+2</div>
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title" onclick="viewProductDetails('newborn-essentials-bundle')">Newborn Essentials Bundle</div>
+                <div class="product-price">$65</div>
+                <div class="product-description">
+                    Bundle includes: Muslin swaddles (3), Burp cloths set, Newborn sleep sack, Baby mittens, and Pacifier set. All items gently used from a smoke-free home. Perfect for 0-6 months.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-view" onclick="viewProductDetails('newborn-essentials-bundle')">View</div>
+                    <div class="btn-edit" onclick="openEditModal()">Edit</div>
+                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bundle Listing 2 -->
+        <div class="product-card">
+            <div class="product-multiple-images" onclick="viewProductDetails('toddler-toys-bundle')">
+                <div class="product-image-item">
+                    <img src="images/Toys.jpg" alt="Wooden stacking blocks">
+                </div>
+                <div class="product-image-item">
+                    <img src="images/toys 2.jpg" alt="Shape sorter">
+                </div>
+                <div class="product-image-item" style="position: relative;">
+                    <img src="images/toys3.jpg" alt="Toddler toys">
+                    <div class="item-count">+2</div>
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title" onclick="viewProductDetails('toddler-toys-bundle')">Toddler Toys Bundle (12-24 months)</div>
+                <div class="product-price">$42</div>
+                <div class="product-description">
+                    Bundle includes: Wooden stacking blocks, Shape sorter, Pull-along toy, and Sensory balls. All in excellent condition, sanitized and ready for play. Great for developing motor skills.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-view" onclick="viewProductDetails('toddler-toys-bundle')">View</div>
+                    <div class="btn-edit" onclick="alert('Edit feature would open here')">Edit</div>
+                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Solo Listing -->
+        <div class="product-card">
+            <div class="product-images" onclick="viewProductDetails('baby-bjorn-bouncer')">
+                <div class="product-image-item">
+                    <img src="images/Baby Björn Bouncer.jpg" alt="Baby Björn Bouncer">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title" onclick="viewProductDetails('baby-bjorn-bouncer')">Baby Björn Bouncer - Like New</div>
+                <div class="product-price">$120</div>
+                <div class="product-description">
+                    Used for only 2 months. Natural bouncing movement, no batteries needed. Includes original box and instructions. Machine-washable fabric seat. Excellent condition.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-view" onclick="viewProductDetails('baby-bjorn-bouncer')">View</div>
+                    <div class="btn-edit" onclick="alert('Edit feature would open here')">Edit</div>
+                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn-primary" id="continue-btn" onclick="window.location.href='agent-meetup-logistics.html'">Continue to Scheduling (7 items)</button>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div class="edit-modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Edit Bundle</div>
+                <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            </div>
+            
+            <div class="bundle-items">
+                <div class="bundle-item">
+                    <div class="item-image">
+                        <img src="images/Muslin swaddles.jpg" alt="Muslin swaddles">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Muslin swaddles (3)</div>
+                        <div class="item-value">$15</div>
+                    </div>
+                    <button class="item-remove" onclick="removeItem(this, 15)"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="bundle-item">
+                    <div class="item-image">
+                        <img src="images/Burp cloths set.jpg" alt="Burp cloths set">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Burp cloths set</div>
+                        <div class="item-value">$12</div>
+                    </div>
+                    <button class="item-remove" onclick="removeItem(this, 12)"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="bundle-item">
+                    <div class="item-image">
+                        <img src="images/Newborn sleep sack.jpg" alt="Newborn sleep sack">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Newborn sleep sack</div>
+                        <div class="item-value">$18</div>
+                    </div>
+                    <button class="item-remove" onclick="removeItem(this, 18)"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="bundle-item">
+                    <div class="item-image">
+                        <img src="images/Baby mittens.jpg" alt="Baby mittens">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Baby mittens</div>
+                        <div class="item-value">$8</div>
+                    </div>
+                    <button class="item-remove" onclick="removeItem(this, 8)"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="bundle-item">
+                    <div class="item-image">
+                        <img src="images/Pacifier set.jpg" alt="Pacifier set">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Pacifier set</div>
+                        <div class="item-value">$12</div>
+                    </div>
+                    <button class="item-remove" onclick="removeItem(this, 12)"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <div class="suggested-item">
+                <div class="suggested-header">
+                    <i class="fas fa-lightbulb" style="color: var(--sage-green);"></i> Suggested item to add from your registry
+                </div>
+                <div class="bundle-item" style="margin-bottom: 0;">
+                    <div class="item-image">
+                        <img src="images/baby bottles.jpg" alt="Baby bottles">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Baby bottles (3-pack)</div>
+                        <div class="item-value">$16</div>
+                    </div>
+                    <button class="add-item-btn" onclick="addItem('Baby bottles (3-pack)', 16, 'images/baby bottles.jpg')">Add to Bundle</button>
+                </div>
+            </div>
+            
+            <button class="btn-add-custom" onclick="showAddCustomItemForm()">+ Add Custom Item</button>
+            
+            <div id="customItemForm" style="display: none; margin-top: 16px; background-color: #F5F5F5; border-radius: 12px; padding: 16px;">
+                <div style="font-weight: 600; margin-bottom: 12px;">Add Custom Item</div>
+                
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 6px; font-size: 14px;">Item Name</label>
+                    <input type="text" id="customItemName" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;" placeholder="e.g., Baby Mittens">
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 6px; font-size: 14px;">Price</label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--terracotta);">$</span>
+                        <input type="number" id="customItemPrice" style="width: 100%; padding: 10px 10px 10px 25px; border-radius: 8px; border: 1px solid #ddd;" placeholder="15">
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-secondary" style="flex: 1;" onclick="hideAddCustomItemForm()">Cancel</button>
+                    <button class="btn-save" style="flex: 1;" onclick="addCustomItem()">Add Item</button>
+                </div>
+            </div>
+            
+            <div class="price-section">
+                <div class="price-header">
+                    <div class="price-label">Bundle Price</div>
+                    <div id="priceAdjustmentBadge" class="price-adj-badge" style="display: none;">+$0</div>
+                    <div>
+                        <span id="originalPrice" class="original-price" style="display: none;">$65</span>
+                        <span id="bundlePrice" class="price-value">$65</span>
+                    </div>
+                </div>
+                
+                <div class="price-controls">
+                    <button class="price-adjust" onclick="adjustPrice(-5)">-</button>
+                    <div class="price-input-wrapper">
+                        <span class="dollar-sign">$</span>
+                        <input type="number" class="price-input" id="priceInput" value="65" oninput="updatePrice(this.value)">
+                    </div>
+                    <button class="price-adjust" onclick="adjustPrice(5)">+</button>
+                </div>
+                
+                <div class="price-options">
+                    <div class="price-option">
+                        <div class="price-option-label">Quick Sale Pricing (-10%)</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="quickSaleToggle" onchange="toggleQuickSale()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="price-option">
+                        <div class="price-option-label">Best Value Bundle Badge</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="valueBadgeToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="price-option">
+                        <div class="price-option-label">OBO (Or Best Offer)</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="oboToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn-save" onclick="saveChanges()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="index.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="buyer-category.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Browse</div>
+        </a>
+        <a href="agent-bulk-upload.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="julia-dashboard.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-bell"></i></div>
+            <div class="tab-label">Activity</div>
+        </a>
+        <a href="account-management.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Account</div>
+        </a>
+    </div>
+
+    <script>
+        document.querySelector('.back-button').addEventListener('click', function() {
+            window.location.href = 'agent-bulk-upload.html';
+        });
+
+        // Function to view product details
+        function viewProductDetails(productId) {
+            if (productId === 'newborn-essentials-bundle') {
+                window.location.href = 'newborn-essentials-bundle-detail.html';
+            } else if (productId === 'toddler-toys-bundle') {
+                // Placeholder for future detail page
+                alert('Toddler Toys Bundle detail page would open here');
+            } else if (productId === 'baby-bjorn-bouncer') {
+                // Placeholder for future detail page
+                alert('Baby Björn Bouncer detail page would open here');
+            }
+        }
+
+        let approvedCount = 0;
+        const totalItems = 3;
+        let originalPrice = 65;
+        let currentItems = 5;
+        let basePrice = 65; // Base price for the bundle
+        let quickSaleActive = false;
+        let oboActive = false;
+        
+        function approveItem(el) {
+            if (!el.classList.contains('approved')) {
+                el.classList.add('approved');
+                el.innerHTML = "Approved ✓";
+                el.style.backgroundColor = "#4A4656";
+                approvedCount++;
+                
+                if (approvedCount === totalItems) {
+                    document.getElementById('continue-btn').style.backgroundColor = "var(--terracotta)";
+                    document.getElementById('continue-btn').innerHTML = "Continue to Scheduling (All Approved)";
+                } else {
+                    document.getElementById('continue-btn').innerHTML = `Continue to Scheduling (${approvedCount}/${totalItems} approved)`;
+                }
+            }
+        }
+        
+        function openEditModal() {
+            document.getElementById('editModal').style.display = 'flex';
+            
+            // Reset the price display to current values
+            document.getElementById('priceInput').value = originalPrice;
+            document.getElementById('bundlePrice').textContent = `$${originalPrice}`;
+            document.getElementById('originalPrice').textContent = `$${basePrice}`;
+            
+            // Show/hide price adjustment badge
+            if (originalPrice !== basePrice) {
+                const adjustment = originalPrice - basePrice;
+                document.getElementById('priceAdjustmentBadge').textContent = adjustment > 0 ? `+$${adjustment}` : `-$${-adjustment}`;
+                document.getElementById('priceAdjustmentBadge').style.display = 'block';
+                
+                if (adjustment !== 0) {
+                    document.getElementById('originalPrice').style.display = 'inline';
+                }
+            } else {
+                document.getElementById('priceAdjustmentBadge').style.display = 'none';
+                document.getElementById('originalPrice').style.display = 'none';
+            }
+            
+            // Set toggle states
+            document.getElementById('quickSaleToggle').checked = quickSaleActive;
+            document.getElementById('oboToggle').checked = oboActive;
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        
+        function removeItem(el, price) {
+            const bundlePrice = document.getElementById('bundlePrice');
+            const priceInput = document.getElementById('priceInput');
+            basePrice -= price;
+            originalPrice = basePrice;
+            
+            // Update displayed price
+            bundlePrice.textContent = `$${originalPrice}`;
+            priceInput.value = originalPrice;
+            
+            // Update price adjustment display
+            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
+            priceAdjustmentBadge.style.display = 'none';
+            document.getElementById('originalPrice').style.display = 'none';
+            
+            // If quick sale is active, reapply the discount
+            if (quickSaleActive) {
+                toggleQuickSale(true);
+            }
+            
+            // Remove the item visually
+            el.parentElement.style.opacity = '0.5';
+            el.parentElement.style.height = '0';
+            el.parentElement.style.margin = '0';
+            el.parentElement.style.padding = '0';
+            el.parentElement.style.overflow = 'hidden';
+            el.parentElement.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                el.parentElement.remove();
+                currentItems--;
+                
+                // Update item count in the main card
+                const itemCountElement = document.querySelector('.item-count');
+                if (itemCountElement) {
+                    itemCountElement.textContent = `+${currentItems - 2}`;
+                    if (currentItems <= 2) {
+                        itemCountElement.style.display = 'none';
+                    }
+                }
+            }, 300);
+        }
+        
+        function addItem(name, price, imageSrc) {
+            const bundleItems = document.querySelector('.bundle-items');
+            const bundlePrice = document.getElementById('bundlePrice');
+            const priceInput = document.getElementById('priceInput');
+            
+            // Create new item element
+            const newItem = document.createElement('div');
+            newItem.className = 'bundle-item';
+            newItem.style.opacity = '0';
+            newItem.style.transform = 'translateY(20px)';
+            newItem.style.transition = 'all 0.3s ease';
+            
+            newItem.innerHTML = `
+                <div class="item-image">
+                    <img src="${imageSrc}" alt="${name}">
+                </div>
+                <div class="item-details">
+                    <div class="item-name">${name}</div>
+                    <div class="item-value">$${price}</div>
+                </div>
+                <button class="item-remove" onclick="removeItem(this, ${price})"><i class="fas fa-times"></i></button>
+            `;
+            
+            bundleItems.appendChild(newItem);
+            
+            // Animate the new item
+            setTimeout(() => {
+                newItem.style.opacity = '1';
+                newItem.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Update price
+            basePrice += price;
+            originalPrice = basePrice;
+            bundlePrice.textContent = `$${originalPrice}`;
+            priceInput.value = originalPrice;
+            
+            // Update price adjustment display
+            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
+            priceAdjustmentBadge.style.display = 'none';
+            document.getElementById('originalPrice').style.display = 'none';
+            
+            // If quick sale is active, reapply the discount
+            if (quickSaleActive) {
+                toggleQuickSale(true);
+            }
+            
+            // Update item count
+            currentItems++;
+            
+            // Update the suggested item section
+            document.querySelector('.suggested-item').style.display = 'none';
+            
+            // Update item count in the main card
+            const itemCountElement = document.querySelector('.item-count');
+            if (itemCountElement) {
+                itemCountElement.textContent = `+${currentItems - 2}`;
+                itemCountElement.style.display = 'block';
+            }
+        }
+        
+        function adjustPrice(amount) {
+            const bundlePrice = document.getElementById('bundlePrice');
+            const priceInput = document.getElementById('priceInput');
+            let currentPrice = parseInt(priceInput.value);
+            
+            currentPrice += amount;
+            if (currentPrice < 0) currentPrice = 0;
+            
+            bundlePrice.textContent = `$${currentPrice}`;
+            priceInput.value = currentPrice;
+            
+            // Update price adjustment badge and original price display
+            updatePriceAdjustment(currentPrice);
+        }
+        
+        function updatePrice(value) {
+            const bundlePrice = document.getElementById('bundlePrice');
+            bundlePrice.textContent = `$${value}`;
+            
+            // Update price adjustment badge and original price display
+            updatePriceAdjustment(parseInt(value));
+        }
+        
+        function updatePriceAdjustment(currentPrice) {
+            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
+            const originalPriceDisplay = document.getElementById('originalPrice');
+            
+            if (currentPrice !== basePrice) {
+                const adjustment = currentPrice - basePrice;
+                priceAdjustmentBadge.textContent = adjustment > 0 ? `+$${adjustment}` : `-$${-adjustment}`;
+                priceAdjustmentBadge.style.display = 'block';
+                originalPriceDisplay.style.display = 'inline';
+            } else {
+                priceAdjustmentBadge.style.display = 'none';
+                originalPriceDisplay.style.display = 'none';
+            }
+        }
+        
+        function toggleQuickSale(forceState) {
+            const bundlePrice = document.getElementById('bundlePrice');
+            const priceInput = document.getElementById('priceInput');
+            const quickSaleToggle = document.getElementById('quickSaleToggle');
+            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
+            const originalPriceDisplay = document.getElementById('originalPrice');
+            
+            // If forceState is provided, use it, otherwise use the toggle's checked state
+            const checked = forceState !== undefined ? forceState : quickSaleToggle.checked;
+            quickSaleToggle.checked = checked;
+            quickSaleActive = checked;
+            
+            if (checked) {
+                // Apply 10% discount
+                const discountedPrice = Math.round(basePrice * 0.9);
+                bundlePrice.textContent = `$${discountedPrice}`;
+                priceInput.value = discountedPrice;
+                originalPrice = discountedPrice;
+                
+                // Show price adjustment
+                priceAdjustmentBadge.textContent = `-$${Math.round(basePrice * 0.1)}`;
+                priceAdjustmentBadge.style.display = 'block';
+                originalPriceDisplay.textContent = `$${basePrice}`;
+                originalPriceDisplay.style.display = 'inline';
+            } else {
+                // Restore original price
+                bundlePrice.textContent = `$${basePrice}`;
+                priceInput.value = basePrice;
+                originalPrice = basePrice;
+                
+                // Hide price adjustment
+                priceAdjustmentBadge.style.display = 'none';
+                originalPriceDisplay.style.display = 'none';
+            }
+        }
+        
+        function showAddCustomItemForm() {
+            document.getElementById('customItemForm').style.display = 'block';
+            // Hide the suggested item while adding custom
+            document.querySelector('.suggested-item').style.display = 'none';
+            document.querySelector('.btn-add-custom').style.display = 'none';
+        }
+        
+        function hideAddCustomItemForm() {
+            document.getElementById('customItemForm').style.display = 'none';
+            // Show the add custom button again
+            document.querySelector('.btn-add-custom').style.display = 'block';
+            
+            // Only show suggested item if it hasn't been permanently hidden
+            if (!document.querySelector('.suggested-item').hasAttribute('data-hidden')) {
+                document.querySelector('.suggested-item').style.display = 'block';
+            }
+            
+            // Clear the form
+            document.getElementById('customItemName').value = '';
+            document.getElementById('customItemPrice').value = '';
+        }
+        
+        function addCustomItem() {
+            const name = document.getElementById('customItemName').value.trim();
+            const price = parseInt(document.getElementById('customItemPrice').value);
+            
+            if (!name) {
+                alert('Please enter an item name');
+                return;
+            }
+            
+            if (!price || price <= 0) {
+                alert('Please enter a valid price');
+                return;
+            }
+            
+            // Use a default image for custom items
+            const imageSrc = 'images/baby_stroller.jpg'; // Default image for custom items
+            
+            // Add the item
+            addItem(name, price, imageSrc);
+            
+            // Hide and reset the form
+            hideAddCustomItemForm();
+            
+            // Mark suggested item as permanently hidden
+            document.querySelector('.suggested-item').setAttribute('data-hidden', 'true');
+            document.querySelector('.suggested-item').style.display = 'none';
+        }
+        
+        function saveChanges() {
+            const newPrice = document.getElementById('priceInput').value;
+            const productPrice = document.querySelector('.product-price');
+            originalPrice = parseInt(newPrice);
+            
+            // Get values for toggles
+            oboActive = document.getElementById('oboToggle').checked;
+            quickSaleActive = document.getElementById('quickSaleToggle').checked;
+            
+            // Update the main card price
+            productPrice.textContent = `$${newPrice}`;
+            
+            // Update OBO in description if needed
+            let oboText = oboActive ? " OBO" : "";
+            productPrice.textContent = `$${newPrice}${oboText}`;
+            
+            // Update the description based on what items remain
+            let newDescription = 'Bundle includes: ';
+            const items = document.querySelectorAll('.bundle-items .bundle-item:not([style*="height: 0"])');
+            
+            if (items.length > 0) {
+                items.forEach((item, index) => {
+                    const itemName = item.querySelector('.item-name').textContent;
+                    if (index === items.length - 1 && items.length > 1) {
+                        newDescription += `and ${itemName}.`;
+                    } else if (index === items.length - 1) {
+                        newDescription += `${itemName}.`;
+                    } else {
+                        newDescription += `${itemName}, `;
+                    }
+                });
+            } else {
+                newDescription = 'No items in this bundle.';
+            }
+            
+            newDescription += ' All items gently used from a smoke-free home. Perfect for 0-6 months.';
+            
+            // Update the description
+            document.querySelector('.product-description').textContent = newDescription;
+            
+            closeEditModal();
+            
+            // Reset the approved status of this item
+            const approveButton = document.querySelector('.card-actions .btn-approve');
+            if (approveButton.classList.contains('approved')) {
+                approveButton.classList.remove('approved');
+                approveButton.innerHTML = "Approve";
+                approveButton.style.backgroundColor = "";
+                approvedCount--;
+                
+                document.getElementById('continue-btn').innerHTML = `Continue to Scheduling (${approvedCount}/${totalItems} approved)`;
+            }
+            
+            // Show a save confirmation
+            const saveConfirm = document.createElement('div');
+            saveConfirm.style.position = 'fixed';
+            saveConfirm.style.top = '20px';
+            saveConfirm.style.left = '50%';
+            saveConfirm.style.transform = 'translateX(-50%)';
+            saveConfirm.style.backgroundColor = 'rgba(155, 158, 138, 0.9)';
+            saveConfirm.style.color = 'white';
+            saveConfirm.style.padding = '12px 24px';
+            saveConfirm.style.borderRadius = '24px';
+            saveConfirm.style.fontWeight = '500';
+            saveConfirm.style.zIndex = '200';
+            saveConfirm.textContent = 'Changes saved successfully';
+            
+            document.body.appendChild(saveConfirm);
+            
+            setTimeout(() => {
+                saveConfirm.style.opacity = '0';
+                saveConfirm.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    saveConfirm.remove();
+                }, 500);
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 

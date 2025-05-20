@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Meetup & Logistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: var(--cream);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px; /* For iPhone home indicator */
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .tab-label {
+            font-size: 10px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .screen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            font-size: 20px;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+        }
+        .ai-container {
+            display: flex;
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            gap: 16px;
+            align-items: flex-start;
+            border: 1px solid rgba(155, 158, 138, 0.3);
+        }
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .ai-message {
+            flex: 1;
+        }
+        .ai-badge {
+            background-color: var(--sage-green);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .ai-text {
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .calendar-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .month-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .month-nav {
+            display: flex;
+            gap: 16px;
+        }
+        .month-nav-button {
+            color: var(--charcoal);
+            opacity: 0.6;
+        }
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .weekday {
+            font-size: 12px;
+            color: #666;
+            padding: 8px 0;
+        }
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border-radius: 50%;
+        }
+        .day-cell.inactive {
+            color: #ccc;
+        }
+        .day-cell.active {
+            cursor: pointer;
+        }
+        .day-cell.selected {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .time-slots-container {
+            margin-top: 20px;
+        }
+        .time-slots-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .time-slot {
+            background-color: #F3F4F6;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .time-slot.selected {
+            background-color: var(--sage-green);
+            color: white;
+        }
+        .location-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .location-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .location-option:last-child {
+            border-bottom: none;
+        }
+        .location-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #E5E7EB;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .location-radio.selected {
+            border-color: var(--terracotta);
+        }
+        .location-radio.selected::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+        }
+        .location-details {
+            flex: 1;
+        }
+        .location-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .location-address {
+            font-size: 13px;
+            color: #666;
+        }
+        .payment-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .payment-option:last-child {
+            border-bottom: none;
+        }
+        .payment-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #E5E7EB;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .payment-radio.selected {
+            border-color: var(--terracotta);
+        }
+        .payment-radio.selected::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+        }
+        .payment-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #F3F4F6;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--charcoal);
+            flex-shrink: 0;
+        }
+        .payment-details {
+            flex: 1;
+        }
+        .payment-name {
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="screen-header">
+            <div class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="header-title">
+                Meetup & Logistics
+            </div>
+            <div class="back-button" style="visibility: hidden;">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+
+        <div class="ai-container">
+            <div class="ai-avatar">
+                <i class="M"></i>
+            </div>
+            <div class="ai-message">
+                <div class="ai-badge">Mina AI Assistant</div>
+                <div class="ai-text">
+                    Let's set up your preferred meetup logistics. I'll handle scheduling with buyers automatically once your listings are live.
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">When are you available?</div>
+        <div class="calendar-container">
+            <div class="month-header">
+                <div class="month-title">May 2023</div>
+                <div class="month-nav">
+                    <div class="month-nav-button" onclick="changeMonth('prev')"><i class="fas fa-chevron-left"></i></div>
+                    <div class="month-nav-button" onclick="changeMonth('next')"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            
+            <div class="weekdays">
+                <div class="weekday">Sun</div>
+                <div class="weekday">Mon</div>
+                <div class="weekday">Tue</div>
+                <div class="weekday">Wed</div>
+                <div class="weekday">Thu</div>
+                <div class="weekday">Fri</div>
+                <div class="weekday">Sat</div>
+            </div>
+            
+            <div class="days-grid">
+                <div class="day-cell inactive">30</div>
+                <div class="day-cell active" onclick="selectDay(this)">1</div>
+                <div class="day-cell active" onclick="selectDay(this)">2</div>
+                <div class="day-cell active" onclick="selectDay(this)">3</div>
+                <div class="day-cell active" onclick="selectDay(this)">4</div>
+                <div class="day-cell active" onclick="selectDay(this)">5</div>
+                <div class="day-cell active" onclick="selectDay(this)">6</div>
+                <div class="day-cell active" onclick="selectDay(this)">7</div>
+                <div class="day-cell active" onclick="selectDay(this)">8</div>
+                <div class="day-cell active" onclick="selectDay(this)">9</div>
+                <div class="day-cell active" onclick="selectDay(this)">10</div>
+                <div class="day-cell active" onclick="selectDay(this)">11</div>
+                <div class="day-cell active" onclick="selectDay(this)">12</div>
+                <div class="day-cell active" onclick="selectDay(this)">13</div>
+                <div class="day-cell active" onclick="selectDay(this)">14</div>
+                <div class="day-cell active" onclick="selectDay(this)">15</div>
+                <div class="day-cell active selected" onclick="selectDay(this)">16</div>
+                <div class="day-cell active" onclick="selectDay(this)">17</div>
+                <div class="day-cell active" onclick="selectDay(this)">18</div>
+                <div class="day-cell active" onclick="selectDay(this)">19</div>
+                <div class="day-cell active" onclick="selectDay(this)">20</div>
+                <div class="day-cell active" onclick="selectDay(this)">21</div>
+                <div class="day-cell active" onclick="selectDay(this)">22</div>
+                <div class="day-cell active" onclick="selectDay(this)">23</div>
+                <div class="day-cell active" onclick="selectDay(this)">24</div>
+                <div class="day-cell active" onclick="selectDay(this)">25</div>
+                <div class="day-cell active" onclick="selectDay(this)">26</div>
+                <div class="day-cell active" onclick="selectDay(this)">27</div>
+                <div class="day-cell active" onclick="selectDay(this)">28</div>
+                <div class="day-cell active" onclick="selectDay(this)">29</div>
+                <div class="day-cell active" onclick="selectDay(this)">30</div>
+                <div class="day-cell active" onclick="selectDay(this)">31</div>
+                <div class="day-cell inactive">1</div>
+                <div class="day-cell inactive">2</div>
+                <div class="day-cell inactive">3</div>
+            </div>
+            
+            <div class="time-slots-container">
+                <div class="time-slots-title">Available time slots on May 16</div>
+                <div class="time-slots-grid">
+                    <div class="time-slot" onclick="selectTimeSlot(this)">9:00 AM</div>
+                    <div class="time-slot" onclick="selectTimeSlot(this)">10:00 AM</div>
+                    <div class="time-slot" onclick="selectTimeSlot(this)">11:00 AM</div>
+                    <div class="time-slot" onclick="selectTimeSlot(this)">1:00 PM</div>
+                    <div class="time-slot selected" onclick="selectTimeSlot(this)">5:30 PM</div>
+                    <div class="time-slot" onclick="selectTimeSlot(this)">6:30 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Where would you like to meet?</div>
+        <div class="location-container">
+            <div class="location-option" onclick="selectLocation(0)">
+                <div class="location-radio selected"></div>
+                <div class="location-details">
+                    <div class="location-name">Starbucks - Market Street</div>
+                    <div class="location-address">235 Market St, San Francisco, CA 94111</div>
+                </div>
+            </div>
+            <div class="location-option" onclick="selectLocation(1)">
+                <div class="location-radio"></div>
+                <div class="location-details">
+                    <div class="location-name">Mission Creek Park</div>
+                    <div class="location-address">290 Channel St, San Francisco, CA 94158</div>
+                </div>
+            </div>
+            <div class="location-option" onclick="selectLocation(2)">
+                <div class="location-radio"></div>
+                <div class="location-details">
+                    <div class="location-name">Whole Foods Market</div>
+                    <div class="location-address">399 4th St, San Francisco, CA 94107</div>
+                </div>
+            </div>
+            <div class="location-option" onclick="selectLocation(3)">
+                <div class="location-radio"></div>
+                <div class="location-details">
+                    <div class="location-name">At my address</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Payment preferences</div>
+        <div class="payment-container">
+            <div class="payment-option" onclick="selectPayment(0)">
+                <div class="payment-radio selected"></div>
+                <div class="payment-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">Bank Account</div>
+                </div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(1)">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">
+                    <i class="fab fa-venmo"></i>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">Venmo</div>
+                </div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(2)">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">
+                    <i class="fab fa-paypal"></i>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">PayPal</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn-primary" onclick="window.location.href='agent-confirmation.html'">Continue to Confirmation</button>
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="index.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="buyer-category.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-search"></i></div>
+            <div class="tab-label">Browse</div>
+        </a>
+        <a href="agent-bulk-upload.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="julia-dashboard.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-bell"></i></div>
+            <div class="tab-label">Activity</div>
+        </a>
+        <a href="account-management.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Account</div>
+        </a>
+    </div>
+
+    <script>
+        document.querySelector('.back-button').addEventListener('click', function() {
+            window.location.href = 'agent-draft-listings.html';
+        });
+
+        function selectDay(el) {
+            // Remove selected class from all days
+            document.querySelectorAll('.day-cell.active').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked day
+            el.classList.add('selected');
+            
+            // Update time slots title
+            document.querySelector('.time-slots-title').textContent = `Available time slots on May ${el.textContent}`;
+        }
+        
+        function selectTimeSlot(el) {
+            // Remove selected class from all time slots
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked time slot
+            el.classList.add('selected');
+        }
+        
+        function selectLocation(index) {
+            // Remove selected class from all location radios
+            document.querySelectorAll('.location-radio').forEach(radio => {
+                radio.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked location radio
+            document.querySelectorAll('.location-radio')[index].classList.add('selected');
+        }
+        
+        function selectPayment(index) {
+            // Remove selected class from all payment radios
+            document.querySelectorAll('.payment-radio').forEach(radio => {
+                radio.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked payment radio
+            document.querySelectorAll('.payment-radio')[index].classList.add('selected');
+        }
+        
+        function changeMonth(direction) {
+            // This would typically update the calendar display
+            // For the prototype, we're just showing an alert
+            alert(`This would navigate to the ${direction === 'prev' ? 'previous' : 'next'} month`);
+        }
+    </script>
+</body>
+</html> 

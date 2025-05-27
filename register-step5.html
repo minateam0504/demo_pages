@@ -113,128 +113,104 @@
             padding-top: 20px;
             text-align: center;
         }
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-radius: 16px;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        .form-group {
             margin-bottom: 24px;
-            overflow: hidden;
         }
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            min-height: 300px;
-            max-height: 400px;
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--charcoal);
         }
-        .message {
-            display: flex;
-            max-width: 85%;
-        }
-        .message-bot {
-            align-self: flex-start;
-        }
-        .message-user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 8px;
-        }
-        .avatar-bot {
-            background-color: var(--sage-green);
-            color: white;
-        }
-        .avatar-user {
-            background-color: var(--terracotta);
-            color: white;
-        }
-        .message-content {
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 15px;
-            max-width: calc(100% - 52px);
-        }
-        .message-bot .message-content {
-            background-color: #F3F4F6;
-            border-bottom-left-radius: 4px;
-        }
-        .message-user .message-content {
-            background-color: var(--terracotta);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        .chat-input-container {
-            display: flex;
-            padding: 12px;
-            border-top: 1px solid #E5E7EB;
-            background-color: white;
-        }
-        .chat-input {
-            flex: 1;
-            border: 1px solid #E5E7EB;
-            border-radius: 24px;
-            padding: 12px 16px;
-            font-size: 15px;
-            outline: none;
-        }
-        .send-button {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--terracotta);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 8px;
-            cursor: pointer;
-            border: none;
-        }
-        .options-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .option-button {
-            padding: 8px 16px;
-            border-radius: 16px;
-            background-color: #F3F4F6;
-            border: 1px solid #E5E7EB;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .option-button:hover {
-            background-color: #E5E7EB;
-        }
-        .input-field {
+        .form-input {
             width: 100%;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #E5E7EB;
             border-radius: 12px;
-            font-size: 15px;
-            margin-top: 8px;
-            display: block;
+            font-size: 16px;
+            background-color: white;
         }
-        .input-field:focus {
+        .form-input:focus {
             outline: none;
             border-color: var(--terracotta);
         }
-        .form-hidden {
-            display: none;
+        .form-hint {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .option-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            background-color: white;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .option-card:hover {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .option-card.selected {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .option-title {
+            font-weight: 600;
+            font-size: 17px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .option-title i {
+            margin-right: 12px;
+            color: var(--terracotta);
+            font-size: 20px;
+            width: 20px;
+            text-align: center;
+        }
+        .option-description {
+            margin-left: 32px;
+            color: #666;
+            font-size: 14px;
+        }
+        .radio-input {
+            position: absolute;
+            opacity: 0;
+        }
+        .radio-label {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            cursor: pointer;
+        }
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            border: 2px solid #E5E7EB;
+            border-radius: 50%;
+            margin-right: 12px;
+            margin-top: 2px;
+            position: relative;
+        }
+        .radio-input:checked + .radio-custom:after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+        }
+        .radio-input:checked + .radio-custom {
+            border-color: var(--terracotta);
+        }
+        .radio-content {
+            flex: 1;
         }
     </style>
 </head>
@@ -264,227 +240,160 @@
             <div class="progress"></div>
         </div>
         
-        <form id="familyInfoForm" action="register-step8.html" method="GET" class="form-hidden">
-            <input type="hidden" id="is_parent" name="is_parent" value="">
-            <input type="hidden" id="number_of_children" name="number_of_children" value="">
-            <input type="hidden" id="children_ages" name="children_ages" value="">
-        </form>
-        
-        <div class="chat-container">
-            <div id="chatMessages" class="chat-messages">
-                <!-- Initial bot message -->
-                <div class="message message-bot">
-                    <div class="avatar avatar-bot">
-                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
-                    </div>
-                    <div class="message-content">
-                        Hi there! Would you like to share some information about your family? This helps us personalize your experience, but it's completely optional.
-                        <div class="options-container">
-                            <button class="option-button" data-response="yes">Yes, I'd like to share</button>
-                            <button class="option-button" data-response="no">Skip for now</button>
+        <form id="additionalInfoForm">
+            <div class="form-group">
+                <label class="form-label">Are you a parent or expecting?</label>
+                <div class="option-card" id="parent-option">
+                    <label class="radio-label">
+                        <input type="radio" name="parent_status" value="parent" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-child"></i>
+                                I'm a parent
+                            </div>
+                            <div class="option-description">I have one or more children</div>
                         </div>
-                    </div>
+                    </label>
+                </div>
+                
+                <div class="option-card" id="expecting-option">
+                    <label class="radio-label">
+                        <input type="radio" name="parent_status" value="expecting" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-baby"></i>
+                                I'm expecting
+                            </div>
+                            <div class="option-description">I'm pregnant or expecting a child</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="option-card" id="neither-option">
+                    <label class="radio-label">
+                        <input type="radio" name="parent_status" value="neither" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-user"></i>
+                                Neither
+                            </div>
+                            <div class="option-description">I'm browsing for someone else</div>
+                        </div>
+                    </label>
                 </div>
             </div>
-        </div>
-        
-        <button type="button" id="continueBtn" class="btn-primary">Continue</button>
+            
+            <div class="form-group" id="kids-profile-section" style="display: none;">
+                <label class="form-label">Would you like to set up a kid's profile?</label>
+                <div class="form-hint">Kid profiles help personalize your experience with age-appropriate recommendations.</div>
+                
+                <div class="option-card" id="setup-profile-option">
+                    <label class="radio-label">
+                        <input type="radio" name="setup_kids_profile" value="yes" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-plus-circle"></i>
+                                Yes, set up kid profiles now
+                            </div>
+                            <div class="option-description">You can add your children's ages and preferences</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="option-card" id="later-profile-option">
+                    <label class="radio-label">
+                        <input type="radio" name="setup_kids_profile" value="no" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-clock"></i>
+                                I'll do this later
+                            </div>
+                            <div class="option-description">You can set up profiles anytime from your account</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <button type="button" id="continueBtn" class="btn-primary">Continue</button>
+        </form>
         
         <div class="step-indicator">Step 5 of 5</div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chatMessages');
+            const form = document.getElementById('additionalInfoForm');
             const continueBtn = document.getElementById('continueBtn');
-            const form = document.getElementById('familyInfoForm');
+            const kidsProfileSection = document.getElementById('kids-profile-section');
             
-            // Store chat state
-            const state = {
-                step: 1,
-                isParent: null,
-                numberOfChildren: null,
-                childrenAges: null,
-                completed: false
-            };
-            
-            // Add user response to chat
-            function addUserMessage(message) {
-                const userMessageDiv = document.createElement('div');
-                userMessageDiv.className = 'message message-user';
-                userMessageDiv.innerHTML = `
-                    <div class="avatar avatar-user">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="message-content">${message}</div>
-                `;
-                chatMessages.appendChild(userMessageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            // Add bot message to chat
-            function addBotMessage(message, options = null, inputType = null) {
-                const botMessageDiv = document.createElement('div');
-                botMessageDiv.className = 'message message-bot';
-                
-                let optionsHtml = '';
-                if (options) {
-                    optionsHtml = `
-                        <div class="options-container">
-                            ${options.map(opt => `<button class="option-button" data-response="${opt.value}">${opt.text}</button>`).join('')}
-                        </div>
-                    `;
-                }
-                
-                let inputHtml = '';
-                if (inputType === 'text') {
-                    inputHtml = `
-                        <input type="text" class="input-field" placeholder="Type your answer">
-                        <div class="options-container">
-                            <button class="option-button submit-text">Submit</button>
-                        </div>
-                    `;
-                } else if (inputType === 'number') {
-                    inputHtml = `
-                        <input type="number" class="input-field" min="1" max="10" value="1">
-                        <div class="options-container">
-                            <button class="option-button submit-number">Submit</button>
-                        </div>
-                    `;
-                }
-                
-                botMessageDiv.innerHTML = `
-                    <div class="avatar avatar-bot">
-                        <img src="images/mina_logo.png" alt="Mina" style="width: 24px; height: 24px; object-fit: contain;">
-                    </div>
-                    <div class="message-content">
-                        ${message}
-                        ${optionsHtml}
-                        ${inputHtml}
-                    </div>
-                `;
-                
-                chatMessages.appendChild(botMessageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Add event listeners to new options
-                if (options) {
-                    botMessageDiv.querySelectorAll('.option-button').forEach(button => {
-                        button.addEventListener('click', handleOptionClick);
+            // Add click handler for parent status options
+            const parentOptions = document.querySelectorAll('input[name="parent_status"]');
+            parentOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    // Reset all option cards
+                    document.querySelectorAll('.option-card').forEach(card => {
+                        card.classList.remove('selected');
                     });
-                }
-                
-                // Add event listeners for input submissions
-                if (inputType === 'text') {
-                    const submitBtn = botMessageDiv.querySelector('.submit-text');
-                    submitBtn.addEventListener('click', function() {
-                        const input = botMessageDiv.querySelector('.input-field');
-                        handleTextInput(input.value);
-                    });
-                } else if (inputType === 'number') {
-                    const submitBtn = botMessageDiv.querySelector('.submit-number');
-                    submitBtn.addEventListener('click', function() {
-                        const input = botMessageDiv.querySelector('.input-field');
-                        handleNumberInput(parseInt(input.value, 10));
-                    });
-                }
-            }
-            
-            // Handle option button clicks
-            function handleOptionClick(e) {
-                const response = e.target.dataset.response;
-                
-                // Disable all option buttons after selection
-                document.querySelectorAll('.option-button').forEach(btn => {
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
+                    
+                    // Highlight selected option
+                    this.closest('.option-card').classList.add('selected');
+                    
+                    // Show/hide kids profile section based on selection
+                    if (this.value === 'parent') {
+                        kidsProfileSection.style.display = 'block';
+                    } else {
+                        kidsProfileSection.style.display = 'none';
+                    }
                 });
-                
-                // Highlight selected option
-                e.target.style.backgroundColor = '#E5E7EB';
-                e.target.style.borderColor = '#9CA3AF';
-                
-                addUserMessage(e.target.textContent);
-                
-                if (state.step === 1) {
-                    // Initial yes/no response
-                    if (response === 'yes') {
-                        state.step = 2;
-                        setTimeout(() => {
-                            addBotMessage('Great! Are you a parent or expecting?', [
-                                { value: 'parent', text: 'I\'m a parent' },
-                                { value: 'expecting', text: 'I\'m expecting' },
-                                { value: 'neither', text: 'Neither' }
-                            ]);
-                        }, 500);
-                    } else {
-                        // Skip family info
-                        state.completed = true;
-                        setTimeout(() => {
-                            addBotMessage('No problem! You can always update this information later in your profile.');
-                        }, 500);
-                    }
-                } else if (state.step === 2) {
-                    // Parent status response
-                    state.isParent = response === 'neither' ? 'no' : 'yes';
-                    document.getElementById('is_parent').value = state.isParent;
-                    
-                    if (response === 'neither') {
-                        state.completed = true;
-                        setTimeout(() => {
-                            addBotMessage('Thanks for letting us know! We\'ll customize your experience accordingly.');
-                        }, 500);
-                    } else {
-                        state.step = 3;
-                        setTimeout(() => {
-                            addBotMessage('How many children do you have?', null, 'number');
-                        }, 500);
-                    }
-                }
-            }
+            });
             
-            // Handle number input submission
-            function handleNumberInput(value) {
-                if (state.step === 3) {
-                    state.numberOfChildren = value;
-                    document.getElementById('number_of_children').value = value;
+            // Add click handler for kids profile options
+            const profileOptions = document.querySelectorAll('input[name="setup_kids_profile"]');
+            profileOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    // Reset all option cards in this section
+                    document.querySelectorAll('input[name="setup_kids_profile"]').forEach(radio => {
+                        radio.closest('.option-card').classList.remove('selected');
+                    });
                     
-                    addUserMessage(value.toString());
-                    
-                    state.step = 4;
-                    setTimeout(() => {
-                        if (value === 1) {
-                            addBotMessage('How old is your child? Please enter their age in years (use 0 for under 1 year)', null, 'text');
-                        } else {
-                            addBotMessage(`Please enter the ages of your ${value} children`, null, 'text');
-                        }
-                    }, 500);
-                }
-            }
-            
-            // Handle text input submission
-            function handleTextInput(value) {
-                if (state.step === 4) {
-                    state.childrenAges = value;
-                    document.getElementById('children_ages').value = value;
-                    
-                    addUserMessage(value);
-                    
-                    state.completed = true;
-                    setTimeout(() => {
-                        addBotMessage('Thank you for sharing this information! We\'ll customize your experience based on your family needs.');
-                    }, 500);
-                }
-            }
-            
-            // Initial option button event listeners
-            document.querySelectorAll('.option-button').forEach(button => {
-                button.addEventListener('click', handleOptionClick);
+                    // Highlight selected option
+                    this.closest('.option-card').classList.add('selected');
+                });
             });
             
             // Continue button handler
             continueBtn.addEventListener('click', function() {
-                form.submit();
+                const parentStatus = document.querySelector('input[name="parent_status"]:checked');
+                
+                if (!parentStatus) {
+                    alert('Please select an option');
+                    return;
+                }
+                
+                if (parentStatus.value === 'parent') {
+                    const setupProfile = document.querySelector('input[name="setup_kids_profile"]:checked');
+                    
+                    if (!setupProfile) {
+                        alert('Please select whether you want to set up kid profiles');
+                        return;
+                    }
+                    
+                    if (setupProfile.value === 'yes') {
+                        // Redirect to kid profile setup
+                        window.location.href = 'account-kids-profile-edit.html';
+                    } else {
+                        // Continue to regular completion
+                        window.location.href = 'register-complete.html';
+                    }
+                } else {
+                    // Continue to regular completion
+                    window.location.href = 'register-complete.html';
+                }
             });
         });
     </script>

@@ -32,37 +32,52 @@
             padding: 0 16px;
             font-weight: 600;
         }
-        .main-content {
+        .registration-content {
             flex: 1;
-            overflow-y: auto;
-            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
         }
-        .screen-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .logo-small {
+            width: 50px;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .subheading {
+            font-size: 16px;
             margin-bottom: 24px;
+            color: #666;
         }
-        .back-button {
-            font-size: 20px;
+        .progress-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            overflow: hidden;
         }
-        .header-title {
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            flex: 1;
+        .progress {
+            height: 100%;
+            background-color: var(--terracotta);
+            width: 100%; /* 5/5 steps completed */
         }
         .form-group {
             margin-bottom: 24px;
         }
         .form-label {
             display: block;
-            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: var(--charcoal);
         }
         .form-input {
@@ -137,54 +152,146 @@
             font-size: 18px;
             display: inline-block;
             width: 100%;
-            margin-top: 16px;
             text-align: center;
             border: none;
             cursor: pointer;
         }
-        .ai-container {
-            display: flex;
-            background-color: rgba(155, 158, 138, 0.1);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            gap: 16px;
-            align-items: flex-start;
-            border: 1px solid rgba(155, 158, 138, 0.3);
+        .btn-secondary {
+            background-color: white;
+            color: var(--terracotta);
+            border: 2px solid var(--terracotta);
+            border-radius: 24px;
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            cursor: pointer;
         }
-        .ai-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: var(--sage-green);
+        .btn-back {
+            color: var(--charcoal);
+            font-weight: 500;
             display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
             justify-content: center;
             align-items: center;
-            color: white;
-            flex-shrink: 0;
+            z-index: 100;
         }
-        .ai-message {
-            flex: 1;
+        .modal-content {
+            background-color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
         }
-        .ai-badge {
-            background-color: var(--sage-green);
-            color: white;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 6px;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
-        .ai-text {
-            font-size: 14px;
+        .modal-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
             color: var(--charcoal);
+        }
+        .option-heading {
+            font-weight: 500;
+            margin: 20px 0 12px;
+            color: var(--charcoal);
+        }
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .avatar-option {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #E5E7EB;
+            transition: all 0.2s ease;
+        }
+        .avatar-option:hover, .avatar-option.selected {
+            border-color: var(--terracotta);
+            transform: scale(1.05);
+        }
+        .avatar-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .photo-button {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .photo-button:hover {
+            background-color: #E5E7EB;
+        }
+        .photo-button i {
+            margin-right: 12px;
+            color: var(--terracotta);
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .photo-button-text {
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <!-- iOS Status Bar -->
     <div class="ios-status-bar">
-        <div>10:40PM</div>
+        <div>9:41</div>
         <div>
             <span class="mr-1"><i class="fas fa-signal"></i></span>
             <span class="mr-1"><i class="fas fa-wifi"></i></span>
@@ -192,25 +299,19 @@
         </div>
     </div>
     
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="screen-header">
-            <div class="header-title">
-                <i class="fas fa-arrow-left" style="color: var(--charcoal); margin-right: 12px;"></i>
-                Edit Kid Profile
-            </div>
-        </div>
-
-        <div class="ai-container">
-            <div class="ai-avatar">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div class="ai-message">
-                <div class="ai-badge">Mina AI Assistant</div>
-                <div class="ai-text">
-                    I'll use this information to find age-appropriate items and track growth milestones. Don't worry, you can update it anytime!
-                </div>
-            </div>
+    <!-- Registration Content -->
+    <div class="registration-content">
+        <a href="register-step5.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        
+        <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
+        
+        <h1 class="heading">Kid Profile Setup</h1>
+        <p class="subheading">Create a profile for personalized recommendations and growth tracking.</p>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
         </div>
         
         <div class="avatar-section">
@@ -257,7 +358,113 @@
             <textarea class="form-input" rows="3" placeholder="Any allergies, preferences, or special needs?"></textarea>
         </div>
         
-        <button class="btn-primary">Save Profile</button>
+        <div class="button-group">
+            <button onclick="window.location.href='register-step8.html'" class="btn-primary">Save Profile</button>
+            <button onclick="saveAndAddAnother()" class="btn-secondary">Save & Add Another Profile</button>
+        </div>
+        
+        <div class="step-indicator">Final Step</div>
     </div>
+    
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Choose Profile Photo</div>
+                <button class="modal-close" onclick="closePhotoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="option-heading">Choose an avatar</div>
+            <div class="avatar-grid">
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-boy1.png')">
+                    <img src="images/avatar-boy1.png" alt="Boy Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-boy2.png')">
+                    <img src="images/avatar-boy2.png" alt="Boy Avatar 2">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-girl1.png')">
+                    <img src="images/avatar-girl1.png" alt="Girl Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-girl2.png')">
+                    <img src="images/avatar-girl2.png" alt="Girl Avatar 2">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-neutral1.png')">
+                    <img src="images/avatar-neutral1.png" alt="Neutral Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-neutral2.png')">
+                    <img src="images/avatar-neutral2.png" alt="Neutral Avatar 2">
+                </div>
+            </div>
+            
+            <div class="option-heading">Or use a real photo</div>
+            <div class="photo-buttons">
+                <label for="photoUpload" class="photo-button">
+                    <i class="fas fa-image"></i>
+                    <span class="photo-button-text">Choose from library</span>
+                    <input type="file" id="photoUpload" style="display: none;" accept="image/*" onchange="handlePhotoUpload(event)">
+                </label>
+                
+                <div class="photo-button" onclick="takePhoto()">
+                    <i class="fas fa-camera"></i>
+                    <span class="photo-button-text">Take a photo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update the avatar section to open modal on click
+        document.querySelector('.avatar-container').addEventListener('click', function() {
+            document.getElementById('photoModal').style.display = 'flex';
+        });
+        
+        function closePhotoModal() {
+            document.getElementById('photoModal').style.display = 'none';
+        }
+        
+        function selectAvatar(src) {
+            document.querySelector('.avatar-image').src = src;
+            
+            // Update selected avatar styling
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Close the modal after a short delay
+            setTimeout(closePhotoModal, 300);
+        }
+        
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.avatar-image').src = e.target.result;
+                    closePhotoModal();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function takePhoto() {
+            // In a real app, this would activate the device camera
+            // For this prototype, we'll simulate by opening the file picker
+            document.getElementById('photoUpload').click();
+        }
+        
+        function saveAndAddAnother() {
+            // In a real app, this would save the current profile
+            // For this prototype, we just reset the form
+            document.querySelector('input[value="Lucas"]').value = '';
+            document.querySelector('input[type="date"]').value = '';
+            document.querySelector('.avatar-image').src = 'images/avatar-placeholder.png';
+            document.querySelector('.heading').textContent = 'Add Another Kid Profile';
+            
+            // Scroll back to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html> 

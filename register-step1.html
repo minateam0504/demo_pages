@@ -126,6 +126,149 @@
             padding-top: 20px;
             text-align: center;
         }
+        .avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            background-color: #F3F4F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .avatar-placeholder {
+            color: var(--sage-green);
+            font-size: 48px;
+        }
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+        .avatar-text {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .modal-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--charcoal);
+        }
+        .option-heading {
+            font-weight: 500;
+            margin: 20px 0 12px;
+            color: var(--charcoal);
+        }
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .avatar-option {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #E5E7EB;
+            transition: all 0.2s ease;
+        }
+        .avatar-option:hover, .avatar-option.selected {
+            border-color: var(--terracotta);
+            transform: scale(1.05);
+        }
+        .avatar-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .photo-button {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .photo-button:hover {
+            background-color: #E5E7EB;
+        }
+        .photo-button i {
+            margin-right: 12px;
+            color: var(--terracotta);
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .photo-button-text {
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -152,6 +295,17 @@
         
         <div class="progress-bar">
             <div class="progress"></div>
+        </div>
+        
+        <div class="avatar-section">
+            <div class="avatar-container" onclick="openPhotoModal()">
+                <i class="fas fa-user-circle avatar-placeholder"></i>
+                <img src="" alt="Profile Photo" class="avatar-image">
+                <div class="avatar-overlay">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <div class="avatar-text">Add profile photo</div>
         </div>
         
         <form action="register-step2.html" method="GET">
@@ -189,5 +343,99 @@
         
         <div class="step-indicator">Step 1 of 5</div>
     </div>
+    
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Choose Profile Photo</div>
+                <button class="modal-close" onclick="closePhotoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="option-heading">Choose an avatar</div>
+            <div class="avatar-grid">
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-woman1.png')">
+                    <img src="images/avatar-woman1.png" alt="Woman Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-woman2.png')">
+                    <img src="images/avatar-woman2.png" alt="Woman Avatar 2">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-man1.png')">
+                    <img src="images/avatar-man1.png" alt="Man Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-man2.png')">
+                    <img src="images/avatar-man2.png" alt="Man Avatar 2">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-person1.png')">
+                    <img src="images/avatar-person1.png" alt="Neutral Avatar 1">
+                </div>
+                <div class="avatar-option" onclick="selectAvatar('images/avatar-person2.png')">
+                    <img src="images/avatar-person2.png" alt="Neutral Avatar 2">
+                </div>
+            </div>
+            
+            <div class="option-heading">Or use a real photo</div>
+            <div class="photo-buttons">
+                <label for="photoUpload" class="photo-button">
+                    <i class="fas fa-image"></i>
+                    <span class="photo-button-text">Choose from library</span>
+                    <input type="file" id="photoUpload" style="display: none;" accept="image/*" onchange="handlePhotoUpload(event)">
+                </label>
+                
+                <div class="photo-button" onclick="takePhoto()">
+                    <i class="fas fa-camera"></i>
+                    <span class="photo-button-text">Take a photo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openPhotoModal() {
+            document.getElementById('photoModal').style.display = 'flex';
+        }
+        
+        function closePhotoModal() {
+            document.getElementById('photoModal').style.display = 'none';
+        }
+        
+        function selectAvatar(src) {
+            const avatarImage = document.querySelector('.avatar-image');
+            avatarImage.src = src;
+            avatarImage.style.display = 'block';
+            document.querySelector('.avatar-placeholder').style.display = 'none';
+            
+            // Update selected avatar styling
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Close the modal after a short delay
+            setTimeout(closePhotoModal, 300);
+        }
+        
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarImage = document.querySelector('.avatar-image');
+                    avatarImage.src = e.target.result;
+                    avatarImage.style.display = 'block';
+                    document.querySelector('.avatar-placeholder').style.display = 'none';
+                    closePhotoModal();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function takePhoto() {
+            // In a real app, this would activate the device camera
+            // For this prototype, we'll simulate by opening the file picker
+            document.getElementById('photoUpload').click();
+        }
+    </script>
 </body>
 </html> 

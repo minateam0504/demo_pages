@@ -218,8 +218,8 @@
         
         <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
-        <h1 class="heading">Choose your shopping areas</h1>
-        <p class="subheading">Select up to 3 neighborhoods where you'd like to shop or sell.</p>
+        <h1 class="heading">Your prioritized neighborhoods</h1>
+        <p class="subheading">Based on your location, we've selected these nearby neighborhoods where you'll see the most relevant items.</p>
         
         <div class="progress-bar">
             <div class="progress"></div>
@@ -227,86 +227,54 @@
         
         <form action="register-step5.html" method="GET">
             <div class="form-group">
-                <label class="form-label">Preferred neighborhoods (select up to 3)</label>
+                <label class="form-label">Your prioritized neighborhoods</label>
                 
                 <div class="neighborhood-grid">
-                    <!-- Home neighborhood (pre-selected and disabled) -->
+                    <!-- Home neighborhood -->
                     <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood1" name="preferred_neighborhoods[]" value="Mission District" class="neighborhood-checkbox" checked disabled>
-                        <label for="neighborhood1" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="neighborhood-card">
                             <div class="neighborhood-icon">
                                 <i class="fas fa-home"></i>
                             </div>
                             <div class="neighborhood-name">Mission District</div>
                             <div class="neighborhood-distance">Home neighborhood</div>
-                        </label>
+                        </div>
                     </div>
                     
                     <!-- Nearby neighborhoods -->
                     <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood2" name="preferred_neighborhoods[]" value="Noe Valley" class="neighborhood-checkbox">
-                        <label for="neighborhood2" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="neighborhood-card">
                             <div class="neighborhood-icon">
                                 <i class="fas fa-tree"></i>
                             </div>
                             <div class="neighborhood-name">Noe Valley</div>
                             <div class="neighborhood-distance">1.2 miles away</div>
-                        </label>
+                        </div>
                     </div>
                     
                     <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood3" name="preferred_neighborhoods[]" value="Castro" class="neighborhood-checkbox">
-                        <label for="neighborhood3" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="neighborhood-card">
                             <div class="neighborhood-icon">
                                 <i class="fas fa-theater-masks"></i>
                             </div>
                             <div class="neighborhood-name">Castro</div>
                             <div class="neighborhood-distance">1.3 miles away</div>
-                        </label>
+                        </div>
                     </div>
                     
                     <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood4" name="preferred_neighborhoods[]" value="Potrero Hill" class="neighborhood-checkbox">
-                        <label for="neighborhood4" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="neighborhood-card">
                             <div class="neighborhood-icon">
                                 <i class="fas fa-mountain"></i>
                             </div>
                             <div class="neighborhood-name">Potrero Hill</div>
                             <div class="neighborhood-distance">1.5 miles away</div>
-                        </label>
-                    </div>
-                    
-                    <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood5" name="preferred_neighborhoods[]" value="SoMa" class="neighborhood-checkbox">
-                        <label for="neighborhood5" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
-                            <div class="neighborhood-icon">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <div class="neighborhood-name">SoMa</div>
-                            <div class="neighborhood-distance">1.7 miles away</div>
-                        </label>
-                    </div>
-                    
-                    <div class="neighborhood-item">
-                        <input type="checkbox" id="neighborhood6" name="preferred_neighborhoods[]" value="Bernal Heights" class="neighborhood-checkbox">
-                        <label for="neighborhood6" class="neighborhood-card">
-                            <div class="check-icon"><i class="fas fa-check"></i></div>
-                            <div class="neighborhood-icon">
-                                <i class="fas fa-hiking"></i>
-                            </div>
-                            <div class="neighborhood-name">Bernal Heights</div>
-                            <div class="neighborhood-distance">1.9 miles away</div>
-                        </label>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="hint-text">
-                    We'll show you items and buyers from these neighborhoods. Your home neighborhood is automatically included.
+                    These neighborhoods are selected based on proximity to your location. You'll see items and connect with buyers primarily from these areas.
                 </div>
             </div>
             
@@ -317,21 +285,7 @@
     </div>
 
     <script>
-        // Limit checkbox selection to 3 items (including pre-selected home neighborhood)
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.neighborhood-checkbox:not(:disabled)');
-            const max = 2; // Max 2 additional neighborhoods (3 total with home)
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const checkedCount = document.querySelectorAll('.neighborhood-checkbox:not(:disabled):checked').length;
-                    
-                    if(checkedCount > max) {
-                        this.checked = false;
-                    }
-                });
-            });
-        });
+        // No script needed for neighborhood selection since we're just displaying information
     </script>
 </body>
 </html> 

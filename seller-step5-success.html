@@ -236,6 +236,112 @@
             font-weight: 600;
             color: var(--charcoal);
         }
+        .share-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .share-header {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .share-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 8px;
+        }
+        .share-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            width: 80px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+        .share-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        .share-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .share-label {
+            font-size: 12px;
+            color: var(--charcoal);
+            text-align: center;
+        }
+        .facebook-bg {
+            background-color: #3b5998;
+        }
+        .instagram-bg {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .wechat-bg {
+            background-color: #07C160;
+        }
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 16px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .modal-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .close-modal {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -320,11 +426,47 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="share-container">
+                <div class="share-header">Share your listing</div>
+                <div class="share-buttons">
+                    <a href="#" class="share-button" id="shareFacebook">
+                        <div class="share-icon facebook-bg">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="share-label">Facebook</div>
+                    </a>
+                    <a href="#" class="share-button" id="shareInstagram">
+                        <div class="share-icon instagram-bg">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="share-label">Instagram</div>
+                    </a>
+                    <a href="#" class="share-button" id="shareWechat">
+                        <div class="share-icon wechat-bg">
+                            <i class="fab fa-weixin"></i>
+                        </div>
+                        <div class="share-label">WeChat</div>
+                    </a>
+                </div>
+            </div>
         </div>
         
         <div class="button-container">
             <a href="seller-flow.html" class="btn-primary">List Another Item</a>
             <a href="home.html" class="btn-secondary">Home</a>
+        </div>
+    </div>
+    
+    <!-- WeChat QR Code Modal -->
+    <div id="wechatModal" class="modal-bg">
+        <div class="modal">
+            <div class="modal-title">Share to WeChat</div>
+            <div class="modal-subtitle">Scan this QR code with your WeChat app</div>
+            <div class="qr-code">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAYAAABRRIOnAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAUsSURBVHhe7ZJRruMgDETv/a+a9QoEkgDOd1XV0ox+ZjBOvP3+/f0HwQ2EQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZBBCGQQAhmEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZD5SIjr+7223++p+Iafvt9r+3mt7T8nxDXBWnzcnyHDWtuXcQx/PxPiymLIcnuuPrOVufJcdZ7LvF+a45sQ/YFyGaPRWXLevpvjSghxjZ8nG8eXe8p39vnbeTohup3d50y9ljmS7+rzbAj5MzFv1N8nnsvwz1ciRBeEuac+P9JvzPXkPK6EeJLo0f59Ps2KENPhhvvR/pN+K+eZmKOEqO8x5uVzI/XGvtX7yPlaIab78f10v+z8aL2xx54rn3/yR6nzPrqqJufvhBhB9CfmP/lc5KsaT+a59qW4TpXD1+YYXTd5TwnRgZiRNSLk7nmqnCNztEK4A2g5Rte5OVUQj4S4/94d4Mkco4JM97H+dB0/4v8P8RR3BWmFUPd34OnzV0Kohe/MESHCnJ6d/Sd9RiF8kCfQejtztEKoeB0HEXTgR+p94Bm59bP3KPt3QqjjFZ7i2qnrKd09uo/x81V9fQnR9RXKXW5t5JnsvO4cU3NE1zvwuSKESyLfhiF3xuvx9SOznETZXkr4yWEzqnx1fnVu/wzq/G2ZaiBcj7qngjZSO3NkZsj5M19bmJxJD1cLMTpMhw/MndHdRDg5VLqJWMGbJ3tGta6quAn63lMRuucVj/OaQu0nhbV4c3iT5hxdgJMpzrQyr8vt+nZrTxH5yXMqQs4ZIRwulF3vzeHJP6OKd7JnRw5zTOWoK5oQWQpfb3XeiflVnD/jqhDZD+r7vQKN9Gfmj3yjPVX+XSHUxbiJcEf4O0fO3D0/MrOfo3o2+86PcBnufnEX6E6QQhF+JV6ZlbkqX5knTlYJkQ/RPYxfaObXn5nT18qefT6dL4vj89WYn41fhA+8Og//sO5h1Vk787t53RmlEFmU4nsrc4Bfz+qsHXTmUH2ZGbpncGvv5MgSOlY/xLmR56J6OZcNupvD12XP7sT1tQK5Z6MGzo6sfkXl2ZkDVKGsXp2V8Wd25on6Bh3QkZkj4yfCH7JCTbD6h5/pVSKCZqQo6G4OXy/wZ+7GixAV4K5gfqLsL9zhvAiudrRHUZ3f9fb19DmrZzMLaQWphKgKZH3dJUWGqXr5Hep71Rl3+3qTd+cA7y+rHaUVAmzA4sXozumQYanvw6s5IkR2Rm9Kf5/iJIrPpMZvhHDhd5PkLqNb15lj9xlvhTq/eq8TokJN0u2vDlMF3JnPIdcfObcTQq1XjL6f6dmZ09Wd1KLvU+vWX4jK4Lf7vL+bZHeeVxF0Th/MzHxuzQ+FUNjpt8l1ynCyNZV+yq4QHZngrCcbZVeaqzE1WzshhMB3BfQS7fTI99kcP1W/KlBGmHgvxCoiQ6QCUoJMzzMar8rTTjnzfj0jQlQYYbIQ/ocyMvfpmT6LUe8JNf9SoGztvwjxL4JO8JYQYBeEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZBBCGQQAhmEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZBBCGQQAhmEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZBBCGQQAhmEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIZBBCGQQAhmEQAYhkEEIZBACGYRABiGQQQhkEAIZhEAGIVD5fP4DjBRKlWx94/gAAAAASUVORK5CYII=" alt="WeChat QR Code" style="width: 100%; height: 100%;">
+            </div>
+            <button class="close-modal" id="closeWechatModal">Done</button>
         </div>
     </div>
     
@@ -352,4 +494,51 @@
         </a>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const shareFacebook = document.getElementById('shareFacebook');
+        const shareInstagram = document.getElementById('shareInstagram');
+        const shareWechat = document.getElementById('shareWechat');
+        const wechatModal = document.getElementById('wechatModal');
+        const closeWechatModal = document.getElementById('closeWechatModal');
+        
+        // Facebook sharing
+        shareFacebook.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productName = "Nuna PIPA RX Infant Car Seat";
+            const productPrice = "$175";
+            const shareUrl = "https://mina.app/listing/12345"; // Example URL
+            
+            // In a real app, this would open the Facebook sharing dialog
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent('Check out this ' + productName + ' I\'m selling for ' + productPrice + ' on Mina!')}`, '_blank');
+        });
+        
+        // Instagram sharing (typically opens the app)
+        shareInstagram.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // In a real app, this would typically save the image to camera roll
+            // and then open Instagram with a deep link
+            alert('This would save the product image to your camera roll and open Instagram for sharing.');
+        });
+        
+        // WeChat sharing (using QR code)
+        shareWechat.addEventListener('click', function(e) {
+            e.preventDefault();
+            wechatModal.style.display = 'flex';
+        });
+        
+        // Close WeChat modal
+        closeWechatModal.addEventListener('click', function() {
+            wechatModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        wechatModal.addEventListener('click', function(e) {
+            if (e.target === wechatModal) {
+                wechatModal.style.display = 'none';
+            }
+        });
+    });
+</script>
 </html> 

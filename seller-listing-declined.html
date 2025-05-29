@@ -272,6 +272,51 @@
             cursor: pointer;
             text-decoration: none;
         }
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 120px;
+            resize: none;
+        }
     </style>
 </head>
 <body>
@@ -429,9 +474,59 @@
             </div>
         </div>
         
-        <a href="seller-flow.html" class="btn-primary">List a Different Item</a>
-        <a href="#" class="btn-secondary" style="margin-top: 16px;">Dispute Decision</a>
-        <a href="home.html" class="btn-secondary">Home</a>
+        <a href="seller-step1.html" class="btn-primary">List a Different Item</a>
+        <a href="#" id="disputeDecisionBtn" class="btn-secondary" style="margin-top: 16px;">Dispute Decision</a>
+        <a href="morgan-buyer-dashboard.html" class="btn-secondary">Home</a>
+        
+        <!-- Dispute Decision Modal -->
+        <div id="disputeModal" class="modal-bg">
+            <div class="modal">
+                <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-weight: 600; font-size: 18px;">Dispute Listing Decision</h3>
+                    <button id="closeDisputeModal" style="background: none; border: none; font-size: 20px; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="disputeForm">
+                    <div class="form-group">
+                        <label for="disputeName" class="form-label">Your Name</label>
+                        <input type="text" id="disputeName" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disputeEmail" class="form-label">Email Address</label>
+                        <input type="email" id="disputeEmail" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disputeReason" class="form-label">Reason for Dispute</label>
+                        <select id="disputeReason" class="form-input" required>
+                            <option value="" disabled selected>Select a reason</option>
+                            <option value="not_recalled">Item is not recalled</option>
+                            <option value="not_expired">Item is not expired</option>
+                            <option value="meets_standards">Item meets safety standards</option>
+                            <option value="other">Other (please explain)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disputeDetails" class="form-label">Additional Details</label>
+                        <textarea id="disputeDetails" class="form-textarea" placeholder="Please provide any relevant information that supports your dispute..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Supporting Evidence</label>
+                        <button type="button" id="uploadEvidenceBtn" style="background-color: #F3F4F6; border: 1px dashed #D1D5DB; color: #4B5563; border-radius: 8px; padding: 12px; width: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                            <i class="fas fa-upload" style="margin-right: 8px;"></i>
+                            Upload photos or documents
+                        </button>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="margin-top: 8px;">Submit Dispute</button>
+                </form>
+            </div>
+        </div>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -492,6 +587,60 @@
                 findMoreRecyclingBtn.addEventListener('click', function() {
                     // In a real app, this could link to a search page or show more results
                     alert('This would search for additional recycling options in your area.');
+                });
+            }
+            
+            // Dispute Decision Modal functionality
+            const disputeDecisionBtn = document.getElementById('disputeDecisionBtn');
+            const disputeModal = document.getElementById('disputeModal');
+            const closeDisputeModalBtn = document.getElementById('closeDisputeModal');
+            const disputeForm = document.getElementById('disputeForm');
+            const uploadEvidenceBtn = document.getElementById('uploadEvidenceBtn');
+            
+            if (disputeDecisionBtn) {
+                disputeDecisionBtn.addEventListener('click', function() {
+                    disputeModal.style.display = 'flex';
+                });
+            }
+            
+            if (closeDisputeModalBtn) {
+                closeDisputeModalBtn.addEventListener('click', function() {
+                    disputeModal.style.display = 'none';
+                });
+            }
+            
+            // Close dispute modal when clicking outside
+            if (disputeModal) {
+                disputeModal.addEventListener('click', function(e) {
+                    if (e.target === disputeModal) {
+                        disputeModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Upload evidence button
+            if (uploadEvidenceBtn) {
+                uploadEvidenceBtn.addEventListener('click', function() {
+                    alert('This would open the device file picker to upload evidence.');
+                });
+            }
+            
+            // Handle form submission
+            if (disputeForm) {
+                disputeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('disputeName').value;
+                    const email = document.getElementById('disputeEmail').value;
+                    const reason = document.getElementById('disputeReason').value;
+                    const details = document.getElementById('disputeDetails').value;
+                    
+                    // In a real app, this would send the data to the server
+                    alert(`Your dispute has been submitted and will be sent to hello@getmina.app for review. We'll get back to you within 48 hours.`);
+                    
+                    // Close the modal
+                    disputeModal.style.display = 'none';
                 });
             }
         });

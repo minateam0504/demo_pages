@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Browse Categories</title>
+    <title>Mina - Home</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -13,6 +13,7 @@
             --terracotta: #B75E45;
             --cream: #FAF4F0;
             --charcoal: #4A4656;
+            --light-sage: rgba(155, 158, 138, 0.2);
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -68,7 +69,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .section-title {
             font-size: 22px;
@@ -77,66 +78,10 @@
             color: var(--charcoal);
         }
         .section-subtitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #666;
-            margin-bottom: 24px;
-        }
-        .category-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .category-card {
-            background-color: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            text-decoration: none;
-            color: var(--charcoal);
-            transition: transform 0.2s;
-        }
-        .category-card:active {
-            transform: scale(0.98);
-        }
-        .category-image {
-            height: 140px;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        .category-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .category-info {
-            padding: 12px;
-            text-align: center;
-        }
-        .category-name {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        .category-count {
-            font-size: 13px;
-            color: #666;
-        }
-        .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            background-color: rgba(155, 158, 138, 0.2);
-            color: var(--sage-green);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .ai-badge i {
-            margin-right: 4px;
+            margin-bottom: 16px;
+            margin-top: -8px;
         }
         .search-box {
             background-color: white;
@@ -144,7 +89,7 @@
             padding: 12px 16px;
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .search-icon {
@@ -164,21 +109,279 @@
         .search-input:focus {
             outline: none;
         }
-        .chatbot-bubble {
-            display: none; /* Hide the old chatbot bubble */
+        .filter-bar {
+            display: flex;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .filter-bar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        .filter-chip {
+            background-color: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin-right: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .filter-chip.active {
+            background-color: var(--sage-green);
+            color: white;
+        }
+        .filter-chip i {
+            margin-right: 6px;
+            font-size: 12px;
         }
         
-        /* Mina AI Assistant Bubble */
-        .mina-assistant {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            z-index: 1000;
+        /* Product feed styles */
+        .product-feed {
+            margin-bottom: 24px;
+        }
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .feed-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+        .see-all {
+            color: var(--terracotta);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            transition: transform 0.2s;
+        }
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        .product-image {
+            height: 180px;
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+        .trust-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--terracotta);
+            border-radius: 12px;
+            padding: 4px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .trust-badge i {
+            margin-right: 3px;
+            font-size: 10px;
+        }
+        .product-save {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
+            cursor: pointer;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .product-price {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--terracotta);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .distance-badge {
+            background-color: var(--light-sage);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            color: var(--sage-green);
+            font-weight: 500;
+        }
+        
+        /* Banner styles */
+        .promo-banner {
+            background: linear-gradient(to right, var(--sage-green), #88907A);
+            border-radius: 16px;
+            padding: 16px;
+            color: white;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+        .banner-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .banner-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        .banner-button {
+            background-color: white;
+            color: var(--sage-green);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .banner-shape {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .banner-shape:before {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        /* Carousel styles */
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            margin: 0 -16px 24px -16px;
+            padding: 0 16px;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        .carousel-card {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 270px;
+            margin-right: 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        /* Category grid styles */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .category-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-decoration: none;
+            color: var(--charcoal);
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
+            padding: 16px 8px;
+            transition: transform 0.2s;
         }
-        .mina-assistant-button {
+        .category-card:active {
+            transform: scale(0.95);
+        }
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            background-color: var(--light-sage);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--sage-green);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .category-name {
+            font-weight: 500;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        /* Chatbot styles */
+        .chatbot-bubble {
+            position: fixed;
+            bottom: 95px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .chat-button {
             width: 56px;
             height: 56px;
             border-radius: 28px;
@@ -190,56 +393,60 @@
             font-size: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             position: relative;
+            cursor: pointer;
         }
-        .mina-assistant-button::after {
+        .chat-button::after {
             content: '';
             position: absolute;
             top: -4px;
             right: -4px;
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             background-color: var(--sage-green);
             border-radius: 50%;
             border: 2px solid white;
         }
-        .mina-assistant-popup {
+        .chat-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
             background-color: white;
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            max-width: 240px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-            position: relative;
+            padding: 12px;
+            width: 220px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            transform-origin: bottom right;
         }
-        .mina-assistant-popup::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            right: 16px;
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            transform: rotate(45deg);
-            box-shadow: 3px 3px 3px rgba(0,0,0,0.08);
-        }
-        .mina-assistant-title {
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .mina-assistant-message {
+        .chat-tooltip-text {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            color: var(--charcoal);
+            margin-bottom: 8px;
         }
-        .mina-assistant-action {
-            color: var(--terracotta);
-            font-weight: 600;
-            font-size: 13px;
+        .chat-tooltip-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s forwards;
         }
     </style>
 </head>
@@ -256,12 +463,14 @@
     
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Header with Title -->
+        <!-- Header with Search and Wishlist -->
         <div class="screen-header">
-            <h2 class="section-title" style="margin-bottom: 0;">Browse Categories</h2>
-            <div class="ai-badge">
-                <i class="fas fa-magic"></i>
-                <span>Personalized</span>
+            <h1 class="section-title" style="margin-bottom: 0;">
+                <span style="font-weight: 400; font-size: 18px;">Hello,</span> Morgan
+            </h1>
+            <div style="display: flex; gap: 16px;">
+                <i class="far fa-heart" style="font-size: 24px;"></i>
+                <i class="far fa-bell" style="font-size: 24px;"></i>
             </div>
         </div>
         
@@ -273,100 +482,280 @@
             <input type="text" class="search-input" placeholder="Search for baby gear...">
         </div>
         
-        <!-- Category Grid -->
-        <div class="category-grid">
-            <!-- Car Seats Category -->
-            <a href="car-seats-listing.html" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-car" style="font-size: 60px; color: var(--sage-green);"></i></div>
-                </div>
-                <div class="category-info">
-                    <div class="category-name">Car Seats</div>
-                    <div class="category-count">173 listings</div>
-                </div>
-            </a>
+        <!-- Discover for Lucas section with link to car-seats-listing.html -->
+        <div class="product-feed" style="margin-top: 8px; margin-bottom: 16px;">
+            <div class="feed-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div class="feed-title">Discover for Lucas</div>
+                <span class="ai-badge" style="display: inline-flex; align-items: center; background-color: rgba(155, 158, 138, 0.2); color: var(--sage-green); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 600;"><i class="fas fa-magic" style="margin-right: 2px;"></i>Personalized</span>
+            </div>
             
-            <!-- Strollers Category -->
-            <a href="#" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-baby-carriage" style="font-size: 60px; color: var(--sage-green);"></i></div>
+            <div style="position: relative;">
+                <div style="overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: flex; gap: 8px; padding: 2px 0;">
+                    <a href="car-seats-listing.html" style="text-decoration: none; color: inherit; flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Car Seats</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">6-12m • 43 items</div>
+                        </div>
+                    </a>
+                    
+                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Activity</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Centers • 28 items</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-chair"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">High Chairs</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Meals • 17 items</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Summer</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Clothes • 65 items</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Feeding</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Essentials • 31 items</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Organic</div>
+                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Finds • 22 items</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="category-info">
-                    <div class="category-name">Strollers</div>
-                    <div class="category-count">205 listings</div>
+                
+                <!-- Scroll indicator dots -->
+                <div style="display: flex; justify-content: center; gap: 4px; margin-top: 8px;">
+                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.8;"></div>
+                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.4;"></div>
+                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.4;"></div>
                 </div>
-            </a>
-            
-            <!-- Cribs & Bassinets Category -->
-            <a href="#" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-bed" style="font-size: 60px; color: var(--sage-green);"></i></div>
-                </div>
-                <div class="category-info">
-                    <div class="category-name">Cribs & Bassinets</div>
-                    <div class="category-count">131 listings</div>
-                </div>
-            </a>
-            
-            <!-- High Chairs Category -->
-            <a href="#" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-chair" style="font-size: 60px; color: var(--sage-green);"></i></div>
-                </div>
-                <div class="category-info">
-                    <div class="category-name">High Chairs</div>
-                    <div class="category-count">98 listings</div>
-                </div>
-            </a>
-            
-            <!-- Toys Category -->
-            <a href="#" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-gamepad" style="font-size: 60px; color: var(--sage-green);"></i></div>
-                </div>
-                <div class="category-info">
-                    <div class="category-name">Toys</div>
-                    <div class="category-count">425 listings</div>
-                </div>
-            </a>
-            
-            <!-- Clothes Category -->
-            <a href="#" class="category-card">
-                <div class="category-image">
-                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;"><i class="fas fa-tshirt" style="font-size: 60px; color: var(--sage-green);"></i></div>
-                </div>
-                <div class="category-info">
-                    <div class="category-name">Clothes</div>
-                    <div class="category-count">731 listings</div>
-                </div>
-            </a>
+            </div>
         </div>
         
-        <!-- Replace old chatbot with new Mina AI Assistant -->
-        <div class="mina-assistant">
-            <div class="mina-assistant-popup">
-                <div class="mina-assistant-title">
-                    <i class="fas fa-magic" style="color: var(--sage-green);"></i>
-                    <span>Mina Assistant</span>
-                </div>
-                <div class="mina-assistant-message">
-                    Welcome! I can help you find the perfect baby gear based on your needs and preferences.
-                </div>
-                <a href="buyer-chat.html" class="mina-assistant-action">Ask me anything</a>
+        <!-- Curated For You Feed -->
+        <div class="product-feed">
+            <div class="feed-header">
+                <div class="feed-title">Curated for Lucas</div>
+                <a href="#" class="see-all">See all</a>
             </div>
-            <a href="buyer-chat.html" class="mina-assistant-button">
-                <span style="font-weight: bold; font-size: 20px;">M</span>
+            
+            <!-- Product Cards -->
+            <a href="buyer-product-nuna.html" style="text-decoration: none; color: inherit;">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/ Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA RX Car Seat">
+                        <div class="product-badge">Like New</div>
+                        <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Nuna PIPA RX Infant Car Seat</div>
+                        <div class="product-meta">
+                            <span>Ideal for 0-18 months</span>
+                            <span>2022 model</span>
+                        </div>
+                        <div class="product-price">
+                            $175
+                            <span class="distance-badge">0.5 mi away</span>
+                        </div>
+                    </div>
+                </div>
             </a>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="images/Used Product Image/UPPABABY MESA .jpg" alt="UPPAbaby VISTA Stroller">
+                    <div class="product-badge">Gently Used</div>
+                    <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                    <div class="product-save"><i class="far fa-heart"></i></div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">UPPAbaby VISTA Stroller</div>
+                    <div class="product-meta">
+                        <span>Birth to toddler</span>
+                        <span>2021 model</span>
+                    </div>
+                    <div class="product-price">
+                        $420
+                        <span class="distance-badge">1.2 mi away</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Promo Banner -->
+        <div class="promo-banner">
+            <div class="banner-content">
+                <div class="banner-title">Save $20 on Bundles!</div>
+                <div class="banner-subtitle">Essentials starter kits from verified sellers</div>
+                <a href="#" class="banner-button">View Bundles</a>
+            </div>
+            <div class="banner-shape"></div>
+        </div>
+        
+        <!-- Summer Essentials Carousel (previously Winter Warmers) -->
+        <div class="product-feed">
+            <div class="feed-header">
+                <div class="feed-title">Summer Lovin' Picks</div>
+                <a href="#" class="see-all">See all</a>
+            </div>
+            
+            <div class="carousel">
+                <div class="product-card carousel-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/Sunhat.jpg" alt="Baby Sun Hat">
+                        <div class="product-badge">Like New</div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Baby Sun Hat with UV Protection</div>
+                        <div class="product-meta">
+                            <span>6-12 months</span>
+                            <span>UPF 50+</span>
+                        </div>
+                        <div class="product-price">
+                            $12
+                            <span class="distance-badge">1.2 mi away</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card carousel-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/Inflatable Splash Pad.jpg" alt="Inflatable Splash Pad">
+                        <div class="product-badge">Barely Used</div>
+                        <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Inflatable Splash Pad</div>
+                        <div class="product-meta">
+                            <span>67" diameter</span>
+                            <span>Portable</span>
+                        </div>
+                        <div class="product-price">
+                            $24
+                            <span class="distance-badge">0.9 mi away</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card carousel-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/Baby Swim Floaties.jpg" alt="Baby Swim Floaties">
+                        <div class="product-badge">Gently Used</div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Baby Swim Floaties</div>
+                        <div class="product-meta">
+                            <span>6-18 months</span>
+                            <span>Safety certified</span>
+                        </div>
+                        <div class="product-price">
+                            $15
+                            <span class="distance-badge">2.3 mi away</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recently Added -->
+        <div class="product-feed">
+            <div class="feed-header">
+                <div class="feed-title">Recently Added in Your  </div>
+                <a href="#" class="see-all">See all</a>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="images/Used Product Image/OXO Tot Sprout High Chair.jpg" alt="OXO Tot High Chair">
+                    <div class="product-badge">Like New</div>
+                    <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                    <div class="product-save"><i class="far fa-heart"></i></div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">OXO Tot Sprout High Chair</div>
+                    <div class="product-meta">
+                        <span>6m to 5 years</span>
+                        <span>Gray/Walnut</span>
+                    </div>
+                    <div class="product-price">
+                        $120
+                        <span class="distance-badge">1.5 mi away</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Bjorn Bouncer">
+                    <div class="product-badge">Gently Used</div>
+                    <div class="product-save"><i class="far fa-heart"></i></div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name">Baby Bjorn Bouncer Bliss</div>
+                    <div class="product-meta">
+                        <span>0-2 years</span>
+                        <span>Cotton</span>
+                    </div>
+                    <div class="product-price">
+                        $95
+                        <span class="distance-badge">2.3 mi away</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mina AI Chat Bubble -->
+        <div class="chatbot-bubble">
+            <div class="chat-tooltip" id="chatTooltip">
+                <div class="chat-tooltip-close" id="closeTooltip">×</div>
+                <div class="chat-tooltip-text">Ask me for help finding the perfect baby gear!</div>
+            </div>
+            <div class="chat-button" id="chatButton">
+                <span style="font-weight: bold; font-size: 20px;">M</span>
+            </div>
         </div>
     </div>
     
     <!-- iOS Tab Bar -->
     <div class="ios-tab-bar">
-        <a href="home.html" class="tab-item">
+        <a href="#" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-home"></i></div>
             <div class="tab-label">Home</div>
         </a>
-        <a href="#" class="tab-item active">
+        <a href="#" class="tab-item">
             <div class="tab-icon"><i class="fas fa-search"></i></div>
             <div class="tab-label">Search</div>
         </a>
@@ -383,26 +772,96 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
-</body>
-
-<script>
-    // Mina Assistant Popup Toggling
-    document.addEventListener('DOMContentLoaded', function() {
-        const assistantButton = document.querySelector('.mina-assistant-button');
-        const assistantPopup = document.querySelector('.mina-assistant-popup');
-        
-        // Show popup on hover or initially
-        assistantButton.addEventListener('mouseover', function() {
-            assistantPopup.style.display = 'block';
-        });
-        
-        // Make sure clicking anywhere on the popup doesn't prevent navigation
-        assistantPopup.addEventListener('click', function(e) {
-            // Only if the click was directly on the popup (not on a link inside it)
-            if (e.target === assistantPopup) {
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chat tooltip functionality
+            const chatButton = document.getElementById('chatButton');
+            const chatTooltip = document.getElementById('chatTooltip');
+            const closeTooltip = document.getElementById('closeTooltip');
+            
+            // Show tooltip on page load with slight delay
+            setTimeout(() => {
+                chatTooltip.style.display = 'block';
+                chatTooltip.classList.add('animate-fade-in');
+            }, 2000);
+            
+            // Close tooltip
+            closeTooltip.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatTooltip.style.display = 'none';
+            });
+            
+            // Chat button click handler
+            chatButton.addEventListener('click', function() {
                 window.location.href = 'buyer-chat.html';
-            }
+            });
+            
+            // Wishlist heart toggle functionality
+            const wishlistHearts = document.querySelectorAll('.product-save i');
+            wishlistHearts.forEach(heart => {
+                heart.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.toggle('far');
+                    this.classList.toggle('fas');
+                    
+                    if (this.classList.contains('fas')) {
+                        this.style.color = 'var(--terracotta)';
+                        this.classList.add('animate-pulse');
+                        setTimeout(() => {
+                            this.classList.remove('animate-pulse');
+                        }, 1000);
+                    } else {
+                        this.style.color = '';
+                    }
+                });
+            });
+            
+            // Handle filter chip selection
+            const filterChips = document.querySelectorAll('.filter-chip');
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    // If this is the 'All' filter, deselect all others
+                    if (this.textContent.trim() === 'All') {
+                        filterChips.forEach(c => {
+                            if (c !== this) c.classList.remove('active');
+                        });
+                    } else {
+                        // If clicking on a specific filter, deselect the 'All' filter
+                        filterChips[0].classList.remove('active');
+                    }
+                    
+                    // Toggle this filter
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // Wishlist heart toggle in header
+            const wishlistHeart = document.querySelector('.fa-heart');
+            wishlistHeart.addEventListener('click', function() {
+                this.classList.toggle('far');
+                this.classList.toggle('fas');
+                
+                if (this.classList.contains('fas')) {
+                    this.style.color = 'var(--terracotta)';
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('animate-pulse');
+                    }, 1000);
+                } else {
+                    this.style.color = '';
+                }
+            });
+            
+            // Simulate loading new content when scrolling to bottom
+            const mainContent = document.querySelector('.main-content');
+            mainContent.addEventListener('scroll', function() {
+                if (mainContent.scrollTop + mainContent.clientHeight >= mainContent.scrollHeight - 100) {
+                    // You could load more content here in a real app
+                }
+            });
         });
-    });
-</script>
+    </script>
+</body>
 </html>

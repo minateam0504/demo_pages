@@ -278,6 +278,112 @@
             padding: 20px 0;
             color: rgba(0,0,0,0.5);
         }
+        
+        /* Filter styles */
+        .filters-row {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .filters-row::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-pill {
+            flex: 0 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin-right: 8px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        .filter-pill.active {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        
+        /* Modal styles */
+        .modal {
+            max-height: 85vh;
+            overflow-y: auto;
+            margin-bottom: 90px; /* Ensures modal doesn't cover bottom nav */
+        }
+        
+        .modal-bg {
+            align-items: flex-start;
+            padding-top: 20px;
+            overflow-y: auto;
+            padding-bottom: 90px; /* Ensures modal container doesn't cover bottom nav */
+        }
+        
+        /* Popup styles for reschedule */
+        .popup-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            padding: 24px;
+            padding-bottom: calc(24px + 83px); /* Add extra padding for the navigation bar */
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .popup-container.active {
+            transform: translateY(0);
+        }
+        
+        .popup-handle {
+            width: 40px;
+            height: 5px;
+            background-color: #E5E7EB;
+            border-radius: 3px;
+            margin: 0 auto 20px;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -307,7 +413,7 @@
                 <a href="#" class="nav-button">
                     <i class="fas fa-chevron-left"></i>
                 </a>
-                <div class="month-title">June 2023</div>
+                <div class="month-title">July 2025</div>
                 <a href="#" class="nav-button">
                     <i class="fas fa-chevron-right"></i>
                 </a>
@@ -317,6 +423,13 @@
                     <i class="fas fa-list"></i>
                 </a>
             </div>
+        </div>
+        
+        <!-- Category Filters -->
+        <div class="filters-row">
+            <div class="filter-pill active">All</div>
+            <div class="filter-pill">My Purchases</div>
+            <div class="filter-pill">My Listings</div>
         </div>
         
         <!-- Calendar Grid -->
@@ -474,7 +587,7 @@
                     <a href="#" class="pickup-action">
                         <i class="fas fa-comments"></i> Message
                     </a>
-                    <a href="#" class="pickup-action">
+                    <a href="#" class="pickup-action reschedule-btn">
                         <i class="fas fa-calendar-times"></i> Reschedule
                     </a>
                 </div>
@@ -530,7 +643,7 @@
                     <div class="pickup-details">
                         <div class="pickup-title">Wooden Activity Gym</div>
                         <div class="pickup-meta">
-                            <i class="fas fa-calendar-alt"></i> June 19, 2023
+                            <i class="fas fa-calendar-alt"></i> July 19, 2025
                         </div>
                         <div class="pickup-meta">
                             <i class="fas fa-clock"></i> 4:30 PM - 5:00 PM
@@ -542,6 +655,9 @@
                             </div>
                             <div class="buyer-name">Rachel Thompson</div>
                         </div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-map-marker-alt"></i> Seller's location (Noe Valley)
+                        </div>
                         <div class="pickup-status status-confirmed">Confirmed</div>
                     </div>
                 </div>
@@ -549,7 +665,7 @@
                     <a href="#" class="pickup-action">
                         <i class="fas fa-comments"></i> Message
                     </a>
-                    <a href="#" class="pickup-action">
+                    <a href="#" class="pickup-action reschedule-btn">
                         <i class="fas fa-calendar-times"></i> Reschedule
                     </a>
                 </div>
@@ -565,7 +681,7 @@
                     <div class="pickup-details">
                         <div class="pickup-title">Baby Einstein Walker</div>
                         <div class="pickup-meta">
-                            <i class="fas fa-calendar-alt"></i> June 29, 2023
+                            <i class="fas fa-calendar-alt"></i> July 29, 2025
                         </div>
                         <div class="pickup-meta">
                             <i class="fas fa-clock"></i> 10:00 AM - 10:30 AM
@@ -576,6 +692,9 @@
                                 <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
                             </div>
                             <div class="buyer-name">David Garcia</div>
+                        </div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-map-marker-alt"></i> Meeting point (Dolores Park)
                         </div>
                         <div class="pickup-status status-pending">Awaiting Confirmation</div>
                     </div>
@@ -605,7 +724,7 @@
                     <div class="pickup-details">
                         <div class="pickup-title">6-12m Baby Girl Clothes Bundle</div>
                         <div class="pickup-meta">
-                            <i class="fas fa-calendar-alt"></i> June 10, 2023
+                            <i class="fas fa-calendar-alt"></i> July 10, 2025
                         </div>
                         <div class="pickup-meta" style="display:flex; align-items:center;">
                             <i class="fas fa-user"></i>
@@ -613,6 +732,9 @@
                                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
                             </div>
                             <div class="buyer-name">Sophie Martinez</div>
+                        </div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-map-marker-alt"></i> Seller's location (Marina District)
                         </div>
                         <div class="pickup-status status-confirmed">Completed</div>
                     </div>
@@ -637,7 +759,7 @@
                     <div class="pickup-details">
                         <div class="pickup-title">Stokke Tripp Trapp High Chair</div>
                         <div class="pickup-meta">
-                            <i class="fas fa-calendar-alt"></i> June 2, 2023
+                            <i class="fas fa-calendar-alt"></i> July 2, 2025
                         </div>
                         <div class="pickup-meta" style="display:flex; align-items:center;">
                             <i class="fas fa-user"></i>
@@ -645,6 +767,9 @@
                                 <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
                             </div>
                             <div class="buyer-name">Jennifer Liu</div>
+                        </div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-map-marker-alt"></i> Seller's location (Pacific Heights)
                         </div>
                         <div class="pickup-status status-confirmed">Completed</div>
                     </div>
@@ -684,5 +809,198 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+
+    <!-- Popup overlay -->
+    <div class="popup-overlay" id="rescheduleOverlay"></div>
+
+    <!-- Reschedule Popup -->
+    <div class="popup-container" id="reschedulePopup">
+        <div class="popup-handle"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div style="font-size: 18px; font-weight: 600;">Reschedule Pickup</div>
+            <div id="rescheduleClose" style="cursor: pointer;"><i class="fas fa-times"></i></div>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <div style="font-weight: 500; margin-bottom: 8px; font-size: 16px;">Select a new date and time based on the seller's availability</div>
+            <div style="font-size: 14px; color: #666; margin-bottom: 16px; line-height: 1.4;">The seller will be notified and must confirm the new time and location.</div>
+            
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Date</div>
+                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
+                    <option>July 20, 2025 (Tomorrow)</option>
+                    <option>July 21, 2025 (Sunday)</option>
+                    <option>July 22, 2025 (Monday)</option>
+                    <option>July 23, 2025 (Tuesday)</option>
+                    <option>July 24, 2025 (Wednesday)</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Time</div>
+                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
+                    <option>5:00 PM - 5:30 PM</option>
+                    <option>5:30 PM - 6:00 PM</option>
+                    <option>6:00 PM - 6:30 PM</option>
+                    <option>6:30 PM - 7:00 PM</option>
+                    <option>7:00 PM - 7:30 PM</option>
+                    <option>7:30 PM - 8:00 PM</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Location</div>
+                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
+                    <option>Seller's location (Noe Valley)</option>
+                    <option>Meeting point (Dolores Park)</option>
+                    <option>Meeting point (Marina Green)</option>
+                    <option>Your home address</option>
+                    <option>Other location (specify in message)</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Message (Optional)</div>
+                <textarea style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal); min-height: 100px; resize: none;" placeholder="Let the seller know why you need to reschedule or provide details for a new location..."></textarea>
+            </div>
+        </div>
+        
+        <button style="background-color: var(--terracotta); color: white; border-radius: 24px; padding: 14px; width: 100%; border: none; font-weight: 600; font-size: 16px; cursor: pointer;" id="sendRescheduleRequest">Send Reschedule Request</button>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="success-popup" id="successPopup">
+        <div style="font-size: 48px; color: var(--sage-green); margin-bottom: 20px;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Reschedule Request Sent!</div>
+        <div style="font-size: 15px; color: #666; margin-bottom: 28px; line-height: 1.4;">The seller will be notified and must confirm the new time and location.</div>
+        <button style="background-color: var(--terracotta); color: white; border-radius: 24px; padding: 14px; width: 100%; border: none; font-weight: 600; font-size: 16px; cursor: pointer;" id="closeSuccessPopup">Close</button>
+    </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter pills functionality
+        const filterPills = document.querySelectorAll('.filter-pill');
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', function() {
+                // Remove active class from all pills
+                filterPills.forEach(p => p.classList.remove('active'));
+                // Add active class to clicked pill
+                this.classList.add('active');
+                
+                const filterType = this.textContent;
+                
+                // Get all pickup cards
+                const allPickupCards = document.querySelectorAll('.pickup-card');
+                
+                // Add data attributes to identify card types (in a real app, these would be set server-side)
+                if (!allPickupCards[0].dataset.type) {
+                    // First two cards (Today's Pickups) are sales (listings)
+                    allPickupCards[0].dataset.type = 'listing';
+                    allPickupCards[1].dataset.type = 'listing';
+                    
+                    // Next two cards (Upcoming Pickups) - first is a purchase, second is a listing
+                    allPickupCards[2].dataset.type = 'purchase';
+                    allPickupCards[3].dataset.type = 'listing';
+                    
+                    // Last two cards (Past Pickups) - first is a purchase, second is a listing
+                    allPickupCards[4].dataset.type = 'purchase';
+                    allPickupCards[5].dataset.type = 'listing';
+                }
+                
+                // Filter based on selection
+                if (filterType === 'All') {
+                    allPickupCards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                } else if (filterType === 'My Purchases') {
+                    allPickupCards.forEach(card => {
+                        if (card.dataset.type === 'purchase') {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                } else if (filterType === 'My Listings') {
+                    allPickupCards.forEach(card => {
+                        if (card.dataset.type === 'listing') {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+                
+                // Update section titles to reflect filtering
+                document.querySelectorAll('.schedule-section').forEach(section => {
+                    const cardsInSection = Array.from(section.querySelectorAll('.pickup-card')).filter(card => 
+                        card.style.display !== 'none'
+                    );
+                    
+                    if (cardsInSection.length === 0) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                        
+                        // Update count in title if it's "Today's Pickups"
+                        const titleEl = section.querySelector('.section-title');
+                        if (titleEl && titleEl.textContent.includes("Today's Pickups")) {
+                            titleEl.textContent = `Today's Pickups (${cardsInSection.length})`;
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Reschedule functionality with bottom sheet popup
+        const rescheduleButtons = document.querySelectorAll('.reschedule-btn');
+        const reschedulePopup = document.getElementById('reschedulePopup');
+        const rescheduleOverlay = document.getElementById('rescheduleOverlay');
+        const rescheduleClose = document.getElementById('rescheduleClose');
+        const sendRescheduleRequest = document.getElementById('sendRescheduleRequest');
+        const successPopup = document.getElementById('successPopup');
+        const closeSuccessPopup = document.getElementById('closeSuccessPopup');
+        
+        // Open reschedule popup
+        rescheduleButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                rescheduleOverlay.classList.add('active');
+                reschedulePopup.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            });
+        });
+        
+        // Close reschedule popup
+        rescheduleClose.addEventListener('click', function() {
+            rescheduleOverlay.classList.remove('active');
+            reschedulePopup.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Click on overlay to close
+        rescheduleOverlay.addEventListener('click', function() {
+            rescheduleOverlay.classList.remove('active');
+            reschedulePopup.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Send reschedule request
+        sendRescheduleRequest.addEventListener('click', function() {
+            rescheduleOverlay.classList.remove('active');
+            reschedulePopup.classList.remove('active');
+            successPopup.style.display = 'block';
+            setTimeout(() => {
+                document.body.style.overflow = 'hidden'; // Keep preventing scrolling
+            }, 100);
+        });
+        
+        // Close success popup
+        closeSuccessPopup.addEventListener('click', function() {
+            successPopup.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    });
+</script>
 </html> 

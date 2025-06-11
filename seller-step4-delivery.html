@@ -318,11 +318,21 @@
             text-align: center;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .time-slot:hover {
+            border-color: var(--sage-green);
+            box-shadow: 0 0 0 1px var(--sage-green);
+        }
+        .time-slot:active {
+            transform: scale(0.98);
+            opacity: 0.9;
         }
         .time-slot.selected {
             background-color: var(--sage-green);
             color: white;
             border-color: var(--sage-green);
+            box-shadow: 0 2px 4px rgba(155, 158, 138, 0.3);
         }
         .safety-message {
             background-color: rgba(155, 158, 138, 0.1);
@@ -510,41 +520,77 @@
         
         <div class="prompt-section">
             <div class="prompt-container">
-                <div class="prompt-header">Available Days</div>
-                <div class="prompt-info">Select days when you're typically available to meet.</div>
+                <div class="prompt-header">Available Days & Times</div>
+                <div class="prompt-info">Select which time windows that generally work for you on specific days. You can always update later in your account setting.</div>
                 
-                <div class="day-selector">
-                    <div class="day-box">
-                        <div class="day-name">Mon</div>
-                    </div>
-                    <div class="day-box selected">
-                        <div class="day-name">Tue</div>
-                    </div>
-                    <div class="day-box">
-                        <div class="day-name">Wed</div>
-                    </div>
-                    <div class="day-box selected">
-                        <div class="day-name">Thu</div>
-                    </div>
-                    <div class="day-box">
-                        <div class="day-name">Fri</div>
-                    </div>
-                    <div class="day-box selected">
-                        <div class="day-name">Sat</div>
-                    </div>
-                    <div class="day-box">
-                        <div class="day-name">Sun</div>
-                    </div>
+                <!-- Compact grid of availability -->
+                <div style="margin: 16px 0 20px 0;">
+                    <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%; font-size: 12px; text-align: left; padding: 8px 2px; color: #666; font-weight: 500;"></th>
+                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">8-11a</th>
+                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">11a-2p</th>
+                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">2-5p</th>
+                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">5-8p</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Mon</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Tue</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="tue" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="tue" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Wed</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Thu</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="thu" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Fri</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sat</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sun</td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 
-                <div class="prompt-header" style="margin-top:20px;">Preferred Time Windows</div>
-                <div class="prompt-info">When are you typically available on these days?</div>
-                
-                <div class="time-slots">
-                    <div class="time-slot">Morning (8-11am)</div>
-                    <div class="time-slot selected">Midday (11am-2pm)</div>
-                    <div class="time-slot">Afternoon (2-5pm)</div>
-                    <div class="time-slot selected">Evening (5-8pm)</div>
+                <div class="prompt-info" style="font-size: 13px; color: var(--sage-green); font-style: italic; margin: -10px 0 16px 0;">
+                    <i class="fas fa-info-circle"></i> Tap a box to select when you're available.
                 </div>
                 
                 <div class="prompt-header" style="font-size:15px;margin-top:20px;">Additional notes:</div>
@@ -694,19 +740,57 @@
                 });
             });
             
-            // Day selection
-            const dayBoxes = document.querySelectorAll('.day-box');
-            dayBoxes.forEach(box => {
-                box.addEventListener('click', function() {
+            // Time toggle grid selection
+            const timeToggles = document.querySelectorAll('.time-toggle');
+            timeToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    // Toggle selected state
                     this.classList.toggle('selected');
+                    
+                    // Update visual appearance based on selection state
+                    if (this.classList.contains('selected')) {
+                        this.style.backgroundColor = 'var(--sage-green)';
+                        this.style.borderColor = 'var(--sage-green)';
+                        
+                        // Add check icon
+                        if (!this.querySelector('.fa-check')) {
+                            const checkIcon = document.createElement('i');
+                            checkIcon.className = 'fas fa-check';
+                            checkIcon.style.color = 'white';
+                            checkIcon.style.fontSize = '14px';
+                            this.appendChild(checkIcon);
+                        }
+                    } else {
+                        this.style.backgroundColor = '#f9f9f9';
+                        this.style.borderColor = '#E5E7EB';
+                        
+                        // Remove check icon
+                        const checkIcon = this.querySelector('.fa-check');
+                        if (checkIcon) {
+                            this.removeChild(checkIcon);
+                        }
+                    }
+                    
+                    // Visual feedback animation on click
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
                 });
-            });
-            
-            // Time slot selection
-            const timeSlots = document.querySelectorAll('.time-slot');
-            timeSlots.forEach(slot => {
-                slot.addEventListener('click', function() {
-                    this.classList.toggle('selected');
+                
+                // Add hover effect
+                toggle.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.borderColor = 'var(--sage-green)';
+                        this.style.boxShadow = '0 0 0 1px var(--sage-green)';
+                    }
+                });
+                
+                toggle.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.borderColor = '#E5E7EB';
+                        this.style.boxShadow = 'none';
+                    }
                 });
             });
         });

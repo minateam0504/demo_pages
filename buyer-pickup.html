@@ -307,43 +307,96 @@
         </div>
         
         <!-- Date Selection -->
-        <div class="section-title">Select date</div>
-        <div class="section-subtitle">These dates work for both you and the seller</div>
-        <div class="date-tabs">
-            <div class="date-tab">
-                <div class="date-weekday">Wed</div>
-                <div class="date-number">26</div>
+        <div class="section-title">Select available days and times</div>
+        <div class="section-subtitle">Select which time windows work for you on each day</div>
+        
+        <!-- Day and Time Selection Combined -->
+        <div class="day-time-container" style="margin-bottom: 24px;">
+            <!-- Wednesday -->
+            <div class="day-header" style="display: flex; align-items: center; margin: 16px 0 12px 0; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div style="flex: 1; font-weight: 600;">Wednesday, July 26</div>
+                <label class="toggle-container" style="display: flex; align-items: center;">
+                    <input type="checkbox" checked style="margin-right: 6px;">
+                    <span style="font-size: 14px; color: #666;">Available</span>
+                </label>
             </div>
-            <div class="date-tab">
-                <div class="date-weekday">Thu</div>
-                <div class="date-number">27</div>
+            <div class="time-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="time-slot">Morning (8-11am)</div>
+                <div class="time-slot">Midday (11am-2pm)</div>
+                <div class="time-slot">Afternoon (2-5pm)</div>
+                <div class="time-slot">Evening (5-8pm)</div>
             </div>
-            <div class="date-tab active">
-                <div class="date-weekday">Fri</div>
-                <div class="date-number">28</div>
+            
+            <!-- Thursday -->
+            <div class="day-header" style="display: flex; align-items: center; margin: 16px 0 12px 0; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div style="flex: 1; font-weight: 600;">Thursday, July 27</div>
+                <label class="toggle-container" style="display: flex; align-items: center;">
+                    <input type="checkbox" checked style="margin-right: 6px;">
+                    <span style="font-size: 14px; color: #666;">Available</span>
+                </label>
             </div>
-            <div class="date-tab">
-                <div class="date-weekday">Sat</div>
-                <div class="date-number">29</div>
+            <div class="time-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="time-slot">Morning (8-11am)</div>
+                <div class="time-slot selected">Midday (11am-2pm)</div>
+                <div class="time-slot">Afternoon (2-5pm)</div>
+                <div class="time-slot">Evening (5-8pm)</div>
             </div>
-            <div class="date-tab">
-                <div class="date-weekday">Tue</div>
-                <div class="date-number">2</div>
+            
+            <!-- Friday -->
+            <div class="day-header" style="display: flex; align-items: center; margin: 16px 0 12px 0; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div style="flex: 1; font-weight: 600;">Friday, July 28</div>
+                <label class="toggle-container" style="display: flex; align-items: center;">
+                    <input type="checkbox" checked style="margin-right: 6px;">
+                    <span style="font-size: 14px; color: #666;">Available</span>
+                </label>
+            </div>
+            <div class="time-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="time-slot">Morning (8-11am)</div>
+                <div class="time-slot">Midday (11am-2pm)</div>
+                <div class="time-slot">Afternoon (2-5pm)</div>
+                <div class="time-slot selected">Evening (5-8pm)</div>
+            </div>
+            
+            <!-- Saturday -->
+            <div class="day-header" style="display: flex; align-items: center; margin: 16px 0 12px 0; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div style="flex: 1; font-weight: 600;">Saturday, July 29</div>
+                <label class="toggle-container" style="display: flex; align-items: center;">
+                    <input type="checkbox" checked style="margin-right: 6px;">
+                    <span style="font-size: 14px; color: #666;">Available</span>
+                </label>
+            </div>
+            <div class="time-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="time-slot selected">Morning (8-11am)</div>
+                <div class="time-slot selected">Midday (11am-2pm)</div>
+                <div class="time-slot">Afternoon (2-5pm)</div>
+                <div class="time-slot">Evening (5-8pm)</div>
+            </div>
+            
+            <!-- Tuesday -->
+            <div class="day-header" style="display: flex; align-items: center; margin: 16px 0 12px 0; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div style="flex: 1; font-weight: 600;">Tuesday, August 2</div>
+                <label class="toggle-container" style="display: flex; align-items: center;">
+                    <input type="checkbox" style="margin-right: 6px;">
+                    <span style="font-size: 14px; color: #666;">Available</span>
+                </label>
+            </div>
+            <div class="time-grid" style="grid-template-columns: repeat(2, 1fr); opacity: 0.5;">
+                <div class="time-slot">Morning (8-11am)</div>
+                <div class="time-slot">Midday (11am-2pm)</div>
+                <div class="time-slot">Afternoon (2-5pm)</div>
+                <div class="time-slot">Evening (5-8pm)</div>
             </div>
         </div>
         
-        <!-- Time Selection -->
-        <div class="section-title">Select time</div>
-        <div class="section-subtitle">Compatible time slots for Friday, July 28</div>
-        <div class="time-grid">
-            <div class="time-slot unavailable">4:00 - 4:30 pm</div>
-            <div class="time-slot unavailable">4:30 - 5:00 pm</div>
-            <div class="time-slot">5:00 - 5:30 pm</div>
-            <div class="time-slot selected">5:30 - 6:00 pm</div>
-            <div class="time-slot">6:00 - 6:30 pm</div>
-            <div class="time-slot">6:30 - 7:00 pm</div>
-            <div class="time-slot">7:00 - 7:30 pm</div>
-            <div class="time-slot">7:30 - 8:00 pm</div>
+        <!-- Mina's Recommendation -->
+        <div class="seller-note" style="background-color: rgba(183, 94, 69, 0.1); border-left: 3px solid var(--terracotta);">
+            <div class="seller-note-header">
+                <i class="fas fa-lightbulb" style="color: var(--terracotta);"></i>
+                <div class="seller-note-title">Mina's Recommendation</div>
+            </div>
+            <div class="seller-note-content">
+                Based on both your schedules, <strong>Friday, July 28 between 5-8pm</strong> is the best match. The seller is typically available during this time window.
+            </div>
         </div>
         
         <!-- Note to Seller -->
@@ -354,7 +407,7 @@
         
         <!-- Button -->
         <div class="button-container">
-            <a href="buyer-payment.html" class="btn-primary">Confirm Friday 5:30 - 6:00 PM and Continue to Payment</a>
+            <a href="buyer-payment.html" class="btn-primary">Confirm Friday Evening (5-8pm) and Continue to Payment</a>
         </div>
     </div>
 </body>

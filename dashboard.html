@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .tab-active {
+            color: var(--terracotta);
+            border-bottom: 2px solid var(--terracotta);
+        }
+        .mobile-tab-active {
+            color: var(--terracotta);
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .status-badge {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .status-scheduled {
+            background-color: rgba(155, 158, 138, 0.15);
+            color: var(--sage-green);
+        }
+        .status-completed {
+            background-color: rgba(75, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+        .status-refunded {
+            background-color: rgba(183, 94, 69, 0.15);
+            color: var(--terracotta);
+        }
+        .action-button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .action-primary {
+            background-color: var(--terracotta);
+            color: white;
+        }
+        .action-secondary {
+            border: 1px solid var(--sage-green);
+            color: var(--sage-green);
+        }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--sage-green);
+        }
+        .timeline-line {
+            width: 2px;
+            background-color: #E5E7EB;
+        }
+        @media (max-width: 768px) {
+            .desktop-tabs {
+                display: none;
+            }
+            .mobile-tabs {
+                display: flex;
+            }
+        }
+        @media (min-width: 769px) {
+            .desktop-tabs {
+                display: flex;
+            }
+            .mobile-tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-tabs bg-white border-b border-gray-200 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex space-x-8">
+                <a href="#purchases" class="tab-active px-4 py-4 text-sm font-medium">Purchases</a>
+                <a href="#selling" class="px-4 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">Selling</a>
+                <a href="#orders" class="px-4 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">Orders</a>
+                <a href="#wishlist" class="px-4 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">Wishlist</a>
+                <a href="#recent" class="px-4 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">Recently Viewed</a>
+                <a href="#account" class="px-4 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">Account</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 px-4 py-6 max-w-7xl mx-auto w-full">
+        <!-- Purchases Tab Content -->
+        <div id="purchases" class="space-y-6">
+            <h2 class="text-2xl font-semibold mb-6">My Purchases</h2>
+            
+            <!-- Purchase Card -->
+            <div class="card p-4 flex items-center space-x-4">
+                <img src="https://via.placeholder.com/80" alt="Baby Carrier" class="w-20 h-20 rounded-lg object-cover">
+                <div class="flex-1">
+                    <h3 class="font-medium">Ergobaby Carrier</h3>
+                    <p class="text-sm text-gray-500">Pickup: Today at 5:30 PM</p>
+                    <p class="text-sm text-gray-500">Seller: Sarah M.</p>
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                    <span class="status-badge status-scheduled">Pickup Scheduled</span>
+                    <button class="action-button action-secondary">View Details</button>
+                </div>
+            </div>
+
+            <!-- Purchase Card -->
+            <div class="card p-4 flex items-center space-x-4">
+                <img src="https://via.placeholder.com/80" alt="Baby Clothes" class="w-20 h-20 rounded-lg object-cover">
+                <div class="flex-1">
+                    <h3 class="font-medium">Baby Clothes Bundle (0-3m)</h3>
+                    <p class="text-sm text-gray-500">Pickup: Tomorrow at 2:00 PM</p>
+                    <p class="text-sm text-gray-500">Seller: Emily R.</p>
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                    <span class="status-badge status-scheduled">Pickup Scheduled</span>
+                    <button class="action-button action-secondary">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selling Tab Content (Initially Hidden) -->
+        <div id="selling" class="hidden space-y-6">
+            <h2 class="text-2xl font-semibold mb-6">My Listings</h2>
+            
+            <!-- Sections -->
+            <div class="space-y-8">
+                <!-- Drafts Section -->
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Drafts (2)</h3>
+                    <div class="card p-4 flex items-center space-x-4">
+                        <img src="https://via.placeholder.com/80" alt="Stroller" class="w-20 h-20 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-medium">UPPAbaby Vista Stroller</h4>
+                            <p class="text-sm text-gray-500">Last edited: 2 days ago</p>
+                            <p class="text-sm font-medium text-terracotta">$450</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="action-button action-secondary">Edit</button>
+                            <button class="action-button action-primary">Publish</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Listings Section -->
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Active Listings (3)</h3>
+                    <div class="card p-4 flex items-center space-x-4">
+                        <img src="https://via.placeholder.com/80" alt="High Chair" class="w-20 h-20 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-medium">Stokke High Chair</h4>
+                            <p class="text-sm text-gray-500">Listed: 5 days ago</p>
+                            <p class="text-sm font-medium text-terracotta">$180</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="action-button action-secondary">Edit</button>
+                            <button class="action-button action-secondary">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Tab Content (Initially Hidden) -->
+        <div id="orders" class="hidden space-y-6">
+            <h2 class="text-2xl font-semibold mb-6">Order History</h2>
+            
+            <!-- Timeline View -->
+            <div class="space-y-8">
+                <div class="flex">
+                    <div class="flex flex-col items-center mr-4">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line flex-1"></div>
+                    </div>
+                    <div class="card p-4 flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium">Baby Swing</h4>
+                                <p class="text-sm text-gray-500">Transaction #1234</p>
+                                <p class="text-sm text-gray-500">March 15, 2024</p>
+                            </div>
+                            <span class="status-badge status-completed">Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="flex flex-col items-center mr-4">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line flex-1"></div>
+                    </div>
+                    <div class="card p-4 flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium">Baby Monitor</h4>
+                                <p class="text-sm text-gray-500">Transaction #1233</p>
+                                <p class="text-sm text-gray-500">March 12, 2024</p>
+                            </div>
+                            <span class="status-badge status-refunded">Refunded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist Tab Content (Initially Hidden) -->
+        <div id="wishlist" class="hidden">
+            <h2 class="text-2xl font-semibold mb-6">My Wishlist</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Wishlist Item -->
+                <div class="card overflow-hidden">
+                    <img src="https://via.placeholder.com/300x200" alt="Crib" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium">Babyletto Crib</h3>
+                            <span class="status-badge status-scheduled">Available</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-2">Like new condition</p>
+                        <p class="text-lg font-medium text-terracotta mb-4">$299</p>
+                        <button class="action-button action-primary w-full">Reserve Now</button>
+                    </div>
+                </div>
+
+                <!-- Wishlist Item -->
+                <div class="card overflow-hidden">
+                    <img src="https://via.placeholder.com/300x200" alt="Play Mat" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium">Lovevery Play Mat</h3>
+                            <span class="status-badge status-scheduled">Available</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-2">Excellent condition</p>
+                        <p class="text-lg font-medium text-terracotta mb-4">$85</p>
+                        <button class="action-button action-primary w-full">Reserve Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Viewed Tab Content (Initially Hidden) -->
+        <div id="recent" class="hidden">
+            <h2 class="text-2xl font-semibold mb-6">Recently Viewed</h2>
+            
+            <div class="flex overflow-x-auto space-x-6 pb-6">
+                <!-- Recently Viewed Item -->
+                <div class="card flex-shrink-0 w-64">
+                    <img src="https://via.placeholder.com/200" alt="Baby Bouncer" class="w-full h-40 object-cover rounded-t-lg">
+                    <div class="p-4">
+                        <h3 class="font-medium">Baby Bjorn Bouncer</h3>
+                        <p class="text-sm text-gray-500">Viewed 2 hours ago</p>
+                        <p class="text-lg font-medium text-terracotta">$125</p>
+                    </div>
+                </div>
+
+                <!-- Recently Viewed Item -->
+                <div class="card flex-shrink-0 w-64">
+                    <img src="https://via.placeholder.com/200" alt="Diaper Bag" class="w-full h-40 object-cover rounded-t-lg">
+                    <div class="p-4">
+                        <h3 class="font-medium">Skip Hop Diaper Bag</h3>
+                        <p class="text-sm text-gray-500">Viewed 5 hours ago</p>
+                        <p class="text-lg font-medium text-terracotta">$45</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Tab Content (Initially Hidden) -->
+        <div id="account" class="hidden space-y-6">
+            <h2 class="text-2xl font-semibold mb-6">Account Settings</h2>
+            
+            <!-- Profile Section -->
+            <div class="card p-6">
+                <div class="flex items-center space-x-4 mb-6">
+                    <img src="https://via.placeholder.com/80" alt="Profile" class="w-20 h-20 rounded-full">
+                    <div>
+                        <h3 class="font-medium text-lg">Julia R.</h3>
+                        <p class="text-sm text-gray-500">Member since 2024</p>
+                        <div class="flex items-center mt-1">
+                            <i class="fas fa-shield-alt text-sage-green mr-2"></i>
+                            <span class="text-sm">98% Trust Score</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Sections -->
+                <div class="space-y-4">
+                    <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-credit-card text-sage-green mr-3"></i>
+                            <span>Payment Methods</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+
+                    <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet text-sage-green mr-3"></i>
+                            <span>Payout Settings</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+
+                    <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-sage-green mr-3"></i>
+                            <span>Pickup Preferences</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+
+                    <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-question-circle text-sage-green mr-3"></i>
+                            <span>Help Center</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-tabs fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-6">
+        <div class="grid grid-cols-6 gap-1">
+            <a href="#purchases" class="mobile-tab-active flex flex-col items-center pt-3">
+                <i class="fas fa-shopping-bag mb-1"></i>
+                <span class="text-xs">Purchases</span>
+            </a>
+            <a href="#selling" class="flex flex-col items-center pt-3 text-gray-500">
+                <i class="fas fa-tag mb-1"></i>
+                <span class="text-xs">Selling</span>
+            </a>
+            <a href="#orders" class="flex flex-col items-center pt-3 text-gray-500">
+                <i class="fas fa-list mb-1"></i>
+                <span class="text-xs">Orders</span>
+            </a>
+            <a href="#wishlist" class="flex flex-col items-center pt-3 text-gray-500">
+                <i class="fas fa-heart mb-1"></i>
+                <span class="text-xs">Wishlist</span>
+            </a>
+            <a href="#recent" class="flex flex-col items-center pt-3 text-gray-500">
+                <i class="fas fa-clock mb-1"></i>
+                <span class="text-xs">Recent</span>
+            </a>
+            <a href="#account" class="flex flex-col items-center pt-3 text-gray-500">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Account</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('[href^="#"]');
+            const contents = document.querySelectorAll('main > div[id]');
+            const desktopTabs = document.querySelectorAll('.desktop-tabs a');
+            const mobileTabs = document.querySelectorAll('.mobile-tabs a');
+
+            function switchTab(tabId) {
+                // Hide all content sections
+                contents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show selected content
+                const selectedContent = document.querySelector(tabId);
+                if (selectedContent) {
+                    selectedContent.classList.remove('hidden');
+                }
+
+                // Update desktop tab styles
+                desktopTabs.forEach(tab => {
+                    if (tab.getAttribute('href') === tabId) {
+                        tab.classList.add('tab-active');
+                        tab.classList.remove('text-gray-500');
+                    } else {
+                        tab.classList.remove('tab-active');
+                        tab.classList.add('text-gray-500');
+                    }
+                });
+
+                // Update mobile tab styles
+                mobileTabs.forEach(tab => {
+                    if (tab.getAttribute('href') === tabId) {
+                        tab.classList.add('mobile-tab-active');
+                        tab.classList.remove('text-gray-500');
+                    } else {
+                        tab.classList.remove('mobile-tab-active');
+                        tab.classList.add('text-gray-500');
+                    }
+                });
+            }
+
+            // Add click handlers to all tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchTab(tab.getAttribute('href'));
+                });
+            });
+
+            // Initialize with first tab
+            switchTab('#purchases');
+        });
+    </script>
+</body>
+</html> 

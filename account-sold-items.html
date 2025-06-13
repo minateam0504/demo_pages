@@ -197,6 +197,19 @@
             background-color: rgba(239, 68, 68, 0.1);
             color: #ef4444;
         }
+        .status-incomplete {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        .reason-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            background-color: #f3f4f6;
+            color: var(--charcoal);
+            margin-left: 8px;
+        }
         .transaction-actions {
             display: flex;
             border-top: 1px solid #e5e7eb;
@@ -339,8 +352,12 @@
         <div class="earnings-card">
             <div class="earnings-title">Earnings Summary</div>
             <div class="earnings-row">
-                <div class="earnings-label">Total Sales (12 items)</div>
+                <div class="earnings-label">Completed Sales (12 items)</div>
                 <div class="earnings-value">$1,245.00</div>
+            </div>
+            <div class="earnings-row">
+                <div class="earnings-label">Incomplete Sales (3 items)</div>
+                <div class="earnings-value">$0.00</div>
             </div>
             <div class="earnings-row">
                 <div class="earnings-label">Platform Fees</div>
@@ -356,26 +373,136 @@
             </div>
         </div>
         
-        <!-- Filters -->
-        <div class="filters-row">
-            <div class="filter-pill active">All</div>
-            <div class="filter-pill">Completed</div>
-            <div class="filter-pill">In Progress</div>
-            <div class="filter-pill">Cancelled</div>
+        <!-- Filters and Search -->
+        <div style="margin-bottom: 20px;">
+            <div class="search-bar" style="margin-bottom: 16px;">
+                <div style="position: relative;">
+                    <input type="text" id="searchInput" placeholder="Search sold items..." style="width: 100%; padding: 12px 16px 12px 40px; border-radius: 12px; border: 1px solid #e5e7eb; font-size: 14px; background-color: white;">
+                    <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9B9E8A;"></i>
+                </div>
+            </div>
+            <div class="filters-row">
+                <div class="filter-pill active">All (15)</div>
+                <div class="filter-pill">Completed (12)</div>
+                <div class="filter-pill">Incomplete (3)</div>
+            </div>
         </div>
         
-        <!-- Sort Dropdown -->
-        <div class="sort-dropdown">
-            <span>Sort by:</span>
-            <select>
-                <option>Most Recent</option>
-                <option>Oldest First</option>
-                <option>Highest Price</option>
-                <option>Lowest Price</option>
-            </select>
+        <!-- Incomplete Orders Section -->
+        <div class="month-header">Incomplete Orders</div>
+
+        <div class="transaction-card">
+            <div class="transaction-content">
+                <div class="transaction-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-car-seat" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Graco Car Seat</div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-calendar-alt"></i> Jul 17, 2025
+                        <span class="reason-tag">Buyer No-show</span>
+                    </div>
+                    <div class="transaction-meta" style="display:flex; align-items:center;">
+                        <i class="fas fa-user"></i>
+                        <div class="buyer-avatar">
+                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
+                        </div>
+                        <div class="buyer-name">Alex Chen</div>
+                    </div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="transaction-price">$95.00</span>
+                    </div>
+                    <div class="pickup-status status-incomplete">Order Incomplete</div>
+                </div>
+            </div>
+            <div class="transaction-actions">
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-trash"></i> Remove Listing
+                </a>
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-edit"></i> Edit & Relist
+                </a>
+            </div>
         </div>
-        
-        <!-- July Transactions -->
+
+        <div class="transaction-card">
+            <div class="transaction-content">
+                <div class="transaction-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-baby" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Baby Einstein Activity Center</div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-calendar-alt"></i> Jul 14, 2025
+                        <span class="reason-tag">Item Rejected</span>
+                    </div>
+                    <div class="transaction-meta" style="display:flex; align-items:center;">
+                        <i class="fas fa-user"></i>
+                        <div class="buyer-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
+                        </div>
+                        <div class="buyer-name">Maria Garcia</div>
+                    </div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="transaction-price">$65.00</span>
+                    </div>
+                    <div class="pickup-status status-incomplete">Order Incomplete</div>
+                </div>
+            </div>
+            <div class="transaction-actions">
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-trash"></i> Remove Listing
+                </a>
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-edit"></i> Edit & Relist
+                </a>
+            </div>
+        </div>
+
+        <div class="transaction-card">
+            <div class="transaction-content">
+                <div class="transaction-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-chair" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="transaction-details">
+                    <div class="transaction-name">Wooden Rocking Chair</div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-calendar-alt"></i> Jul 12, 2025
+                        <span class="reason-tag">Seller No-show</span>
+                    </div>
+                    <div class="transaction-meta" style="display:flex; align-items:center;">
+                        <i class="fas fa-user"></i>
+                        <div class="buyer-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
+                        </div>
+                        <div class="buyer-name">David Kim</div>
+                    </div>
+                    <div class="transaction-meta">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="transaction-price">$120.00</span>
+                    </div>
+                    <div class="pickup-status status-incomplete">Order Incomplete</div>
+                </div>
+            </div>
+            <div class="transaction-actions">
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-trash"></i> Remove Listing
+                </a>
+                <a href="#" class="transaction-action">
+                    <i class="fas fa-edit"></i> Edit & Relist
+                </a>
+            </div>
+        </div>
+
+        <!-- Completed Orders Section -->
         <div class="month-header">July 2025</div>
         
         <div class="transaction-card">
@@ -402,15 +529,11 @@
                         <span class="transaction-price">$400.00</span>
                         <span style="margin-left:4px; font-size:12px;">(You received: $368.00)</span>
                     </div>
-                    <div class="transaction-status status-completed">Completed</div>
                 </div>
             </div>
             <div class="transaction-actions">
                 <a href="#" class="transaction-action">
                     <i class="fas fa-receipt"></i> Receipt
-                </a>
-                <a href="#" class="transaction-action">
-                    <i class="fas fa-comments"></i> Message
                 </a>
                 <a href="#" class="transaction-action">
                     <i class="fas fa-redo"></i> Relist Similar
@@ -442,15 +565,11 @@
                         <span class="transaction-price">$180.00</span>
                         <span style="margin-left:4px; font-size:12px;">(You received: $165.60)</span>
                     </div>
-                    <div class="transaction-status status-completed">Completed</div>
                 </div>
             </div>
             <div class="transaction-actions">
                 <a href="#" class="transaction-action">
                     <i class="fas fa-receipt"></i> Receipt
-                </a>
-                <a href="#" class="transaction-action">
-                    <i class="fas fa-comments"></i> Message
                 </a>
                 <a href="#" class="transaction-action">
                     <i class="fas fa-redo"></i> Relist Similar
@@ -482,15 +601,11 @@
                         <span class="transaction-price">$150.00</span>
                         <span style="margin-left:4px; font-size:12px;">(You received: $138.00)</span>
                     </div>
-                    <div class="transaction-status status-in-progress">Pickup Today</div>
                 </div>
             </div>
             <div class="transaction-actions">
                 <a href="#" class="transaction-action">
                     <i class="fas fa-receipt"></i> Receipt
-                </a>
-                <a href="#" class="transaction-action">
-                    <i class="fas fa-comments"></i> Message
                 </a>
                 <a href="#" class="transaction-action">
                     <i class="fas fa-redo"></i> Relist Similar
@@ -499,7 +614,7 @@
         </div>
         
         <!-- June Transactions -->
-        <div class="month-header">July 2025</div>
+        <div class="month-header">June 2025</div>
         
         <div class="transaction-card">
             <div class="transaction-content">
@@ -511,7 +626,7 @@
                 <div class="transaction-details">
                     <div class="transaction-name">Wooden Crib Mobile</div>
                     <div class="transaction-meta">
-                        <i class="fas fa-calendar-alt"></i> Jul 29, 2025
+                        <i class="fas fa-calendar-alt"></i> Jun 29, 2025
                     </div>
                     <div class="transaction-meta" style="display:flex; align-items:center;">
                         <i class="fas fa-user"></i>
@@ -525,15 +640,11 @@
                         <span class="transaction-price">$35.00</span>
                         <span style="margin-left:4px; font-size:12px;">(You received: $32.20)</span>
                     </div>
-                    <div class="transaction-status status-completed">Completed</div>
                 </div>
             </div>
             <div class="transaction-actions">
                 <a href="#" class="transaction-action">
                     <i class="fas fa-receipt"></i> Receipt
-                </a>
-                <a href="#" class="transaction-action">
-                    <i class="fas fa-comments"></i> Message
                 </a>
                 <a href="#" class="transaction-action">
                     <i class="fas fa-redo"></i> Relist Similar
@@ -565,15 +676,11 @@
                         <span class="transaction-price">$75.00</span>
                         <span style="margin-left:4px; font-size:12px;">(You received: $69.00)</span>
                     </div>
-                    <div class="transaction-status status-canceled">Cancelled</div>
                 </div>
             </div>
             <div class="transaction-actions">
                 <a href="#" class="transaction-action">
                     <i class="fas fa-receipt"></i> Receipt
-                </a>
-                <a href="#" class="transaction-action">
-                    <i class="fas fa-comments"></i> Message
                 </a>
                 <a href="#" class="transaction-action">
                     <i class="fas fa-redo"></i> Relist Similar
@@ -605,5 +712,124 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const transactionCards = document.querySelectorAll('.transaction-card');
+            const filterPills = document.querySelectorAll('.filter-pill');
+            const monthHeaders = document.querySelectorAll('.month-header');
+
+            // Search functionality
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                transactionCards.forEach(card => {
+                    const itemName = card.querySelector('.transaction-name').textContent.toLowerCase();
+                    const buyerName = card.querySelector('.buyer-name').textContent.toLowerCase();
+                    const date = card.querySelector('.transaction-meta').textContent.toLowerCase();
+                    
+                    if (itemName.includes(searchTerm) || 
+                        buyerName.includes(searchTerm) || 
+                        date.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Update headers visibility
+                updateHeadersVisibility();
+            });
+
+            // Filter functionality
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filterType = this.textContent.toLowerCase();
+                    
+                    transactionCards.forEach(card => {
+                        const isIncomplete = card.querySelector('.status-incomplete') !== null;
+                        
+                        if (filterType.includes('all')) {
+                            card.style.display = 'block';
+                        } else if (filterType.includes('incomplete') && isIncomplete) {
+                            card.style.display = 'block';
+                        } else if (filterType.includes('completed') && !isIncomplete) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Update headers visibility
+                    updateHeadersVisibility();
+                });
+            });
+
+            function updateHeadersVisibility() {
+                monthHeaders.forEach(header => {
+                    const nextHeader = header.nextElementSibling;
+                    let hasVisibleCards = false;
+                    
+                    // Check all cards until next header
+                    let currentElement = nextHeader;
+                    while (currentElement && !currentElement.classList.contains('month-header')) {
+                        if (currentElement.classList.contains('transaction-card') && 
+                            currentElement.style.display !== 'none') {
+                            hasVisibleCards = true;
+                            break;
+                        }
+                        currentElement = currentElement.nextElementSibling;
+                    }
+                    
+                    header.style.display = hasVisibleCards ? 'block' : 'none';
+                });
+            }
+
+            // Action functionality
+            document.querySelectorAll('.transaction-action').forEach(action => {
+                action.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.transaction-card');
+                    const itemName = card.querySelector('.transaction-name').textContent;
+                    
+                    if (this.textContent.includes('Remove')) {
+                        if (confirm(`Are you sure you want to remove "${itemName}" from your listings?`)) {
+                            // Animate card removal
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateX(-20px)';
+                            card.style.transition = 'all 0.3s ease';
+                            
+                            setTimeout(() => {
+                                card.remove();
+                                updateHeadersVisibility();
+                                
+                                // Show feedback
+                                const feedback = document.createElement('div');
+                                feedback.style.position = 'fixed';
+                                feedback.style.bottom = '20px';
+                                feedback.style.left = '50%';
+                                feedback.style.transform = 'translateX(-50%)';
+                                feedback.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                                feedback.style.color = 'white';
+                                feedback.style.padding = '12px 24px';
+                                feedback.style.borderRadius = '24px';
+                                feedback.style.fontSize = '14px';
+                                feedback.textContent = 'Listing removed successfully';
+                                document.body.appendChild(feedback);
+                                
+                                setTimeout(() => feedback.remove(), 3000);
+                            }, 300);
+                        }
+                    } else if (this.textContent.includes('Edit')) {
+                        window.location.href = `seller-flow.html?item=${encodeURIComponent(itemName)}&edit=true`;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 

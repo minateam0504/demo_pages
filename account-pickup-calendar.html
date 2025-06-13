@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina - Pickup Calendar</title>
+    <title>Mina - Confirmed Meetups</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -81,91 +81,6 @@
             font-size: 20px;
             font-weight: 600;
         }
-        .calendar-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .month-nav {
-            display: flex;
-            align-items: center;
-        }
-        .month-title {
-            font-weight: 600;
-            font-size: 18px;
-            margin: 0 12px;
-        }
-        .nav-button {
-            width: 36px;
-            height: 36px;
-            border-radius: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--charcoal);
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .calendar-grid {
-            background-color: white;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-        }
-        .weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: 600;
-            font-size: 12px;
-            color: rgba(0,0,0,0.5);
-            margin-bottom: 12px;
-        }
-        .days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-gap: 8px;
-        }
-        .day {
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            border-radius: 8px;
-            position: relative;
-        }
-        .day-number {
-            margin-bottom: 4px;
-        }
-        .day.inactive {
-            color: rgba(0,0,0,0.3);
-        }
-        .day.today {
-            background-color: rgba(155, 158, 138, 0.1);
-            color: var(--sage-green);
-            font-weight: 600;
-        }
-        .day.has-pickup {
-            background-color: rgba(183, 94, 69, 0.1);
-        }
-        .pickup-indicator {
-            width: 6px;
-            height: 6px;
-            border-radius: 3px;
-            background-color: var(--terracotta);
-            margin-top: 2px;
-        }
-        .multi-pickup {
-            position: absolute;
-            bottom: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--terracotta);
-        }
         .schedule-section {
             margin-bottom: 24px;
         }
@@ -173,6 +88,9 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .pickup-card {
             background-color: white;
@@ -228,10 +146,6 @@
         .status-confirmed {
             background-color: rgba(155, 158, 138, 0.2);
             color: var(--sage-green);
-        }
-        .status-pending {
-            background-color: rgba(246, 192, 80, 0.2);
-            color: #b87503;
         }
         .pickup-actions {
             display: flex;
@@ -305,85 +219,6 @@
             background-color: var(--terracotta);
             color: white;
         }
-        
-        /* Modal styles */
-        .modal {
-            max-height: 85vh;
-            overflow-y: auto;
-            margin-bottom: 90px; /* Ensures modal doesn't cover bottom nav */
-        }
-        
-        .modal-bg {
-            align-items: flex-start;
-            padding-top: 20px;
-            overflow-y: auto;
-            padding-bottom: 90px; /* Ensures modal container doesn't cover bottom nav */
-        }
-        
-        /* Popup styles for reschedule */
-        .popup-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-            padding: 24px;
-            padding-bottom: calc(24px + 83px); /* Add extra padding for the navigation bar */
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .popup-container.active {
-            transform: translateY(0);
-        }
-        
-        .popup-handle {
-            width: 40px;
-            height: 5px;
-            background-color: #E5E7EB;
-            border-radius: 3px;
-            margin: 0 auto 20px;
-        }
-        
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
-        
-        .popup-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .success-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 1001;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -404,25 +239,7 @@
             <a href="account-management.html" class="back-button">
                 <i class="fas fa-chevron-left"></i>
             </a>
-            <div class="page-title">Pickup Schedule</div>
-        </div>
-        
-        <!-- Calendar Navigation -->
-        <div class="calendar-navigation">
-            <div class="month-nav">
-                <a href="#" class="nav-button">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-                <div class="month-title">July 2025</div>
-                <a href="#" class="nav-button">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
-            <div class="view-toggle">
-                <a href="#" class="nav-button">
-                    <i class="fas fa-list"></i>
-                </a>
-            </div>
+            <div class="page-title">Confirmed Pickups</div>
         </div>
         
         <!-- Category Filters -->
@@ -432,131 +249,9 @@
             <div class="filter-pill">My Listings</div>
         </div>
         
-        <!-- Calendar Grid -->
-        <div class="calendar-grid">
-            <div class="weekdays">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-            </div>
-            <div class="days">
-                <div class="day inactive">
-                    <div class="day-number">28</div>
-                </div>
-                <div class="day inactive">
-                    <div class="day-number">29</div>
-                </div>
-                <div class="day inactive">
-                    <div class="day-number">30</div>
-                </div>
-                <div class="day inactive">
-                    <div class="day-number">31</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">1</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">2</div>
-                    <div class="pickup-indicator"></div>
-                </div>
-                <div class="day">
-                    <div class="day-number">3</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">4</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">5</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">6</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">7</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">8</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">9</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">10</div>
-                    <div class="pickup-indicator"></div>
-                </div>
-                <div class="day">
-                    <div class="day-number">11</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">12</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">13</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">14</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">15</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">16</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">17</div>
-                </div>
-                <div class="day today has-pickup">
-                    <div class="day-number">18</div>
-                    <div class="multi-pickup">2</div>
-                </div>
-                <div class="day has-pickup">
-                    <div class="day-number">19</div>
-                    <div class="pickup-indicator"></div>
-                </div>
-                <div class="day">
-                    <div class="day-number">20</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">21</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">22</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">23</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">24</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">25</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">26</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">27</div>
-                </div>
-                <div class="day">
-                    <div class="day-number">28</div>
-                </div>
-                <div class="day has-pickup">
-                    <div class="day-number">29</div>
-                    <div class="pickup-indicator"></div>
-                </div>
-                <div class="day">
-                    <div class="day-number">30</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Today's Pickups -->
+        <!-- Today's Confirmed Pickups -->
         <div class="schedule-section">
-            <div class="section-title">Today's Pickups (2)</div>
+            <div class="section-title">Today's Pickups (1)</div>
             
             <div class="pickup-card">
                 <div class="pickup-content">
@@ -592,44 +287,9 @@
                     </a>
                 </div>
             </div>
-            
-            <div class="pickup-card">
-                <div class="pickup-content">
-                    <div class="pickup-image">
-                        <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
-                            <i class="fas fa-baby" style="font-size: 40px; color: var(--sage-green);"></i>
-                        </div>
-                    </div>
-                    <div class="pickup-details">
-                        <div class="pickup-title">Wooden Crib Mobile</div>
-                        <div class="pickup-meta">
-                            <i class="fas fa-clock"></i> 5:00 PM - 5:30 PM
-                        </div>
-                        <div class="pickup-meta" style="display:flex; align-items:center;">
-                            <i class="fas fa-user"></i>
-                            <div class="buyer-avatar">
-                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
-                            </div>
-                            <div class="buyer-name">Emma Wilson</div>
-                        </div>
-                        <div class="pickup-meta">
-                            <i class="fas fa-map-marker-alt"></i> Inner Richmond Park
-                        </div>
-                        <div class="pickup-status status-pending">Awaiting Confirmation</div>
-                    </div>
-                </div>
-                <div class="pickup-actions">
-                    <a href="#" class="pickup-action">
-                        <i class="fas fa-check-circle"></i> Confirm
-                    </a>
-                    <a href="#" class="pickup-action">
-                        <i class="fas fa-comments"></i> Message
-                    </a>
-                </div>
-            </div>
         </div>
         
-        <!-- Upcoming Pickups -->
+        <!-- Upcoming Confirmed Pickups -->
         <div class="schedule-section">
             <div class="section-title">Upcoming Pickups</div>
             
@@ -670,47 +330,9 @@
                     </a>
                 </div>
             </div>
-            
-            <div class="pickup-card">
-                <div class="pickup-content">
-                    <div class="pickup-image">
-                        <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
-                            <i class="fas fa-baby-carriage" style="font-size: 40px; color: var(--sage-green);"></i>
-                        </div>
-                    </div>
-                    <div class="pickup-details">
-                        <div class="pickup-title">Baby Einstein Walker</div>
-                        <div class="pickup-meta">
-                            <i class="fas fa-calendar-alt"></i> July 29, 2025
-                        </div>
-                        <div class="pickup-meta">
-                            <i class="fas fa-clock"></i> 10:00 AM - 10:30 AM
-                        </div>
-                        <div class="pickup-meta" style="display:flex; align-items:center;">
-                            <i class="fas fa-user"></i>
-                            <div class="buyer-avatar">
-                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Buyer">
-                            </div>
-                            <div class="buyer-name">David Garcia</div>
-                        </div>
-                        <div class="pickup-meta">
-                            <i class="fas fa-map-marker-alt"></i> Meeting point (Dolores Park)
-                        </div>
-                        <div class="pickup-status status-pending">Awaiting Confirmation</div>
-                    </div>
-                </div>
-                <div class="pickup-actions">
-                    <a href="#" class="pickup-action">
-                        <i class="fas fa-check-circle"></i> Confirm
-                    </a>
-                    <a href="#" class="pickup-action">
-                        <i class="fas fa-comments"></i> Message
-                    </a>
-                </div>
-            </div>
         </div>
         
-        <!-- Past Pickups -->
+        <!-- Past Confirmed Pickups -->
         <div class="schedule-section">
             <div class="section-title">Past Pickups</div>
             
@@ -809,74 +431,6 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
-
-    <!-- Popup overlay -->
-    <div class="popup-overlay" id="rescheduleOverlay"></div>
-
-    <!-- Reschedule Popup -->
-    <div class="popup-container" id="reschedulePopup">
-        <div class="popup-handle"></div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <div style="font-size: 18px; font-weight: 600;">Reschedule Pickup</div>
-            <div id="rescheduleClose" style="cursor: pointer;"><i class="fas fa-times"></i></div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="font-weight: 500; margin-bottom: 8px; font-size: 16px;">Select a new date and time based on the seller's availability</div>
-            <div style="font-size: 14px; color: #666; margin-bottom: 16px; line-height: 1.4;">The seller will be notified and must confirm the new time and location.</div>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Date</div>
-                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
-                    <option>July 20, 2025 (Tomorrow)</option>
-                    <option>July 21, 2025 (Sunday)</option>
-                    <option>July 22, 2025 (Monday)</option>
-                    <option>July 23, 2025 (Tuesday)</option>
-                    <option>July 24, 2025 (Wednesday)</option>
-                </select>
-            </div>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Time</div>
-                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
-                    <option>5:00 PM - 5:30 PM</option>
-                    <option>5:30 PM - 6:00 PM</option>
-                    <option>6:00 PM - 6:30 PM</option>
-                    <option>6:30 PM - 7:00 PM</option>
-                    <option>7:00 PM - 7:30 PM</option>
-                    <option>7:30 PM - 8:00 PM</option>
-                </select>
-            </div>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Location</div>
-                <select style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal);">
-                    <option>Seller's location (Noe Valley)</option>
-                    <option>Meeting point (Dolores Park)</option>
-                    <option>Meeting point (Marina Green)</option>
-                    <option>Your home address</option>
-                    <option>Other location (specify in message)</option>
-                </select>
-            </div>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; margin-bottom: 6px; font-weight: 500;">Message (Optional)</div>
-                <textarea style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E5E7EB; background-color: white; font-size: 15px; color: var(--charcoal); min-height: 100px; resize: none;" placeholder="Let the seller know why you need to reschedule or provide details for a new location..."></textarea>
-            </div>
-        </div>
-        
-        <button style="background-color: var(--terracotta); color: white; border-radius: 24px; padding: 14px; width: 100%; border: none; font-weight: 600; font-size: 16px; cursor: pointer;" id="sendRescheduleRequest">Send Reschedule Request</button>
-    </div>
-
-    <!-- Success Popup -->
-    <div class="success-popup" id="successPopup">
-        <div style="font-size: 48px; color: var(--sage-green); margin-bottom: 20px;">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Reschedule Request Sent!</div>
-        <div style="font-size: 15px; color: #666; margin-bottom: 28px; line-height: 1.4;">The seller will be notified and must confirm the new time and location.</div>
-        <button style="background-color: var(--terracotta); color: white; border-radius: 24px; padding: 14px; width: 100%; border: none; font-weight: 600; font-size: 16px; cursor: pointer;" id="closeSuccessPopup">Close</button>
-    </div>
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -896,17 +450,15 @@
                 
                 // Add data attributes to identify card types (in a real app, these would be set server-side)
                 if (!allPickupCards[0].dataset.type) {
-                    // First two cards (Today's Pickups) are sales (listings)
+                    // First card (Today's Pickups) is a listing
                     allPickupCards[0].dataset.type = 'listing';
-                    allPickupCards[1].dataset.type = 'listing';
                     
-                    // Next two cards (Upcoming Pickups) - first is a purchase, second is a listing
-                    allPickupCards[2].dataset.type = 'purchase';
-                    allPickupCards[3].dataset.type = 'listing';
+                    // Next card (Upcoming Pickups) is a purchase
+                    allPickupCards[1].dataset.type = 'purchase';
                     
                     // Last two cards (Past Pickups) - first is a purchase, second is a listing
-                    allPickupCards[4].dataset.type = 'purchase';
-                    allPickupCards[5].dataset.type = 'listing';
+                    allPickupCards[2].dataset.type = 'purchase';
+                    allPickupCards[3].dataset.type = 'listing';
                 }
                 
                 // Filter based on selection
@@ -951,55 +503,6 @@
                     }
                 });
             });
-        });
-        
-        // Reschedule functionality with bottom sheet popup
-        const rescheduleButtons = document.querySelectorAll('.reschedule-btn');
-        const reschedulePopup = document.getElementById('reschedulePopup');
-        const rescheduleOverlay = document.getElementById('rescheduleOverlay');
-        const rescheduleClose = document.getElementById('rescheduleClose');
-        const sendRescheduleRequest = document.getElementById('sendRescheduleRequest');
-        const successPopup = document.getElementById('successPopup');
-        const closeSuccessPopup = document.getElementById('closeSuccessPopup');
-        
-        // Open reschedule popup
-        rescheduleButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                rescheduleOverlay.classList.add('active');
-                reschedulePopup.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            });
-        });
-        
-        // Close reschedule popup
-        rescheduleClose.addEventListener('click', function() {
-            rescheduleOverlay.classList.remove('active');
-            reschedulePopup.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        
-        // Click on overlay to close
-        rescheduleOverlay.addEventListener('click', function() {
-            rescheduleOverlay.classList.remove('active');
-            reschedulePopup.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        
-        // Send reschedule request
-        sendRescheduleRequest.addEventListener('click', function() {
-            rescheduleOverlay.classList.remove('active');
-            reschedulePopup.classList.remove('active');
-            successPopup.style.display = 'block';
-            setTimeout(() => {
-                document.body.style.overflow = 'hidden'; // Keep preventing scrolling
-            }, 100);
-        });
-        
-        // Close success popup
-        closeSuccessPopup.addEventListener('click', function() {
-            successPopup.style.display = 'none';
-            document.body.style.overflow = '';
         });
     });
 </script>

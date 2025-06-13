@@ -100,25 +100,39 @@
             margin-right: 8px;
             font-size: 14px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-pill:hover {
+            background-color: rgba(183, 94, 69, 0.1);
         }
         .filter-pill.active {
             background-color: var(--terracotta);
             color: white;
+            transform: scale(1.05);
         }
-        .sort-dropdown {
-            display: flex;
-            align-items: center;
-            color: var(--charcoal);
-            font-size: 14px;
+        .search-container {
             margin-bottom: 20px;
+            position: relative;
         }
-        .sort-dropdown select {
-            margin-left: 8px;
-            padding: 6px 12px;
-            border-radius: 8px;
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border-radius: 12px;
             border: 1px solid #e5e7eb;
-            background-color: white;
             font-size: 14px;
+            background-color: white;
+            color: var(--charcoal);
+        }
+        .search-input::placeholder {
+            color: #9B9E8A;
+        }
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--sage-green);
         }
         .month-header {
             font-weight: 600;
@@ -196,6 +210,14 @@
         .status-reviewed {
             background-color: rgba(79, 70, 229, 0.1);
             color: #4f46e5;
+        }
+        .status-refunded {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        .status-pending-refund {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
         }
         .purchase-actions {
             display: flex;
@@ -339,6 +361,14 @@
             display: inline-block;
             text-decoration: none;
         }
+        .reason-tag {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: rgba(0,0,0,0.6);
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -381,19 +411,86 @@
         <!-- Filters -->
         <div class="filters-row">
             <div class="filter-pill active">All</div>
+            <div class="filter-pill">Pending</div>
             <div class="filter-pill">Completed</div>
-            <div class="filter-pill">Scheduled</div>
+            <div class="filter-pill">Incomplete</div>
         </div>
         
-        <!-- Sort Dropdown -->
-        <div class="sort-dropdown">
-            <span>Sort by:</span>
-            <select>
-                <option>Most Recent</option>
-                <option>Oldest First</option>
-                <option>Highest Price</option>
-                <option>Lowest Price</option>
-            </select>
+        <!-- Search Bar (replacing Sort Dropdown) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search your purchases...">
+        </div>
+        
+        <!-- Incomplete Orders Section -->
+        <div class="month-header">Incomplete Orders</div>
+        
+        <div class="purchase-card">
+            <div class="purchase-content">
+                <div class="purchase-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-baby" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="purchase-details">
+                    <div class="purchase-name">Baby Einstein Activity Center</div>
+                    <div class="purchase-meta">
+                        <i class="fas fa-calendar-alt"></i> Jul 14, 2025
+                        <span class="reason-tag">Item Damaged</span>
+                    </div>
+                    <div class="purchase-meta seller-info">
+                        <i class="fas fa-user"></i>
+                        <div class="seller-avatar">
+                            <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller">
+                        </div>
+                        <div class="seller-name">Thomas Rodriguez</div>
+                    </div>
+                    <div class="purchase-meta">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="purchase-price">$65.00</span>
+                    </div>
+                    <div class="purchase-status status-refunded">Refund Completed</div>
+                </div>
+            </div>
+            <div class="purchase-actions">
+                <a href="#" class="purchase-action" style="width: 100%;">
+                    <i class="fas fa-heart"></i> Buy Similar
+                </a>
+            </div>
+        </div>
+        
+        <div class="purchase-card">
+            <div class="purchase-content">
+                <div class="purchase-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-chair" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="purchase-details">
+                    <div class="purchase-name">Wooden Rocking Chair</div>
+                    <div class="purchase-meta">
+                        <i class="fas fa-calendar-alt"></i> Jul 12, 2025
+                        <span class="reason-tag">Seller No-show</span>
+                    </div>
+                    <div class="purchase-meta seller-info">
+                        <i class="fas fa-user"></i>
+                        <div class="seller-avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller">
+                        </div>
+                        <div class="seller-name">David Garcia</div>
+                    </div>
+                    <div class="purchase-meta">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="purchase-price">$120.00</span>
+                    </div>
+                    <div class="purchase-status status-pending-refund">Refund Processing</div>
+                </div>
+            </div>
+            <div class="purchase-actions">
+                <a href="#" class="purchase-action" style="width: 100%;">
+                    <i class="fas fa-heart"></i> Buy Similar
+                </a>
+            </div>
         </div>
         
         <!-- July Purchases -->
@@ -636,5 +733,159 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+
+    <!-- Before closing body tag -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all the necessary elements
+            const filterPills = document.querySelectorAll('.filter-pill');
+            const purchaseCards = document.querySelectorAll('.purchase-card');
+            const monthHeaders = document.querySelectorAll('.month-header');
+            const searchInput = document.querySelector('.search-input');
+
+            // Function to update visibility of month headers
+            function updateMonthHeadersVisibility() {
+                monthHeaders.forEach(header => {
+                    let nextElement = header.nextElementSibling;
+                    let hasVisibleCards = false;
+
+                    while (nextElement && !nextElement.classList.contains('month-header')) {
+                        if (nextElement.classList.contains('purchase-card') && 
+                            window.getComputedStyle(nextElement).display !== 'none') {
+                            hasVisibleCards = true;
+                            break;
+                        }
+                        nextElement = nextElement.nextElementSibling;
+                    }
+
+                    header.style.display = hasVisibleCards ? 'block' : 'none';
+                });
+            }
+
+            // Function to filter purchases
+            function filterPurchases(filterType) {
+                purchaseCards.forEach(card => {
+                    const isIncomplete = card.querySelector('.status-refunded, .status-pending-refund') !== null;
+                    const isPending = card.querySelector('.status-scheduled') !== null;
+                    
+                    switch(filterType.toLowerCase()) {
+                        case 'all':
+                            card.style.display = 'block';
+                            break;
+                        case 'pending':
+                            card.style.display = isPending ? 'block' : 'none';
+                            break;
+                        case 'completed':
+                            card.style.display = (!isIncomplete && !isPending) ? 'block' : 'none';
+                            break;
+                        case 'incomplete':
+                            card.style.display = isIncomplete ? 'block' : 'none';
+                            break;
+                    }
+                });
+
+                updateMonthHeadersVisibility();
+            }
+
+            // Add click event listeners to filter pills
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active class from all pills
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked pill
+                    this.classList.add('active');
+
+                    // Get the filter type from the pill's text
+                    const filterType = this.textContent.trim().split('(')[0].trim();
+                    
+                    // Apply the filter
+                    filterPurchases(filterType);
+
+                    // Clear search input when changing filters
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                });
+            });
+
+            // Add search functionality
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    
+                    purchaseCards.forEach(card => {
+                        const itemName = card.querySelector('.purchase-name').textContent.toLowerCase();
+                        const sellerName = card.querySelector('.seller-name').textContent.toLowerCase();
+                        const price = card.querySelector('.purchase-price').textContent.toLowerCase();
+                        const date = card.querySelector('.purchase-meta').textContent.toLowerCase();
+                        
+                        // Check if the card matches the active filter
+                        const activeFilter = document.querySelector('.filter-pill.active').textContent.trim().split('(')[0].trim().toLowerCase();
+                        const isIncomplete = card.querySelector('.status-refunded, .status-pending-refund') !== null;
+                        const isPending = card.querySelector('.status-scheduled') !== null;
+                        
+                        let matchesFilter = true;
+                        if (activeFilter === 'pending') {
+                            matchesFilter = isPending;
+                        } else if (activeFilter === 'completed') {
+                            matchesFilter = (!isIncomplete && !isPending);
+                        } else if (activeFilter === 'incomplete') {
+                            matchesFilter = isIncomplete;
+                        }
+                        
+                        // Show/hide based on both search and filter
+                        if (matchesFilter && (itemName.includes(searchTerm) || 
+                            sellerName.includes(searchTerm) || 
+                            price.includes(searchTerm) || 
+                            date.includes(searchTerm))) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    updateMonthHeadersVisibility();
+                });
+            }
+
+            // Initialize with "All" filter
+            filterPurchases('all');
+
+            // Add smooth transition for cards
+            purchaseCards.forEach(card => {
+                card.style.transition = 'all 0.3s ease';
+            });
+
+            // Update the counts in the filter pills
+            function updateFilterCounts() {
+                let counts = {
+                    all: 0,
+                    pending: 0,
+                    completed: 0,
+                    incomplete: 0
+                };
+
+                purchaseCards.forEach(card => {
+                    counts.all++;
+                    if (card.querySelector('.status-refunded, .status-pending-refund')) {
+                        counts.incomplete++;
+                    } else if (card.querySelector('.status-scheduled')) {
+                        counts.pending++;
+                    } else {
+                        counts.completed++;
+                    }
+                });
+
+                filterPills.forEach(pill => {
+                    const type = pill.textContent.trim().split('(')[0].trim().toLowerCase();
+                    pill.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} (${counts[type]})`;
+                });
+            }
+
+            // Initial count update
+            updateFilterCounts();
+        });
+    </script>
 </body>
 </html> 

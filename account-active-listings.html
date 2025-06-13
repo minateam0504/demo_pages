@@ -100,6 +100,16 @@
             margin-right: 8px;
             font-size: 14px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .filter-pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .filter-pill:active {
+            transform: translateY(0);
         }
         .filter-pill.active {
             background-color: var(--terracotta);
@@ -168,6 +178,10 @@
             color: #b87503;
         }
         .status-paused {
+            background-color: rgba(74, 70, 86, 0.2);
+            color: var(--charcoal);
+        }
+        .status-expired {
             background-color: rgba(74, 70, 86, 0.2);
             color: var(--charcoal);
         }
@@ -306,12 +320,12 @@
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">1</div>
-                <div class="stat-label">Pending</div>
-            </div>
-            <div class="stat-item">
                 <div class="stat-value">2</div>
                 <div class="stat-label">Paused</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1</div>
+                <div class="stat-label">Expired</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value">547</div>
@@ -331,9 +345,8 @@
         <div class="filters-row">
             <div class="filter-pill active">All (7)</div>
             <div class="filter-pill">Active (4)</div>
-            <div class="filter-pill">Pending (1)</div>
             <div class="filter-pill">Paused (2)</div>
-            <div class="filter-pill">Recently Sold</div>
+            <div class="filter-pill">Expired (1)</div>
         </div>
         
         <!-- Listings -->
@@ -363,9 +376,6 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-chart-line"></i> Insights
-                </a>
             </div>
         </div>
         
@@ -385,7 +395,7 @@
                     <div class="listing-meta">
                         <i class="fas fa-calendar-alt"></i> Listed 1 week ago
                     </div>
-                    <div class="listing-status status-pending">Pickup Scheduled</div>
+                    <div class="listing-status status-paused">Paused</div>
                 </div>
             </div>
             <div class="listing-actions">
@@ -393,10 +403,7 @@
                     <i class="fas fa-edit"></i> Edit
                 </a>
                 <a href="#" class="listing-action">
-                    <i class="fas fa-trash-alt"></i> Cancel
-                </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-chart-line"></i> Insights
+                    <i class="fas fa-play"></i> Activate
                 </a>
             </div>
         </div>
@@ -427,9 +434,6 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-chart-line"></i> Insights
-                </a>
             </div>
         </div>
         
@@ -458,9 +462,6 @@
                 </a>
                 <a href="#" class="listing-action">
                     <i class="fas fa-play"></i> Activate
-                </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-chart-line"></i> Insights
                 </a>
             </div>
         </div>
@@ -491,8 +492,35 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
+            </div>
+        </div>
+        
+        <!-- Add an example of an expired listing -->
+        <div class="listing-card">
+            <div class="listing-content">
+                <div class="listing-image">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-book" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
+                </div>
+                <div class="listing-details">
+                    <div class="listing-name">Baby Board Books Set</div>
+                    <div class="listing-price">$25</div>
+                    <div class="listing-meta">
+                        <i class="fas fa-eye"></i> 67 views
+                    </div>
+                    <div class="listing-meta">
+                        <i class="fas fa-calendar-alt"></i> Expired 2 days ago
+                    </div>
+                    <div class="listing-status status-expired">Expired - 5 days to remove</div>
+                </div>
+            </div>
+            <div class="listing-actions">
                 <a href="#" class="listing-action">
-                    <i class="fas fa-chart-line"></i> Insights
+                    <i class="fas fa-redo"></i> Extend
+                </a>
+                <a href="#" class="listing-action">
+                    <i class="fas fa-trash-alt"></i> Remove
                 </a>
             </div>
         </div>
@@ -521,5 +549,189 @@
             <div class="tab-label">Profile</div>
         </a>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all filter pills and listing cards
+            const filterPills = document.querySelectorAll('.filter-pill');
+            const listingCards = document.querySelectorAll('.listing-card');
+            
+            // Add click event to each filter pill
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active class from all pills
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked pill
+                    this.classList.add('active');
+                    
+                    // Get the filter type from the pill text
+                    const filterType = this.textContent.split(' ')[0].toLowerCase();
+                    
+                    // Show/hide listings based on filter
+                    listingCards.forEach(card => {
+                        const statusElement = card.querySelector('.listing-status');
+                        const status = statusElement.textContent.toLowerCase();
+                        
+                        if (filterType === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            if (status.includes(filterType)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                        
+                        // Add fade animation
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            if (card.style.display === 'block') {
+                                card.style.opacity = '1';
+                            }
+                        }, 50);
+                    });
+                });
+            });
+
+            // Add click handlers for action buttons
+            const actionButtons = document.querySelectorAll('.listing-action');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const action = this.textContent.trim();
+                    const listingName = this.closest('.listing-card').querySelector('.listing-name').textContent;
+                    
+                    switch(action) {
+                        case 'Pause':
+                            handlePauseAction(listingName);
+                            break;
+                        case 'Activate':
+                            handleActivateAction(listingName);
+                            break;
+                        case 'Edit':
+                            handleEditAction(listingName);
+                            break;
+                        case 'Extend':
+                            handleExtendAction(listingName);
+                            break;
+                        case 'Remove':
+                            handleRemoveAction(listingName);
+                            break;
+                    }
+                });
+            });
+
+            // Action handlers
+            function handlePauseAction(listingName) {
+                const card = findListingCard(listingName);
+                const statusElement = card.querySelector('.listing-status');
+                statusElement.textContent = 'Paused';
+                statusElement.className = 'listing-status status-paused';
+                updateActionButtons(card, 'paused');
+            }
+
+            function handleActivateAction(listingName) {
+                const card = findListingCard(listingName);
+                const statusElement = card.querySelector('.listing-status');
+                statusElement.textContent = 'Active';
+                statusElement.className = 'listing-status status-active';
+                updateActionButtons(card, 'active');
+            }
+
+            function handleEditAction(listingName) {
+                // Redirect to edit page
+                console.log(`Editing ${listingName}`);
+                // window.location.href = `edit-listing.html?name=${encodeURIComponent(listingName)}`;
+            }
+
+            function handleExtendAction(listingName) {
+                const card = findListingCard(listingName);
+                const statusElement = card.querySelector('.listing-status');
+                statusElement.textContent = 'Active';
+                statusElement.className = 'listing-status status-active';
+                updateActionButtons(card, 'active');
+            }
+
+            function handleRemoveAction(listingName) {
+                if (confirm(`Are you sure you want to remove "${listingName}"?`)) {
+                    const card = findListingCard(listingName);
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        card.remove();
+                        updateFilterCounts();
+                    }, 300);
+                }
+            }
+
+            function findListingCard(listingName) {
+                return Array.from(listingCards).find(card => 
+                    card.querySelector('.listing-name').textContent === listingName
+                );
+            }
+
+            function updateActionButtons(card, status) {
+                const actionsDiv = card.querySelector('.listing-actions');
+                switch(status) {
+                    case 'active':
+                        actionsDiv.innerHTML = `
+                            <a href="#" class="listing-action">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="#" class="listing-action">
+                                <i class="fas fa-pause"></i> Pause
+                            </a>
+                        `;
+                        break;
+                    case 'paused':
+                        actionsDiv.innerHTML = `
+                            <a href="#" class="listing-action">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="#" class="listing-action">
+                                <i class="fas fa-play"></i> Activate
+                            </a>
+                        `;
+                        break;
+                }
+                // Reattach event listeners to new buttons
+                attachActionListeners(actionsDiv);
+            }
+
+            function attachActionListeners(actionsDiv) {
+                actionsDiv.querySelectorAll('.listing-action').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const action = this.textContent.trim();
+                        const listingName = this.closest('.listing-card').querySelector('.listing-name').textContent;
+                        
+                        switch(action) {
+                            case 'Pause':
+                                handlePauseAction(listingName);
+                                break;
+                            case 'Activate':
+                                handleActivateAction(listingName);
+                                break;
+                            case 'Edit':
+                                handleEditAction(listingName);
+                                break;
+                        }
+                    });
+                });
+            }
+
+            function updateFilterCounts() {
+                const activeCount = document.querySelectorAll('.status-active').length;
+                const pausedCount = document.querySelectorAll('.status-paused').length;
+                const expiredCount = document.querySelectorAll('.status-expired').length;
+                const totalCount = activeCount + pausedCount + expiredCount;
+
+                filterPills[0].textContent = `All (${totalCount})`;
+                filterPills[1].textContent = `Active (${activeCount})`;
+                filterPills[2].textContent = `Paused (${pausedCount})`;
+                filterPills[3].textContent = `Expired (${expiredCount})`;
+            }
+        });
+    </script>
 </body>
 </html> 

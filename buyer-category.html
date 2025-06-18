@@ -36,12 +36,17 @@
         }
         .ios-tab-bar {
             height: 83px;
-            background-color: var(--cream);
+            background-color: white;
             border-top: 1px solid rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding-bottom: 30px; /* For iPhone home indicator */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
         .tab-item {
             display: flex;
@@ -49,6 +54,11 @@
             align-items: center;
             color: var(--charcoal);
             text-decoration: none;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+        }
+        .tab-item:active {
+            transform: scale(0.95);
         }
         .tab-item.active {
             color: var(--terracotta);
@@ -56,14 +66,33 @@
         .tab-icon {
             font-size: 24px;
             margin-bottom: 4px;
+            position: relative;
         }
         .tab-label {
-            font-size: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .tab-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .main-content {
             flex: 1;
             overflow-y: auto;
             padding: 16px;
+            padding-bottom: 100px; /* Add space for fixed tab bar */
         }
         .screen-header {
             display: flex;
@@ -469,8 +498,13 @@
                 <span style="font-weight: 400; font-size: 18px;">Hello,</span> Morgan
             </h1>
             <div style="display: flex; gap: 16px;">
-                <i class="far fa-heart" style="font-size: 24px;"></i>
-                <i class="far fa-bell" style="font-size: 24px;"></i>
+                <a href="wishlist.html" style="text-decoration: none; color: inherit;">
+                    <i class="far fa-heart" style="font-size: 24px;"></i>
+                </a>
+                <a href="notifications.html" style="text-decoration: none; color: inherit; position: relative;">
+                    <i class="far fa-bell" style="font-size: 24px;"></i>
+                    <span class="notification-badge" style="position: absolute; top: -6px; right: -6px; background-color: var(--terracotta); color: white; font-size: 12px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">3</span>
+                </a>
             </div>
         </div>
         
@@ -751,23 +785,26 @@
     
     <!-- iOS Tab Bar -->
     <div class="ios-tab-bar">
-        <a href="#" class="tab-item active">
+        <a href="buyer-category.html" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-home"></i></div>
             <div class="tab-label">Home</div>
         </a>
-        <a href="#" class="tab-item">
+        <a href="search.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-search"></i></div>
             <div class="tab-label">Search</div>
         </a>
-        <a href="#" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
             <div class="tab-label">Sell</div>
         </a>
-        <a href="#" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+        <a href="messages.html" class="tab-item">
+            <div class="tab-icon">
+                <i class="fas fa-comments"></i>
+                <span class="tab-badge">2</span>
+            </div>
             <div class="tab-label">Messages</div>
         </a>
-        <a href="#" class="tab-item">
+        <a href="profile.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-user"></i></div>
             <div class="tab-label">Profile</div>
         </a>
@@ -838,8 +875,12 @@
             });
             
             // Wishlist heart toggle in header
-            const wishlistHeart = document.querySelector('.fa-heart');
-            wishlistHeart.addEventListener('click', function() {
+            const wishlistHeart = document.querySelector('.screen-header .fa-heart');
+            wishlistHeart.addEventListener('click', function(e) {
+                // Prevent default link behavior
+                e.preventDefault();
+                
+                // Toggle heart appearance
                 this.classList.toggle('far');
                 this.classList.toggle('fas');
                 
@@ -848,7 +889,9 @@
                     this.classList.add('animate-pulse');
                     setTimeout(() => {
                         this.classList.remove('animate-pulse');
-                    }, 1000);
+                        // Navigate to wishlist page after animation
+                        window.location.href = 'wishlist.html';
+                    }, 300);
                 } else {
                     this.style.color = '';
                 }

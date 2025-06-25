@@ -157,74 +157,70 @@
         .product-card {
             background-color: white;
             border-radius: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            padding: 12px;
         }
         .product-images {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 2px;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-        }
-        .product-images::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+            width: 120px;
+            flex-shrink: 0;
+            margin-right: 12px;
         }
         .product-image-item {
-            flex: 0 0 auto;
             width: 120px;
             height: 120px;
-            scroll-snap-align: start;
+            border-radius: 8px;
+            overflow: hidden;
         }
         .product-image-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .product-multiple-images {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
-        }
-        .product-multiple-images .product-image-item {
-            width: 100%;
-            height: 120px;
-        }
         .product-details {
-            padding: 16px;
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
         }
         .product-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            line-height: 1.3;
         }
         .product-price {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--terracotta);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .product-description {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
         }
         .card-actions {
             display: flex;
             gap: 4px;
-            margin-top: 12px;
+            margin-top: auto;
         }
         .btn-edit {
             background-color: white;
             color: var(--charcoal);
             border: 1px solid #E5E7EB;
-            border-radius: 20px;
-            padding: 8px 16px;
+            border-radius: 16px;
+            padding: 6px 16px;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13px;
             flex: 1;
             text-align: center;
             margin-right: 4px;
@@ -313,6 +309,69 @@
         .modal-title {
             font-size: 20px;
             font-weight: 600;
+        }
+
+        .modal-preview {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .preview-images {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+        }
+
+        .preview-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .preview-price {
+            font-size: 20px;
+            color: var(--terracotta);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .preview-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
         }
         
         .close-modal {
@@ -523,18 +582,30 @@
             display: flex;
             justify-content: space-between;
             margin-top: 24px;
+            gap: 8px;
         }
         
         .btn-secondary {
             background-color: white;
-            color: var(--terracotta);
-            border: 1px solid var(--terracotta);
+            color: var(--charcoal);
+            border: 1px solid #E5E7EB;
             border-radius: 20px;
-            padding: 12px 24px;
+            padding: 12px 16px;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 14px;
             flex: 1;
-            margin-right: 8px;
+            text-align: center;
+        }
+        
+        .btn-save-later {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            flex: 1;
             text-align: center;
         }
         
@@ -543,11 +614,10 @@
             color: white;
             border: none;
             border-radius: 20px;
-            padding: 12px 24px;
+            padding: 12px 16px;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 14px;
             flex: 1;
-            margin-left: 8px;
             text-align: center;
         }
         
@@ -609,6 +679,62 @@
             text-align: center;
             cursor: pointer;
         }
+        
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(155, 158, 138, 0.95);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .success-message i {
+            display: block;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--sage-green);
+            border-radius: 4px;
+            accent-color: var(--sage-green);
+        }
+
+        #sellerNotes {
+            min-height: 80px;
+            font-size: 14px;
+        }
+
+        .form-input::placeholder {
+            color: #999;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -643,7 +769,7 @@
             <div class="ai-message">
                 <div class="ai-badge">Mina AI Assistant</div>
                 <div class="ai-text">
-                    I've analyzed your photos and organized them based on item type and age groups. I've created 3 bundles and 4 individual listings. Review and approve each one or make edits as needed.
+                    I've analyzed your photos and created individual listings for each item. Review and approve each listing or make edits as needed.
                 </div>
             </div>
         </div>
@@ -654,252 +780,263 @@
                 <div class="stat-label">Items Detected</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2</div>
-                <div class="stat-label">Bundles Created</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Items Approved</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">1</div>
-                <div class="stat-label">Solo Items</div>
+                <div class="stat-number">11</div>
+                <div class="stat-label">Items Remaining</div>
             </div>
         </div>
         
         <div class="draft-section-title">
-            <div>Draft Listings</div>
+            <div>Individual Listings</div>
             <div class="draft-edit-all">Edit All</div>
         </div>
         
-        <!-- Bundle Listing 1 -->
-        <div class="product-card">
-            <div class="product-multiple-images" onclick="viewProductDetails('newborn-essentials-bundle')">
+        <!-- Individual Listings -->
+        <div class="product-card" data-product-id="playpen">
+            <div class="product-images">
                 <div class="product-image-item">
-                    <img src="images/Muslin swaddles.jpg" alt="Muslin swaddles">
-                </div>
-                <div class="product-image-item">
-                    <img src="images/Burp cloths set.jpg" alt="Burp cloths set">
-                </div>
-                <div class="product-image-item" style="position: relative;">
-                    <img src="images/Newborn sleep sack.jpg" alt="Newborn sleep sack">
-                    <div class="item-count">+2</div>
+                    <img src="images/playpen1.jpg" alt="Graco Pack 'n Play">
                 </div>
             </div>
             <div class="product-details">
-                <div class="product-title" onclick="viewProductDetails('newborn-essentials-bundle')">Newborn Essentials Bundle</div>
+                <div class="product-title">Graco Pack 'n Play Playard</div>
                 <div class="product-price">$65</div>
                 <div class="product-description">
-                    Bundle includes: Muslin swaddles (3), Burp cloths set, Newborn sleep sack, Baby mittens, and Pacifier set. All items gently used from a smoke-free home. Perfect for 0-6 months.
+                    Versatile Pack 'n Play with bassinet feature. Perfect for travel and everyday use. Includes carrying bag. Excellent condition.
                 </div>
                 <div class="card-actions">
-                    <div class="btn-view" onclick="viewProductDetails('newborn-essentials-bundle')">View</div>
-                    <div class="btn-edit" onclick="openEditModal()">Edit</div>
-                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
+                    <div class="btn-edit" onclick="openEditModal('playpen', 'Graco Pack n Play Playard', 65, 'Versatile Pack n Play with bassinet feature. Perfect for travel and everyday use. Includes carrying bag. Excellent condition.', 'images/playpen1.jpg')">Edit Listing</div>
                 </div>
             </div>
         </div>
-        
-        <!-- Bundle Listing 2 -->
-        <div class="product-card">
-            <div class="product-multiple-images" onclick="viewProductDetails('toddler-toys-bundle')">
+
+        <div class="product-card" data-product-id="bouncer">
+            <div class="product-images">
                 <div class="product-image-item">
-                    <img src="images/Toys.jpg" alt="Wooden stacking blocks">
-                </div>
-                <div class="product-image-item">
-                    <img src="images/toys 2.jpg" alt="Shape sorter">
-                </div>
-                <div class="product-image-item" style="position: relative;">
-                    <img src="images/toys3.jpg" alt="Toddler toys">
-                    <div class="item-count">+2</div>
+                    <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Björn Bouncer">
                 </div>
             </div>
             <div class="product-details">
-                <div class="product-title" onclick="viewProductDetails('toddler-toys-bundle')">Toddler Toys Bundle (12-24 months)</div>
-                <div class="product-price">$42</div>
-                <div class="product-description">
-                    Bundle includes: Wooden stacking blocks, Shape sorter, Pull-along toy, and Sensory balls. All in excellent condition, sanitized and ready for play. Great for developing motor skills.
-                </div>
-                <div class="card-actions">
-                    <div class="btn-view" onclick="viewProductDetails('toddler-toys-bundle')">View</div>
-                    <div class="btn-edit" onclick="alert('Edit feature would open here')">Edit</div>
-                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Solo Listing -->
-        <div class="product-card">
-            <div class="product-images" onclick="viewProductDetails('baby-bjorn-bouncer')">
-                <div class="product-image-item">
-                    <img src="images/Baby Björn Bouncer.jpg" alt="Baby Björn Bouncer">
-                </div>
-            </div>
-            <div class="product-details">
-                <div class="product-title" onclick="viewProductDetails('baby-bjorn-bouncer')">Baby Björn Bouncer - Like New</div>
+                <div class="product-title">Baby Björn Bouncer Balance</div>
                 <div class="product-price">$120</div>
                 <div class="product-description">
-                    Used for only 2 months. Natural bouncing movement, no batteries needed. Includes original box and instructions. Machine-washable fabric seat. Excellent condition.
+                    Premium Baby Björn bouncer in white mesh. Natural bouncing movement, no batteries needed. Perfect from newborn to 2 years. Like new condition.
                 </div>
                 <div class="card-actions">
-                    <div class="btn-view" onclick="viewProductDetails('baby-bjorn-bouncer')">View</div>
-                    <div class="btn-edit" onclick="alert('Edit feature would open here')">Edit</div>
-                    <div class="btn-approve" onclick="approveItem(this)">Approve</div>
+                    <div class="btn-edit" onclick="openEditModal('bouncer', 'Baby Bjorn Bouncer Balance', 120, 'Premium Baby Bjorn bouncer in white mesh. Natural bouncing movement, no batteries needed. Perfect from newborn to 2 years. Like new condition.', 'images/Used Product Image/Baby Björn Bouncer.jpg')">Edit Listing</div>
                 </div>
             </div>
         </div>
-        
-        <button class="btn-primary" id="continue-btn" onclick="window.location.href='agent-meetup-logistics.html'">Continue to Scheduling (7 items)</button>
+
+        <div class="product-card" data-product-id="stroller">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/stroller 2.jpg" alt="Stroller">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Lightweight Travel Stroller</div>
+                <div class="product-price">$85</div>
+                <div class="product-description">
+                    Compact folding stroller, perfect for travel and everyday use. Includes sun canopy and storage basket. Very good condition.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('stroller', 'Lightweight Travel Stroller', 85, 'Compact folding stroller, perfect for travel and everyday use. Includes sun canopy and storage basket. Very good condition.', 'images/stroller 2.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="learning-toys">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/toys 2.jpg" alt="Interactive Learning Toys">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Interactive Learning Toys Set</div>
+                <div class="product-price">$25</div>
+                <div class="product-description">
+                    Collection of educational toys including electronic learning pad and musical toys. Great for early development. All batteries working.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('learning-toys', 'Interactive Learning Toys Set', 25, 'Collection of educational toys including electronic learning pad and musical toys. Great for early development. All batteries working.', 'images/toys 2.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="sensory-toys">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/toys3.jpg" alt="Sensory Development Toys">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Sensory Development Toy Set</div>
+                <div class="product-price">$22</div>
+                <div class="product-description">
+                    Set includes various sensory toys with different textures, sounds, and activities. Perfect for 6-18 months. Clean and sanitized.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('sensory-toys', 'Sensory Development Toy Set', 22, 'Set includes various sensory toys with different textures, sounds, and activities. Perfect for 6-18 months. Clean and sanitized.', 'images/toys3.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="wooden-toys">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/Toys.jpg" alt="Wooden Educational Toys">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Wooden Educational Toys Bundle</div>
+                <div class="product-price">$28</div>
+                <div class="product-description">
+                    Set of wooden educational toys including shape sorters and stacking toys. Non-toxic finish, perfect for toddlers. Excellent condition.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('wooden-toys', 'Wooden Educational Toys Bundle', 28, 'Set of wooden educational toys including shape sorters and stacking toys. Non-toxic finish, perfect for toddlers. Excellent condition.', 'images/Toys.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="swaddles">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/Muslin swaddles.jpg" alt="Muslin Swaddles">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Muslin Swaddle Blankets (Set of 3)</div>
+                <div class="product-price">$18</div>
+                <div class="product-description">
+                    Set of 3 soft muslin swaddle blankets. Breathable fabric, perfect for newborns. Gently used and freshly laundered.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('swaddles', 'Muslin Swaddle Blankets (Set of 3)', 18, 'Set of 3 soft muslin swaddle blankets. Breathable fabric, perfect for newborns. Gently used and freshly laundered.', 'images/Muslin swaddles.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="pacifiers">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/Pacifier set.jpg" alt="Pacifier Set">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Premium Pacifier Collection</div>
+                <div class="product-price">$12</div>
+                <div class="product-description">
+                    Set of high-quality pacifiers in various sizes. Includes sterilizer case. All thoroughly cleaned and sanitized.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('pacifiers', 'Premium Pacifier Collection', 12, 'Set of high-quality pacifiers in various sizes. Includes sterilizer case. All thoroughly cleaned and sanitized.', 'images/Pacifier set.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-product-id="clothes">
+            <div class="product-images">
+                <div class="product-image-item">
+                    <img src="images/clothes7.jpg" alt="Baby Clothes">
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-title">Baby Clothes Bundle (0-6 months)</div>
+                <div class="product-price">$35</div>
+                <div class="product-description">
+                    Collection of gently used baby clothes including onesies, sleepers, and outfits. All items freshly laundered and in excellent condition.
+                </div>
+                <div class="card-actions">
+                    <div class="btn-edit" onclick="openEditModal('clothes', 'Baby Clothes Bundle (0-6 months)', 35, 'Collection of gently used baby clothes including onesies, sleepers, and outfits. All items freshly laundered and in excellent condition.', 'images/clothes7.jpg')">Edit Listing</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="continue-btn" onclick="window.location.href='seller-step4-delivery.html'">Continue to Scheduling (0/11 approved)</button>
     </div>
     
     <!-- Edit Modal -->
     <div class="edit-modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">Edit Bundle</div>
+                <div class="modal-title">Edit Product Listing</div>
                 <button class="close-modal" onclick="closeEditModal()">&times;</button>
             </div>
             
-            <div class="bundle-items">
-                <div class="bundle-item">
-                    <div class="item-image">
-                        <img src="images/Muslin swaddles.jpg" alt="Muslin swaddles">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Muslin swaddles (3)</div>
-                        <div class="item-value">$15</div>
-                    </div>
-                    <button class="item-remove" onclick="removeItem(this, 15)"><i class="fas fa-times"></i></button>
+            <div class="modal-preview">
+                <div class="preview-images" id="previewImages">
+                    <!-- Images will be added here -->
                 </div>
-                
-                <div class="bundle-item">
-                    <div class="item-image">
-                        <img src="images/Burp cloths set.jpg" alt="Burp cloths set">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Burp cloths set</div>
-                        <div class="item-value">$12</div>
-                    </div>
-                    <button class="item-remove" onclick="removeItem(this, 12)"><i class="fas fa-times"></i></button>
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="productTitle">
                 </div>
-                
-                <div class="bundle-item">
-                    <div class="item-image">
-                        <img src="images/Newborn sleep sack.jpg" alt="Newborn sleep sack">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Newborn sleep sack</div>
-                        <div class="item-value">$18</div>
-                    </div>
-                    <button class="item-remove" onclick="removeItem(this, 18)"><i class="fas fa-times"></i></button>
+                <div class="form-group">
+                    <label class="form-label">Price ($)</label>
+                    <input type="number" class="form-input" id="productPrice">
                 </div>
-                
-                <div class="bundle-item">
-                    <div class="item-image">
-                        <img src="images/Baby mittens.jpg" alt="Baby mittens">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Baby mittens</div>
-                        <div class="item-value">$8</div>
-                    </div>
-                    <button class="item-remove" onclick="removeItem(this, 8)"><i class="fas fa-times"></i></button>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input" id="productDescription"></textarea>
                 </div>
-                
-                <div class="bundle-item">
-                    <div class="item-image">
-                        <img src="images/Pacifier set.jpg" alt="Pacifier set">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Pacifier set</div>
-                        <div class="item-value">$12</div>
-                    </div>
-                    <button class="item-remove" onclick="removeItem(this, 12)"><i class="fas fa-times"></i></button>
+                <div class="form-group">
+                    <label class="form-label">Condition</label>
+                    <select class="form-input" id="productCondition">
+                        <option value="new">New</option>
+                        <option value="like-new">Like New</option>
+                        <option value="excellent">Excellent</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
                 </div>
-            </div>
-            
-            <div class="suggested-item">
-                <div class="suggested-header">
-                    <i class="fas fa-lightbulb" style="color: var(--sage-green);"></i> Suggested item to add from your registry
+                <div class="form-group">
+                    <label class="form-label">Suitable Age Range</label>
+                    <select class="form-input" id="productAge">
+                        <option value="0-3m">0-3 months</option>
+                        <option value="3-6m">3-6 months</option>
+                        <option value="6-12m">6-12 months</option>
+                        <option value="12-18m">12-18 months</option>
+                        <option value="18-24m">18-24 months</option>
+                        <option value="2y+">2+ years</option>
+                        <option value="multiple">Multiple age ranges</option>
+                    </select>
                 </div>
-                <div class="bundle-item" style="margin-bottom: 0;">
-                    <div class="item-image">
-                        <img src="images/baby bottles.jpg" alt="Baby bottles">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">Baby bottles (3-pack)</div>
-                        <div class="item-value">$16</div>
-                    </div>
-                    <button class="add-item-btn" onclick="addItem('Baby bottles (3-pack)', 16, 'images/baby bottles.jpg')">Add to Bundle</button>
-                </div>
-            </div>
-            
-            <button class="btn-add-custom" onclick="showAddCustomItemForm()">+ Add Custom Item</button>
-            
-            <div id="customItemForm" style="display: none; margin-top: 16px; background-color: #F5F5F5; border-radius: 12px; padding: 16px;">
-                <div style="font-weight: 600; margin-bottom: 12px;">Add Custom Item</div>
-                
-                <div style="margin-bottom: 12px;">
-                    <label style="display: block; margin-bottom: 6px; font-size: 14px;">Item Name</label>
-                    <input type="text" id="customItemName" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;" placeholder="e.g., Baby Mittens">
-                </div>
-                
-                <div style="margin-bottom: 12px;">
-                    <label style="display: block; margin-bottom: 6px; font-size: 14px;">Price</label>
-                    <div style="position: relative;">
-                        <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--terracotta);">$</span>
-                        <input type="number" id="customItemPrice" style="width: 100%; padding: 10px 10px 10px 25px; border-radius: 8px; border: 1px solid #ddd;" placeholder="15">
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn-secondary" style="flex: 1;" onclick="hideAddCustomItemForm()">Cancel</button>
-                    <button class="btn-save" style="flex: 1;" onclick="addCustomItem()">Add Item</button>
-                </div>
-            </div>
-            
-            <div class="price-section">
-                <div class="price-header">
-                    <div class="price-label">Bundle Price</div>
-                    <div id="priceAdjustmentBadge" class="price-adj-badge" style="display: none;">+$0</div>
-                    <div>
-                        <span id="originalPrice" class="original-price" style="display: none;">$65</span>
-                        <span id="bundlePrice" class="price-value">$65</span>
-                    </div>
-                </div>
-                
-                <div class="price-controls">
-                    <button class="price-adjust" onclick="adjustPrice(-5)">-</button>
-                    <div class="price-input-wrapper">
-                        <span class="dollar-sign">$</span>
-                        <input type="number" class="price-input" id="priceInput" value="65" oninput="updatePrice(this.value)">
-                    </div>
-                    <button class="price-adjust" onclick="adjustPrice(5)">+</button>
-                </div>
-                
-                <div class="price-options">
-                    <div class="price-option">
-                        <div class="price-option-label">Quick Sale Pricing (-10%)</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="quickSaleToggle" onchange="toggleQuickSale()">
-                            <span class="slider"></span>
+                <div class="form-group">
+                    <label class="form-label">Home Environment</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="smokeFree"> Smoke-free home
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="petFree"> Pet-free home
                         </label>
                     </div>
-                    <div class="price-option">
-                        <div class="price-option-label">Best Value Bundle Badge</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="valueBadgeToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="price-option">
-                        <div class="price-option-label">OBO (Or Best Offer)</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="oboToggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Why are you selling?</label>
+                    <select class="form-input" id="sellReason">
+                        <option value="outgrown">Child outgrew it</option>
+                        <option value="unused">Never/Barely used</option>
+                        <option value="duplicate">Received duplicate</option>
+                        <option value="moving">Moving/Downsizing</option>
+                        <option value="other">Other reason</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Additional Notes for Buyers</label>
+                    <textarea class="form-input" id="sellerNotes" placeholder="Share any additional details that might help buyers (e.g., original price, special features, care instructions)"></textarea>
                 </div>
             </div>
             
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
-                <button class="btn-save" onclick="saveChanges()">Save Changes</button>
+                <button class="btn-save-later" onclick="saveForLater()">Save for Later</button>
+                <button class="btn-save" onclick="saveAndApprove()">Save & Approve Listing</button>
             </div>
         </div>
     </div>
@@ -933,378 +1070,144 @@
             window.location.href = 'agent-bulk-upload.html';
         });
 
-        // Function to view product details
-        function viewProductDetails(productId) {
-            if (productId === 'newborn-essentials-bundle') {
-                window.location.href = 'newborn-essentials-bundle-detail.html';
-            } else if (productId === 'toddler-toys-bundle') {
-                // Placeholder for future detail page
-                alert('Toddler Toys Bundle detail page would open here');
-            } else if (productId === 'baby-bjorn-bouncer') {
-                // Placeholder for future detail page
-                alert('Baby Björn Bouncer detail page would open here');
-            }
-        }
-
+        let currentProductId = '';
         let approvedCount = 0;
-        const totalItems = 3;
-        let originalPrice = 65;
-        let currentItems = 5;
-        let basePrice = 65; // Base price for the bundle
-        let quickSaleActive = false;
-        let oboActive = false;
-        
-        function approveItem(el) {
-            if (!el.classList.contains('approved')) {
-                el.classList.add('approved');
-                el.innerHTML = "Approved ✓";
-                el.style.backgroundColor = "#4A4656";
-                approvedCount++;
-                
-                if (approvedCount === totalItems) {
-                    document.getElementById('continue-btn').style.backgroundColor = "var(--terracotta)";
-                    document.getElementById('continue-btn').innerHTML = "Continue to Scheduling (All Approved)";
-                } else {
-                    document.getElementById('continue-btn').innerHTML = `Continue to Scheduling (${approvedCount}/${totalItems} approved)`;
-                }
-            }
-        }
-        
-        function openEditModal() {
+        const totalItems = 11;
+
+        function openEditModal(productId, title, price, description, image) {
+            currentProductId = productId;
+            document.getElementById('productTitle').value = title;
+            document.getElementById('productPrice').value = price;
+            document.getElementById('productDescription').value = description;
+            
+            // Reset additional fields
+            document.getElementById('productAge').value = '0-3m';
+            document.getElementById('smokeFree').checked = false;
+            document.getElementById('petFree').checked = false;
+            document.getElementById('sellReason').value = 'outgrown';
+            document.getElementById('sellerNotes').value = '';
+            
+            // Update preview images
+            const previewImages = document.getElementById('previewImages');
+            previewImages.innerHTML = `<img src="${image}" alt="${title}" class="preview-image">`;
+            
             document.getElementById('editModal').style.display = 'flex';
-            
-            // Reset the price display to current values
-            document.getElementById('priceInput').value = originalPrice;
-            document.getElementById('bundlePrice').textContent = `$${originalPrice}`;
-            document.getElementById('originalPrice').textContent = `$${basePrice}`;
-            
-            // Show/hide price adjustment badge
-            if (originalPrice !== basePrice) {
-                const adjustment = originalPrice - basePrice;
-                document.getElementById('priceAdjustmentBadge').textContent = adjustment > 0 ? `+$${adjustment}` : `-$${-adjustment}`;
-                document.getElementById('priceAdjustmentBadge').style.display = 'block';
-                
-                if (adjustment !== 0) {
-                    document.getElementById('originalPrice').style.display = 'inline';
-                }
-            } else {
-                document.getElementById('priceAdjustmentBadge').style.display = 'none';
-                document.getElementById('originalPrice').style.display = 'none';
-            }
-            
-            // Set toggle states
-            document.getElementById('quickSaleToggle').checked = quickSaleActive;
-            document.getElementById('oboToggle').checked = oboActive;
         }
         
         function closeEditModal() {
             document.getElementById('editModal').style.display = 'none';
         }
         
-        function removeItem(el, price) {
-            const bundlePrice = document.getElementById('bundlePrice');
-            const priceInput = document.getElementById('priceInput');
-            basePrice -= price;
-            originalPrice = basePrice;
+        function saveAndApprove() {
+            const productCard = document.querySelector(`[data-product-id="${currentProductId}"]`);
+            const title = document.getElementById('productTitle').value;
+            const price = document.getElementById('productPrice').value;
+            const description = document.getElementById('productDescription').value;
             
-            // Update displayed price
-            bundlePrice.textContent = `$${originalPrice}`;
-            priceInput.value = originalPrice;
+            // Get additional field values
+            const age = document.getElementById('productAge').value;
+            const smokeFree = document.getElementById('smokeFree').checked;
+            const petFree = document.getElementById('petFree').checked;
+            const sellReason = document.getElementById('sellReason').value;
+            const notes = document.getElementById('sellerNotes').value;
             
-            // Update price adjustment display
-            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
-            priceAdjustmentBadge.style.display = 'none';
-            document.getElementById('originalPrice').style.display = 'none';
-            
-            // If quick sale is active, reapply the discount
-            if (quickSaleActive) {
-                toggleQuickSale(true);
+            // Update card content with new description including additional details
+            let fullDescription = description;
+            if (notes) {
+                fullDescription += `\n\nSeller's Notes: ${notes}`;
             }
+            fullDescription += `\n\nAge Range: ${age}`;
+            if (smokeFree) fullDescription += '\n✓ Smoke-free home';
+            if (petFree) fullDescription += '\n✓ Pet-free home';
             
-            // Remove the item visually
-            el.parentElement.style.opacity = '0.5';
-            el.parentElement.style.height = '0';
-            el.parentElement.style.margin = '0';
-            el.parentElement.style.padding = '0';
-            el.parentElement.style.overflow = 'hidden';
-            el.parentElement.style.transition = 'all 0.3s ease';
+            productCard.querySelector('.product-title').textContent = title;
+            productCard.querySelector('.product-price').textContent = `$${price}`;
+            productCard.querySelector('.product-description').textContent = fullDescription;
             
-            setTimeout(() => {
-                el.parentElement.remove();
-                currentItems--;
-                
-                // Update item count in the main card
-                const itemCountElement = document.querySelector('.item-count');
-                if (itemCountElement) {
-                    itemCountElement.textContent = `+${currentItems - 2}`;
-                    if (currentItems <= 2) {
-                        itemCountElement.style.display = 'none';
-                    }
-                }
-            }, 300);
-        }
-        
-        function addItem(name, price, imageSrc) {
-            const bundleItems = document.querySelector('.bundle-items');
-            const bundlePrice = document.getElementById('bundlePrice');
-            const priceInput = document.getElementById('priceInput');
+            // Update approval count and continue button
+            approvedCount++;
+            document.getElementById('continue-btn').innerHTML = `Continue to Scheduling (${approvedCount}/${totalItems} approved)`;
+            document.querySelector('.stat-card:nth-child(2) .stat-number').textContent = approvedCount;
+            document.querySelector('.stat-card:nth-child(3) .stat-number').textContent = totalItems - approvedCount;
             
-            // Create new item element
-            const newItem = document.createElement('div');
-            newItem.className = 'bundle-item';
-            newItem.style.opacity = '0';
-            newItem.style.transform = 'translateY(20px)';
-            newItem.style.transition = 'all 0.3s ease';
+            // Close modal and show success message
+            closeEditModal();
             
-            newItem.innerHTML = `
-                <div class="item-image">
-                    <img src="${imageSrc}" alt="${name}">
-                </div>
-                <div class="item-details">
-                    <div class="item-name">${name}</div>
-                    <div class="item-value">$${price}</div>
-                </div>
-                <button class="item-remove" onclick="removeItem(this, ${price})"><i class="fas fa-times"></i></button>
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                Listing Approved Successfully
             `;
             
-            bundleItems.appendChild(newItem);
+            document.body.appendChild(successMessage);
             
-            // Animate the new item
             setTimeout(() => {
-                newItem.style.opacity = '1';
-                newItem.style.transform = 'translateY(0)';
-            }, 10);
+                successMessage.style.transition = 'opacity 0.5s ease';
+                successMessage.style.opacity = '0';
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 500);
+            }, 1500);
             
-            // Update price
-            basePrice += price;
-            originalPrice = basePrice;
-            bundlePrice.textContent = `$${originalPrice}`;
-            priceInput.value = originalPrice;
-            
-            // Update price adjustment display
-            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
-            priceAdjustmentBadge.style.display = 'none';
-            document.getElementById('originalPrice').style.display = 'none';
-            
-            // If quick sale is active, reapply the discount
-            if (quickSaleActive) {
-                toggleQuickSale(true);
-            }
-            
-            // Update item count
-            currentItems++;
-            
-            // Update the suggested item section
-            document.querySelector('.suggested-item').style.display = 'none';
-            
-            // Update item count in the main card
-            const itemCountElement = document.querySelector('.item-count');
-            if (itemCountElement) {
-                itemCountElement.textContent = `+${currentItems - 2}`;
-                itemCountElement.style.display = 'block';
-            }
+            // Update the edit button to show approved state
+            const editButton = productCard.querySelector('.btn-edit');
+            editButton.style.backgroundColor = '#4A4656';
+            editButton.style.color = 'white';
+            editButton.innerHTML = '<i class="fas fa-check-circle"></i> Approved';
+            editButton.onclick = null;
         }
-        
-        function adjustPrice(amount) {
-            const bundlePrice = document.getElementById('bundlePrice');
-            const priceInput = document.getElementById('priceInput');
-            let currentPrice = parseInt(priceInput.value);
+
+        function saveForLater() {
+            const productCard = document.querySelector(`[data-product-id="${currentProductId}"]`);
+            const title = document.getElementById('productTitle').value;
+            const price = document.getElementById('productPrice').value;
+            const description = document.getElementById('productDescription').value;
             
-            currentPrice += amount;
-            if (currentPrice < 0) currentPrice = 0;
+            // Get additional field values
+            const age = document.getElementById('productAge').value;
+            const smokeFree = document.getElementById('smokeFree').checked;
+            const petFree = document.getElementById('petFree').checked;
+            const sellReason = document.getElementById('sellReason').value;
+            const notes = document.getElementById('sellerNotes').value;
             
-            bundlePrice.textContent = `$${currentPrice}`;
-            priceInput.value = currentPrice;
-            
-            // Update price adjustment badge and original price display
-            updatePriceAdjustment(currentPrice);
-        }
-        
-        function updatePrice(value) {
-            const bundlePrice = document.getElementById('bundlePrice');
-            bundlePrice.textContent = `$${value}`;
-            
-            // Update price adjustment badge and original price display
-            updatePriceAdjustment(parseInt(value));
-        }
-        
-        function updatePriceAdjustment(currentPrice) {
-            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
-            const originalPriceDisplay = document.getElementById('originalPrice');
-            
-            if (currentPrice !== basePrice) {
-                const adjustment = currentPrice - basePrice;
-                priceAdjustmentBadge.textContent = adjustment > 0 ? `+$${adjustment}` : `-$${-adjustment}`;
-                priceAdjustmentBadge.style.display = 'block';
-                originalPriceDisplay.style.display = 'inline';
-            } else {
-                priceAdjustmentBadge.style.display = 'none';
-                originalPriceDisplay.style.display = 'none';
+            // Update card content with new description including additional details
+            let fullDescription = description;
+            if (notes) {
+                fullDescription += `\n\nSeller's Notes: ${notes}`;
             }
-        }
-        
-        function toggleQuickSale(forceState) {
-            const bundlePrice = document.getElementById('bundlePrice');
-            const priceInput = document.getElementById('priceInput');
-            const quickSaleToggle = document.getElementById('quickSaleToggle');
-            const priceAdjustmentBadge = document.getElementById('priceAdjustmentBadge');
-            const originalPriceDisplay = document.getElementById('originalPrice');
+            fullDescription += `\n\nAge Range: ${age}`;
+            if (smokeFree) fullDescription += '\n✓ Smoke-free home';
+            if (petFree) fullDescription += '\n✓ Pet-free home';
             
-            // If forceState is provided, use it, otherwise use the toggle's checked state
-            const checked = forceState !== undefined ? forceState : quickSaleToggle.checked;
-            quickSaleToggle.checked = checked;
-            quickSaleActive = checked;
-            
-            if (checked) {
-                // Apply 10% discount
-                const discountedPrice = Math.round(basePrice * 0.9);
-                bundlePrice.textContent = `$${discountedPrice}`;
-                priceInput.value = discountedPrice;
-                originalPrice = discountedPrice;
-                
-                // Show price adjustment
-                priceAdjustmentBadge.textContent = `-$${Math.round(basePrice * 0.1)}`;
-                priceAdjustmentBadge.style.display = 'block';
-                originalPriceDisplay.textContent = `$${basePrice}`;
-                originalPriceDisplay.style.display = 'inline';
-            } else {
-                // Restore original price
-                bundlePrice.textContent = `$${basePrice}`;
-                priceInput.value = basePrice;
-                originalPrice = basePrice;
-                
-                // Hide price adjustment
-                priceAdjustmentBadge.style.display = 'none';
-                originalPriceDisplay.style.display = 'none';
-            }
-        }
-        
-        function showAddCustomItemForm() {
-            document.getElementById('customItemForm').style.display = 'block';
-            // Hide the suggested item while adding custom
-            document.querySelector('.suggested-item').style.display = 'none';
-            document.querySelector('.btn-add-custom').style.display = 'none';
-        }
-        
-        function hideAddCustomItemForm() {
-            document.getElementById('customItemForm').style.display = 'none';
-            // Show the add custom button again
-            document.querySelector('.btn-add-custom').style.display = 'block';
-            
-            // Only show suggested item if it hasn't been permanently hidden
-            if (!document.querySelector('.suggested-item').hasAttribute('data-hidden')) {
-                document.querySelector('.suggested-item').style.display = 'block';
-            }
-            
-            // Clear the form
-            document.getElementById('customItemName').value = '';
-            document.getElementById('customItemPrice').value = '';
-        }
-        
-        function addCustomItem() {
-            const name = document.getElementById('customItemName').value.trim();
-            const price = parseInt(document.getElementById('customItemPrice').value);
-            
-            if (!name) {
-                alert('Please enter an item name');
-                return;
-            }
-            
-            if (!price || price <= 0) {
-                alert('Please enter a valid price');
-                return;
-            }
-            
-            // Use a default image for custom items
-            const imageSrc = 'images/baby_stroller.jpg'; // Default image for custom items
-            
-            // Add the item
-            addItem(name, price, imageSrc);
-            
-            // Hide and reset the form
-            hideAddCustomItemForm();
-            
-            // Mark suggested item as permanently hidden
-            document.querySelector('.suggested-item').setAttribute('data-hidden', 'true');
-            document.querySelector('.suggested-item').style.display = 'none';
-        }
-        
-        function saveChanges() {
-            const newPrice = document.getElementById('priceInput').value;
-            const productPrice = document.querySelector('.product-price');
-            originalPrice = parseInt(newPrice);
-            
-            // Get values for toggles
-            oboActive = document.getElementById('oboToggle').checked;
-            quickSaleActive = document.getElementById('quickSaleToggle').checked;
-            
-            // Update the main card price
-            productPrice.textContent = `$${newPrice}`;
-            
-            // Update OBO in description if needed
-            let oboText = oboActive ? " OBO" : "";
-            productPrice.textContent = `$${newPrice}${oboText}`;
-            
-            // Update the description based on what items remain
-            let newDescription = 'Bundle includes: ';
-            const items = document.querySelectorAll('.bundle-items .bundle-item:not([style*="height: 0"])');
-            
-            if (items.length > 0) {
-                items.forEach((item, index) => {
-                    const itemName = item.querySelector('.item-name').textContent;
-                    if (index === items.length - 1 && items.length > 1) {
-                        newDescription += `and ${itemName}.`;
-                    } else if (index === items.length - 1) {
-                        newDescription += `${itemName}.`;
-                    } else {
-                        newDescription += `${itemName}, `;
-                    }
-                });
-            } else {
-                newDescription = 'No items in this bundle.';
-            }
-            
-            newDescription += ' All items gently used from a smoke-free home. Perfect for 0-6 months.';
-            
-            // Update the description
-            document.querySelector('.product-description').textContent = newDescription;
+            productCard.querySelector('.product-title').textContent = title;
+            productCard.querySelector('.product-price').textContent = `$${price}`;
+            productCard.querySelector('.product-description').textContent = fullDescription;
             
             closeEditModal();
             
-            // Reset the approved status of this item
-            const approveButton = document.querySelector('.card-actions .btn-approve');
-            if (approveButton.classList.contains('approved')) {
-                approveButton.classList.remove('approved');
-                approveButton.innerHTML = "Approve";
-                approveButton.style.backgroundColor = "";
-                approvedCount--;
-                
-                document.getElementById('continue-btn').innerHTML = `Continue to Scheduling (${approvedCount}/${totalItems} approved)`;
-            }
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.innerHTML = `
+                <i class="fas fa-clock"></i>
+                Changes Saved for Later
+            `;
             
-            // Show a save confirmation
-            const saveConfirm = document.createElement('div');
-            saveConfirm.style.position = 'fixed';
-            saveConfirm.style.top = '20px';
-            saveConfirm.style.left = '50%';
-            saveConfirm.style.transform = 'translateX(-50%)';
-            saveConfirm.style.backgroundColor = 'rgba(155, 158, 138, 0.9)';
-            saveConfirm.style.color = 'white';
-            saveConfirm.style.padding = '12px 24px';
-            saveConfirm.style.borderRadius = '24px';
-            saveConfirm.style.fontWeight = '500';
-            saveConfirm.style.zIndex = '200';
-            saveConfirm.textContent = 'Changes saved successfully';
-            
-            document.body.appendChild(saveConfirm);
+            document.body.appendChild(successMessage);
             
             setTimeout(() => {
-                saveConfirm.style.opacity = '0';
-                saveConfirm.style.transition = 'opacity 0.5s ease';
+                successMessage.style.transition = 'opacity 0.5s ease';
+                successMessage.style.opacity = '0';
                 setTimeout(() => {
-                    saveConfirm.remove();
+                    successMessage.remove();
                 }, 500);
-            }, 2000);
+            }, 1500);
+            
+            const editButton = productCard.querySelector('.btn-edit');
+            editButton.style.backgroundColor = '#9B9E8A';
+            editButton.style.color = 'white';
+            editButton.innerHTML = '<i class="fas fa-clock"></i> Saved';
+            editButton.style.opacity = '0.9';
         }
     </script>
 </body>

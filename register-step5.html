@@ -286,6 +286,72 @@
                 </div>
             </div>
             
+            <div class="form-group">
+                <label class="form-label">Tell us about your home environment</label>
+                <div class="form-hint">This helps buyers make informed decisions about items you may sell.</div>
+                
+                <div class="option-card" id="smoke-free-option">
+                    <label class="radio-label">
+                        <input type="radio" name="smoke_free" value="yes" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-ban"></i>
+                                Smoke-free home
+                            </div>
+                            <div class="option-description">No smoking occurs inside the home</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="option-card" id="smoking-home-option">
+                    <label class="radio-label">
+                        <input type="radio" name="smoke_free" value="no" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-smoking"></i>
+                                Smoking occurs in the home
+                            </div>
+                            <div class="option-description">Smoking is allowed inside the home</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Do you have pets in your home?</label>
+                <div class="form-hint">This information helps buyers with allergies or preferences.</div>
+                
+                <div class="option-card" id="pet-free-option">
+                    <label class="radio-label">
+                        <input type="radio" name="pet_free" value="yes" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-home"></i>
+                                Pet-free home
+                            </div>
+                            <div class="option-description">No pets live in the home</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="option-card" id="has-pets-option">
+                    <label class="radio-label">
+                        <input type="radio" name="pet_free" value="no" class="radio-input">
+                        <div class="radio-custom"></div>
+                        <div class="radio-content">
+                            <div class="option-title">
+                                <i class="fas fa-paw"></i>
+                                Have pets at home
+                            </div>
+                            <div class="option-description">One or more pets live in the home</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
             <div class="form-group" id="kids-profile-section" style="display: none;">
                 <label class="form-label">Would you like to set up a kid's profile?</label>
                 <div class="form-hint">Kid profiles help personalize your experience with age-appropriate recommendations.</div>
@@ -331,47 +397,37 @@
             const continueBtn = document.getElementById('continueBtn');
             const kidsProfileSection = document.getElementById('kids-profile-section');
             
-            // Add click handler for parent status options
-            const parentOptions = document.querySelectorAll('input[name="parent_status"]');
-            parentOptions.forEach(option => {
-                option.addEventListener('change', function() {
-                    // Reset all option cards
-                    document.querySelectorAll('.option-card').forEach(card => {
-                        card.classList.remove('selected');
-                    });
-                    
-                    // Highlight selected option
-                    this.closest('.option-card').classList.add('selected');
-                    
-                    // Show/hide kids profile section based on selection
-                    if (this.value === 'parent') {
-                        kidsProfileSection.style.display = 'block';
-                    } else {
-                        kidsProfileSection.style.display = 'none';
-                    }
-                });
-            });
+            // Add click handler for all radio options
+            const allRadioGroups = ['parent_status', 'smoke_free', 'pet_free', 'setup_kids_profile'];
             
-            // Add click handler for kids profile options
-            const profileOptions = document.querySelectorAll('input[name="setup_kids_profile"]');
-            profileOptions.forEach(option => {
-                option.addEventListener('change', function() {
-                    // Reset all option cards in this section
-                    document.querySelectorAll('input[name="setup_kids_profile"]').forEach(radio => {
-                        radio.closest('.option-card').classList.remove('selected');
+            allRadioGroups.forEach(groupName => {
+                const options = document.querySelectorAll(`input[name="${groupName}"]`);
+                options.forEach(option => {
+                    option.addEventListener('change', function() {
+                        // Reset all option cards in this group
+                        document.querySelectorAll(`input[name="${groupName}"]`).forEach(radio => {
+                            radio.closest('.option-card').classList.remove('selected');
+                        });
+                        
+                        // Highlight selected option
+                        this.closest('.option-card').classList.add('selected');
+                        
+                        // Special handling for parent status
+                        if (groupName === 'parent_status') {
+                            kidsProfileSection.style.display = this.value === 'parent' ? 'block' : 'none';
+                        }
                     });
-                    
-                    // Highlight selected option
-                    this.closest('.option-card').classList.add('selected');
                 });
             });
             
             // Continue button handler
             continueBtn.addEventListener('click', function() {
                 const parentStatus = document.querySelector('input[name="parent_status"]:checked');
+                const smokeFree = document.querySelector('input[name="smoke_free"]:checked');
+                const petFree = document.querySelector('input[name="pet_free"]:checked');
                 
-                if (!parentStatus) {
-                    alert('Please select an option');
+                if (!parentStatus || !smokeFree || !petFree) {
+                    alert('Please answer all questions before continuing');
                     return;
                 }
                 
@@ -384,14 +440,11 @@
                     }
                     
                     if (setupProfile.value === 'yes') {
-                        // Redirect to kid profile setup
                         window.location.href = 'account-kids-profile-edit.html';
                     } else {
-                        // Continue to regular completion
                         window.location.href = 'register-complete.html';
                     }
                 } else {
-                    // Continue to regular completion
                     window.location.href = 'register-complete.html';
                 }
             });

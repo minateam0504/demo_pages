@@ -236,6 +236,14 @@
             background-color: #e5e7eb;
             color: var(--charcoal);
         }
+        .btn-decline {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        .btn-cancel {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
         .btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -267,6 +275,132 @@
             color: rgba(0,0,0,0.6);
             margin-bottom: 20px;
         }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1001;
+        }
+        .decline-modal {
+            background-color: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .decline-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .decline-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .close-modal {
+            font-size: 24px;
+            color: var(--charcoal);
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .decline-reason-options {
+            margin-bottom: 20px;
+        }
+        .decline-reason-option {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .decline-reason-option:hover {
+            border-color: #dc2626;
+            background-color: #fee2e2;
+        }
+        .decline-reason-option.selected {
+            border-color: #dc2626;
+            background-color: #fee2e2;
+        }
+        .decline-reason-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .decline-reason-description {
+            font-size: 14px;
+            color: #666;
+        }
+        .custom-reason-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+            display: none;
+        }
+        .custom-reason-input.visible {
+            display: block;
+        }
+        .confirm-decline-btn {
+            background-color: #dc2626;
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .confirm-decline-btn:disabled {
+            background-color: #e5e7eb;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .scheduled-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: rgba(155, 158, 138, 0.2);
+            color: var(--sage-green);
+        }
+        .meetup-details {
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        .meetup-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .meetup-detail-row:last-child {
+            margin-bottom: 0;
+        }
+        .meetup-detail-row i {
+            color: var(--sage-green);
+            width: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -287,7 +421,7 @@
             <a href="account-management.html" class="back-button">
                 <i class="fas fa-chevron-left"></i>
             </a>
-            <div class="page-title">Pending Meetups</div>
+            <div class="page-title">Pending Confirmation</div>
         </div>
         
         <!-- Filters -->
@@ -391,7 +525,8 @@
                 </div>
                 <div class="action-buttons">
                     <button class="btn btn-primary">Confirm Time</button>
-                    <a href="suggest-pickup-time.html" class="btn btn-secondary">Suggest New Time</a>
+                    <button class="btn btn-secondary">Suggest New Time</button>
+                    <button class="btn btn-decline" onclick="showDeclineModal(this)">Decline</button>
                 </div>
             </div>
         </div>
@@ -422,7 +557,8 @@
                 </div>
                 <div class="action-buttons">
                     <button class="btn btn-primary">Confirm Time</button>
-                    <a href="suggest-pickup-time.html" class="btn btn-secondary">Suggest New Time</a>
+                    <button class="btn btn-secondary">Suggest New Time</button>
+                    <button class="btn btn-decline" onclick="showDeclineModal(this)">Decline</button>
                 </div>
             </div>
         </div>
@@ -453,6 +589,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Empty State (hidden by default) -->
         <div class="empty-state">
@@ -489,6 +626,74 @@
             <div class="tab-icon"><i class="fas fa-user"></i></div>
             <div class="tab-label">Profile</div>
         </a>
+    </div>
+
+    <!-- Add this before the closing body tag -->
+    <div class="modal-overlay" id="declineModal">
+        <div class="decline-modal">
+            <div class="decline-modal-header">
+                <div class="decline-modal-title">Decline Request</div>
+                <button class="close-modal" onclick="closeDeclineModal()">&times;</button>
+            </div>
+            <div class="decline-reason-options">
+                <div class="decline-reason-option" data-reason="no-longer-available">
+                    <div class="decline-reason-text">Item no longer available</div>
+                    <div class="decline-reason-description">The item has been sold or is no longer for sale</div>
+                </div>
+                <div class="decline-reason-option" data-reason="better-offer">
+                    <div class="decline-reason-text">Found a different offer</div>
+                    <div class="decline-reason-description">You've accepted another buyer's offer</div>
+                </div>
+                <div class="decline-reason-option" data-reason="schedule-conflict">
+                    <div class="decline-reason-text">Schedule conflict</div>
+                    <div class="decline-reason-description">The suggested time doesn't work with your schedule</div>
+                </div>
+                <div class="decline-reason-option" data-reason="buyer-requirements">
+                    <div class="decline-reason-text">Buyer requirements not met</div>
+                    <div class="decline-reason-description">The buyer doesn't meet your requirements or preferences</div>
+                </div>
+                <div class="decline-reason-option" data-reason="other">
+                    <div class="decline-reason-text">Other reason</div>
+                    <div class="decline-reason-description">Provide your own reason for declining</div>
+                </div>
+                <textarea class="custom-reason-input" placeholder="Please explain why you're declining this request..."></textarea>
+            </div>
+            <button class="confirm-decline-btn" disabled onclick="confirmDecline()">Confirm Decline</button>
+        </div>
+    </div>
+
+    <!-- Add this before the closing body tag, after the decline modal -->
+    <div class="modal-overlay" id="cancelModal">
+        <div class="decline-modal">
+            <div class="decline-modal-header">
+                <div class="decline-modal-title">Cancel Purchase</div>
+                <button class="close-modal" onclick="closeCancelModal()">&times;</button>
+            </div>
+            <div class="decline-reason-options">
+                <div class="decline-reason-option" data-reason="found-alternative">
+                    <div class="decline-reason-text">Found alternative item</div>
+                    <div class="decline-reason-description">Found a similar item that better meets my needs</div>
+                </div>
+                <div class="decline-reason-option" data-reason="price-concern">
+                    <div class="decline-reason-text">Price concerns</div>
+                    <div class="decline-reason-description">The price no longer works for my budget</div>
+                </div>
+                <div class="decline-reason-option" data-reason="changed-mind">
+                    <div class="decline-reason-text">Changed my mind</div>
+                    <div class="decline-reason-description">No longer interested in this item</div>
+                </div>
+                <div class="decline-reason-option" data-reason="timing-issue">
+                    <div class="decline-reason-text">Timing doesn't work</div>
+                    <div class="decline-reason-description">Can't make the meetup work with my schedule</div>
+                </div>
+                <div class="decline-reason-option" data-reason="other">
+                    <div class="decline-reason-text">Other reason</div>
+                    <div class="decline-reason-description">Provide your own reason for cancelling</div>
+                </div>
+                <textarea class="custom-reason-input" placeholder="Please explain why you're cancelling this purchase..."></textarea>
+            </div>
+            <button class="confirm-decline-btn" disabled onclick="confirmCancel()">Confirm Cancellation</button>
+        </div>
     </div>
 
     <script>
@@ -549,19 +754,80 @@
                     const action = this.textContent;
                     const card = this.closest('.pickup-card');
                     const itemName = card.querySelector('.pickup-name').textContent;
+                    const itemPrice = card.querySelector('.pickup-price').textContent;
+                    const buyerName = card.querySelector('.pickup-meta').textContent.trim();
+                    const meetupTime = card.querySelector('.pickup-meta:nth-child(2)').textContent.trim();
 
                     if (action === 'Confirm Time') {
                         if (confirm(`Confirm pickup time for ${itemName}?`)) {
+                            // Create new scheduled meetup card
+                            const scheduledCard = card.cloneNode(true);
+                            
+                            // Update the status and actions
+                            const statusDiv = scheduledCard.querySelector('.pickup-status');
+                            statusDiv.textContent = 'Meetup Confirmed';
+                            statusDiv.className = 'scheduled-status';
+                            
+                            // Update the actions section
+                            const actionsDiv = scheduledCard.querySelector('.pickup-actions');
+                            actionsDiv.innerHTML = `
+                                <div class="meetup-details">
+                                    <div class="meetup-detail-row">
+                                        <i class="fas fa-calendar-check"></i>
+                                        ${meetupTime}
+                                    </div>
+                                    <div class="meetup-detail-row">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Meetup location details will be shared via chat
+                                    </div>
+                                </div>
+                            `;
+                            
+                            // Show the scheduled meetups section if hidden
+                            const scheduledSection = document.getElementById('scheduled-meetups');
+                            scheduledSection.style.display = 'block';
+                            
+                            // Add the new card to scheduled meetups
+                            scheduledSection.insertBefore(scheduledCard, scheduledSection.firstChild);
+                            
+                            // Remove from pending section with animation
                             card.style.opacity = '0';
                             setTimeout(() => {
                                 card.remove();
                                 updateEmptyState();
                                 updateSectionVisibility();
                             }, 300);
+                            
+                            // Show success toast
+                            const toast = document.createElement('div');
+                            toast.style.cssText = `
+                                position: fixed;
+                                bottom: 100px;
+                                left: 50%;
+                                transform: translateX(-50%);
+                                background-color: var(--sage-green);
+                                color: white;
+                                padding: 16px 24px;
+                                border-radius: 12px;
+                                font-size: 14px;
+                                z-index: 1000;
+                                opacity: 0;
+                                transition: opacity 0.3s ease;
+                            `;
+                            toast.textContent = 'Meetup successfully scheduled!';
+                            document.body.appendChild(toast);
+                            
+                            setTimeout(() => {
+                                toast.style.opacity = '1';
+                                setTimeout(() => {
+                                    toast.style.opacity = '0';
+                                    setTimeout(() => toast.remove(), 300);
+                                }, 2000);
+                            }, 100);
                         }
                     } else if (action === 'Suggest New Time') {
-                        // Here you would typically open a time selection modal
-                        alert('Opening time selection...');
+                        // Existing suggest new time logic
+                        window.location.href = 'suggest-pickup-time.html';
                     }
                 });
             });
@@ -585,6 +851,222 @@
                     section.style.display = hasVisibleCards ? 'block' : 'none';
                 });
             }
+
+            // Update the action buttons in listing cards
+            document.querySelectorAll('.pickup-card[data-type="listing"] .action-buttons').forEach(actionButtons => {
+                actionButtons.innerHTML = `
+                    <button class="btn btn-primary">Confirm Time</button>
+                    <button class="btn btn-secondary">Suggest New Time</button>
+                    <button class="btn btn-decline" onclick="showDeclineModal(this)">Decline</button>
+                `;
+            });
+
+            let currentCard = null;
+            let selectedReason = null;
+
+            window.showDeclineModal = function(button) {
+                currentCard = button.closest('.pickup-card');
+                document.getElementById('declineModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeDeclineModal = function() {
+                document.getElementById('declineModal').style.display = 'none';
+                document.body.style.overflow = '';
+                currentCard = null;
+                selectedReason = null;
+                resetDeclineModal();
+            };
+
+            function resetDeclineModal() {
+                document.querySelectorAll('.decline-reason-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                const customInput = document.querySelector('.custom-reason-input');
+                customInput.style.display = 'none';
+                customInput.value = '';
+                document.querySelector('.confirm-decline-btn').disabled = true;
+            }
+
+            // Add click handlers for decline reason options
+            document.querySelectorAll('.decline-reason-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.decline-reason-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedReason = this.dataset.reason;
+                    
+                    const customInput = document.querySelector('.custom-reason-input');
+                    if (selectedReason === 'other') {
+                        customInput.style.display = 'block';
+                        document.querySelector('.confirm-decline-btn').disabled = !customInput.value.trim();
+                    } else {
+                        customInput.style.display = 'none';
+                        document.querySelector('.confirm-decline-btn').disabled = false;
+                    }
+                });
+            });
+
+            // Handle custom reason input
+            document.querySelector('.custom-reason-input').addEventListener('input', function() {
+                document.querySelector('.confirm-decline-btn').disabled = !this.value.trim();
+            });
+
+            window.confirmDecline = function() {
+                if (!currentCard || !selectedReason) return;
+
+                const customInput = document.querySelector('.custom-reason-input');
+                const declineReason = selectedReason === 'other' ? customInput.value : 
+                    document.querySelector(`.decline-reason-option[data-reason="${selectedReason}"] .decline-reason-text`).textContent;
+
+                // Animate card removal
+                currentCard.style.opacity = '0';
+                setTimeout(() => {
+                    currentCard.remove();
+                    updateEmptyState();
+                    updateSectionVisibility();
+                }, 300);
+
+                // Close modal
+                closeDeclineModal();
+
+                // Show confirmation toast
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 100px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: var(--charcoal);
+                    color: white;
+                    padding: 16px 24px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    z-index: 1000;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                toast.textContent = 'Request declined successfully';
+                document.body.appendChild(toast);
+
+                // Fade in and out
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                    setTimeout(() => {
+                        toast.style.opacity = '0';
+                        setTimeout(() => toast.remove(), 300);
+                    }, 2000);
+                }, 100);
+            };
+
+            // Update the action buttons in purchase cards
+            document.querySelectorAll('.pickup-card[data-type="purchase"] .action-buttons').forEach(actionButtons => {
+                actionButtons.innerHTML = `
+                    <button class="btn btn-primary">Confirm Time</button>
+                    <button class="btn btn-secondary">Suggest New Time</button>
+                    <button class="btn btn-cancel" onclick="showCancelModal(this)">No Longer Needed</button>
+                `;
+            });
+
+            let currentPurchaseCard = null;
+            let selectedCancelReason = null;
+
+            window.showCancelModal = function(button) {
+                currentPurchaseCard = button.closest('.pickup-card');
+                document.getElementById('cancelModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeCancelModal = function() {
+                document.getElementById('cancelModal').style.display = 'none';
+                document.body.style.overflow = '';
+                currentPurchaseCard = null;
+                selectedCancelReason = null;
+                resetCancelModal();
+            };
+
+            function resetCancelModal() {
+                document.querySelectorAll('#cancelModal .decline-reason-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                const customInput = document.querySelector('#cancelModal .custom-reason-input');
+                customInput.style.display = 'none';
+                customInput.value = '';
+                document.querySelector('#cancelModal .confirm-decline-btn').disabled = true;
+            }
+
+            // Add click handlers for cancel reason options
+            document.querySelectorAll('#cancelModal .decline-reason-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('#cancelModal .decline-reason-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedCancelReason = this.dataset.reason;
+                    
+                    const customInput = document.querySelector('#cancelModal .custom-reason-input');
+                    if (selectedCancelReason === 'other') {
+                        customInput.style.display = 'block';
+                        document.querySelector('#cancelModal .confirm-decline-btn').disabled = !customInput.value.trim();
+                    } else {
+                        customInput.style.display = 'none';
+                        document.querySelector('#cancelModal .confirm-decline-btn').disabled = false;
+                    }
+                });
+            });
+
+            // Handle custom cancel reason input
+            document.querySelector('#cancelModal .custom-reason-input').addEventListener('input', function() {
+                document.querySelector('#cancelModal .confirm-decline-btn').disabled = !this.value.trim();
+            });
+
+            window.confirmCancel = function() {
+                if (!currentPurchaseCard || !selectedCancelReason) return;
+
+                const customInput = document.querySelector('#cancelModal .custom-reason-input');
+                const cancelReason = selectedCancelReason === 'other' ? customInput.value : 
+                    document.querySelector(`#cancelModal .decline-reason-option[data-reason="${selectedCancelReason}"] .decline-reason-text`).textContent;
+
+                // Animate card removal
+                currentPurchaseCard.style.opacity = '0';
+                setTimeout(() => {
+                    currentPurchaseCard.remove();
+                    updateEmptyState();
+                    updateSectionVisibility();
+                }, 300);
+
+                // Close modal
+                closeCancelModal();
+
+                // Show confirmation toast
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 100px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: var(--charcoal);
+                    color: white;
+                    padding: 16px 24px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    z-index: 1000;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                toast.textContent = 'Purchase cancelled successfully';
+                document.body.appendChild(toast);
+
+                // Fade in and out
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                    setTimeout(() => {
+                        toast.style.opacity = '0';
+                        setTimeout(() => toast.remove(), 300);
+                    }, 2000);
+                }, 100);
+            };
         });
     </script>
 </body>

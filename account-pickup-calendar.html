@@ -703,60 +703,78 @@
             return;
         }
 
-        const itemName = card.querySelector('.pickup-title').textContent;
-        const userName = card.querySelector('.buyer-name').textContent;
-        const pickupDate = card.querySelector('.pickup-meta:nth-child(1)').textContent;
-        const pickupTime = card.querySelector('.pickup-meta:nth-child(2)')?.textContent || '';
-        const location = card.querySelector('.pickup-meta i.fa-map-marker-alt').parentElement.textContent.trim();
-        
-        // Set chat header info
-        document.getElementById('chatUserName').textContent = userName;
-        document.getElementById('chatItemInfo').textContent = `${itemName} - ${pickupTime || pickupDate} - ${location}`;
-        
-        // Check if it's pickup day
-        const isToday = card.closest('.schedule-section').querySelector('.section-title').textContent.includes("Today's");
-        
-        // Clear previous messages
-        chatMessages.innerHTML = '';
-        
-        if (isToday) {
-            // Show chat input and status message for today's pickups
-            chatInputContainer.style.display = 'block';
-            chatMessages.innerHTML = `
-                <div class="chat-status">
-                    Chat enabled for today's pickup
-                </div>
-                <div class="chat-message message-received">
-                    Hi! I'm on my way to ${location}. I'll be there at ${pickupTime}. Please let me know if you need to adjust the timing slightly.
-                </div>
-            `;
+        // Safely get elements with error handling
+        try {
+            // Get required elements with error checking
+            const titleElement = card.querySelector('.pickup-title');
+            const userNameElement = card.querySelector('.buyer-name');
+            const dateElement = card.querySelector('.pickup-meta i.fa-calendar-alt, .pickup-meta i.fa-clock')?.closest('.pickup-meta');
+            const timeElement = card.querySelector('.pickup-meta i.fa-clock')?.closest('.pickup-meta');
+            const locationElement = card.querySelector('.pickup-meta i.fa-map-marker-alt')?.closest('.pickup-meta');
 
-            // Add quick response buttons
-            addQuickResponseButtons(chatInputContainer);
-        } else {
-            // Show disabled message and hide input for future/past pickups
-            chatInputContainer.style.display = 'none';
-            chatMessages.innerHTML = `
-                <div class="chat-disabled-message">
-                    <div class="chat-disabled-icon">
-                        <i class="fas fa-clock"></i>
+            if (!titleElement || !userNameElement || !locationElement) {
+                console.error('Required elements not found in pickup card');
+                return;
+            }
+
+            const itemName = titleElement.textContent.trim();
+            const userName = userNameElement.textContent.trim();
+            const pickupDate = dateElement ? dateElement.textContent.trim() : '';
+            const pickupTime = timeElement ? timeElement.textContent.trim() : '';
+            const location = locationElement.textContent.trim();
+            
+            // Set chat header info
+            document.getElementById('chatUserName').textContent = userName;
+            document.getElementById('chatItemInfo').textContent = `${itemName} - ${pickupTime || pickupDate} - ${location}`;
+            
+            // Check if it's pickup day
+            const sectionTitle = card.closest('.schedule-section')?.querySelector('.section-title');
+            const isToday = sectionTitle ? sectionTitle.textContent.includes("Today's") : false;
+            
+            // Clear previous messages
+            chatMessages.innerHTML = '';
+            
+            if (isToday) {
+                // Show chat input and status message for today's pickups
+                chatInputContainer.style.display = 'block';
+                chatMessages.innerHTML = `
+                    <div class="chat-status">
+                        Chat enabled for today's pickup
                     </div>
-                    <div class="chat-disabled-title">Chat not yet available</div>
-                    <div class="chat-disabled-text">
-                        Chat will be enabled on ${pickupDate} to coordinate the meetup. This chat is only for day-of coordination (e.g., slight delays, exact meeting spot).
+                    <div class="chat-message message-received">
+                        Hi! I'm on my way to ${location}. I'll be there at ${pickupTime}. Please let me know if you need to adjust the timing slightly.
                     </div>
-                </div>
-            `;
-        }
-        
-        // Show the modal
-        requestAnimationFrame(() => {
-            chatModal.style.display = 'flex';
+                `;
+
+                // Add quick response buttons
+                addQuickResponseButtons(chatInputContainer);
+            } else {
+                // Show disabled message and hide input for future/past pickups
+                chatInputContainer.style.display = 'none';
+                chatMessages.innerHTML = `
+                    <div class="chat-disabled-message">
+                        <div class="chat-disabled-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="chat-disabled-title">Chat not yet available</div>
+                        <div class="chat-disabled-text">
+                            Chat will be enabled on ${pickupDate} to coordinate the meetup. This chat is only for day-of coordination (e.g., slight delays, exact meeting spot).
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Show the modal
             requestAnimationFrame(() => {
-                chatModal.classList.add('visible');
+                chatModal.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    chatModal.classList.add('visible');
+                });
             });
-        });
-        document.body.classList.add('chat-open');
+            document.body.classList.add('chat-open');
+        } catch (error) {
+            console.error('Error opening chat:', error);
+        }
     }
 
     function closeChat() {

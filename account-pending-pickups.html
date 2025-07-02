@@ -240,6 +240,14 @@
             background-color: #fee2e2;
             color: #dc2626;
         }
+        .btn-decline:disabled {
+            background-color: #f3f4f6;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+        .btn-decline:not(:disabled):hover {
+            background-color: #fecaca;
+        }
         .btn-cancel {
             background-color: #f3f4f6;
             color: #6b7280;
@@ -401,6 +409,36 @@
             width: 16px;
             text-align: center;
         }
+        .pickup-actions {
+            margin-top: 12px;
+        }
+        .cancel-request-btn {
+            background: none;
+            border: none;
+            color: #EF4444;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .cancel-request-btn:hover {
+            background-color: #FEE2E2;
+        }
+        .cancel-request-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            color: #6B7280;
+        }
+        .cancel-request-btn:disabled:hover {
+            background: none;
+        }
+        .cancel-request-btn i {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -459,6 +497,11 @@
                 <div class="action-required">
                     <i class="fas fa-clock"></i>
                     Waiting for seller to confirm time
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-decline" data-pickup-date="2024-07-20T16:00:00" onclick="handleCancelRequest(this)">
+                        <i class="fas fa-times"></i> Cancel Request
+                    </button>
                 </div>
             </div>
         </div>
@@ -1067,6 +1110,43 @@
                     }, 2000);
                 }, 100);
             };
+
+            function handleCancelRequest(button) {
+                const pickupDate = new Date(button.dataset.pickupDate);
+                const now = new Date();
+                const hoursUntilPickup = (pickupDate - now) / (1000 * 60 * 60);
+
+                if (hoursUntilPickup <= 48) {
+                    alert("Cancellation is not allowed within 48 hours of the scheduled pickup time.");
+                    return;
+                }
+
+                showCancelModal(button);
+            }
+
+            // Function to check and update button states
+            function updateCancelButtons() {
+                document.querySelectorAll('.btn-decline[data-pickup-date]').forEach(button => {
+                    const pickupDate = new Date(button.dataset.pickupDate);
+                    const now = new Date();
+                    const hoursUntilPickup = (pickupDate - now) / (1000 * 60 * 60);
+
+                    if (hoursUntilPickup <= 48) {
+                        button.disabled = true;
+                        button.title = "Cancellation is not allowed within 48 hours of pickup";
+                    } else {
+                        button.disabled = false;
+                        button.title = "Cancel this pickup request";
+                    }
+                });
+            }
+
+            // Update button states on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                updateCancelButtons();
+                // Update every minute to keep the button states current
+                setInterval(updateCancelButtons, 60000);
+            });
         });
     </script>
 </body>

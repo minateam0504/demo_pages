@@ -212,6 +212,91 @@
         .radio-content {
             flex: 1;
         }
+        .toggle-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .toggle-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .toggle-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toggle-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--cream);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sage-green);
+            font-size: 20px;
+        }
+        .toggle-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .toggle-title {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+        .toggle-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            transition: .3s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        .toggle-input:checked + .toggle-slider {
+            background-color: var(--sage-green);
+        }
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        .toggle-card:hover {
+            border-color: var(--sage-green);
+        }
     </style>
 </head>
 <body>
@@ -287,68 +372,41 @@
             </div>
             
             <div class="form-group">
-                <label class="form-label">Tell us about your home environment</label>
-                <div class="form-hint">This helps buyers make informed decisions about items you may sell.</div>
+                <label class="form-label">Home Environment</label>
+                <div class="form-hint">Help buyers make informed decisions about items you may sell.</div>
                 
-                <div class="option-card" id="smoke-free-option">
-                    <label class="radio-label">
-                        <input type="radio" name="smoke_free" value="yes" class="radio-input">
-                        <div class="radio-custom"></div>
-                        <div class="radio-content">
-                            <div class="option-title">
+                <div class="toggle-options">
+                    <div class="toggle-card">
+                        <div class="toggle-content">
+                            <div class="toggle-icon">
                                 <i class="fas fa-ban"></i>
-                                Smoke-free home
                             </div>
-                            <div class="option-description">No smoking occurs inside the home</div>
-                        </div>
-                    </label>
-                </div>
-                
-                <div class="option-card" id="smoking-home-option">
-                    <label class="radio-label">
-                        <input type="radio" name="smoke_free" value="no" class="radio-input">
-                        <div class="radio-custom"></div>
-                        <div class="radio-content">
-                            <div class="option-title">
-                                <i class="fas fa-smoking"></i>
-                                Smoking occurs in the home
+                            <div class="toggle-text">
+                                <div class="toggle-title">Smoke-free home</div>
+                                <div class="toggle-description">No smoking occurs inside</div>
                             </div>
-                            <div class="option-description">Smoking is allowed inside the home</div>
                         </div>
-                    </label>
-                </div>
-            </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="smoke_free" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
 
-            <div class="form-group">
-                <label class="form-label">Do you have pets in your home?</label>
-                <div class="form-hint">This information helps buyers with allergies or preferences.</div>
-                
-                <div class="option-card" id="pet-free-option">
-                    <label class="radio-label">
-                        <input type="radio" name="pet_free" value="yes" class="radio-input">
-                        <div class="radio-custom"></div>
-                        <div class="radio-content">
-                            <div class="option-title">
-                                <i class="fas fa-home"></i>
-                                Pet-free home
-                            </div>
-                            <div class="option-description">No pets live in the home</div>
-                        </div>
-                    </label>
-                </div>
-                
-                <div class="option-card" id="has-pets-option">
-                    <label class="radio-label">
-                        <input type="radio" name="pet_free" value="no" class="radio-input">
-                        <div class="radio-custom"></div>
-                        <div class="radio-content">
-                            <div class="option-title">
+                    <div class="toggle-card">
+                        <div class="toggle-content">
+                            <div class="toggle-icon">
                                 <i class="fas fa-paw"></i>
-                                Have pets at home
                             </div>
-                            <div class="option-description">One or more pets live in the home</div>
+                            <div class="toggle-text">
+                                <div class="toggle-title">Pet-free home</div>
+                                <div class="toggle-description">No pets in the home</div>
+                            </div>
                         </div>
-                    </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="pet_free" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
             

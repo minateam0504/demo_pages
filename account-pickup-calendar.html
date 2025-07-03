@@ -398,6 +398,166 @@
         body.chat-open {
             overflow: hidden;
         }
+
+        /* Reschedule Modal Styles */
+        .reschedule-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--cream);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .reschedule-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .reschedule-header {
+            background-color: white;
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .reschedule-back {
+            font-size: 24px;
+            color: var(--charcoal);
+            background: none;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reschedule-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--cream);
+        }
+
+        .reschedule-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .reschedule-warning i {
+            font-size: 20px;
+            color: #b87503;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+
+        .time-slot:hover {
+            border-color: var(--sage-green);
+            background-color: #f8faf7;
+        }
+
+        .time-slot.selected {
+            border-color: var(--sage-green);
+            background-color: #f8faf7;
+            font-weight: 500;
+        }
+
+        .time-slot.unavailable {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .reschedule-footer {
+            background-color: white;
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .reschedule-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .reschedule-btn.primary {
+            background-color: var(--sage-green);
+            color: white;
+        }
+
+        .reschedule-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reschedule-btn.secondary {
+            background-color: #f3f4f6;
+            color: var(--charcoal);
+        }
+
+        .date-picker {
+            margin-bottom: 16px;
+        }
+
+        .date-picker label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .date-picker input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -634,6 +794,56 @@
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Reschedule Modal -->
+    <div class="reschedule-modal" id="rescheduleModal">
+        <div class="reschedule-header">
+            <button class="reschedule-back" onclick="closeRescheduleModal()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div>
+                <h2 style="font-size: 18px; font-weight: 600; margin: 0;">Reschedule Pickup</h2>
+                <div style="font-size: 14px; color: #666;" id="rescheduleItemInfo"></div>
+            </div>
+        </div>
+
+        <div class="reschedule-content">
+            <div class="reschedule-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Last-minute changes can be disruptive.</strong><br>
+                    We recommend messaging the other party first to discuss potential times that work for both of you before making any changes.
+                </div>
+            </div>
+
+            <div class="date-picker">
+                <label for="newPickupDate">Select New Date</label>
+                <input type="date" id="newPickupDate" required>
+            </div>
+
+            <div style="font-weight: 500; margin-bottom: 8px;">Select New Time</div>
+            <div class="time-slots">
+                <div class="time-slot" data-time="09:00">9:00 AM</div>
+                <div class="time-slot" data-time="10:00">10:00 AM</div>
+                <div class="time-slot unavailable" data-time="11:00">11:00 AM</div>
+                <div class="time-slot" data-time="12:00">12:00 PM</div>
+                <div class="time-slot" data-time="13:00">1:00 PM</div>
+                <div class="time-slot" data-time="14:00">2:00 PM</div>
+                <div class="time-slot unavailable" data-time="15:00">3:00 PM</div>
+                <div class="time-slot" data-time="16:00">4:00 PM</div>
+                <div class="time-slot" data-time="17:00">5:00 PM</div>
+            </div>
+        </div>
+
+        <div class="reschedule-footer">
+            <button class="reschedule-btn primary" onclick="confirmReschedule()" disabled>
+                <i class="fas fa-check"></i> Confirm New Time
+            </button>
+            <button class="reschedule-btn secondary" onclick="openChat(document.querySelector('.pickup-card'))">
+                <i class="fas fa-comments"></i> Message First
+            </button>
         </div>
     </div>
 
@@ -957,6 +1167,131 @@
                 });
             });
         });
+    }
+
+    // Add reschedule functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize reschedule buttons
+        const rescheduleButtons = document.querySelectorAll('.reschedule-btn');
+        rescheduleButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                openRescheduleModal(this.closest('.pickup-card'));
+            });
+        });
+
+        // Initialize date picker min date to today
+        const dateInput = document.getElementById('newPickupDate');
+        if (dateInput) {
+            const today = new Date();
+            dateInput.min = today.toISOString().split('T')[0];
+            dateInput.addEventListener('change', validateRescheduleForm);
+        }
+
+        // Initialize time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            if (!slot.classList.contains('unavailable')) {
+                slot.addEventListener('click', function() {
+                    timeSlots.forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                    validateRescheduleForm();
+                });
+            }
+        });
+    });
+
+    function openRescheduleModal(card) {
+        const modal = document.getElementById('rescheduleModal');
+        const itemInfo = document.getElementById('rescheduleItemInfo');
+        
+        // Get item details
+        const itemName = card.querySelector('.pickup-title').textContent;
+        const currentTime = card.querySelector('.pickup-meta i.fa-clock')?.closest('.pickup-meta').textContent.trim();
+        const otherParty = card.querySelector('.buyer-name').textContent;
+        
+        itemInfo.textContent = `${itemName} with ${otherParty} - Currently: ${currentTime}`;
+        
+        requestAnimationFrame(() => {
+            modal.style.display = 'flex';
+            requestAnimationFrame(() => {
+                modal.classList.add('visible');
+            });
+        });
+        document.body.classList.add('modal-open');
+    }
+
+    function closeRescheduleModal() {
+        const modal = document.getElementById('rescheduleModal');
+        modal.classList.remove('visible');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            // Reset form
+            document.getElementById('newPickupDate').value = '';
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.querySelector('.reschedule-btn.primary').disabled = true;
+        }, 300);
+        document.body.classList.remove('modal-open');
+    }
+
+    function validateRescheduleForm() {
+        const date = document.getElementById('newPickupDate').value;
+        const timeSelected = document.querySelector('.time-slot.selected');
+        const confirmButton = document.querySelector('.reschedule-btn.primary');
+        
+        confirmButton.disabled = !date || !timeSelected;
+    }
+
+    function confirmReschedule() {
+        const date = document.getElementById('newPickupDate').value;
+        const timeSlot = document.querySelector('.time-slot.selected');
+        
+        if (!date || !timeSlot) return;
+        
+        const formattedDate = new Date(date + 'T' + timeSlot.dataset.time).toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+
+        // Show success toast
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--sage-green);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        `;
+        toast.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>Reschedule request sent for ${formattedDate}</span>
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }, 100);
+
+        closeRescheduleModal();
     }
     </script>
 </body>

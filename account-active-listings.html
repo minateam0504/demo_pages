@@ -290,6 +290,78 @@
             text-decoration: underline;
             font-weight: 500;
         }
+        .remove-action {
+            color: #dc2626 !important;
+        }
+        
+        .remove-action:hover {
+            background-color: #fee2e2 !important;
+        }
+        
+        .confirmation-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .confirmation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        
+        .confirmation-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .confirm-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .confirm-remove {
+            background-color: #dc2626;
+            color: white;
+        }
+        
+        .confirm-cancel {
+            background-color: #f3f4f6;
+            color: var(--charcoal);
+        }
     </style>
 </head>
 <body>
@@ -376,6 +448,9 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
+                <a href="#" class="listing-action remove-action">
+                    <i class="fas fa-trash-alt"></i> Remove
+                </a>
             </div>
         </div>
         
@@ -404,6 +479,9 @@
                 </a>
                 <a href="#" class="listing-action">
                     <i class="fas fa-play"></i> Activate
+                </a>
+                <a href="#" class="listing-action remove-action">
+                    <i class="fas fa-trash-alt"></i> Remove
                 </a>
             </div>
         </div>
@@ -434,6 +512,9 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
+                <a href="#" class="listing-action remove-action">
+                    <i class="fas fa-trash-alt"></i> Remove
+                </a>
             </div>
         </div>
         
@@ -462,6 +543,9 @@
                 </a>
                 <a href="#" class="listing-action">
                     <i class="fas fa-play"></i> Activate
+                </a>
+                <a href="#" class="listing-action remove-action">
+                    <i class="fas fa-trash-alt"></i> Remove
                 </a>
             </div>
         </div>
@@ -492,6 +576,9 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-pause"></i> Pause
                 </a>
+                <a href="#" class="listing-action remove-action">
+                    <i class="fas fa-trash-alt"></i> Remove
+                </a>
             </div>
         </div>
         
@@ -517,9 +604,12 @@
             </div>
             <div class="listing-actions">
                 <a href="#" class="listing-action">
-                    <i class="fas fa-redo"></i> Extend
+                    <i class="fas fa-edit"></i> Edit
                 </a>
                 <a href="#" class="listing-action">
+                    <i class="fas fa-pause"></i> Pause
+                </a>
+                <a href="#" class="listing-action remove-action">
                     <i class="fas fa-trash-alt"></i> Remove
                 </a>
             </div>
@@ -619,6 +709,17 @@
                             handleRemoveAction(listingName);
                             break;
                     }
+                });
+            });
+
+            // Add click handlers for remove buttons
+            const removeButtons = document.querySelectorAll('.remove-action');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.listing-card');
+                    const itemName = card.querySelector('.listing-name').textContent;
+                    showRemoveConfirmation(itemName, card);
                 });
             });
 
@@ -732,6 +833,139 @@
                 filterPills[3].textContent = `Expired (${expiredCount})`;
             }
         });
+
+        function showRemoveConfirmation(itemName, card) {
+            // Create modal elements
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            
+            const modal = document.createElement('div');
+            modal.className = 'confirmation-modal';
+            modal.innerHTML = `
+                <div class="confirmation-title">Remove Listing</div>
+                <div class="confirmation-message">
+                    Are you sure you want to remove "${itemName}"? This action cannot be undone.
+                </div>
+                <div class="confirmation-buttons">
+                    <button class="confirm-button confirm-cancel">Cancel</button>
+                    <button class="confirm-button confirm-remove">Remove</button>
+                </div>
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(overlay);
+            document.body.appendChild(modal);
+            
+            // Show modal with animation
+            requestAnimationFrame(() => {
+                overlay.style.display = 'block';
+                modal.style.display = 'block';
+                requestAnimationFrame(() => {
+                    overlay.style.opacity = '1';
+                    modal.style.opacity = '1';
+                });
+            });
+            
+            // Add event listeners
+            const cancelButton = modal.querySelector('.confirm-cancel');
+            const removeButton = modal.querySelector('.confirm-remove');
+            
+            cancelButton.addEventListener('click', () => {
+                closeConfirmationModal(overlay, modal);
+            });
+            
+            removeButton.addEventListener('click', () => {
+                removeListing(card);
+                closeConfirmationModal(overlay, modal);
+                
+                // Show success toast
+                showToast(`"${itemName}" has been removed`);
+            });
+        }
+        
+        function closeConfirmationModal(overlay, modal) {
+            overlay.style.opacity = '0';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                overlay.remove();
+                modal.remove();
+            }, 300);
+        }
+        
+        function removeListing(card) {
+            // Animate card removal
+            card.style.opacity = '0';
+            card.style.transform = 'translateX(-20px)';
+            card.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                card.style.height = card.offsetHeight + 'px';
+                requestAnimationFrame(() => {
+                    card.style.height = '0';
+                    card.style.margin = '0';
+                    card.style.padding = '0';
+                    card.style.overflow = 'hidden';
+                });
+                
+                setTimeout(() => {
+                    card.remove();
+                    updateListingCounts();
+                }, 300);
+            }, 300);
+        }
+        
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--sage-green);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-size: 14px;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            `;
+            toast.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }, 100);
+        }
+        
+        function updateListingCounts() {
+            // Update stats row
+            const activeCount = document.querySelectorAll('.status-active').length;
+            const pausedCount = document.querySelectorAll('.status-paused').length;
+            const expiredCount = document.querySelectorAll('.status-expired').length;
+            
+            document.querySelector('.stat-value').textContent = activeCount;
+            document.querySelectorAll('.stat-value')[1].textContent = pausedCount;
+            document.querySelectorAll('.stat-value')[2].textContent = expiredCount;
+            
+            // Update filter pills
+            const totalCount = activeCount + pausedCount + expiredCount;
+            document.querySelector('.filter-pill').textContent = `All (${totalCount})`;
+            document.querySelectorAll('.filter-pill')[1].textContent = `Active (${activeCount})`;
+            document.querySelectorAll('.filter-pill')[2].textContent = `Paused (${pausedCount})`;
+            document.querySelectorAll('.filter-pill')[3].textContent = `Expired (${expiredCount})`;
+        }
     </script>
 </body>
 </html> 

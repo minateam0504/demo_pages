@@ -208,6 +208,48 @@
             overflow: hidden;
             flex: 1;
         }
+        .boost-notice {
+            background-color: rgba(183, 94, 69, 0.1);
+            border-left: 3px solid var(--terracotta);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+        }
+        .boost-notice-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--terracotta);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .boost-notice-content {
+            color: #666;
+            line-height: 1.4;
+        }
+        .boost-notice-tips {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .boost-tip {
+            background-color: white;
+            border: 1px solid rgba(183, 94, 69, 0.3);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: var(--terracotta);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .boost-tip:hover {
+            transform: translateY(-1px);
+        }
         .card-actions {
             display: flex;
             gap: 4px;
@@ -735,6 +777,167 @@
             color: #999;
             font-size: 13px;
         }
+
+        /* Media Upload Modal Styles */
+        .media-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .media-modal-content {
+            background-color: var(--cream);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .media-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .media-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .media-upload-area {
+            border: 2px dashed var(--sage-green);
+            border-radius: 12px;
+            padding: 32px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: rgba(155, 158, 138, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .media-upload-area:hover {
+            background-color: rgba(155, 158, 138, 0.15);
+        }
+
+        .media-upload-icon {
+            font-size: 32px;
+            color: var(--sage-green);
+            margin-bottom: 12px;
+        }
+
+        .media-upload-text {
+            font-size: 14px;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+        }
+
+        .media-upload-subtext {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .media-preview {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .media-preview-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .media-preview-item img,
+        .media-preview-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .media-type-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .media-modal-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .media-modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        .media-modal-cancel {
+            background-color: #f3f4f6;
+            color: var(--charcoal);
+        }
+
+        .media-modal-save {
+            background-color: var(--sage-green);
+            color: white;
+        }
+
+        .boost-tip {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .boost-tip:hover {
+            transform: translateY(-1px);
+        }
+
+        #fileInput {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -842,6 +1045,25 @@
                 <div class="product-price">$85</div>
                 <div class="product-description">
                     Compact folding stroller, perfect for travel and everyday use. Includes sun canopy and storage basket. Very good condition.
+                </div>
+                <div class="boost-notice">
+                    <div class="boost-notice-header">
+                        <i class="fas fa-lightbulb"></i>
+                        Boost Your Sale Potential
+                    </div>
+                    <div class="boost-notice-content">
+                        High-value items like strollers sell 3x faster with additional media. Help buyers make confident decisions!
+                    </div>
+                    <div class="boost-notice-tips">
+                        <div class="boost-tip">
+                            <i class="fas fa-video"></i>
+                            Add video of folding mechanism
+                        </div>
+                        <div class="boost-tip">
+                            <i class="fas fa-tag"></i>
+                            Show product label/model
+                        </div>
+                    </div>
                 </div>
                 <div class="card-actions">
                     <div class="btn-edit" onclick="openEditModal('stroller', 'Lightweight Travel Stroller', 85, 'Compact folding stroller, perfect for travel and everyday use. Includes sun canopy and storage basket. Very good condition.', 'images/stroller 2.jpg')">Edit Listing</div>
@@ -1065,6 +1287,66 @@
         </a>
     </div>
 
+    <!-- Video Upload Modal -->
+    <div class="media-modal" id="videoModal">
+        <div class="media-modal-content">
+            <div class="media-modal-header">
+                <div class="media-modal-title">Add Product Video</div>
+                <button class="close-modal" onclick="closeMediaModal('videoModal')">&times;</button>
+            </div>
+            
+            <div class="media-upload-area" onclick="triggerFileInput('video')">
+                <div class="media-upload-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="media-upload-text">
+                    Click to upload video of folding mechanism
+                </div>
+                <div class="media-upload-subtext">
+                    Max size: 50MB. Supported formats: MP4, MOV
+                </div>
+            </div>
+            
+            <div class="media-preview" id="videoPreview"></div>
+            
+            <div class="media-modal-footer">
+                <button class="media-modal-btn media-modal-cancel" onclick="closeMediaModal('videoModal')">Cancel</button>
+                <button class="media-modal-btn media-modal-save" onclick="saveMedia('video')">Save Video</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Label Photo Upload Modal -->
+    <div class="media-modal" id="labelModal">
+        <div class="media-modal-content">
+            <div class="media-modal-header">
+                <div class="media-modal-title">Add Product Label Photos</div>
+                <button class="close-modal" onclick="closeMediaModal('labelModal')">&times;</button>
+            </div>
+            
+            <div class="media-upload-area" onclick="triggerFileInput('photo')">
+                <div class="media-upload-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <div class="media-upload-text">
+                    Click to upload photos of product label/model
+                </div>
+                <div class="media-upload-subtext">
+                    Clear, well-lit photos of product labels help verify authenticity
+                </div>
+            </div>
+            
+            <div class="media-preview" id="labelPreview"></div>
+            
+            <div class="media-modal-footer">
+                <button class="media-modal-btn media-modal-cancel" onclick="closeMediaModal('labelModal')">Cancel</button>
+                <button class="media-modal-btn media-modal-save" onclick="saveMedia('photo')">Save Photos</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*,video/*" multiple style="display: none;">
+
     <script>
         document.querySelector('.back-button').addEventListener('click', function() {
             window.location.href = 'agent-bulk-upload.html';
@@ -1208,6 +1490,112 @@
             editButton.style.color = 'white';
             editButton.innerHTML = '<i class="fas fa-clock"></i> Saved';
             editButton.style.opacity = '0.9';
+        }
+
+        // Add click handlers for boost tips
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoTip = document.querySelector('.boost-tip:nth-child(1)');
+            const labelTip = document.querySelector('.boost-tip:nth-child(2)');
+            
+            if (videoTip) {
+                videoTip.addEventListener('click', function() {
+                    document.getElementById('videoModal').style.display = 'flex';
+                });
+            }
+            
+            if (labelTip) {
+                labelTip.addEventListener('click', function() {
+                    document.getElementById('labelModal').style.display = 'flex';
+                });
+            }
+        });
+
+        function closeMediaModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function triggerFileInput(type) {
+            const fileInput = document.getElementById('fileInput');
+            fileInput.accept = type === 'video' ? 'video/*' : 'image/*';
+            fileInput.multiple = type === 'photo';
+            fileInput.click();
+
+            fileInput.onchange = function(e) {
+                handleFiles(e.target.files, type);
+            };
+        }
+
+        function handleFiles(files, type) {
+            const previewContainer = document.getElementById(type === 'video' ? 'videoPreview' : 'labelPreview');
+            previewContainer.innerHTML = '';
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                const previewItem = document.createElement('div');
+                previewItem.className = 'media-preview-item';
+
+                reader.onload = function(e) {
+                    if (type === 'video') {
+                        previewItem.innerHTML = `
+                            <video src="${e.target.result}" controls></video>
+                            <div class="media-remove" onclick="this.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="media-type-badge">
+                                <i class="fas fa-video"></i> Video
+                            </div>
+                        `;
+                    } else {
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="Product Label">
+                            <div class="media-remove" onclick="this.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="media-type-badge">
+                                <i class="fas fa-image"></i> Label
+                            </div>
+                        `;
+                    }
+                };
+
+                reader.readAsDataURL(file);
+                previewContainer.appendChild(previewItem);
+            });
+        }
+
+        function saveMedia(type) {
+            // Here you would typically upload the files to your server
+            // For this demo, we'll just show a success message
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                ${type === 'video' ? 'Video' : 'Label photos'} uploaded successfully
+            `;
+            
+            document.body.appendChild(successMessage);
+            
+            setTimeout(() => {
+                successMessage.style.opacity = '0';
+                setTimeout(() => successMessage.remove(), 300);
+            }, 2000);
+
+            // Close the modal
+            closeMediaModal(type === 'video' ? 'videoModal' : 'labelModal');
+
+            // Update the boost tip to show completion
+            const tipSelector = type === 'video' ? ':nth-child(1)' : ':nth-child(2)';
+            const boostTip = document.querySelector(`.boost-tip${tipSelector}`);
+            if (boostTip) {
+                boostTip.style.backgroundColor = 'var(--sage-green)';
+                boostTip.style.borderColor = 'var(--sage-green)';
+                boostTip.style.color = 'white';
+                const icon = boostTip.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-check';
+                }
+            }
         }
     </script>
 </body>

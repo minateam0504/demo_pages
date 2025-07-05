@@ -174,11 +174,6 @@
             border-radius: 8px;
             overflow: hidden;
         }
-        .product-image-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
         .product-details {
             flex: 1;
             padding: 0;
@@ -938,6 +933,11 @@
         #fileInput {
             display: none;
         }
+
+        /* Remove any margin-right from the last product card in each row */
+        .product-card:nth-child(2n) {
+            margin-right: 0;
+        }
     </style>
 </head>
 <body>
@@ -998,6 +998,7 @@
         </div>
         
         <!-- Individual Listings -->
+        <!-- Playpen -->
         <div class="product-card" data-product-id="playpen">
             <div class="product-images">
                 <div class="product-image-item">
@@ -1015,13 +1016,14 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Bouncer -->
         <div class="product-card" data-product-id="bouncer">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Björn Bouncer">
                 </div>
-            </div>
+                </div>
             <div class="product-details">
                 <div class="product-title">Baby Björn Bouncer Balance</div>
                 <div class="product-price">$120</div>
@@ -1034,6 +1036,7 @@
             </div>
         </div>
 
+        <!-- Stroller -->
         <div class="product-card" data-product-id="stroller">
             <div class="product-images">
                 <div class="product-image-item">
@@ -1070,7 +1073,8 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Learning Toys -->
         <div class="product-card" data-product-id="learning-toys">
             <div class="product-images">
                 <div class="product-image-item">
@@ -1088,31 +1092,33 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Sensory Toys -->
         <div class="product-card" data-product-id="sensory-toys">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/toys3.jpg" alt="Sensory Development Toys">
-                </div>
+    </div>
             </div>
             <div class="product-details">
                 <div class="product-title">Sensory Development Toy Set</div>
                 <div class="product-price">$22</div>
                 <div class="product-description">
                     Set includes various sensory toys with different textures, sounds, and activities. Perfect for 6-18 months. Clean and sanitized.
-                </div>
+                    </div>
                 <div class="card-actions">
                     <div class="btn-edit" onclick="openEditModal('sensory-toys', 'Sensory Development Toy Set', 22, 'Set includes various sensory toys with different textures, sounds, and activities. Perfect for 6-18 months. Clean and sanitized.', 'images/toys3.jpg')">Edit Listing</div>
-                </div>
+                    </div>
             </div>
-        </div>
-
+                </div>
+                
+        <!-- Wooden Toys -->
         <div class="product-card" data-product-id="wooden-toys">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/Toys.jpg" alt="Wooden Educational Toys">
-                </div>
-            </div>
+                    </div>
+                    </div>
             <div class="product-details">
                 <div class="product-title">Wooden Educational Toys Bundle</div>
                 <div class="product-price">$28</div>
@@ -1121,16 +1127,17 @@
                 </div>
                 <div class="card-actions">
                     <div class="btn-edit" onclick="openEditModal('wooden-toys', 'Wooden Educational Toys Bundle', 28, 'Set of wooden educational toys including shape sorters and stacking toys. Non-toxic finish, perfect for toddlers. Excellent condition.', 'images/Toys.jpg')">Edit Listing</div>
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
+                
+        <!-- Swaddles -->
         <div class="product-card" data-product-id="swaddles">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/Muslin swaddles.jpg" alt="Muslin Swaddles">
-                </div>
-            </div>
+                    </div>
+                    </div>
             <div class="product-details">
                 <div class="product-title">Muslin Swaddle Blankets (Set of 3)</div>
                 <div class="product-price">$18</div>
@@ -1141,14 +1148,15 @@
                     <div class="btn-edit" onclick="openEditModal('swaddles', 'Muslin Swaddle Blankets (Set of 3)', 18, 'Set of 3 soft muslin swaddle blankets. Breathable fabric, perfect for newborns. Gently used and freshly laundered.', 'images/Muslin swaddles.jpg')">Edit Listing</div>
                 </div>
             </div>
-        </div>
-
+                </div>
+                
+        <!-- Pacifiers -->
         <div class="product-card" data-product-id="pacifiers">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/Pacifier set.jpg" alt="Pacifier Set">
-                </div>
-            </div>
+                    </div>
+                    </div>
             <div class="product-details">
                 <div class="product-title">Premium Pacifier Collection</div>
                 <div class="product-price">$12</div>
@@ -1158,38 +1166,39 @@
                 <div class="card-actions">
                     <div class="btn-edit" onclick="openEditModal('pacifiers', 'Premium Pacifier Collection', 12, 'Set of high-quality pacifiers in various sizes. Includes sterilizer case. All thoroughly cleaned and sanitized.', 'images/Pacifier set.jpg')">Edit Listing</div>
                 </div>
+                </div>
             </div>
-        </div>
-
+            
+        <!-- Clothes -->
         <div class="product-card" data-product-id="clothes">
             <div class="product-images">
                 <div class="product-image-item">
                     <img src="images/clothes7.jpg" alt="Baby Clothes">
                 </div>
-            </div>
+                    </div>
             <div class="product-details">
                 <div class="product-title">Baby Clothes Bundle (0-6 months)</div>
                 <div class="product-price">$35</div>
                 <div class="product-description">
                     Collection of gently used baby clothes including onesies, sleepers, and outfits. All items freshly laundered and in excellent condition.
-                </div>
+                    </div>
                 <div class="card-actions">
                     <div class="btn-edit" onclick="openEditModal('clothes', 'Baby Clothes Bundle (0-6 months)', 35, 'Collection of gently used baby clothes including onesies, sleepers, and outfits. All items freshly laundered and in excellent condition.', 'images/clothes7.jpg')">Edit Listing</div>
                 </div>
+                </div>
             </div>
-        </div>
-
+            
         <button class="btn-primary" id="continue-btn" onclick="window.location.href='seller-step4-delivery.html'">Continue to Scheduling (0/11 approved)</button>
-    </div>
-    
+                </div>
+                
     <!-- Edit Modal -->
     <div class="edit-modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">Edit Product Listing</div>
                 <button class="close-modal" onclick="closeEditModal()">&times;</button>
-            </div>
-            
+                </div>
+                
             <div class="modal-preview">
                 <div class="preview-images" id="previewImages">
                     <!-- Images will be added here -->
@@ -1197,11 +1206,11 @@
                 <div class="form-group">
                     <label class="form-label">Title</label>
                     <input type="text" class="form-input" id="productTitle">
-                </div>
+            </div>
                 <div class="form-group">
                     <label class="form-label">Price ($)</label>
                     <input type="number" class="form-input" id="productPrice">
-                </div>
+                    </div>
                 <div class="form-group">
                     <label class="form-label">Description</label>
                     <textarea class="form-input" id="productDescription"></textarea>
@@ -1215,7 +1224,7 @@
                         <option value="good">Good</option>
                         <option value="fair">Fair</option>
                     </select>
-                </div>
+                    </div>
                 <div class="form-group">
                     <label class="form-label">Suitable Age Range</label>
                     <select class="form-input" id="productAge">
@@ -1238,7 +1247,7 @@
                             <input type="checkbox" id="petFree"> Pet-free home
                         </label>
                     </div>
-                </div>
+                    </div>
                 <div class="form-group">
                     <label class="form-label">Why are you selling?</label>
                     <select class="form-input" id="sellReason">

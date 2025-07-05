@@ -188,18 +188,26 @@
             font-size: 14px;
             font-weight: 500;
         }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
         .product-card {
             background-color: white;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 16px;
             transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
         }
         .product-card:active {
             transform: scale(0.98);
         }
         .product-image {
+            width: 100%;
             height: 180px;
             position: relative;
         }
@@ -208,62 +216,109 @@
             height: 100%;
             object-fit: cover;
         }
-        .product-badge {
+        .product-badges {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: rgba(255,255,255,0.9);
-            border-radius: 12px;
-            padding: 4px 8px;
-            font-size: 12px;
+            top: 8px;
+            left: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 60%;
+            z-index: 2;
+        }
+        .product-badge {
+            background-color: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
             font-weight: 600;
             color: var(--charcoal);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
         .trust-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 8px;
+            right: 8px;
             background-color: var(--terracotta);
-            border-radius: 12px;
-            padding: 4px 8px;
+            border-radius: 8px;
+            padding: 3px 6px;
             display: flex;
-            justify-content: center;
             align-items: center;
             color: white;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
+            z-index: 2;
+            gap: 2px;
         }
         .trust-badge i {
-            margin-right: 3px;
-            font-size: 10px;
+            font-size: 8px;
         }
         .product-save {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 32px;
-            height: 32px;
+            bottom: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background-color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 1;
+            z-index: 2;
             cursor: pointer;
+        }
+        .product-save i {
+            font-size: 14px;
+        }
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .seller-name {
+            font-size: 12px;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+        .seller-score {
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .seller-score i {
+            font-size: 10px;
         }
         .product-info {
             padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
         .product-name {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         .product-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 12px;
             color: #666;
             margin-bottom: 6px;
         }
@@ -279,7 +334,7 @@
             background-color: var(--light-sage);
             border-radius: 12px;
             padding: 2px 8px;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--sage-green);
             font-weight: 500;
         }
@@ -477,6 +532,199 @@
         .animate-fade-in {
             animation: fadeIn 0.3s forwards;
         }
+
+        .payment-security-banner {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 24px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .security-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .security-header i {
+            color: var(--sage-green);
+            font-size: 20px;
+        }
+
+        .security-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--charcoal);
+        }
+
+        .security-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .security-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .security-feature {
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .security-feature i {
+            font-size: 10px;
+        }
+
+        .security-footer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--sage-green);
+        }
+
+        .learn-more-btn {
+            color: var(--terracotta);
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideUp 0.3s ease-out;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            background-color: white;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            font-size: 18px;
+        }
+
+        .modal-content {
+            padding: 20px;
+        }
+
+        .modal-intro {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .benefit-text {
+            flex: 1;
+        }
+
+        .benefit-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .benefit-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -603,94 +851,201 @@
             </div>
             
             <!-- Product Cards -->
-            <a href="buyer-product-nuna.html" style="text-decoration: none; color: inherit;">
+            <div class="product-grid">
+                <a href="buyer-product-nuna.html" style="text-decoration: none; color: inherit;">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/ Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA RX Car Seat">
+                            <div class="product-badges">
+                                <div class="product-badge">Like New</div>
+                            </div>
+                            <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                            <div class="product-save"><i class="far fa-heart"></i></div>
+                        </div>
+                        <div class="product-info">
+                            <div class="seller-info">
+                                <span class="seller-name">Sarah K.</span>
+                                <span class="seller-score"><i class="fas fa-star"></i>4.9</span>
+                            </div>
+                            <div class="product-name">Nuna PIPA RX Infant Car Seat</div>
+                            <div class="product-meta">
+                                <span>Ideal for 0-18 months</span>
+                                <span>2022 model</span>
+                            </div>
+                            <div class="product-price">
+                                $175
+                                <span class="distance-badge">0.5 mi away</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/Used Product Image/ Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA RX Car Seat">
-                        <div class="product-badge">Like New</div>
+                        <img src="images/Used Product Image/UPPABABY MESA .jpg" alt="UPPAbaby VISTA Stroller">
+                        <div class="product-badges">
+                            <div class="product-badge">Gently Used</div>
+                        </div>
                         <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
                         <div class="product-save"><i class="far fa-heart"></i></div>
                     </div>
                     <div class="product-info">
-                        <div class="product-name">Nuna PIPA RX Infant Car Seat</div>
+                        <div class="seller-info">
+                            <span class="seller-name">Emily R.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.8</span>
+                        </div>
+                        <div class="product-name">UPPAbaby VISTA Stroller</div>
                         <div class="product-meta">
-                            <span>Ideal for 0-18 months</span>
-                            <span>2022 model</span>
+                            <span>Birth to toddler</span>
+                            <span>2021 model</span>
                         </div>
                         <div class="product-price">
-                            $175
-                            <span class="distance-badge">0.5 mi away</span>
-                        </div>
-                </div>
-                </div>
-            </a>
-            
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="images/Used Product Image/UPPABABY MESA .jpg" alt="UPPAbaby VISTA Stroller">
-                    <div class="product-badge">Gently Used</div>
-                    <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
-                    <div class="product-save"><i class="far fa-heart"></i></div>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">UPPAbaby VISTA Stroller</div>
-                    <div class="product-meta">
-                        <span>Birth to toddler</span>
-                        <span>2021 model</span>
-                    </div>
-                    <div class="product-price">
-                        $420
-                        <span class="distance-badge">1.2 mi away</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Promo Banner -->
-        <div class="promo-banner">
-            <div class="banner-content">
-                <div class="banner-title">Save $20 on Bundles!</div>
-                <div class="banner-subtitle">Essentials starter kits from verified sellers</div>
-                <a href="#" class="banner-button">View Bundles</a>
-            </div>
-            <div class="banner-shape"></div>
-        </div>
-        
-        <!-- Summer Essentials Carousel (previously Winter Warmers) -->
-        <div class="product-feed">
-            <div class="feed-header">
-                <div class="feed-title">Summer Lovin' Picks</div>
-                <a href="#" class="see-all">See all</a>
-            </div>
-            
-            <div class="carousel">
-                <div class="product-card carousel-card">
-                    <div class="product-image">
-                        <img src="images/Used Product Image/Sunhat.jpg" alt="Baby Sun Hat">
-                        <div class="product-badge">Like New</div>
-                        <div class="product-save"><i class="far fa-heart"></i></div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">Baby Sun Hat with UV Protection</div>
-                        <div class="product-meta">
-                            <span>6-12 months</span>
-                            <span>UPF 50+</span>
-                        </div>
-                        <div class="product-price">
-                            $12
+                            $420
                             <span class="distance-badge">1.2 mi away</span>
                         </div>
                     </div>
                 </div>
-                
-                <div class="product-card carousel-card">
+
+                <div class="product-card">
                     <div class="product-image">
-                        <img src="images/Used Product Image/Inflatable Splash Pad.jpg" alt="Inflatable Splash Pad">
-                        <div class="product-badge">Barely Used</div>
+                        <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Björn Bouncer">
+                        <div class="product-badges">
+                            <div class="product-badge">Like New</div>
+                        </div>
                         <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
                         <div class="product-save"><i class="far fa-heart"></i></div>
                     </div>
                     <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">Jessica M.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.7</span>
+                        </div>
+                        <div class="product-name">Baby Björn Bouncer Bliss</div>
+                        <div class="product-meta">
+                            <span>0-2 years</span>
+                            <span>Cotton</span>
+                        </div>
+                        <div class="product-price">
+                            $95
+                            <span class="distance-badge">2.3 mi away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/OXO Tot Sprout High Chair.jpg" alt="OXO Tot High Chair">
+                        <div class="product-badges">
+                            <div class="product-badge">Excellent</div>
+                        </div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">Michael P.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.5</span>
+                        </div>
+                        <div class="product-name">OXO Tot Sprout High Chair</div>
+                        <div class="product-meta">
+                            <span>6m to 5 years</span>
+                            <span>Gray/Walnut</span>
+                        </div>
+                        <div class="product-price">
+                            $120
+                            <span class="distance-badge">1.5 mi away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/toys 2.jpg" alt="Interactive Learning Toys">
+                        <div class="product-badges">
+                            <div class="product-badge">Like New</div>
+                        </div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">Rachel T.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.6</span>
+                        </div>
+                        <div class="product-name">Interactive Learning Toys Set</div>
+                        <div class="product-meta">
+                            <span>6-18 months</span>
+                            <span>Educational</span>
+                        </div>
+                        <div class="product-price">
+                            $25
+                            <span class="distance-badge">0.8 mi away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/Toys.jpg" alt="Wooden Educational Toys">
+                        <div class="product-badges">
+                            <div class="product-badge">Gently Used</div>
+                        </div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">David L.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.4</span>
+                        </div>
+                        <div class="product-name">Wooden Educational Toys Bundle</div>
+                        <div class="product-meta">
+                            <span>1-3 years</span>
+                            <span>Non-toxic</span>
+                        </div>
+                        <div class="product-price">
+                            $28
+                            <span class="distance-badge">1.7 mi away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/clothes7.jpg" alt="Baby Clothes Bundle">
+                        <div class="product-badges">
+                            <div class="product-badge">Like New</div>
+                        </div>
+                        <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">Amanda H.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.9</span>
+                        </div>
+                        <div class="product-name">Baby Clothes Bundle (0-6 months)</div>
+                        <div class="product-meta">
+                            <span>Premium Brands</span>
+                            <span>20+ pieces</span>
+                        </div>
+                        <div class="product-price">
+                            $35
+                            <span class="distance-badge">0.3 mi away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/Used Product Image/Inflatable Splash Pad.jpg" alt="Inflatable Splash Pad">
+                        <div class="product-badges">
+                            <div class="product-badge">Barely Used</div>
+                        </div>
+                        <div class="product-save"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="seller-info">
+                            <span class="seller-name">Chris B.</span>
+                            <span class="seller-score"><i class="fas fa-star"></i>4.3</span>
+                        </div>
                         <div class="product-name">Inflatable Splash Pad</div>
                         <div class="product-meta">
                             <span>67" diameter</span>
@@ -699,25 +1054,6 @@
                         <div class="product-price">
                             $24
                             <span class="distance-badge">0.9 mi away</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card carousel-card">
-                    <div class="product-image">
-                        <img src="images/Used Product Image/Baby Swim Floaties.jpg" alt="Baby Swim Floaties">
-                        <div class="product-badge">Gently Used</div>
-                        <div class="product-save"><i class="far fa-heart"></i></div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">Baby Swim Floaties</div>
-                        <div class="product-meta">
-                            <span>6-18 months</span>
-                            <span>Safety certified</span>
-                        </div>
-                        <div class="product-price">
-                            $15
-                            <span class="distance-badge">2.3 mi away</span>
                         </div>
                     </div>
                 </div>
@@ -734,11 +1070,17 @@
             <div class="product-card">
                 <div class="product-image">
                     <img src="images/Used Product Image/OXO Tot Sprout High Chair.jpg" alt="OXO Tot High Chair">
-                    <div class="product-badge">Like New</div>
+                    <div class="product-badges">
+                        <div class="product-badge">Like New</div>
+                    </div>
                     <div class="trust-badge"><i class="fas fa-check"></i> Top Seller</div>
                     <div class="product-save"><i class="far fa-heart"></i></div>
                 </div>
                 <div class="product-info">
+                    <div class="seller-info">
+                        <span class="seller-name">Sarah K.</span>
+                        <span class="seller-score"><i class="fas fa-star"></i>4.9</span>
+                    </div>
                     <div class="product-name">OXO Tot Sprout High Chair</div>
                     <div class="product-meta">
                         <span>6m to 5 years</span>
@@ -753,11 +1095,17 @@
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Bjorn Bouncer">
-                    <div class="product-badge">Gently Used</div>
+                    <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Bjorn Bouncer">
+                    <div class="product-badges">
+                        <div class="product-badge">Gently Used</div>
+                    </div>
                     <div class="product-save"><i class="far fa-heart"></i></div>
                 </div>
                 <div class="product-info">
+                    <div class="seller-info">
+                        <span class="seller-name">Jessica M.</span>
+                        <span class="seller-score"><i class="fas fa-star"></i>4.7</span>
+                    </div>
                     <div class="product-name">Baby Bjorn Bouncer Bliss</div>
                     <div class="product-meta">
                         <span>0-2 years</span>
@@ -812,75 +1160,34 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-            // Chat tooltip functionality
-            const chatButton = document.getElementById('chatButton');
-            const chatTooltip = document.getElementById('chatTooltip');
-            const closeTooltip = document.getElementById('closeTooltip');
-            
-            // Show tooltip on page load with slight delay
-            setTimeout(() => {
-                chatTooltip.style.display = 'block';
-                chatTooltip.classList.add('animate-fade-in');
-            }, 2000);
-            
-            // Close tooltip
-            closeTooltip.addEventListener('click', function(e) {
-                e.stopPropagation();
-                chatTooltip.style.display = 'none';
-            });
-            
-            // Chat button click handler
-            chatButton.addEventListener('click', function() {
-                window.location.href = 'buyer-chat.html';
-            });
-            
-            // Wishlist heart toggle functionality
-            const wishlistHearts = document.querySelectorAll('.product-save i');
-            wishlistHearts.forEach(heart => {
-                heart.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.classList.toggle('far');
-                    this.classList.toggle('fas');
-                    
-                    if (this.classList.contains('fas')) {
-                        this.style.color = 'var(--terracotta)';
-                        this.classList.add('animate-pulse');
-                        setTimeout(() => {
-                            this.classList.remove('animate-pulse');
-                        }, 1000);
-                    } else {
-                        this.style.color = '';
-                    }
-                });
-            });
-            
-            // Handle filter chip selection
-            const filterChips = document.querySelectorAll('.filter-chip');
-            filterChips.forEach(chip => {
-                chip.addEventListener('click', function() {
-                    // If this is the 'All' filter, deselect all others
-                    if (this.textContent.trim() === 'All') {
-                        filterChips.forEach(c => {
-                            if (c !== this) c.classList.remove('active');
-                        });
-                    } else {
-                        // If clicking on a specific filter, deselect the 'All' filter
-                        filterChips[0].classList.remove('active');
-                    }
-                    
-                    // Toggle this filter
-                    this.classList.toggle('active');
-                });
-            });
-            
-            // Wishlist heart toggle in header
-            const wishlistHeart = document.querySelector('.screen-header .fa-heart');
-            wishlistHeart.addEventListener('click', function(e) {
-                // Prevent default link behavior
+        // Chat tooltip functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatTooltip = document.getElementById('chatTooltip');
+        const closeTooltip = document.getElementById('closeTooltip');
+        
+        // Show tooltip on page load with slight delay
+        setTimeout(() => {
+            chatTooltip.style.display = 'block';
+            chatTooltip.classList.add('animate-fade-in');
+        }, 2000);
+        
+        // Close tooltip
+        closeTooltip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            chatTooltip.style.display = 'none';
+        });
+        
+        // Chat button click handler
+        chatButton.addEventListener('click', function() {
+            window.location.href = 'buyer-chat.html';
+        });
+        
+        // Wishlist heart toggle functionality
+        const wishlistHearts = document.querySelectorAll('.product-save i');
+        wishlistHearts.forEach(heart => {
+            heart.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                // Toggle heart appearance
+                e.stopPropagation();
                 this.classList.toggle('far');
                 this.classList.toggle('fas');
                 
@@ -889,19 +1196,78 @@
                     this.classList.add('animate-pulse');
                     setTimeout(() => {
                         this.classList.remove('animate-pulse');
-                        // Navigate to wishlist page after animation
-                        window.location.href = 'wishlist.html';
-                    }, 300);
+                    }, 1000);
                 } else {
                     this.style.color = '';
                 }
             });
+        });
+        
+        // Handle filter chip selection
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                // If this is the 'All' filter, deselect all others
+                if (this.textContent.trim() === 'All') {
+                    filterChips.forEach(c => {
+                        if (c !== this) c.classList.remove('active');
+                    });
+                } else {
+                    // If clicking on a specific filter, deselect the 'All' filter
+                    filterChips[0].classList.remove('active');
+                }
+                
+                // Toggle this filter
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Wishlist heart toggle in header
+        const wishlistHeart = document.querySelector('.screen-header .fa-heart');
+        wishlistHeart.addEventListener('click', function(e) {
+            // Prevent default link behavior
+            e.preventDefault();
             
-            // Simulate loading new content when scrolling to bottom
-            const mainContent = document.querySelector('.main-content');
-            mainContent.addEventListener('scroll', function() {
-                if (mainContent.scrollTop + mainContent.clientHeight >= mainContent.scrollHeight - 100) {
-                    // You could load more content here in a real app
+            // Toggle heart appearance
+            this.classList.toggle('far');
+            this.classList.toggle('fas');
+            
+            if (this.classList.contains('fas')) {
+                this.style.color = 'var(--terracotta)';
+                this.classList.add('animate-pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate-pulse');
+                    // Navigate to wishlist page after animation
+                    window.location.href = 'wishlist.html';
+                }, 300);
+            } else {
+                this.style.color = '';
+            }
+        });
+        
+        // Simulate loading new content when scrolling to bottom
+        const mainContent = document.querySelector('.main-content');
+        mainContent.addEventListener('scroll', function() {
+            if (mainContent.scrollTop + mainContent.clientHeight >= mainContent.scrollHeight - 100) {
+                // You could load more content here in a real app
+            }
+        });
+
+        // Modal functionality
+        window.openPaymentModal = function() {
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closePaymentModal = function() {
+            document.getElementById('paymentModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        // Close modal when clicking outside
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePaymentModal();
             }
         });
     });

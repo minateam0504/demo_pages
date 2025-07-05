@@ -360,6 +360,133 @@
             50% { transform: translateY(-5px); }
             100% { transform: translateY(0); }
         }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideUp 0.3s ease-out;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            background-color: white;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            font-size: 18px;
+        }
+
+        .modal-content {
+            padding: 20px;
+        }
+
+        .modal-intro {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--light-sage);
+            color: var(--sage-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .benefit-text {
+            flex: 1;
+        }
+
+        .benefit-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .benefit-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .learn-more-btn {
+            color: var(--terracotta);
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -391,11 +518,15 @@
             <div class="ai-message">
                 <div class="ai-badge">Mina AI Assistant</div>
                 <div class="ai-text">
-                    <strong>I've securely connected your payment options.</strong> All payment information is encrypted and never shared with sellers. Choose your preferred payment method for buying items on Mina.
+                    </strong> We hold your payment securely until pickup is complete — no awkward cash, no flakey buyers, no chasing payments. It protects both sides and makes refunds simple if something goes wrong.
                 </div>
                 <div style="display: flex; align-items: center; font-size: 12px; color: var(--sage-green);">
                     <i class="fas fa-lock" style="margin-right: 6px;"></i>
-                    <span>Your data is encrypted and protected</span>
+                    <span>Your data is always encrypted and protected</span>
+                </div>
+                <div class="learn-more-btn" onclick="openPaymentModal()" style="margin-top: 12px;">
+                    <span>Why complete payments through Mina?</span>
+                    <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
                 </div>
             </div>
         </div>
@@ -602,6 +733,76 @@
         </a>
     </div>
     
+    <!-- Payment Info Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Why complete payments through Mina?</div>
+                <button class="modal-close" onclick="closePaymentModal()">×</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-intro">
+                    Paying through Mina makes buying and selling smoother and safer for everyone. Here's how:
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Payment protection</div>
+                        <div class="benefit-description">
+                            We hold the payment securely until the item is picked up and confirmed — no risk of paying before receiving the item.
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">No awkward cash handoffs</div>
+                        <div class="benefit-description">
+                            You don't need to fumble with Venmo, PayPal, or cash at meetups. Everything is handled through Mina.
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Reduced ghosting and flaking</div>
+                        <div class="benefit-description">
+                            Once a buyer pays, they're committed. Sellers waste less time on no-shows.
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Easier refunds if something goes wrong</div>
+                        <div class="benefit-description">
+                            If an item isn't as described or a pickup fails, Mina can quickly step in to review and resolve.
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <div class="benefit-title">Built-in trust</div>
+                        <div class="benefit-description">
+                            Every transaction is verified and secure — giving both parents peace of mind.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const radioButtons = document.querySelectorAll('.payment-radio');
@@ -663,6 +864,24 @@
                     
                     e.target.value = value;
                 });
+            }
+        });
+
+        // Modal functionality
+        function openPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePaymentModal();
             }
         });
     </script>

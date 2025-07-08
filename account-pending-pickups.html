@@ -559,6 +559,57 @@
             border-radius: 8px;
             font-size: 14px;
         }
+        /* Add styles for update note modal */
+        .update-note-modal {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin-bottom: env(safe-area-inset-bottom, 0);
+            -webkit-overflow-scrolling: touch;
+        }
+        .update-note-header {
+            margin-bottom: 16px;
+        }
+        .update-note-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .update-note-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 16px;
+        }
+        .update-note-input:focus {
+            outline: none;
+            border-color: var(--sage-green);
+            box-shadow: 0 0 0 2px rgba(155, 158, 138, 0.1);
+        }
+        .update-note-warning {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: #fef9c3;
+            border-radius: 8px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .update-note-warning i {
+            color: #854d0e;
+        }
     </style>
 </head>
 <body>
@@ -721,6 +772,9 @@
                             <i class="fas fa-calendar-alt"></i> Suggest New Time
                         </button>
                     </div>
+                    <button class="btn btn-secondary" onclick="showUpdateNoteModal()">
+                        <i class="fas fa-bell"></i> Send Update Note
+                    </button>
                     <button class="btn btn-decline" onclick="showDeclineModal(this)">
                         <i class="fas fa-times"></i> Decline
                     </button>
@@ -877,6 +931,37 @@
 
             <button class="btn btn-secondary" style="width: 100%; margin-top: 12px;" onclick="goToMessages()">
                 <i class="fas fa-comments"></i> Message Other Party
+            </button>
+        </div>
+    </div>
+
+    <!-- Update Note Modal -->
+    <div class="modal-overlay" id="updateNoteModal">
+        <div class="update-note-modal">
+            <div class="decline-modal-header">
+                <div class="decline-modal-title">Send Product Update</div>
+                <button class="close-modal" onclick="closeUpdateNoteModal()">&times;</button>
+            </div>
+            
+            <div class="update-note-warning">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Important:</strong> This note will be sent to the buyer and added to your listing history. You cannot modify product details or price through this update.
+                </div>
+            </div>
+
+            <div class="update-note-header">
+                <div class="update-note-title">What update would you like to share with the buyer?</div>
+            </div>
+
+            <textarea 
+                class="update-note-input" 
+                placeholder="Example: 'The stroller has a small scuff on one wheel that wasn't visible in the photos. The wheel works perfectly fine, but wanted to let you know before pickup.'"
+                id="updateNoteInput"
+            ></textarea>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="sendUpdateNote()" id="sendUpdateBtn" disabled>
+                Send Update
             </button>
         </div>
     </div>
@@ -1097,7 +1182,94 @@
             customCancelInput.addEventListener('input', function() {
                 cancelConfirmBtn.disabled = !this.value.trim();
             });
+
+            // Add event listener for update note input
+            const updateNoteInput = document.getElementById('updateNoteInput');
+            const sendUpdateBtn = document.getElementById('sendUpdateBtn');
+
+            if (updateNoteInput) {
+                updateNoteInput.addEventListener('input', function() {
+                    sendUpdateBtn.disabled = !this.value.trim();
+                });
+            }
         });
+
+        function showUpdateNoteModal() {
+            const modal = document.getElementById('updateNoteModal');
+            const overlay = document.getElementById('updateNoteModal');
+            if (modal && overlay) {
+                modal.style.display = 'flex';
+                overlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeUpdateNoteModal() {
+            const modal = document.getElementById('updateNoteModal');
+            const overlay = document.getElementById('updateNoteModal');
+            if (modal && overlay) {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Reset the form
+                const input = document.getElementById('updateNoteInput');
+                if (input) {
+                    input.value = '';
+                    document.getElementById('sendUpdateBtn').disabled = true;
+                }
+            }
+        }
+
+        function sendUpdateNote() {
+            const note = document.getElementById('updateNoteInput').value.trim();
+            if (!note) return;
+
+            // Here you would typically send the note to your backend
+            // For now, we'll just show a success message and close the modal
+            showToast('Update sent to buyer successfully', 'success');
+            closeUpdateNoteModal();
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'var(--sage-green)' : '#dc2626';
+            
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: ${bgColor};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-size: 14px;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+            toast.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            });
+        }
     </script>
 </body>
 </html>

@@ -396,56 +396,104 @@
                 <div class="question-title">Did the buyer pick up the item?</div>
                 <div class="radio-group">
                     <div class="radio-option">
-                        <input type="radio" id="pickup-yes" name="pickup" checked>
+                        <input type="radio" id="pickup-yes" name="pickup" onchange="handlePickupChange(this)">
                         <label for="pickup-yes">Yes</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="pickup-no" name="pickup">
+                        <input type="radio" id="pickup-no" name="pickup" onchange="handlePickupChange(this)">
                         <label for="pickup-no">No</label>
                     </div>
                 </div>
             </div>
-            
-            <!-- On-time Question -->
-            <div class="question-section">
-                <div class="question-title">Did the buyer show up on time?</div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="ontime-yes" name="ontime" checked>
-                        <label for="ontime-yes">Yes</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="ontime-no" name="ontime">
-                        <label for="ontime-no">No</label>
+
+            <!-- No Pickup Reason (shown when pickup = No) -->
+            <div id="noPickupReason" style="display: none;">
+                <div class="question-section">
+                    <div class="question-title">Why didn't the pickup happen?</div>
+                    <div class="radio-group" style="flex-direction: column; gap: 12px;">
+                        <div class="radio-option">
+                            <input type="radio" id="reason-no-buyer" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
+                            <label for="reason-no-buyer">Buyer didn't show up</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="reason-buyer-canceled" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
+                            <label for="reason-buyer-canceled">Buyer canceled</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="reason-seller-canceled" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
+                            <label for="reason-seller-canceled">I had to cancel</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="reason-miscommunication" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
+                            <label for="reason-miscommunication">Miscommunication about time/location</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="reason-other" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
+                            <label for="reason-other">Other</label>
+                        </div>
+                        <div id="otherReasonContainer" style="display: none;">
+                            <textarea 
+                                id="otherReasonText" 
+                                class="feedback-text" 
+                                placeholder="Please explain why the pickup didn't happen..."
+                                style="margin-top: 8px;"
+                            ></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Payment Question -->
-            <div class="question-section">
-                <div class="question-title">Did you receive payment confirmation?</div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="payment-yes" name="payment" checked>
-                        <label for="payment-yes">Yes</label>
+
+            <div id="pickupQuestions" style="display: none;">
+                <!-- Timing Question -->
+                <div class="question-section">
+                    <div class="question-title">Was the pickup on time?</div>
+                    <div class="radio-group" style="flex-direction: column; gap: 12px;">
+                        <div class="radio-option">
+                            <input type="radio" id="timing-on-time" name="timing">
+                            <label for="timing-on-time">Yes — everything went as planned</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="timing-buyer-late" name="timing">
+                            <label for="timing-buyer-late">Buyer arrived late</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="timing-seller-late" name="timing">
+                            <label for="timing-seller-late">I arrived late</label>
+                        </div>
                     </div>
-                    <div class="radio-option">
-                        <input type="radio" id="payment-no" name="payment">
-                        <label for="payment-no">No</label>
+                </div>
+
+                <!-- Photo Upload Section -->
+                <div class="question-section">
+                    <div class="question-title" style="color: var(--sage-green);">
+                        <i class="fas fa-camera"></i> Upload a handoff photo (optional but encouraged)
+                    </div>
+                    <div class="photo-upload-area" style="border: 2px dashed #e5e7eb; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 12px; cursor: pointer;" onclick="document.getElementById('handoffPhoto').click()">
+                        <input type="file" id="handoffPhoto" accept="image/*" capture="environment" style="display: none;" onchange="handlePhotoUpload(this)">
+                        <div id="uploadPlaceholder">
+                            <i class="fas fa-camera" style="font-size: 32px; color: #9ca3af; margin-bottom: 8px;"></i>
+                            <div style="font-size: 14px; color: #6b7280;">📸 Tap to take or upload</div>
+                            <div style="font-size: 13px; color: #6b7280; margin-top: 8px;">
+                                Helps confirm the pickup and build trust on Mina.
+                            </div>
+                        </div>
+                        <img id="uploadPreview" style="max-width: 100%; max-height: 200px; border-radius: 8px; display: none;" alt="Handoff photo preview">
                     </div>
                 </div>
             </div>
-            
+
             <!-- Additional Comments -->
             <div class="question-section">
-                <div class="question-title">Anything else you'd like to share?</div>
-                <textarea class="feedback-text" placeholder="Share any additional feedback about your experience..."></textarea>
-                <div class="text-counter">0/200</div>
+                <div class="question-title">Anything else you'd like to share? (optional)</div>
+                <textarea 
+                    class="feedback-text" 
+                    placeholder="Example: &quot;Buyer was friendly but arrived 20 minutes late.&quot;"
+                ></textarea>
             </div>
         </div>
         
         <!-- Buttons -->
-        <button onclick="showThankYouPopup()" class="btn-primary">
+        <button onclick="validateAndSubmit()" class="btn-primary">
             Submit
         </button>
     </div>
@@ -499,6 +547,90 @@
         
         function showThankYouPopup() {
             document.getElementById('thankYouPopup').style.display = 'flex';
+        }
+
+        function handlePickupChange(radio) {
+            const pickupQuestions = document.getElementById('pickupQuestions');
+            const noPickupReason = document.getElementById('noPickupReason');
+            
+            if (radio.id === 'pickup-yes') {
+                pickupQuestions.style.display = 'block';
+                noPickupReason.style.display = 'none';
+                // Reset no pickup reason when switching to yes
+                const radioButtons = noPickupReason.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(rb => rb.checked = false);
+                document.getElementById('otherReasonText').value = '';
+                document.getElementById('otherReasonContainer').style.display = 'none';
+            } else {
+                pickupQuestions.style.display = 'none';
+                noPickupReason.style.display = 'block';
+                // Reset pickup questions when switching to no
+                document.querySelectorAll('input[name="timing"]').forEach(input => input.checked = false);
+                document.getElementById('handoffPhoto').value = '';
+                document.getElementById('uploadPreview').style.display = 'none';
+                document.getElementById('uploadPlaceholder').style.display = 'block';
+            }
+        }
+
+        function handleNoPickupReasonChange(radio) {
+            const otherReasonContainer = document.getElementById('otherReasonContainer');
+            otherReasonContainer.style.display = radio.id === 'reason-other' ? 'block' : 'none';
+            if (radio.id !== 'reason-other') {
+                document.getElementById('otherReasonText').value = '';
+            }
+        }
+
+        function handlePhotoUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('uploadPreview');
+                    const placeholder = document.getElementById('uploadPlaceholder');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateAndSubmit() {
+            const pickupYes = document.getElementById('pickup-yes');
+            const pickupNo = document.getElementById('pickup-no');
+            
+            if (!pickupYes.checked && !pickupNo.checked) {
+                alert('Please indicate whether the buyer picked up the item.');
+                return;
+            }
+            
+            if (pickupNo.checked) {
+                // Validate no pickup reason is selected
+                const reasonSelected = document.querySelector('input[name="no-pickup-reason"]:checked');
+                if (!reasonSelected) {
+                    alert('Please select a reason why the pickup didn\'t happen.');
+                    return;
+                }
+                
+                // Validate other reason text if "Other" is selected
+                if (reasonSelected.id === 'reason-other') {
+                    const otherReasonText = document.getElementById('otherReasonText').value.trim();
+                    if (!otherReasonText) {
+                        alert('Please provide details about why the pickup didn\'t happen.');
+                        return;
+                    }
+                }
+            } else {
+                // Validate timing selection for successful pickup
+                const timingSelected = document.querySelector('input[name="timing"]:checked');
+                if (!timingSelected) {
+                    alert('Please indicate if the pickup was on time.');
+                    return;
+                }
+            }
+            
+            // If all validation passes, show thank you popup
+            showThankYouPopup();
         }
     </script>
 </body>

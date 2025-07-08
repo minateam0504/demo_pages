@@ -362,6 +362,183 @@
             background-color: #f3f4f6;
             color: var(--charcoal);
         }
+
+        /* Add Edit Modal Styles */
+        .edit-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            z-index: 2;
+        }
+
+        .edit-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .edit-modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--charcoal);
+        }
+
+        .edit-modal-content {
+            padding: 20px;
+        }
+
+        .edit-form-group {
+            margin-bottom: 20px;
+        }
+
+        .edit-form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+
+        .edit-form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .edit-form-input:focus {
+            outline: none;
+            border-color: var(--terracotta);
+            box-shadow: 0 0 0 2px rgba(183, 94, 69, 0.1);
+        }
+
+        .edit-form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .edit-form-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .edit-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .edit-btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+
+        .edit-btn-primary:hover {
+            background-color: #a54e35;
+        }
+
+        .edit-btn-secondary {
+            background-color: #f3f4f6;
+            color: var(--charcoal);
+            transition: background-color 0.2s ease;
+        }
+
+        .edit-btn-secondary:hover {
+            background-color: #e5e7eb;
+        }
+
+        .photo-upload-section {
+            margin-bottom: 20px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 1px dashed #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-item-add {
+            background-color: #f9fafb;
+        }
+
+        .photo-item-add i {
+            font-size: 24px;
+            color: #9ca3af;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -640,6 +817,85 @@
         </a>
     </div>
 
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModalOverlay"></div>
+    <div class="edit-modal" id="editModal">
+        <div class="edit-modal-header">
+            <div class="edit-modal-title">Edit Listing</div>
+            <button type="button" class="edit-modal-close" id="editModalClose">×</button>
+        </div>
+        <div class="edit-modal-content">
+            <form id="editListingForm">
+                <div class="photo-upload-section">
+                    <label class="edit-form-label">Photos</label>
+                    <div class="photo-grid">
+                        <div class="photo-item">
+                            <img src="" alt="Product photo" id="mainPhoto">
+                            <div class="photo-remove">×</div>
+                        </div>
+                        <div class="photo-item photo-item-add">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="photo-item photo-item-add">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editTitle">Title</label>
+                    <input type="text" id="editTitle" class="edit-form-input" placeholder="Enter product title">
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editPrice">Price</label>
+                    <input type="number" id="editPrice" class="edit-form-input" placeholder="Enter price">
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editCondition">Condition</label>
+                    <select id="editCondition" class="edit-form-input">
+                        <option value="new">New with tags</option>
+                        <option value="like_new">Like new</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editDescription">Description</label>
+                    <textarea id="editDescription" class="edit-form-input edit-form-textarea" 
+                        placeholder="Describe your item (size, brand, etc)"></textarea>
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editCategory">Category</label>
+                    <select id="editCategory" class="edit-form-input">
+                        <option value="clothing">Clothing</option>
+                        <option value="toys">Toys</option>
+                        <option value="gear">Gear</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editBrand">Brand</label>
+                    <input type="text" id="editBrand" class="edit-form-input" placeholder="Enter brand name">
+                </div>
+
+                <div class="edit-form-group">
+                    <label class="edit-form-label" for="editLocation">Pickup Location</label>
+                    <input type="text" id="editLocation" class="edit-form-input" placeholder="Enter pickup location">
+                </div>
+            </form>
+        </div>
+        <div class="edit-form-footer">
+            <button type="button" class="edit-btn edit-btn-secondary" id="cancelEditBtn">Cancel</button>
+            <button type="button" class="edit-btn edit-btn-primary" id="saveEditBtn">Save Changes</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get all filter pills and listing cards
@@ -741,9 +997,86 @@
             }
 
             function handleEditAction(listingName) {
-                // Redirect to edit page
-                console.log(`Editing ${listingName}`);
-                // window.location.href = `edit-listing.html?name=${encodeURIComponent(listingName)}`;
+                const card = findListingCard(listingName);
+                openEditModal(card);
+            }
+
+            function openEditModal(card) {
+                const modal = document.getElementById('editModal');
+                const overlay = document.getElementById('editModalOverlay');
+                
+                // Store reference to current editing item
+                window.currentEditingItem = card.querySelector('.listing-name').textContent;
+                
+                // Populate form with current values
+                document.getElementById('editTitle').value = card.querySelector('.listing-name').textContent;
+                document.getElementById('editPrice').value = card.querySelector('.listing-price').textContent.replace('$', '');
+                
+                // Show modal and overlay
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+                
+                // Add animation in next frame
+                requestAnimationFrame(() => {
+                    modal.style.opacity = '1';
+                    overlay.style.opacity = '1';
+                });
+                
+                // Prevent body scroll
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeEditModal() {
+                const modal = document.getElementById('editModal');
+                const overlay = document.getElementById('editModalOverlay');
+                
+                // Reset form
+                document.getElementById('editListingForm').reset();
+                
+                // Start fade out animation
+                modal.style.opacity = '0';
+                overlay.style.opacity = '0';
+                
+                // Hide after animation
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+
+            function saveEditChanges() {
+                // Get all form values
+                const title = document.getElementById('editTitle').value;
+                const price = document.getElementById('editPrice').value;
+                const condition = document.getElementById('editCondition').value;
+                const description = document.getElementById('editDescription').value;
+                const category = document.getElementById('editCategory').value;
+                const brand = document.getElementById('editBrand').value;
+                const location = document.getElementById('editLocation').value;
+
+                // Validate required fields
+                if (!title || !price) {
+                    showToast('Please fill in all required fields', 'error');
+                    return;
+                }
+
+                // Find the card we're editing
+                const card = findListingCard(window.currentEditingItem);
+                if (!card) {
+                    showToast('Error updating listing', 'error');
+                    return;
+                }
+
+                // Update card content
+                card.querySelector('.listing-name').textContent = title;
+                card.querySelector('.listing-price').textContent = `$${price}`;
+
+                // Show success message
+                showToast('Changes saved successfully');
+
+                // Close modal
+                closeEditModal();
             }
 
             function handleExtendAction(listingName) {
@@ -832,6 +1165,22 @@
                 filterPills[2].textContent = `Paused (${pausedCount})`;
                 filterPills[3].textContent = `Expired (${expiredCount})`;
             }
+
+            // Add event listeners for modal buttons
+            document.getElementById('saveEditBtn').addEventListener('click', saveEditChanges);
+            document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+            document.getElementById('editModalClose').addEventListener('click', closeEditModal);
+
+            // Add event listeners for edit buttons
+            document.querySelectorAll('.listing-action').forEach(button => {
+                if (button.textContent.trim().includes('Edit')) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const card = this.closest('.listing-card');
+                        handleEditAction(card.querySelector('.listing-name').textContent);
+                    });
+                }
+            });
         });
 
         function showRemoveConfirmation(itemName, card) {
@@ -914,14 +1263,14 @@
             }, 300);
         }
         
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
                 bottom: 100px;
                 left: 50%;
                 transform: translateX(-50%);
-                background-color: var(--sage-green);
+                background-color: ${type === 'success' ? 'var(--sage-green)' : '#dc2626'};
                 color: white;
                 padding: 16px 24px;
                 border-radius: 12px;
@@ -934,19 +1283,23 @@
                 gap: 8px;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             `;
+            
+            const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
             toast.innerHTML = `
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-${icon}"></i>
                 <span>${message}</span>
             `;
+            
             document.body.appendChild(toast);
             
-            setTimeout(() => {
+            // Trigger animation
+            requestAnimationFrame(() => {
                 toast.style.opacity = '1';
                 setTimeout(() => {
                     toast.style.opacity = '0';
                     setTimeout(() => toast.remove(), 300);
                 }, 3000);
-            }, 100);
+            });
         }
         
         function updateListingCounts() {
@@ -966,6 +1319,41 @@
             document.querySelectorAll('.filter-pill')[2].textContent = `Paused (${pausedCount})`;
             document.querySelectorAll('.filter-pill')[3].textContent = `Expired (${expiredCount})`;
         }
+
+        // Photo upload handling
+        document.querySelectorAll('.photo-item-add').forEach(item => {
+            item.addEventListener('click', () => {
+                // Trigger file input
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            // Create new photo item
+                            const photoItem = document.createElement('div');
+                            photoItem.className = 'photo-item';
+                            photoItem.innerHTML = `
+                                <img src="${e.target.result}" alt="Product photo">
+                                <div class="photo-remove" onclick="removePhoto(this)">×</div>
+                            `;
+                            item.parentNode.insertBefore(photoItem, item);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                input.click();
+            });
+        });
+
+        function removePhoto(element) {
+            element.closest('.photo-item').remove();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('editModalOverlay').addEventListener('click', closeEditModal);
     </script>
 </body>
 </html> 

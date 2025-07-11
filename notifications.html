@@ -14,6 +14,8 @@
             --cream: #FAF4F0;
             --charcoal: #4A4656;
             --warning: #E4A11B;
+            --success: #4CAF50;
+            --info: #2196F3;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -41,15 +43,22 @@
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
+            padding-bottom: 100px;
         }
         .page-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
+            padding: 0 4px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         .back-button {
             font-size: 24px;
-            margin-right: 16px;
             color: var(--charcoal);
             text-decoration: none;
         }
@@ -57,59 +66,105 @@
             font-size: 20px;
             font-weight: 600;
         }
-        .notification-group {
-            margin-bottom: 24px;
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
         }
-        .group-header {
+        .header-button {
+            color: var(--charcoal);
+            font-size: 14px;
+            font-weight: 500;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        .notification-section {
+            margin-bottom: 24px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .section-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .section-title {
             font-weight: 600;
             font-size: 16px;
-            margin-bottom: 12px;
-            color: var(--charcoal);
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .notification-card {
-            background-color: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
+        .section-badge {
+            background-color: var(--terracotta);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .notification-item {
+            padding: 16px;
+            display: flex;
+            flex-direction: row; /* Explicitly set row direction */
+            align-items: flex-start;
+            gap: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
             text-decoration: none;
             color: inherit;
-            cursor: pointer;
+            position: relative; /* Add for better positioning context */
         }
-        .notification-card.unread {
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-item:active {
+            background-color: rgba(0,0,0,0.02);
+        }
+        .notification-item.unread {
             background-color: rgba(183, 94, 69, 0.05);
-        }
-        .notification-card.warning {
-            background-color: rgba(228, 161, 27, 0.05);
-        }
-        .notification-content {
-            display: flex;
-            padding: 16px;
-            gap: 12px;
-            align-items: center;
         }
         .notification-icon {
             width: 40px;
             height: 40px;
+            min-width: 40px; /* Add to ensure fixed width */
             border-radius: 20px;
-            background-color: rgba(155, 158, 138, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--sage-green);
             flex-shrink: 0;
+            margin-top: 2px;
+            position: relative; /* Add for better positioning */
         }
-        .notification-icon.warning {
+        .icon-action {
+            background-color: rgba(183, 94, 69, 0.1);
+            color: var(--terracotta);
+        }
+        .icon-reminder {
             background-color: rgba(228, 161, 27, 0.1);
             color: var(--warning);
         }
-        .notification-details {
+        .icon-update {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+        .icon-suggestion {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--info);
+        }
+        .notification-content {
             flex: 1;
-            min-width: 0;
+            min-width: 0; /* Add to prevent content overflow */
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
         .notification-title {
             font-weight: 600;
@@ -119,84 +174,114 @@
         .notification-meta {
             font-size: 13px;
             color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .notification-arrow {
-            color: #999;
-            margin-left: 8px;
+        .meta-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(-20px); }
+        .meta-separator {
+            color: var(--charcoal);
+            font-weight: 500;
         }
-        .fade-out {
-            animation: fadeOut 0.3s forwards;
-        }
-        .badge {
-            background-color: var(--terracotta);
-            color: white;
+        .notification-tag {
+            background-color: rgba(183, 94, 69, 0.1);
+            color: var(--terracotta);
             padding: 2px 8px;
             border-radius: 12px;
-            font-size: 12px;
-        }
-        .badge.warning {
-            background-color: var(--warning);
-        }
-        .ios-tab-bar {
-            height: 83px;
-            background-color: white;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding-bottom: 30px; /* For iPhone home indicator */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-        .tab-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--charcoal);
-            text-decoration: none;
-            padding: 8px 16px;
-            transition: all 0.2s ease;
-        }
-        .tab-item:active {
-            transform: scale(0.95);
-        }
-        .tab-item.active {
-            color: var(--terracotta);
-        }
-        .tab-icon {
-            font-size: 24px;
-            margin-bottom: 4px;
-            position: relative;
-        }
-        .tab-label {
             font-size: 11px;
             font-weight: 500;
         }
-        .tab-badge {
-            position: absolute;
-            top: -6px;
-            right: -8px;
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .action-button {
             background-color: var(--terracotta);
             color: white;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 10px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        .action-button.secondary {
+            background-color: rgba(0,0,0,0.05);
+            color: var(--charcoal);
+        }
+        .product-preview {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(0,0,0,0.02);
+            border-radius: 8px;
+        }
+        .product-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .product-title {
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        .product-price {
+            color: var(--terracotta);
             font-weight: 600;
-            min-width: 18px;
-            height: 18px;
+            font-size: 13px;
+        }
+        .see-more {
+            text-align: center;
+            padding: 16px;
+            color: var(--terracotta);
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+        }
+        .settings-toggle {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
         }
-        .main-content {
-            padding-bottom: 100px; /* Add space for fixed tab bar */
+        .toggle-switch {
+            width: 36px;
+            height: 20px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            position: relative;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+        .toggle-switch.active {
+            background-color: var(--sage-green);
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s ease;
+        }
+        .toggle-switch.active::after {
+            transform: translateX(16px);
         }
     </style>
 </head>
@@ -215,114 +300,251 @@
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <a href="javascript:history.back()" class="back-button">
-                <i class="fas fa-chevron-left"></i>
-            </a>
-            <div class="page-title">Notifications</div>
+            <div class="header-left">
+                <a href="buyer-category.html" class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="page-title">Notifications</div>
+            </div>
+            <div class="header-actions">
+                <button class="header-button" onclick="markAllRead()">Mark all read</button>
+                <div class="settings-toggle">
+                    <span>Push</span>
+                    <div class="toggle-switch active" onclick="toggleNotifications(this)"></div>
+                </div>
+            </div>
         </div>
         
-        <!-- Action Required -->
-        <div class="notification-group">
-            <div class="group-header">
-                Action Required <span class="badge">5</span>
+        <!-- Actions Needed Section -->
+        <div class="notification-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span style="color: var(--terracotta)">●</span> Actions Needed
+                    <span class="section-badge">2</span>
+                </div>
             </div>
             
-            <a href="account-pending-pickups.html" class="notification-card unread">
+            <a href="pickup-survey-seller.html" class="notification-item unread">
+                <div class="notification-icon icon-action">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
                 <div class="notification-content">
-                    <div class="notification-icon">
-                        <i class="fas fa-calendar-check"></i>
+                    <div class="notification-title">You have picked up an item today, please complete the survey</div>
+                    <div class="notification-meta">
+                        <span class="notification-tag">Due Today</span>
+                        <span>10 mins ago</span>
                     </div>
-                    <div class="notification-details">
-                        <div class="notification-title">Pending Pickup Confirmations</div>
-                        <div class="notification-meta">You have 3 items waiting to be confirmed for pickup</div>
-                    </div>
-                    <div class="notification-arrow">
-                        <i class="fas fa-chevron-right"></i>
+                    <div class="notification-actions">
+                        <button class="action-button">Complete Now</button>
+                        <button class="action-button secondary">Remind Me Later</button>
                     </div>
                 </div>
             </a>
 
-            <a href="account-sold-items.html" class="notification-card warning">
+            <a href="account-pending-pickups.html" class="notification-item unread">
+                <div class="notification-icon icon-action">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
                 <div class="notification-content">
-                    <div class="notification-icon warning">
-                        <i class="fas fa-exclamation-triangle"></i>
+                    <div class="notification-title">You have three pickup confirmation request</div>
+                    <div class="notification-meta">
+                        <span class="notification-tag">Due soon</span>
+                        <span>1 hour ago</span>
                     </div>
-                    <div class="notification-details">
-                        <div class="notification-title">Failed Pickups - Action Required</div>
-                        <div class="notification-meta">2 items need attention • Review and update listings</div>
-                    </div>
-                    <div class="notification-arrow">
-                        <i class="fas fa-chevron-right"></i>
+                    <div class="notification-actions">
+                        <button class="action-button">Confirm Now</button>
+                        <button class="action-button secondary">Remind Me Later</button>
                     </div>
                 </div>
             </a>
         </div>
-        
-        <!-- Other Updates -->
-        <div class="notification-group">
-            <div class="group-header">Other Updates</div>
-            
-            <div class="notification-card">
-                <div class="notification-content">
-                    <div class="notification-icon">
-                        <i class="fas fa-tag"></i>
-                    </div>
-                    <div class="notification-details">
-                        <div class="notification-title">Price Drop Alert</div>
-                        <div class="notification-meta">UPPAbaby VISTA price reduced by $50 • 2 hours ago</div>
-                    </div>
+
+        <!-- Reminders Section -->
+        <div class="notification-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span style="color: var(--warning)">●</span> Reminders
+                    <span class="section-badge">2</span>
                 </div>
             </div>
             
-            <div class="notification-card">
-                <div class="notification-content">
-                    <div class="notification-icon">
-                        <i class="fas fa-star"></i>
+            <a href="account-pickup-calendar.html" class="notification-item" style="display: table; width: 100%; table-layout: fixed;">
+                <div style="display: table-cell; width: 40px; vertical-align: top;">
+                    <div class="notification-icon icon-reminder">
+                        <i class="fas fa-clock"></i>
                     </div>
-                    <div class="notification-details">
-                        <div class="notification-title">New Verified Seller Near You</div>
-                        <div class="notification-meta">Check out Emma's baby gear collection • 1 day ago</div>
+                </div>
+                <div style="display: table-cell; vertical-align: top; padding-left: 12px;">
+                    <div class="notification-content">
+                        <div class="notification-title">Pickup scheduled for today, you can now chat with the seller</div>
+                        <div class="notification-meta">
+                            <span class="notification-tag">Today</span>
+                            <div class="meta-group">
+                                <span>Baby Bjorn Bouncer</span>
+                                <span class="meta-separator">•</span>
+                                <span>2:30 PM</span>
+                            </div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="action-button">View Details</button>
+                            <button class="action-button secondary">Dismiss</button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="account-listings.html" class="notification-item">
+                <div class="notification-icon icon-reminder">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Listing expires tomorrow</div>
+                    <div class="notification-meta">
+                        <span class="notification-tag">Due tomorrow</span>
+                        <span>Wooden Activity Gym</span>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="action-button">Renew Listing</button>
+                        <button class="action-button secondary">Dismiss</button>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Updates Section -->
+        <div class="notification-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span style="color: var(--success)">●</span> Updates
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon icon-update">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Payment Completed</div>
+                    <div class="notification-meta">
+                        <span>$75.00 received for Baby Bjorn Bouncer</span>
+                        <span>2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon icon-update">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Buyer Confirmed Pickup</div>
+                    <div class="notification-meta">
+                        <span>Wooden Activity Gym</span>
+                        <span>Yesterday</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- iOS Tab Bar -->
-    <div class="ios-tab-bar">
-        <a href="buyer-category.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-home"></i></div>
-            <div class="tab-label">Home</div>
-        </a>
-        <a href="search.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-search"></i></div>
-            <div class="tab-label">Search</div>
-        </a>
-        <a href="seller-flow.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
-            <div class="tab-label">Sell</div>
-        </a>
-        <a href="messages.html" class="tab-item">
-            <div class="tab-icon">
-                <i class="fas fa-comments"></i>
-                <span class="tab-badge">2</span>
+        <!-- Suggestions Section -->
+        <div class="notification-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span style="color: var(--info)">●</span> Suggestions For You
+                </div>
             </div>
-            <div class="tab-label">Messages</div>
-        </a>
-        <a href="account-management.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-user"></i></div>
-            <div class="tab-label">Profile</div>
-        </a>
+            
+            <div class="notification-item">
+                <div class="notification-icon icon-suggestion">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Price dropped on saved item</div>
+                    <div class="notification-meta">
+                        <span>Just now</span>
+                    </div>
+                    <div class="product-preview">
+                        <img src="images/uppababy-vista.jpg" alt="UPPAbaby VISTA" class="product-image">
+                        <div class="product-info">
+                            <div class="product-title">UPPAbaby VISTA V2 Stroller</div>
+                            <div class="product-price">$650 <span style="text-decoration: line-through; color: #666; font-weight: normal;">$700</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon icon-suggestion">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">New listings near you</div>
+                    <div class="notification-meta">
+                        <span>3 new items match your interests</span>
+                        <span>1 hour ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="see-more">See More</a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const notificationCards = document.querySelectorAll('.notification-card');
+        function markAllRead() {
+            document.querySelectorAll('.notification-item.unread').forEach(item => {
+                item.classList.remove('unread');
+            });
+        }
+
+        function toggleNotifications(element) {
+            element.classList.toggle('active');
+        }
+
+        function removeNotification(button) {
+            // Find the parent notification item
+            const notificationItem = button.closest('.notification-item');
+            const section = notificationItem.closest('.notification-section');
             
-            notificationCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    this.classList.add('fade-out');
-                });
+            // Animate the removal
+            notificationItem.style.transition = 'all 0.3s ease';
+            notificationItem.style.opacity = '0';
+            notificationItem.style.height = notificationItem.offsetHeight + 'px';
+            
+            setTimeout(() => {
+                notificationItem.style.height = '0';
+                notificationItem.style.padding = '0';
+                notificationItem.style.margin = '0';
+                
+                setTimeout(() => {
+                    notificationItem.remove();
+                    
+                    // Update the count in the section badge
+                    const badge = section.querySelector('.section-badge');
+                    if (badge) {
+                        const currentCount = parseInt(badge.textContent);
+                        badge.textContent = Math.max(0, currentCount - 1);
+                        
+                        // If no more notifications in section, optionally hide the section
+                        const remainingNotifications = section.querySelectorAll('.notification-item').length;
+                        if (remainingNotifications === 0) {
+                            section.style.display = 'none';
+                        }
+                    }
+                }, 300);
+            }, 300);
+        }
+
+        // Add click event listeners to all dismiss, snooze, and remind me later buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // For all secondary action buttons (dismiss, snooze, remind me later)
+            document.querySelectorAll('.action-button.secondary').forEach(button => {
+                if (button.textContent.trim() !== 'Message') { // Don't add to message buttons
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault(); // Prevent navigation if it's a link
+                        removeNotification(this);
+                    });
+                }
             });
         });
     </script>

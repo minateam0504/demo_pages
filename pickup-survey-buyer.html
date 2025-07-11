@@ -313,6 +313,11 @@
             color: var(--charcoal);
             border: none;
         }
+        .error-message {
+            margin-top: 4px;
+            font-size: 13px;
+            color: var(--terracotta);
+        }
     </style>
 </head>
 <body>
@@ -404,6 +409,9 @@
                         <label for="pickup-no">No</label>
                     </div>
                 </div>
+                <div id="pickupError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                    Please indicate whether you picked up the item
+                </div>
             </div>
             
             <!-- No Pickup Reason (shown when pickup = No) -->
@@ -435,6 +443,9 @@
                             <input type="radio" id="reason-other" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
                             <label for="reason-other">Other</label>
                         </div>
+                        <div id="noPickupReasonError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                            Please select a reason why the pickup didn't happen
+                        </div>
                     </div>
                 </div>
 
@@ -455,7 +466,7 @@
                         </div>
                         <img id="conditionPreview" style="max-width: 100%; max-height: 200px; border-radius: 8px; display: none;" alt="Condition issue photo preview">
                     </div>
-                    <div id="conditionPhotoError" style="color: #dc2626; font-size: 12px; display: none;">
+                    <div id="conditionPhotoError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
                         Please upload a photo of the condition issue
                     </div>
                 </div>
@@ -468,6 +479,9 @@
                         placeholder="Please provide more details about why the pickup didn't happen..."
                         style="margin-top: 8px;"
                     ></textarea>
+                    <div id="otherReasonError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                        Please provide details about why the pickup didn't happen
+                    </div>
                 </div>
             </div>
             
@@ -489,6 +503,9 @@
                             <label for="condition-no">No — major issue (broken, unsafe, missing parts, etc.)</label>
                         </div>
                     </div>
+                    <div id="conditionError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                        Please indicate if the item was in acceptable condition
+                    </div>
                 </div>
                 
                 <!-- Seller Punctuality -->
@@ -503,6 +520,9 @@
                             <input type="radio" id="seller-no" name="seller-ontime">
                             <label for="seller-no">No — arrived late or unclear meetup</label>
                         </div>
+                    </div>
+                    <div id="sellerError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                        Please indicate if the seller was on time and easy to find
                     </div>
                 </div>
                 
@@ -522,7 +542,7 @@
                         </div>
                         <img id="uploadPreview" style="max-width: 100%; max-height: 200px; border-radius: 8px; display: none;" alt="Handoff photo preview">
                     </div>
-                    <div id="photoError" style="color: #dc2626; font-size: 12px; display: none;">
+                    <div id="photoError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
                         Please upload a photo before submitting
                     </div>
                 </div>
@@ -592,7 +612,14 @@
             document.getElementById('thankYouPopup').style.display = 'flex';
         }
 
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+        }
+
         function handlePickupChange(radio) {
+            clearErrors();
             const additionalQuestions = document.getElementById('additionalQuestions');
             const noPickupReason = document.getElementById('noPickupReason');
             
@@ -611,6 +638,7 @@
         }
 
         function handleNoPickupReasonChange(radio) {
+            clearErrors();
             const otherReasonContainer = document.getElementById('otherReasonContainer');
             const conditionPhotoSection = document.getElementById('conditionPhotoSection');
             
@@ -672,24 +700,28 @@
         }
 
         function validateAndSubmit() {
+            clearErrors();
+            let isValid = true;
             const pickupYes = document.getElementById('pickup-yes');
             const pickupNo = document.getElementById('pickup-no');
             
             if (!pickupYes.checked && !pickupNo.checked) {
-                alert('Please indicate whether you picked up the item.');
-                return;
+                document.getElementById('pickupError').style.display = 'block';
+                document.getElementById('pickupError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                isValid = false;
             }
             
             if (pickupNo.checked) {
                 // Validate no pickup reason is selected
                 const reasonSelected = document.querySelector('input[name="no-pickup-reason"]:checked');
                 if (!reasonSelected) {
-                    alert('Please select a reason why the pickup didn\'t happen.');
-                    return;
+                    document.getElementById('noPickupReasonError').style.display = 'block';
+                    document.getElementById('noPickupReasonError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
                 }
                 
                 // Validate condition photo if condition issue is selected
-                if (reasonSelected.id === 'reason-condition') {
+                if (reasonSelected && reasonSelected.id === 'reason-condition') {
                     const conditionPhoto = document.getElementById('conditionPhoto');
                     const conditionPhotoError = document.getElementById('conditionPhotoError');
                     const conditionDetails = document.getElementById('otherReasonText').value.trim();
@@ -697,39 +729,55 @@
                     if (!conditionPhoto.files || !conditionPhoto.files[0]) {
                         conditionPhotoError.style.display = 'block';
                         conditionPhotoError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        return;
+                        isValid = false;
                     }
                     
                     if (!conditionDetails) {
-                        alert('Please describe the condition issue in detail.');
-                        return;
+                        document.getElementById('otherReasonError').style.display = 'block';
+                        document.getElementById('otherReasonError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        isValid = false;
                     }
                 }
                 
                 // Validate other reason text if "Other" is selected
-                if (reasonSelected.id === 'reason-other') {
+                if (reasonSelected && reasonSelected.id === 'reason-other') {
                     const otherReasonText = document.getElementById('otherReasonText').value.trim();
                     if (!otherReasonText) {
-                        alert('Please provide details about why the pickup didn\'t happen.');
-                        return;
+                        document.getElementById('otherReasonError').style.display = 'block';
+                        document.getElementById('otherReasonError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        isValid = false;
                     }
                 }
-                
+            } else if (pickupYes.checked) {
+                // Validate condition selection
+                const conditionSelected = document.querySelector('input[name="condition"]:checked');
+                if (!conditionSelected) {
+                    document.getElementById('conditionError').style.display = 'block';
+                    document.getElementById('conditionError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
+                }
+
+                // Validate seller punctuality
+                const sellerSelected = document.querySelector('input[name="seller-ontime"]:checked');
+                if (!sellerSelected) {
+                    document.getElementById('sellerError').style.display = 'block';
+                    document.getElementById('sellerError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
+                }
+
+                // Validate photo upload
+                const photoInput = document.getElementById('handoffPhoto');
+                if (!photoInput.files || !photoInput.files[0]) {
+                    document.getElementById('photoError').style.display = 'block';
+                    document.getElementById('photoError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
+                }
+            }
+            
+            // If all validation passes, show thank you popup
+            if (isValid) {
                 showThankYouPopup();
-                return;
             }
-            
-            // Existing validation for "Yes" pickup
-            const photoInput = document.getElementById('handoffPhoto');
-            const photoError = document.getElementById('photoError');
-            
-            if (!photoInput.files || !photoInput.files[0]) {
-                photoError.style.display = 'block';
-                photoError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            
-            showThankYouPopup();
         }
     </script>
 </body>

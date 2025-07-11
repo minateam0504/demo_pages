@@ -313,6 +313,9 @@
             color: var(--charcoal);
             border: none;
         }
+        .error-message {
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -404,6 +407,9 @@
                         <label for="pickup-no">No</label>
                     </div>
                 </div>
+                <div id="pickupError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                    Please indicate whether the buyer picked up the item
+                </div>
             </div>
 
             <!-- No Pickup Reason (shown when pickup = No) -->
@@ -431,6 +437,9 @@
                             <input type="radio" id="reason-other" name="no-pickup-reason" onchange="handleNoPickupReasonChange(this)">
                             <label for="reason-other">Other</label>
                         </div>
+                        <div id="noPickupReasonError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                            Please select a reason why the pickup didn't happen
+                        </div>
                         <div id="otherReasonContainer" style="display: none;">
                             <textarea 
                                 id="otherReasonText" 
@@ -438,6 +447,9 @@
                                 placeholder="Please explain why the pickup didn't happen..."
                                 style="margin-top: 8px;"
                             ></textarea>
+                            <div id="otherReasonError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                                Please provide details about why the pickup didn't happen
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -460,6 +472,9 @@
                             <input type="radio" id="timing-seller-late" name="timing">
                             <label for="timing-seller-late">I arrived late</label>
                         </div>
+                    </div>
+                    <div id="timingError" class="error-message" style="display: none; color: var(--terracotta); font-size: 13px; margin-top: 4px;">
+                        Please indicate if the pickup was on time
                     </div>
                 </div>
 
@@ -549,7 +564,14 @@
             document.getElementById('thankYouPopup').style.display = 'flex';
         }
 
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+        }
+
         function handlePickupChange(radio) {
+            clearErrors();
             const pickupQuestions = document.getElementById('pickupQuestions');
             const noPickupReason = document.getElementById('noPickupReason');
             
@@ -573,6 +595,7 @@
         }
 
         function handleNoPickupReasonChange(radio) {
+            clearErrors();
             const otherReasonContainer = document.getElementById('otherReasonContainer');
             otherReasonContainer.style.display = radio.id === 'reason-other' ? 'block' : 'none';
             if (radio.id !== 'reason-other') {
@@ -596,41 +619,49 @@
         }
 
         function validateAndSubmit() {
+            clearErrors();
+            let isValid = true;
             const pickupYes = document.getElementById('pickup-yes');
             const pickupNo = document.getElementById('pickup-no');
             
             if (!pickupYes.checked && !pickupNo.checked) {
-                alert('Please indicate whether the buyer picked up the item.');
-                return;
+                document.getElementById('pickupError').style.display = 'block';
+                document.getElementById('pickupError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                isValid = false;
             }
             
             if (pickupNo.checked) {
                 // Validate no pickup reason is selected
                 const reasonSelected = document.querySelector('input[name="no-pickup-reason"]:checked');
                 if (!reasonSelected) {
-                    alert('Please select a reason why the pickup didn\'t happen.');
-                    return;
+                    document.getElementById('noPickupReasonError').style.display = 'block';
+                    document.getElementById('noPickupReasonError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
                 }
                 
                 // Validate other reason text if "Other" is selected
-                if (reasonSelected.id === 'reason-other') {
+                if (reasonSelected && reasonSelected.id === 'reason-other') {
                     const otherReasonText = document.getElementById('otherReasonText').value.trim();
                     if (!otherReasonText) {
-                        alert('Please provide details about why the pickup didn\'t happen.');
-                        return;
+                        document.getElementById('otherReasonError').style.display = 'block';
+                        document.getElementById('otherReasonError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        isValid = false;
                     }
                 }
-            } else {
+            } else if (pickupYes.checked) {
                 // Validate timing selection for successful pickup
                 const timingSelected = document.querySelector('input[name="timing"]:checked');
                 if (!timingSelected) {
-                    alert('Please indicate if the pickup was on time.');
-                    return;
+                    document.getElementById('timingError').style.display = 'block';
+                    document.getElementById('timingError').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    isValid = false;
                 }
             }
             
             // If all validation passes, show thank you popup
-            showThankYouPopup();
+            if (isValid) {
+                showThankYouPopup();
+            }
         }
     </script>
 </body>

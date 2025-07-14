@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina - Manual Listing</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+            --error: #DC2626;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 100px;
+        }
+        .screen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .back-button {
+            font-size: 20px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            margin-right: 20px; /* Compensate for back button */
+        }
+        .error-container {
+            background-color: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .error-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .error-icon {
+            color: var(--error);
+            font-size: 20px;
+        }
+        .error-title {
+            color: var(--error);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .error-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .error-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--charcoal);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .error-item:last-child {
+            margin-bottom: 0;
+        }
+        .error-item i {
+            color: var(--error);
+            font-size: 12px;
+        }
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--charcoal);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .label-text {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .optional-tag {
+            font-size: 12px;
+            color: #666;
+            background-color: rgba(0,0,0,0.05);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .required-tag {
+            color: var(--terracotta);
+            font-size: 14px;
+        }
+        .input-field {
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--terracotta);
+        }
+        .input-field.error {
+            border-color: var(--error);
+        }
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .error-text {
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .image-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .image-upload:hover {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .upload-icon {
+            font-size: 24px;
+            color: var(--terracotta);
+            margin-bottom: 8px;
+        }
+        .upload-text {
+            font-size: 14px;
+            color: #666;
+        }
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:disabled {
+            background-color: #CBD5E1;
+            cursor: not-allowed;
+        }
+        .category-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .category-option {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .category-option.selected {
+            border-color: var(--terracotta);
+            background-color: rgba(183, 94, 69, 0.05);
+        }
+        .category-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .category-option.selected .category-icon {
+            color: var(--terracotta);
+        }
+        .category-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="screen-header">
+            <a href="seller-step2.html" class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <h1 class="header-title">Manual Listing</h1>
+        </div>
+
+        <!-- Error Container -->
+        <div class="error-container">
+            <div class="error-header">
+                <i class="fas fa-exclamation-circle error-icon"></i>
+                <div class="error-title">Auto-listing couldn't be completed</div>
+            </div>
+            <ul class="error-list">
+                <li class="error-item">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Product brand couldn't be identified from the image</span>
+                </li>
+                <li class="error-item">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Multiple product matches found - manual selection needed</span>
+                </li>
+                <li class="error-item">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Image quality insufficient for automatic analysis</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Basic Information Section -->
+        <div class="form-section">
+            <h2 class="section-title">Basic Information</h2>
+            
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Product Title</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <input type="text" class="input-field" placeholder="e.g., UPPAbaby VISTA V2 Stroller">
+                <div class="helper-text">Include brand name and model for better visibility</div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Brand</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <input type="text" class="input-field" placeholder="e.g., UPPAbaby">
+            </div>
+
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Model</span>
+                    <span class="optional-tag">Optional</span>
+                </div>
+                <input type="text" class="input-field" placeholder="e.g., VISTA V2">
+            </div>
+        </div>
+
+        <!-- Category Section -->
+        <div class="form-section">
+            <h2 class="section-title">Category</h2>
+            <div class="category-select">
+                <div class="category-option">
+                    <div class="category-icon">
+                        <i class="fas fa-baby-carriage"></i>
+                    </div>
+                    <div class="category-label">Strollers</div>
+                </div>
+                <div class="category-option selected">
+                    <div class="category-icon">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <div class="category-label">Car Seats</div>
+                </div>
+                <div class="category-option">
+                    <div class="category-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <div class="category-label">Toys</div>
+                </div>
+                <div class="category-option">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="category-label">Clothing</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Condition & Price Section -->
+        <div class="form-section">
+            <h2 class="section-title">Condition & Price</h2>
+            
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Condition</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <select class="input-field">
+                    <option value="">Select condition</option>
+                    <option value="new">New with Tags</option>
+                    <option value="like_new">Like New</option>
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Price</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <input type="number" class="input-field" placeholder="$0.00">
+                <div class="helper-text">Set a competitive price based on condition and market value</div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Original Price</span>
+                    <span class="optional-tag">Optional</span>
+                </div>
+                <input type="number" class="input-field" placeholder="$0.00">
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="form-section">
+            <h2 class="section-title">Description</h2>
+            
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Product Description</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <textarea class="input-field" rows="4" placeholder="Describe your item's features, condition, and any included accessories..."></textarea>
+                <div class="helper-text">Minimum 20 characters</div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Age Range</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <select class="input-field">
+                    <option value="">Select age range</option>
+                    <option value="0-6m">0-6 months</option>
+                    <option value="6-12m">6-12 months</option>
+                    <option value="1-2y">1-2 years</option>
+                    <option value="2-3y">2-3 years</option>
+                    <option value="3-4y">3-4 years</option>
+                    <option value="4-5y">4-5 years</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Photos Section -->
+        <div class="form-section">
+            <h2 class="section-title">Photos</h2>
+            
+            <div class="form-group">
+                <div class="input-label">
+                    <span class="label-text">Product Photos</span>
+                    <span class="required-tag">*</span>
+                </div>
+                <div class="image-upload">
+                    <div class="upload-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="upload-text">
+                        Upload at least 3 photos<br>
+                        <span style="color: #999;">Tap to add photos</span>
+                    </div>
+                </div>
+                <div class="helper-text">Include photos from multiple angles showing the item's condition</div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn-primary">
+            Create Listing
+        </button>
+    </div>
+
+    <script>
+        // Category selection
+        document.querySelectorAll('.category-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.category-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // Form validation
+        const form = document.querySelector('.main-content');
+        const requiredFields = form.querySelectorAll('.required-tag').length;
+        const submitButton = form.querySelector('.btn-primary');
+
+        function validateForm() {
+            let filledFields = 0;
+            form.querySelectorAll('.input-field').forEach(field => {
+                if (field.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+            
+            submitButton.disabled = filledFields < requiredFields;
+        }
+
+        form.querySelectorAll('.input-field').forEach(field => {
+            field.addEventListener('input', validateForm);
+        });
+
+        // Initialize form validation
+        validateForm();
+    </script>
+</body>
+</html> 

@@ -356,11 +356,27 @@
         .reschedule-btn.primary {
             background-color: var(--sage-green);
             color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
         }
 
         .reschedule-btn.primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            background-color: #ccc;
+        }
+
+        .reschedule-btn.primary:not(:disabled):hover {
+            background-color: #8b8e7a;
         }
 
         .reschedule-btn.secondary {
@@ -414,6 +430,94 @@
         .reschedule-warning i {
             font-size: 20px;
             color: #b87503;
+        }
+
+        /* Add new modal styles */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .confirmation-modal-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .confirmation-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #f0f9f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--sage-green);
+            font-size: 32px;
+        }
+
+        .confirmation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+
+        .confirmation-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .confirmation-button {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .propose-time-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .propose-time-slot {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .propose-time-slot:hover {
+            border-color: var(--sage-green);
+        }
+
+        .propose-time-slot.selected {
+            background-color: var(--sage-green);
+            color: white;
+            border-color: var(--sage-green);
         }
     </style>
 </head>
@@ -636,8 +740,8 @@
             <div class="reschedule-warning">
                 <i class="fas fa-exclamation-triangle"></i>
                 <div>
-                    <strong>Important: Limited Rescheduling Available</strong><br>
-                    You can only reschedule a pickup up to 2 times. This policy helps ensure reliability and respect for everyone's time. Please choose your new time carefully.
+                    <strong>Important: One-Time Rescheduling Only</strong><br>
+                    You can only reschedule a pickup once. This policy helps ensure reliability and respect for everyone's time. Please choose your new time carefully.
                 </div>
             </div>
 
@@ -653,28 +757,168 @@
                 </select>
             </div>
 
-            <div class="date-picker">
-                <label for="newPickupDate">Select New Date</label>
-                <input type="date" id="newPickupDate" required>
+            <div style="font-weight: 500; margin-bottom: 16px;">
+                Available Times (Next 3 Days)
+                <div style="font-size: 14px; color: #666; margin-top: 4px;">
+                    These time slots show when both you and the seller are available to meet
+                </div>
             </div>
 
-            <div style="font-weight: 500; margin-bottom: 8px;">Select New Time</div>
             <div class="time-slots">
-                <div class="time-slot" data-time="09:00">9:00 AM</div>
-                <div class="time-slot" data-time="10:00">10:00 AM</div>
-                <div class="time-slot unavailable" data-time="11:00">11:00 AM</div>
-                <div class="time-slot" data-time="12:00">12:00 PM</div>
-                <div class="time-slot" data-time="13:00">1:00 PM</div>
+                <!-- Today -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin-bottom: 8px; font-weight: 500;">
+                    Today (July 26)
+                </div>
                 <div class="time-slot" data-time="14:00">2:00 PM</div>
-                <div class="time-slot unavailable" data-time="15:00">3:00 PM</div>
+                <div class="time-slot" data-time="14:30">2:30 PM</div>
                 <div class="time-slot" data-time="16:00">4:00 PM</div>
-                <div class="time-slot" data-time="17:00">5:00 PM</div>
+
+                <!-- Tomorrow -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                    Tomorrow (July 27)
+                </div>
+                <div class="time-slot" data-time="10:00">10:00 AM</div>
+                <div class="time-slot" data-time="10:30">10:30 AM</div>
+                <div class="time-slot" data-time="15:00">3:00 PM</div>
+                <div class="time-slot" data-time="15:30">3:30 PM</div>
+
+                <!-- Day After -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                    Friday (July 28)
+                </div>
+                <div class="time-slot" data-time="11:00">11:00 AM</div>
+                <div class="time-slot" data-time="11:30">11:30 AM</div>
+                <div class="time-slot" data-time="13:00">1:00 PM</div>
             </div>
+
+            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                <button id="proposeDifferentTime" style="width: 100%; padding: 12px; background-color: white; border: 1px dashed var(--sage-green); border-radius: 8px; color: var(--sage-green); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fas fa-clock"></i>
+                    Need a different time? Propose your preferred time
+                </button>
+                
+                <div id="proposeTimeSection" style="display: none; margin-top: 16px;">
+                    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
+                        <i class="fas fa-exclamation-triangle" style="color: #856404; margin-right: 8px;"></i>
+                        Note: Times outside of the shown availability are less likely to be accepted by the seller.
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Date</label>
+                        <input type="date" id="customDate" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 16px;">
+                        
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Time</label>
+                        <select id="customTime" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                            <option value="">Choose a time</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="09:30">9:30 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="13:30">1:30 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="14:30">2:30 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="15:30">3:30 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="16:30">4:30 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="17:30">5:30 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="18:30">6:30 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('proposeDifferentTime').addEventListener('click', function() {
+                    const section = document.getElementById('proposeTimeSection');
+                    if (section.style.display === 'none') {
+                        section.style.display = 'block';
+                        this.style.backgroundColor = '#f8faf7';
+                        
+                        // Create time slots for the next three days
+                        const timeSlots = [
+                            "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
+                            "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
+                            "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
+                            "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
+                            "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM",
+                            "7:00 PM", "7:30 PM"
+                        ];
+
+                        const days = ['Today', 'Tomorrow', 'Friday'];
+                        let html = '';
+
+                        days.forEach(day => {
+                            html += `
+                                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                                    ${day}
+                                </div>
+                            `;
+                            timeSlots.forEach(time => {
+                                html += `
+                                    <div class="propose-time-slot" onclick="selectProposeTime(this)">
+                                        ${time}
+                                    </div>
+                                `;
+                            });
+                        });
+
+                        section.innerHTML = `
+                            <div style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
+                                <i class="fas fa-exclamation-triangle" style="color: #856404; margin-right: 8px;"></i>
+                                Note: Times outside of the shown availability are less likely to be accepted by the seller.
+                            </div>
+                            <div class="propose-time-slots">
+                                ${html}
+                            </div>
+                        `;
+                    } else {
+                        section.style.display = 'none';
+                        this.style.backgroundColor = 'white';
+                    }
+                });
+
+                // Set min date to today
+                const customDate = document.getElementById('customDate');
+                const today = new Date();
+                customDate.min = today.toISOString().split('T')[0];
+                
+                // Only allow dates within next 3 days
+                const maxDate = new Date();
+                maxDate.setDate(maxDate.getDate() + 3);
+                customDate.max = maxDate.toISOString().split('T')[0];
+            </script>
         </div>
 
         <div class="reschedule-footer">
-            <button class="reschedule-btn primary" onclick="confirmReschedule()" disabled>
+            <button class="reschedule-btn primary" id="confirmNewTimeBtn" onclick="confirmReschedule()" disabled>
                 <i class="fas fa-check"></i> Confirm New Time
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="confirmation-modal-content">
+            <div class="confirmation-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="confirmation-title">Reschedule Request Sent</div>
+            <div class="confirmation-text">
+                The seller has 24 hours to respond to your request. If no response is received, this reschedule request will be canceled and you'll need to rebook the item.<br><br>
+                Your request has been moved to Pending Confirmations.
+            </div>
+            <button class="confirmation-button" onclick="redirectToPendingConfirmations()">
+                View in Pending Confirmations
             </button>
         </div>
     </div>
@@ -721,64 +965,43 @@
     });
 
     function validateRescheduleForm() {
-        const date = document.getElementById('newPickupDate').value;
-        const timeSelected = document.querySelector('.time-slot.selected');
+        const timeSelected = document.querySelector('.time-slot.selected') || document.querySelector('.propose-time-slot.selected');
         const reason = document.getElementById('rescheduleReason').value;
-        const confirmButton = document.querySelector('.reschedule-btn.primary');
+        const confirmButton = document.getElementById('confirmNewTimeBtn');
         
-        confirmButton.disabled = !date || !timeSelected || !reason;
+        confirmButton.disabled = !timeSelected || !reason;
     }
 
     function confirmReschedule() {
-        const date = document.getElementById('newPickupDate').value;
-        const timeSlot = document.querySelector('.time-slot.selected');
+        const timeSelected = document.querySelector('.time-slot.selected') || document.querySelector('.propose-time-slot.selected');
         const reason = document.getElementById('rescheduleReason').value;
         
-        if (!date || !timeSlot || !reason) return;
+        if (!timeSelected || !reason) {
+            alert('Please select a time and reason for rescheduling');
+            return;
+        }
         
-        const formattedDate = new Date(date + 'T' + timeSlot.dataset.time).toLocaleString('en-US', {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        });
+        // Show confirmation modal
+        const confirmationModal = document.getElementById('confirmationModal');
+        confirmationModal.style.display = 'flex';
 
-        // Show success toast
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--sage-green);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        `;
-        toast.innerHTML = `
-            <i class="fas fa-check-circle"></i>
-            <span>Reschedule request sent for ${formattedDate}</span>
-        `;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.opacity = '1';
+        // Remove the item from the current view
+        const currentCard = document.querySelector('.pickup-card.being-rescheduled');
+        if (currentCard) {
+            currentCard.style.transition = 'opacity 0.3s ease';
+            currentCard.style.opacity = '0';
             setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }, 100);
-
+                currentCard.remove();
+                // Update count if it's in Today's Pickups
+                const todaySection = document.querySelector('.section-title');
+                if (todaySection && todaySection.textContent.includes("Today's")) {
+                    const count = document.querySelectorAll('.pickup-card').length;
+                    todaySection.textContent = `Today's Pickups (${count})`;
+                }
+            }, 300);
+        }
+        
+        // Close reschedule modal
         closeRescheduleModal();
     }
 
@@ -799,6 +1022,10 @@
     function openRescheduleModal(card) {
         const modal = document.getElementById('rescheduleModal');
         const itemInfo = document.getElementById('rescheduleItemInfo');
+        
+        // Add class to identify card being rescheduled
+        document.querySelectorAll('.pickup-card').forEach(c => c.classList.remove('being-rescheduled'));
+        card.classList.add('being-rescheduled');
         
         // Get item details
         const itemName = card.querySelector('.pickup-title').textContent;
@@ -885,6 +1112,24 @@
                 });
             });
         });
+    }
+
+    function selectProposeTime(element) {
+        // Remove selection from all time slots
+        document.querySelectorAll('.propose-time-slot').forEach(slot => {
+            slot.classList.remove('selected');
+        });
+        
+        // Add selection to clicked slot
+        element.classList.add('selected');
+        
+        // Enable confirm button
+        document.getElementById('confirmNewTimeBtn').disabled = false;
+    }
+
+    function redirectToPendingConfirmations() {
+        // Redirect to the Pending Confirmations page
+        window.location.href = 'account-pending-pickups.html';
     }
     </script>
 </body>

@@ -164,54 +164,59 @@
             font-weight: 600;
             color: var(--charcoal);
         }
-        .toggle-container {
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .radio-group label {
             display: flex;
             align-items: center;
-            margin-top: 24px;
-            margin-bottom: 24px;
+            gap: 8px;
+            cursor: pointer;
+            padding: 12px 24px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.2s ease;
         }
-        .toggle-label {
-            flex: 1;
+
+        .radio-group label:hover {
+            border-color: var(--terracotta);
+        }
+
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: var(--terracotta);
+        }
+
+        .radio-group input[type="radio"]:checked + span {
+            color: var(--terracotta);
             font-weight: 500;
         }
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
+
+        .radio-group label:has(input[type="radio"]:checked) {
+            border-color: var(--terracotta);
+            background-color: #FDF8F6;
         }
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .toggle-slider {
+
+        .btn-primary {
             background-color: var(--terracotta);
-        }
-        input:checked + .toggle-slider:before {
-            transform: translateX(22px);
+            color: white;
+            border-radius: 24px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            width: 100%;
+            margin-top: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -235,7 +240,7 @@
         <img src="images/mina_logo.png" alt="Mina Logo" class="logo-small">
         
         <h1 class="heading">Confirm your neighborhood</h1>
-        <p class="subheading">Based on your address, we've identified your San Francisco neighborhood.</p>
+        <p class="subheading">Built for your neighborhood. By confirming your area, we'll show you nearby parents first. Less driving, more community.</p>
         
         <div class="progress-bar">
             <div class="progress"></div>
@@ -255,37 +260,66 @@
         
         <form action="register-step4.html" method="GET">
             <div class="form-group">
-                <label for="neighborhood" class="form-label">Is this correct?</label>
-                <select id="neighborhood" name="neighborhood" class="form-input" required>
-                    <option value="Mission District" selected>Mission District</option>
-                    <option value="SoMa">SoMa</option>
-                    <option value="Noe Valley">Noe Valley</option>
-                    <option value="Castro">Castro</option>
-                    <option value="Marina">Marina</option>
-                    <option value="Haight-Ashbury">Haight-Ashbury</option>
-                    <option value="Richmond">Richmond</option>
-                    <option value="Sunset">Sunset</option>
-                    <option value="North Beach">North Beach</option>
-                    <option value="Pacific Heights">Pacific Heights</option>
-                    <option value="Potrero Hill">Potrero Hill</option>
-                    <option value="Bernal Heights">Bernal Heights</option>
-                </select>
+                <label class="form-label">Is this correct?</label>
+                <div class="radio-group" style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="is_correct" value="yes" checked onchange="toggleNeighborhoodSelect(false)">
+                        <span>Yes</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="is_correct" value="no" onchange="toggleNeighborhoodSelect(true)">
+                        <span>No</span>
+                    </label>
+                </div>
+
+                <div id="neighborhoodSelectGroup" style="display: none;">
+                    <label for="neighborhood" class="form-label">Select your neighborhood</label>
+                    <select id="neighborhood" name="neighborhood" class="form-input">
+                        <option value="">Choose your neighborhood</option>
+                        <option value="Mission District">Mission District</option>
+                        <option value="SoMa">SoMa</option>
+                        <option value="Noe Valley">Noe Valley</option>
+                        <option value="Castro">Castro</option>
+                        <option value="Marina">Marina</option>
+                        <option value="Haight-Ashbury">Haight-Ashbury</option>
+                        <option value="Richmond">Richmond</option>
+                        <option value="Sunset">Sunset</option>
+                        <option value="North Beach">North Beach</option>
+                        <option value="Pacific Heights">Pacific Heights</option>
+                        <option value="Potrero Hill">Potrero Hill</option>
+                        <option value="Bernal Heights">Bernal Heights</option>
+                    </select>
+                </div>
             </div>
-            
-            <div class="toggle-container">
-                <div class="toggle-label">Enable location services</div>
-                <label class="toggle-switch">
-                    <input type="checkbox" name="location_services" checked required>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            
-            <p class="text-sm text-gray-500 mb-4">
-                We use your location to show you nearby items and connect you with local parents. You can change this later in settings.
-            </p>
             
             <button type="submit" class="btn-primary">Continue</button>
         </form>
+
+        <script>
+            function toggleNeighborhoodSelect(show) {
+                const neighborhoodGroup = document.getElementById('neighborhoodSelectGroup');
+                const neighborhoodSelect = document.getElementById('neighborhood');
+                
+                neighborhoodGroup.style.display = show ? 'block' : 'none';
+                neighborhoodSelect.required = show;
+                
+                // Clear selection when hiding
+                if (!show) {
+                    neighborhoodSelect.value = '';
+                }
+            }
+
+            // Form validation
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const isCorrectNo = document.querySelector('input[name="is_correct"][value="no"]').checked;
+                const neighborhoodSelect = document.getElementById('neighborhood');
+                
+                if (isCorrectNo && !neighborhoodSelect.value) {
+                    e.preventDefault();
+                    alert('Please select your neighborhood');
+                }
+            });
+        </script>
         
         <div class="step-indicator">Step 3 of 5</div>
     </div>

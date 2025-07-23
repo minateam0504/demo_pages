@@ -519,6 +519,103 @@
             color: white;
             border-color: var(--sage-green);
         }
+
+        /* Propose Different Time Modal Styles */
+        .propose-time {
+            background-color: #f8faf7;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+            color: var(--sage-green);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .propose-time:hover {
+            background-color: #f0f9f0;
+            border-color: var(--sage-green);
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 10001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 400px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+
+        .btn-primary {
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #8b8e7a;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -760,21 +857,13 @@
             <div style="font-weight: 500; margin-bottom: 16px;">
                 Available Times (Next 3 Days)
                 <div style="font-size: 14px; color: #666; margin-top: 4px;">
-                    These time slots show when both you and the seller are available to meet
+                    These time slots show when both you and the seller are mutually available, starting from tomorrow
                 </div>
             </div>
 
             <div class="time-slots">
-                <!-- Today -->
-                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin-bottom: 8px; font-weight: 500;">
-                    Today (July 26)
-                </div>
-                <div class="time-slot" data-time="14:00">2:00 PM</div>
-                <div class="time-slot" data-time="14:30">2:30 PM</div>
-                <div class="time-slot" data-time="16:00">4:00 PM</div>
-
                 <!-- Tomorrow -->
-                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin-bottom: 8px; font-weight: 500;">
                     Tomorrow (July 27)
                 </div>
                 <div class="time-slot" data-time="10:00">10:00 AM</div>
@@ -789,26 +878,42 @@
                 <div class="time-slot" data-time="11:00">11:00 AM</div>
                 <div class="time-slot" data-time="11:30">11:30 AM</div>
                 <div class="time-slot" data-time="13:00">1:00 PM</div>
+
+                <!-- Day After Tomorrow -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                    Saturday (July 29)
+                </div>
+                <div class="time-slot" data-time="09:00">9:00 AM</div>
+                <div class="time-slot" data-time="09:30">9:30 AM</div>
+                <div class="time-slot" data-time="14:00">2:00 PM</div>
+                <div class="time-slot" data-time="14:30">2:30 PM</div>
             </div>
 
-            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
-                <button id="proposeDifferentTime" style="width: 100%; padding: 12px; background-color: white; border: 1px dashed var(--sage-green); border-radius: 8px; color: var(--sage-green); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <i class="fas fa-clock"></i>
-                    Need a different time? Propose your preferred time
-                </button>
-                
-                <div id="proposeTimeSection" style="display: none; margin-top: 16px;">
-                    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
-                        <i class="fas fa-exclamation-triangle" style="color: #856404; margin-right: 8px;"></i>
-                        Note: Times outside of the shown availability are less likely to be accepted by the seller.
-                    </div>
+            <!-- Propose Different Time -->
+            <div class="propose-time" id="proposeTime">
+                <i class="fas fa-clock"></i>
+                Still need to propose a different time
+            </div>
 
+            <!-- Propose Time Modal -->
+            <div class="modal" id="proposeModal">
+                <div class="modal-content">
+                    <div class="modal-close" id="modalClose">&times;</div>
+                    <div class="modal-title">Propose a Different Time</div>
+                    <div style="margin-bottom: 16px; color: #666; font-size: 14px;">
+                        Select your preferred time. Note that times outside seller's availability may be rejected.
+                    </div>
+                    
                     <div style="margin-bottom: 16px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Date</label>
-                        <input type="date" id="customDate" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 16px;">
-                        
+                        <select id="proposeDate" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                            <option value="">Choose a date</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 24px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Time</label>
-                        <select id="customTime" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                        <select id="proposeTimeSelect" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
                             <option value="">Choose a time</option>
                             <option value="09:00">9:00 AM</option>
                             <option value="09:30">9:30 AM</option>
@@ -834,68 +939,129 @@
                             <option value="19:30">7:30 PM</option>
                         </select>
                     </div>
+                    
+                    <button class="btn-primary" id="confirmProposal" style="margin: 0;" disabled>
+                        <i class="fas fa-check"></i> Confirm New Time
+                    </button>
                 </div>
             </div>
 
             <script>
-                document.getElementById('proposeDifferentTime').addEventListener('click', function() {
-                    const section = document.getElementById('proposeTimeSection');
-                    if (section.style.display === 'none') {
-                        section.style.display = 'block';
-                        this.style.backgroundColor = '#f8faf7';
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Initialize propose time functionality
+                    const proposeTimeBtn = document.getElementById('proposeTime');
+                    const proposeModal = document.getElementById('proposeModal');
+                    const modalClose = document.getElementById('modalClose');
+                    const confirmProposal = document.getElementById('confirmProposal');
+                    const dateSelect = document.getElementById('proposeDate');
+                    const timeSelect = document.getElementById('proposeTimeSelect');
+
+                    // Populate date select with next 3 days starting from tomorrow
+                    function populateDateOptions() {
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
                         
-                        // Create time slots for the next three days
-                        const timeSlots = [
-                            "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-                            "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
-                            "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
-                            "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-                            "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM",
-                            "7:00 PM", "7:30 PM"
-                        ];
-
-                        const days = ['Today', 'Tomorrow', 'Friday'];
-                        let html = '';
-
-                        days.forEach(day => {
-                            html += `
-                                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
-                                    ${day}
-                                </div>
-                            `;
-                            timeSlots.forEach(time => {
-                                html += `
-                                    <div class="propose-time-slot" onclick="selectProposeTime(this)">
-                                        ${time}
-                                    </div>
-                                `;
+                        for (let i = 0; i < 3; i++) {
+                            const date = new Date(tomorrow);
+                            date.setDate(date.getDate() + i);
+                            
+                            const dateStr = date.toISOString().split('T')[0];
+                            const displayDate = date.toLocaleDateString('en-US', {
+                                weekday: 'long',
+                                month: 'short',
+                                day: 'numeric'
                             });
+                            
+                            const option = document.createElement('option');
+                            option.value = dateStr;
+                            option.textContent = displayDate;
+                            dateSelect.appendChild(option);
+                        }
+                    }
+
+                    populateDateOptions();
+
+                    // Set min date to tomorrow
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    const maxDate = new Date(tomorrow);
+                    maxDate.setDate(maxDate.getDate() + 2);
+
+                    dateSelect.min = tomorrow.toISOString().split('T')[0];
+                    dateSelect.max = maxDate.toISOString().split('T')[0];
+
+                    proposeTimeBtn.addEventListener('click', function() {
+                        proposeModal.style.display = 'flex';
+                        // Reset selections when opening modal
+                        dateSelect.value = '';
+                        timeSelect.value = '';
+                        confirmProposal.disabled = true;
+                    });
+
+                    modalClose.addEventListener('click', function() {
+                        proposeModal.style.display = 'none';
+                    });
+
+                    proposeModal.addEventListener('click', function(e) {
+                        if (e.target === proposeModal) {
+                            proposeModal.style.display = 'none';
+                        }
+                    });
+
+                    // Enable/disable confirm button based on both date and time selection
+                    function validateSelection() {
+                        const isValid = dateSelect.value && timeSelect.value;
+                        confirmProposal.disabled = !isValid;
+                    }
+
+                    // Add event listeners
+                    dateSelect.addEventListener('change', validateSelection);
+                    timeSelect.addEventListener('change', validateSelection);
+
+                    confirmProposal.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        if (!dateSelect.value || !timeSelect.value) {
+                            alert('Please select both date and time');
+                            return;
+                        }
+
+                        const date = new Date(dateSelect.value + 'T' + timeSelect.value);
+                        const formattedTime = date.toLocaleTimeString('en-US', { 
+                            hour: 'numeric', 
+                            minute: '2-digit', 
+                            hour12: true 
+                        });
+                        const formattedDate = date.toLocaleDateString('en-US', { 
+                            weekday: 'short', 
+                            month: 'short', 
+                            day: 'numeric' 
                         });
 
-                        section.innerHTML = `
-                            <div style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
-                                <i class="fas fa-exclamation-triangle" style="color: #856404; margin-right: 8px;"></i>
-                                Note: Times outside of the shown availability are less likely to be accepted by the seller.
-                            </div>
-                            <div class="propose-time-slots">
-                                ${html}
-                            </div>
-                        `;
-                    } else {
-                        section.style.display = 'none';
-                        this.style.backgroundColor = 'white';
-                    }
-                });
+                        // Close propose modal
+                        proposeModal.style.display = 'none';
+                        
+                        // Show confirmation modal
+                        const confirmationModal = document.getElementById('confirmationModal');
+                        confirmationModal.style.display = 'flex';
 
-                // Set min date to today
-                const customDate = document.getElementById('customDate');
-                const today = new Date();
-                customDate.min = today.toISOString().split('T')[0];
-                
-                // Only allow dates within next 3 days
-                const maxDate = new Date();
-                maxDate.setDate(maxDate.getDate() + 3);
-                customDate.max = maxDate.toISOString().split('T')[0];
+                        // Remove the item from the current view
+                        const currentCard = document.querySelector('.pickup-card.being-rescheduled');
+                        if (currentCard) {
+                            currentCard.style.transition = 'opacity 0.3s ease';
+                            currentCard.style.opacity = '0';
+                            setTimeout(() => {
+                                currentCard.remove();
+                                // Update count if it's in Today's Pickups
+                                const todaySection = document.querySelector('.section-title');
+                                if (todaySection && todaySection.textContent.includes("Today's")) {
+                                    const count = document.querySelectorAll('.pickup-card').length;
+                                    todaySection.textContent = `Today's Pickups (${count})`;
+                                }
+                            }, 300);
+                        }
+                    });
+                });
             </script>
         </div>
 

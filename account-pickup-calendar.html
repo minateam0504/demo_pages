@@ -1091,6 +1091,102 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Check for new confirmed pickup
+        const newPickupData = sessionStorage.getItem('newConfirmedPickup');
+        if (newPickupData) {
+            const pickupDetails = JSON.parse(newPickupData);
+            
+            // Create new pickup card
+            const newCard = document.createElement('div');
+            newCard.className = 'pickup-card';
+            newCard.innerHTML = `
+                <div class="pickup-content">
+                    <div class="pickup-image">
+                        <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                            <i class="fas fa-baby" style="font-size: 40px; color: var(--sage-green);"></i>
+                        </div>
+                    </div>
+                    <div class="pickup-details">
+                        <div class="pickup-title">${pickupDetails.itemName}</div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-clock"></i> ${pickupDetails.time}
+                        </div>
+                        <div class="pickup-meta" style="display:flex; align-items:center;">
+                            <i class="fas fa-user"></i>
+                            <div class="buyer-avatar">
+                                <img src="${pickupDetails.sellerAvatar}" alt="Seller">
+                            </div>
+                            <div class="buyer-name">${pickupDetails.sellerInfo}</div>
+                        </div>
+                        <div class="pickup-meta">
+                            <i class="fas fa-map-marker-alt"></i> ${pickupDetails.location}
+                        </div>
+                        <div class="pickup-status status-confirmed">Confirmed</div>
+                    </div>
+                </div>
+                <div class="pickup-actions">
+                    <button class="pickup-action reschedule-btn">
+                        <i class="fas fa-calendar-times"></i> Reschedule
+                    </button>
+                </div>
+            `;
+
+            // Add the new card to Today's Pickups section
+            const todaySection = document.querySelector('.schedule-section');
+            const existingCards = todaySection.querySelectorAll('.pickup-card');
+            todaySection.insertBefore(newCard, existingCards[0]);
+
+            // Update the count in the section title
+            const sectionTitle = todaySection.querySelector('.section-title');
+            const currentCount = existingCards.length + 1;
+            sectionTitle.textContent = `Today's Pickups (${currentCount})`;
+
+            // Show success toast
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--sage-green);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-size: 14px;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            `;
+            toast.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Pickup time confirmed successfully!</span>
+            `;
+            document.body.appendChild(toast);
+
+            // Animate toast
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }, 100);
+
+            // Clear the session storage
+            sessionStorage.removeItem('newConfirmedPickup');
+
+            // Initialize reschedule button for the new card
+            const rescheduleBtn = newCard.querySelector('.reschedule-btn');
+            rescheduleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openRescheduleModal(this.closest('.pickup-card'));
+            });
+        }
+
         // Initialize filters
         initializeFilters();
 

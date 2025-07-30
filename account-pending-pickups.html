@@ -278,6 +278,12 @@
         .btn-secondary:hover {
             background-color: #d1d5db;
         }
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #e5e7eb;
+            color: #9ca3af;
+        }
         .btn-decline {
             background-color: #fee2e2;
             color: #dc2626;
@@ -610,84 +616,540 @@
         .update-note-warning i {
             color: #854d0e;
         }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        .time-slot.selected {
+            background-color: var(--sage-green);
+            color: white;
+            border-color: var(--sage-green);
+            font-weight: 500;
+        }
+
+        .time-slot.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .time-slot.unavailable {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+            border-color: #e5e7eb;
+        }
+
+        .propose-time {
+            width: 100%;
+            padding: 12px;
+            background-color: white;
+            border: 1px dashed var(--sage-green);
+            border-radius: 8px;
+            color: var(--sage-green);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .propose-time:hover {
+            background-color: #f8faf7;
+        }
+
+        .reschedule-footer {
+            background-color: white;
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .reschedule-btn.primary {
+            background-color: var(--sage-green);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .reschedule-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #ccc !important;
+        }
+
+        .reschedule-btn.primary:not(:disabled):hover {
+            background-color: #8b8e7a;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .product-details-modal {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin-bottom: env(safe-area-inset-bottom, 0);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .product-details-content {
+            padding: 16px 0;
+        }
+
+        .product-header {
+            margin-bottom: 24px;
+        }
+
+        .product-image-large {
+            margin-bottom: 16px;
+        }
+
+        .product-title-section {
+            margin-bottom: 24px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+
+        .product-info-section {
+            background-color: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .pickup-request-section {
+            margin-top: 24px;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .pickup-request-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--charcoal);
+        }
+
+        .request-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .request-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-value-with-avatar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-value-with-avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        .trust-score {
+            font-size: 12px;
+            color: var(--sage-green);
+            font-weight: 500;
+        }
+
+        .info-value i {
+            margin-right: 8px;
+            color: var(--charcoal);
+            opacity: 0.7;
+        }
+
+        .status-pending {
+            color: var(--warning);
+        }
+
+        .modal-actions {
+            margin: 12px 16px;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .modal-actions .btn {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .modal-actions .btn-primary {
+            flex: 1;
+        }
+
+        .modal-actions .btn i {
+            font-size: 12px;
+        }
+
+        .pickup-request-banner {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .request-status {
+            background-color: #fff3cd;
+            padding: 12px 16px;
+            color: var(--warning);
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #ffeeba;
+        }
+
+        .request-details {
+            background-color: white;
+            padding: 16px;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .seller-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .location-info {
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
+            margin-top: 4px;
+        }
+
+        .location-info i,
+        .time-info i {
+            width: 16px;
+            text-align: center;
+            color: var(--charcoal);
+            font-size: 13px;
+            margin-right: 4px;
+        }
+
+        .time-info {
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+        }
+
+        .product-gallery {
+            position: relative;
+            height: 280px;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gallery-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .gallery-dot.active {
+            background-color: var(--sage-green);
+        }
+
+        .badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-verified {
+            background-color: var(--sage-green);
+            color: white;
+        }
+
+        .product-info {
+            padding: 20px 16px;
+            background-color: white;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--terracotta);
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .age-badge {
+            background-color: rgba(155,158,138,0.1);
+            color: var(--sage-green);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+
+        .product-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            max-width: 60%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
-    <!-- iOS Status Bar -->
     <div class="ios-status-bar">
-        <div>9:41</div>
+        <div>Mina</div>
         <div>
-            <span class="mr-1"><i class="fas fa-signal"></i></span>
-            <span class="mr-1"><i class="fas fa-wifi"></i></span>
-            <span><i class="fas fa-battery-full"></i></span>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
         </div>
     </div>
-    
-    <!-- Main Content -->
+
     <div class="main-content">
-        <!-- Page Header -->
         <div class="page-header">
-            <a href="account-management.html" class="back-button">
-                <i class="fas fa-chevron-left"></i>
-            </a>
-            <div class="page-title">Pending Pickups</div>
+            <a href="account-pickup-calendar.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
+            <h1 class="page-title">Pending Pickups</h1>
         </div>
-        
-        <!-- Filters -->
+
         <div class="filters-row">
-            <div class="filter-pill active">All (5)</div>
-            <div class="filter-pill">My Purchases (2)</div>
-            <div class="filter-pill">My Listings (3)</div>
+            <div class="filter-pill active" onclick="filterCards('all')">All</div>
+            <div class="filter-pill" onclick="filterCards('purchases')">Purchases</div>
+            <div class="filter-pill" onclick="filterCards('listings')">Listings</div>
         </div>
-        
-        <!-- My Purchases Section -->
-        <div class="section-title">My Purchases</div>
-        
+
         <!-- First Purchase Card -->
         <div class="pickup-card" data-type="purchase">
             <div class="pickup-content">
                 <div class="pickup-image">
-                    <img src="https://m.media-amazon.com/images/I/71K5YwHPHUL._AC_SL1500_.jpg" alt="Baby Bjorn Bouncer"
-                        style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                        <i class="fas fa-baby" style="font-size: 40px; color: var(--sage-green);"></i>
+                    </div>
                 </div>
                 <div class="pickup-details">
                     <div class="pickup-name">Baby Bjorn Bouncer Bliss</div>
                     <div class="pickup-meta">
                         <i class="fas fa-user"></i>
                         <div class="buyer-avatar">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller">
                         </div>
-                        <div class="buyer-name">Emma W. (Seller) • <span style="color: var(--sage-green);">Trust Score - 89</span></div>
+                        <div class="buyer-name">Lisa T. (Seller)</div>
                     </div>
                     <div class="pickup-meta">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>2.5 miles away • Upper East Side</span>
+                        <i class="fas fa-calendar-alt"></i> Suggested: Jul 19, 3:00 PM
                     </div>
-                    <div class="pickup-meta">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Your suggestion: Jul 20, 4:00 PM</span>
-                    </div>
-                    <div class="pickup-meta">
-                        <i class="fas fa-star"></i>
-                        <span>Trust score: 89</span>
-                    </div>
-                    <div class="pickup-price">$150.00</div>
-                    <div class="pickup-status">Pending seller confirmation</div>
+                    <div class="pickup-price">$85.00</div>
+                    <div class="pickup-status">New Time Suggested by Seller, please confirm within 24 hours</div>
                 </div>
             </div>
             <div class="pickup-actions">
-                <div class="action-required">
-                    <i class="fas fa-clock"></i>
-                    <span>Waiting for seller to confirm time</span>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)" data-pickup-date="2024-07-20T16:00:00">
-                        <i class="fas fa-calendar-alt"></i> Suggest New Time
+                <div class="action-buttons vertical">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" onclick="handleConfirmTime(this)" style="background-color: var(--terracotta); color: white; font-weight: 600;">
+                            <i class="fas fa-check"></i> Confirm Time
+                        </button>
+                        <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)">
+                            <i class="fas fa-calendar-alt"></i> Suggest New Time
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="showUpdateNoteModal()">
+                        <i class="fas fa-bell"></i> Send Update Note
                     </button>
-                    <button class="btn btn-decline" data-pickup-date="2024-07-20T16:00:00" onclick="handleCancelRequest(this)">
-                        <i class="fas fa-times"></i> Cancel Request
+                    <button class="btn btn-decline" onclick="showDeclineModal(this)">
+                        <i class="fas fa-times"></i> Decline
                     </button>
                 </div>
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="empty-title">All Caught Up!</h3>
+                <p class="empty-description">No pending pickups to confirm right now.</p>
             </div>
         </div>
 
@@ -712,22 +1174,35 @@
                         <i class="fas fa-calendar-alt"></i> Suggested: Jul 19, 3:00 PM
                     </div>
                     <div class="pickup-price">$85.00</div>
-                    <div class="pickup-status">New Time Suggested by Seller</div>
+                    <div class="pickup-status">New Time Suggested by Seller, please confirm within 24 hours</div>
                 </div>
             </div>
             <div class="pickup-actions">
-                <div class="action-required">
-                    <i class="fas fa-exclamation-circle"></i>
-                    Action Required: Review suggested time
-                </div>
-                <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="handleConfirmTime(this)" style="background-color: var(--terracotta); color: white; font-weight: 600;">
-                        <i class="fas fa-check"></i> Confirm Time
+                <div class="action-buttons vertical">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" onclick="handleConfirmTime(this)" style="background-color: var(--terracotta); color: white; font-weight: 600;">
+                            <i class="fas fa-check"></i> Confirm Time
+                        </button>
+                        <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)">
+                            <i class="fas fa-calendar-alt"></i> Suggest New Time
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="showUpdateNoteModal()">
+                        <i class="fas fa-bell"></i> Send Update Note
                     </button>
-                    <button class="btn btn-decline" onclick="handleCancelRequest(this)">
-                        <i class="fas fa-times"></i> Cancel Request
+                    <button class="btn btn-decline" onclick="showDeclineModal(this)">
+                        <i class="fas fa-times"></i> Decline
                     </button>
                 </div>
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="empty-title">All Caught Up!</h3>
+                <p class="empty-description">No pending pickups to confirm right now.</p>
             </div>
         </div>
 
@@ -755,20 +1230,16 @@
                         <i class="fas fa-calendar-alt"></i> Suggested: Jul 18, 2:30 PM
                     </div>
                     <div class="pickup-price">$400.00</div>
-                    <div class="pickup-status">Awaiting Your Confirmation</div>
+                    <div class="pickup-status">You have 24 hours to confirm</div>
                 </div>
             </div>
             <div class="pickup-actions">
-                <div class="action-required">
-                    <i class="fas fa-exclamation-circle"></i>
-                    Action Required: Confirm pickup time
-                </div>
                 <div class="action-buttons vertical">
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" onclick="handleConfirmTime(this)" style="background-color: var(--terracotta); color: white; font-weight: 600;">
                             <i class="fas fa-check"></i> Confirm Time
                         </button>
-                        <button class="btn btn-secondary">
+                        <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)">
                             <i class="fas fa-calendar-alt"></i> Suggest New Time
                         </button>
                     </div>
@@ -895,43 +1366,126 @@
     <div class="modal-overlay" id="rescheduleModal">
         <div class="decline-modal">
             <div class="decline-modal-header">
-                <div class="decline-modal-title">Reschedule Pickup</div>
+                <div class="decline-modal-title">Suggest New Time</div>
                 <button class="close-modal" onclick="closeRescheduleModal()">&times;</button>
             </div>
-            
+
             <div class="reschedule-warning">
                 <i class="fas fa-exclamation-triangle"></i>
                 <div>
-                    <strong>Last-minute changes can be disruptive.</strong><br>
-                    Please be mindful when requesting schedule changes. We recommend messaging the other party first to discuss potential times that work for both of you.
+                    <strong>Important: One-Time Rescheduling Only</strong><br>
+                    You can only reschedule a pickup once. This policy helps ensure reliability and respect for everyone's time. Please choose your new time carefully.
                 </div>
             </div>
 
-            <div class="date-picker">
-                <label for="pickup-date" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500;">Select Date</label>
-                <input type="date" id="pickup-date" min="" required>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Why do you need to reschedule?</label>
+                <select id="rescheduleReason" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <option value="">Select a reason</option>
+                    <option value="schedule_conflict">Schedule conflict</option>
+                    <option value="transportation">Transportation issues</option>
+                    <option value="emergency">Personal emergency</option>
+                    <option value="other">Other reason</option>
+                </select>
             </div>
 
-            <div style="margin-bottom: 12px; font-size: 14px; font-weight: 500;">Select Time</div>
-            <div class="time-slots-grid">
-                <div class="time-slot" data-time="09:00">9:00 AM</div>
+            <div style="font-weight: 500; margin-bottom: 16px;">
+                Available Times (Next 3 Days)
+                <div style="font-size: 14px; color: #666; margin-top: 4px;">
+                    These time slots show when both you and the seller are mutually available, starting from tomorrow
+                </div>
+            </div>
+
+            <div class="time-slots">
+                <!-- Tomorrow -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin-bottom: 8px; font-weight: 500;">
+                    Tomorrow (July 27)
+                </div>
                 <div class="time-slot" data-time="10:00">10:00 AM</div>
-                <div class="time-slot unavailable" data-time="11:00">11:00 AM</div>
-                <div class="time-slot" data-time="12:00">12:00 PM</div>
+                <div class="time-slot" data-time="10:30">10:30 AM</div>
+                <div class="time-slot" data-time="15:00">3:00 PM</div>
+                <div class="time-slot" data-time="15:30">3:30 PM</div>
+
+                <!-- Day After -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                    Friday (July 28)
+                </div>
+                <div class="time-slot" data-time="11:00">11:00 AM</div>
+                <div class="time-slot" data-time="11:30">11:30 AM</div>
                 <div class="time-slot" data-time="13:00">1:00 PM</div>
+
+                <!-- Day After Tomorrow -->
+                <div style="grid-column: 1/-1; padding: 8px; background-color: #f5f5f5; border-radius: 8px; margin: 16px 0 8px 0; font-weight: 500;">
+                    Saturday (July 29)
+                </div>
+                <div class="time-slot" data-time="09:00">9:00 AM</div>
+                <div class="time-slot" data-time="09:30">9:30 AM</div>
                 <div class="time-slot" data-time="14:00">2:00 PM</div>
-                <div class="time-slot unavailable" data-time="15:00">3:00 PM</div>
-                <div class="time-slot" data-time="16:00">4:00 PM</div>
-                <div class="time-slot" data-time="17:00">5:00 PM</div>
+                <div class="time-slot" data-time="14:30">2:30 PM</div>
             </div>
 
-            <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="confirmReschedule()" disabled>
-                Confirm New Time
-            </button>
+            <!-- Propose Different Time -->
+            <div class="propose-time" id="proposeTime">
+                <i class="fas fa-clock"></i>
+                Still need to propose a different time
+            </div>
 
-            <button class="btn btn-secondary" style="width: 100%; margin-top: 12px;" onclick="goToMessages()">
-                <i class="fas fa-comments"></i> Message Other Party
-            </button>
+            <!-- Propose Time Modal -->
+            <div class="modal" id="proposeModal">
+                <div class="modal-content">
+                    <div class="modal-close" id="modalClose">&times;</div>
+                    <div class="modal-title">Propose a Different Time</div>
+                    <div style="margin-bottom: 16px; color: #666; font-size: 14px;">
+                        Select your preferred time. Note that times outside seller's availability may be rejected.
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Date</label>
+                        <select id="proposeDate" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                            <option value="">Choose a date</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Time</label>
+                        <select id="proposeTimeSelect" style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                            <option value="">Choose a time</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="09:30">9:30 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="13:30">1:30 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="14:30">2:30 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="15:30">3:30 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="16:30">4:30 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="17:30">5:30 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="18:30">6:30 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn-primary" id="confirmProposal" style="margin: 0;" disabled>
+                        <i class="fas fa-check"></i> Confirm New Time
+                    </button>
+                </div>
+            </div>
+
+            <div class="reschedule-footer">
+                <button class="reschedule-btn primary" id="confirmNewTimeBtn" onclick="confirmReschedule()" disabled>
+                    <i class="fas fa-check"></i> Confirm New Time
+                </button>
+            </div>
         </div>
     </div>
 
@@ -966,6 +1520,20 @@
         </div>
     </div>
 
+    <!-- Product Details Modal -->
+    <div class="modal-overlay" id="productDetailsModal">
+        <div class="product-details-modal">
+            <div class="decline-modal-header">
+                <div class="decline-modal-title">Product Details</div>
+                <button class="close-modal" onclick="closeProductDetailsModal()">&times;</button>
+            </div>
+            
+            <div class="product-details-content" id="productDetailsContent">
+                <!-- Content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize filter functionality
@@ -979,6 +1547,113 @@
             if (dateInput) {
                 const today = new Date();
                 dateInput.min = today.toISOString().split('T')[0];
+            }
+
+            // Initialize propose time functionality
+            const proposeTimeBtn = document.getElementById('proposeTime');
+            const proposeModal = document.getElementById('proposeModal');
+            const modalClose = document.getElementById('modalClose');
+            const confirmProposal = document.getElementById('confirmProposal');
+            const dateSelect = document.getElementById('proposeDate');
+            const timeSelect = document.getElementById('proposeTimeSelect');
+
+            if (proposeTimeBtn && proposeModal) {
+                // Populate date select with next 3 days starting from tomorrow
+                function populateDateOptions() {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    
+                    for (let i = 0; i < 3; i++) {
+                        const date = new Date(tomorrow);
+                        date.setDate(date.getDate() + i);
+                        
+                        const dateStr = date.toISOString().split('T')[0];
+                        const displayDate = date.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                        
+                        const option = document.createElement('option');
+                        option.value = dateStr;
+                        option.textContent = displayDate;
+                        dateSelect.appendChild(option);
+                    }
+                }
+
+                populateDateOptions();
+
+                proposeTimeBtn.addEventListener('click', function() {
+                    proposeModal.style.display = 'flex';
+                    // Reset selections when opening modal
+                    dateSelect.value = '';
+                    timeSelect.value = '';
+                    confirmProposal.disabled = true;
+                });
+
+                modalClose.addEventListener('click', function() {
+                    proposeModal.style.display = 'none';
+                });
+
+                proposeModal.addEventListener('click', function(e) {
+                    if (e.target === proposeModal) {
+                        proposeModal.style.display = 'none';
+                    }
+                });
+
+                // Enable/disable confirm button based on both date and time selection
+                function validateSelection() {
+                    const isValid = dateSelect.value && timeSelect.value;
+                    confirmProposal.disabled = !isValid;
+                }
+
+                // Add event listeners
+                dateSelect.addEventListener('change', validateSelection);
+                timeSelect.addEventListener('change', validateSelection);
+
+                // Initialize time slot selection
+                const timeSlots = document.querySelectorAll('.time-slot');
+                timeSlots.forEach(slot => {
+                    if (!slot.classList.contains('unavailable')) {
+                        slot.addEventListener('click', function() {
+                            timeSlots.forEach(s => s.classList.remove('selected'));
+                            this.classList.add('selected');
+                            document.getElementById('confirmNewTimeBtn').disabled = false;
+                        });
+                    }
+                });
+
+                confirmProposal.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (!dateSelect.value || !timeSelect.value) {
+                        alert('Please select both date and time');
+                        return;
+                    }
+
+                    // Close propose modal
+                    proposeModal.style.display = 'none';
+                    
+                    // Show confirmation modal
+                    const confirmationModal = document.getElementById('confirmationModal');
+                    confirmationModal.style.display = 'flex';
+
+                    // Remove the item from the current view
+                    const currentCard = document.querySelector('.pickup-card.being-rescheduled');
+                    if (currentCard) {
+                        currentCard.style.transition = 'opacity 0.3s ease';
+                        currentCard.style.opacity = '0';
+                        setTimeout(() => {
+                            currentCard.remove();
+                            // Update count if it's in Today's Pickups
+                            const todaySection = document.querySelector('.section-title');
+                            if (todaySection && todaySection.textContent.includes("Today's")) {
+                                const count = document.querySelectorAll('.pickup-card').length;
+                                todaySection.textContent = `Today's Pickups (${count})`;
+                            }
+                        }, 300);
+                    }
+                });
             }
 
             // Show all cards by default
@@ -1039,40 +1714,42 @@
             window.handleConfirmTime = function(button) {
                 const card = button.closest('.pickup-card');
                 const itemName = card.querySelector('.pickup-name').textContent;
-                const suggestedTime = card.querySelector('.pickup-meta:nth-child(3)').textContent;
+                const suggestedTimeEl = card.querySelector('.pickup-meta i.fa-calendar-alt').closest('.pickup-meta');
+                const suggestedTime = suggestedTimeEl ? suggestedTimeEl.textContent.split('Suggested: ')[1] : '';
+                const sellerInfo = card.querySelector('.buyer-name').textContent;
+                const sellerAvatar = card.querySelector('.buyer-avatar img').src;
+                const locationEl = card.querySelector('.pickup-meta i.fa-map-marker-alt');
+                const location = locationEl ? locationEl.closest('.pickup-meta').textContent : 'Seller\'s location';
+                const price = card.querySelector('.pickup-price').textContent;
+
+                // Parse the time into start and end time (30-minute window)
+                const baseTime = new Date(`2024-01-01 ${suggestedTime}`);
+                const endTime = new Date(baseTime.getTime() + 30 * 60000);
+                const timeWindow = `${baseTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} - ${endTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
                 
-                // Update the status
-                const statusDiv = card.querySelector('.pickup-status');
-                statusDiv.textContent = 'Pickup Confirmed';
-                statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
-                statusDiv.style.color = '#15803d';
+                // Store the confirmed pickup details in sessionStorage
+                const pickupDetails = {
+                    itemName: itemName,
+                    time: timeWindow,
+                    sellerInfo: sellerInfo,
+                    sellerAvatar: sellerAvatar,
+                    location: location,
+                    price: price,
+                    status: 'Confirmed',
+                    isNewConfirmation: true,
+                    icon: 'baby' // Using the same icon as in the current card
+                };
+                
+                sessionStorage.setItem('newConfirmedPickup', JSON.stringify(pickupDetails));
 
-                // Update the action required text
-                const actionRequired = card.querySelector('.action-required');
-                actionRequired.innerHTML = `
-                    <i class="fas fa-check-circle" style="color: #15803d;"></i>
-                    Pickup confirmed for ${suggestedTime.split(': ')[1]}
-                `;
-
-                // Update the buttons
-                const actionButtons = card.querySelector('.action-buttons');
-                actionButtons.innerHTML = `
-                    <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)">
-                        <i class="fas fa-calendar-alt"></i> Reschedule
-                    </button>
-                    <button class="btn btn-decline" onclick="handleCancelRequest(this)">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                `;
-
-                // Show success toast
+                // Show success toast before redirecting
                 const toast = document.createElement('div');
                 toast.style.cssText = `
                     position: fixed;
                     bottom: 100px;
                     left: 50%;
                     transform: translateX(-50%);
-                    background-color: #15803d;
+                    background-color: var(--sage-green);
                     color: white;
                     padding: 16px 24px;
                     border-radius: 12px;
@@ -1091,32 +1768,112 @@
                 `;
                 document.body.appendChild(toast);
 
-                // Animate toast
+                // Animate toast and redirect
                 setTimeout(() => {
                     toast.style.opacity = '1';
                     setTimeout(() => {
                         toast.style.opacity = '0';
-                        setTimeout(() => toast.remove(), 300);
-                    }, 3000);
+                        setTimeout(() => {
+                            toast.remove();
+                            // Redirect to the calendar page
+                            window.location.href = 'account-pickup-calendar.html';
+                        }, 300);
+                    }, 1000);
                 }, 100);
             };
 
             // Add new function to handle reschedule request
             window.handleRescheduleRequest = function(button) {
+                // Check if button is disabled
+                if (button.disabled) {
+                    return;
+                }
+
+                const rescheduleModal = document.getElementById('rescheduleModal');
+                rescheduleModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+
+                // Store the current card for later use
                 const card = button.closest('.pickup-card');
-                const itemName = card.querySelector('.pickup-name').textContent;
-                const sellerName = card.querySelector('.buyer-name').textContent;
+                card.classList.add('being-rescheduled');
+            };
+
+            window.closeRescheduleModal = function() {
+                const rescheduleModal = document.getElementById('rescheduleModal');
+                rescheduleModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
                 
-                // Store item details in sessionStorage for the scheduling page
-                sessionStorage.setItem('rescheduleItem', JSON.stringify({
-                    itemName: itemName,
-                    sellerName: sellerName,
-                    isReschedule: true,
-                    originalRequestDate: card.querySelector('[data-pickup-date]')?.dataset.pickupDate
-                }));
-                
-                // Redirect to the scheduling page
-                window.location.href = 'suggest-pickup-time.html';
+                // Remove the being-rescheduled class from any cards
+                const card = document.querySelector('.pickup-card.being-rescheduled');
+                if (card) {
+                    card.classList.remove('being-rescheduled');
+                }
+
+                // Reset selections
+                const timeSlots = rescheduleModal.querySelectorAll('.time-slot');
+                timeSlots.forEach(slot => slot.classList.remove('selected'));
+                const reasonSelect = document.getElementById('rescheduleReason');
+                if (reasonSelect) {
+                    reasonSelect.value = '';
+                }
+                document.getElementById('confirmNewTimeBtn').disabled = true;
+            };
+
+            window.confirmReschedule = function() {
+                const reason = document.getElementById('rescheduleReason').value;
+                const selectedTimeSlot = document.querySelector('.time-slot.selected');
+                const selectedProposedDate = document.getElementById('proposeDate').value;
+                const selectedProposedTime = document.getElementById('proposeTimeSelect').value;
+
+                if (!reason) {
+                    alert('Please select a reason for rescheduling');
+                    return;
+                }
+
+                if (!selectedTimeSlot && (!selectedProposedDate || !selectedProposedTime)) {
+                    alert('Please select a time slot or propose a new time');
+                    return;
+                }
+
+                // Get the current card
+                const card = document.querySelector('.pickup-card.being-rescheduled');
+                if (card) {
+                    // Update the status
+                    const statusDiv = card.querySelector('.pickup-status');
+                    statusDiv.textContent = 'Reschedule Request Sent';
+                    statusDiv.style.backgroundColor = 'rgba(246, 192, 80, 0.2)';
+                    statusDiv.style.color = 'var(--warning)';
+
+                    // Update the pickup meta with new suggested time
+                    const pickupMeta = card.querySelector('.pickup-meta:nth-child(3)');
+                    if (pickupMeta) {
+                        const newTime = selectedTimeSlot ? 
+                            selectedTimeSlot.dataset.time : 
+                            `${selectedProposedDate} ${selectedProposedTime}`;
+                        pickupMeta.innerHTML = `
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Your new suggestion: ${newTime}</span>
+                        `;
+                    }
+
+                    // Disable the Suggest New Time button
+                    const suggestTimeBtn = card.querySelector('button[onclick="handleRescheduleRequest(this)"]');
+                    if (suggestTimeBtn) {
+                        suggestTimeBtn.disabled = true;
+                        suggestTimeBtn.style.opacity = '0.5';
+                        suggestTimeBtn.style.cursor = 'not-allowed';
+                        suggestTimeBtn.title = 'You have already used your one-time reschedule request';
+                    }
+
+                    // Remove the being-rescheduled class
+                    card.classList.remove('being-rescheduled');
+                }
+
+                // Close the modal
+                closeRescheduleModal();
+
+                // Show success toast
+                showToast('Reschedule request sent successfully', 'success');
             };
 
             // Add cancel request handling
@@ -1192,6 +1949,212 @@
                     sendUpdateBtn.disabled = !this.value.trim();
                 });
             }
+
+            // Add click handler for all product cards
+            const productCards = document.querySelectorAll('.pickup-card');
+            productCards.forEach(card => {
+                const content = card.querySelector('.pickup-content');
+                content.addEventListener('click', function(e) {
+                    // Don't open modal if clicking on buttons or links
+                    if (!e.target.closest('.pickup-actions')) {
+                        const productName = card.querySelector('.pickup-name').textContent;
+                        const productImage = card.querySelector('.pickup-image img')?.src || '';
+                        const price = card.querySelector('.pickup-price').textContent;
+                        
+                        // Get the product details content container
+                        const detailsContent = document.getElementById('productDetailsContent');
+                        
+                        if (productName === 'Baby Bjorn Bouncer Bliss') {
+                            detailsContent.innerHTML = `
+                                <div class="pickup-request-banner">
+                                    <div class="request-status">
+                                        <i class="fas fa-clock"></i>
+                                        <span>New Time Suggested by Seller, please confirm within 24 hours</span>
+                                    </div>
+                                    <div class="request-details">
+                                        <div class="seller-info">
+                                            <div class="buyer-avatar">
+                                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Seller">
+                                            </div>
+                                            <div class="seller-meta">
+                                                <div class="buyer-name">Lisa T. (Seller)</div>
+                                                <div class="location-info">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <span>Suggested: Jul 19, 3:00 PM</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-actions" style="margin: 12px 16px; padding-top: 0; border-top: none;">
+                                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                        <button class="btn btn-primary" onclick="handleConfirmTime(this)" style="background-color: var(--terracotta); color: white; font-weight: 600; flex: 1; padding: 10px; font-size: 14px;">
+                                            <i class="fas fa-check"></i> Confirm Time
+                                        </button>
+                                        <button class="btn btn-secondary" onclick="handleRescheduleRequest(this)" style="padding: 10px; font-size: 14px;">
+                                            <i class="fas fa-calendar-alt"></i> Suggest New Time
+                                        </button>
+                                    </div>
+                                    <button class="btn btn-decline" onclick="showDeclineModal(this)" style="padding: 10px; font-size: 14px; width: 100%;">
+                                        <i class="fas fa-times"></i> Decline
+                                    </button>
+                                </div>
+
+                                <div class="product-gallery">
+                                    <div class="badge badge-verified">Verified & Safe</div>
+                                    <img src="${productImage}" alt="${productName}" class="gallery-image">
+                                    <div class="gallery-nav">
+                                        <div class="gallery-dot active"></div>
+                                        <div class="gallery-dot"></div>
+                                        <div class="gallery-dot"></div>
+                                    </div>
+                                </div>
+
+                                <div class="product-info">
+                                    <div class="product-price">${price}</div>
+                                    <h1 class="product-title">${productName}</h1>
+                                    
+                                    <div class="product-meta">
+                                        <div class="age-badge">
+                                            <i class="fas fa-baby"></i>
+                                            <span>0-12 months</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="section-title">Description</div>
+                                    <div class="product-description">
+                                        The Baby Björn Bouncer Bliss is in excellent condition, used for only 6 months. Perfect for soothing and entertaining your baby. Features natural rocking movement without batteries, ergonomic design, and machine-washable fabric.
+                                    </div>
+                                    
+                                    <div class="section-title">Details</div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Condition</div>
+                                        <div class="detail-value">Like New</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Age</div>
+                                        <div class="detail-value">6 months old</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Brand</div>
+                                        <div class="detail-value">Baby Björn</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Color</div>
+                                        <div class="detail-value">Light Grey</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">What's Included</div>
+                                        <div class="detail-value">
+                                            • Bouncer frame<br>
+                                            • Original fabric seat<br>
+                                            • Transport bag<br>
+                                            • Instruction manual
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="background-color: white; padding: 20px 16px; margin-top: 16px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                                            <i class="fas fa-shield-alt" style="color: white; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 18px; margin-bottom: 2px;">Mina Verified & Safe</div>
+                                            <div style="font-size: 14px; color: #666;">All safety checks passed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="background-color: rgba(155,158,138,0.1); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                                        <div style="font-size: 15px; line-height: 1.5; color: #444;">
+                                            This bouncer has been verified by Mina to meet all safety standards. Our checks confirm it has no recalls, is in excellent condition as described, and meets all safety requirements.
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                                                <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                                            </div>
+                                            <div style="font-size: 13px;">No recalls</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                                                <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                                            </div>
+                                            <div style="font-size: 13px;">Condition verified</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                                                <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                                            </div>
+                                            <div style="font-size: 13px;">Legal to sell</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--sage-green); display: flex; justify-content: center; align-items: center;">
+                                                <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                                            </div>
+                                            <div style="font-size: 13px;">Safety compliant</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        } else if (productName === 'UPPAbaby Vista V2 Stroller') {
+                            detailsContent.innerHTML = `
+                                <div class="product-header">
+                                    <div class="product-image-large">
+                                        <div style="height: 200px; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0; border-radius: 12px;">
+                                            <i class="fas fa-baby-carriage" style="font-size: 64px; color: var(--sage-green);"></i>
+                                        </div>
+                                    </div>
+                                    <div class="product-title-section">
+                                        <h2 class="product-title">${productName}</h2>
+                                        <div class="product-price">${price}</div>
+                                    </div>
+                                </div>
+
+                                <div class="product-info-section">
+                                    <div class="info-group">
+                                        <div class="info-label">Condition</div>
+                                        <div class="info-value">Gently Used</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">Age</div>
+                                        <div class="info-value">1 year old</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">Brand</div>
+                                        <div class="info-value">UPPAbaby</div>
+                                    </div>
+                                    <div class="info-group">
+                                        <div class="info-label">Color</div>
+                                        <div class="info-value">Charcoal Grey</div>
+                                    </div>
+                                </div>
+
+                                <div class="product-description">
+                                    <h3>Description</h3>
+                                    <p>The VISTA V2 stroller is in excellent condition, perfect for growing families. Includes the toddler seat, rain shield, and bug shield. Features a reversible seat, large basket, and smooth maneuverability. Only used for 1 year, always stored indoors.</p>
+                                    
+                                    <h3>What's Included</h3>
+                                    <ul>
+                                        <li>Stroller frame and seat</li>
+                                        <li>Rain shield</li>
+                                        <li>Bug shield</li>
+                                        <li>Storage basket</li>
+                                        <li>Original manual</li>
+                                    </ul>
+                                </div>
+                            `;
+                        }
+
+                        const productDetailsModal = document.getElementById('productDetailsModal');
+                        productDetailsModal.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
         });
 
         function showUpdateNoteModal() {
@@ -1270,6 +2233,19 @@
                 }, 3000);
             });
         }
+
+        function closeProductDetailsModal() {
+            const modal = document.getElementById('productDetailsModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('productDetailsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductDetailsModal();
+            }
+        });
     </script>
 </body>
 </html>

@@ -2149,7 +2149,10 @@
                             `;
                         }
 
+                        // Update the modal title when opening
                         const productDetailsModal = document.getElementById('productDetailsModal');
+                        const modalTitle = productDetailsModal.querySelector('.decline-modal-title');
+                        modalTitle.textContent = productName;
                         productDetailsModal.style.display = 'flex';
                         document.body.style.overflow = 'hidden';
                     }

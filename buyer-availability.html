@@ -425,6 +425,37 @@
             font-size: 12px;
             color: #999;
         }
+        .step-content {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .step-content.fade-out {
+            opacity: 0;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--charcoal);
+            border: 1px solid #E5E7EB;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+            border-color: #d1d5db;
+        }
+
+        .button-group {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .button-group form {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -446,131 +477,158 @@
             </a>
             <div class="header-title">Meetup Preference</div>
         </div>
-        
-        <div class="ai-container">
-            <div class="ai-avatar">
-                <span style="font-weight: bold; font-size: 20px;">M</span>
-            </div>
-            <div class="ai-message">
-                <div class="ai-badge">Mina AI Assistant</div>
-                <div class="ai-text">
-                    <strong>Let's set up your meetup preferences.</strong> Share your typical availability and preferred meetup locations to make future item exchanges smoother.
+
+        <!-- Step 1: Availability -->
+        <div id="step1">
+            <div class="ai-container">
+                <div class="ai-avatar">
+                    <span style="font-weight: bold; font-size: 20px;">M</span>
+                </div>
+                <div class="ai-message">
+                    <div class="ai-badge">Mina AI Assistant</div>
+                    <div class="ai-text">
+                        <strong>Let's help find times that work best for you and the seller.</strong> Please set up your typical availability - you can always update this later in your account settings.
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="prompt-section">
-            <div class="prompt-container">
-                <div class="prompt-header">Meetup Method</div>
-                <div class="prompt-info">Select where you typically prefer to meet up for items.</div>
-                
-                <div class="radio-wrapper">
-                    <input type="radio" id="pickup1" name="pickup" class="radio-input" checked>
-                    <label for="pickup1" class="radio-label">Meet at my or the seller's location</label>
-                </div>
-                <div class="safety-message">
-                    <i class="fas fa-shield-alt"></i> Seller's exact address will be shared after payment confirmation.
-                </div>
-                
-                <div class="radio-wrapper">
-                    <input type="radio" id="pickup2" name="pickup" class="radio-input">
-                    <label for="pickup2" class="radio-label">Meet at public place</label>
-                </div>
-                <div id="publicPlaceSection" style="display:none;">
-                    <div class="prompt-header" style="font-size:15px;margin-top:12px;">Select a public meeting place:</div>
-                    <input type="text" id="publicPlaceInput" class="input-field" placeholder="Search or select a nearby location" readonly>
-                </div>
-            </div>
-        </div>
-        
-        <div class="prompt-section">
-            <div class="prompt-container">
-                <div class="prompt-header">Your Availability</div>
-                <div class="prompt-info">Select which time windows work for you. We will will propose specific times based on you and seller'savailability.</div>
-                
-                <!-- Compact grid of availability -->
-                <div style="margin: 16px 0 20px 0;">
-                    <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%; font-size: 12px; text-align: left; padding: 8px 2px; color: #666; font-weight: 500;"></th>
-                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">8-11a</th>
-                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">11a-2p</th>
-                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">2-5p</th>
-                                <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">5-8p</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Mon</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Tue</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Wed</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Thu</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="thu" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="thu" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Fri</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sat</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sun</td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                                <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="prompt-info" style="font-size: 13px; color: var(--sage-green); font-style: italic; margin: -10px 0 16px 0;">
-                    <i class="fas fa-info-circle"></i> Tap a box to select when you're available.
-                </div>
-                
-                <div class="prompt-header" style="font-size:15px;margin-top:20px;">Special requests or notes:</div>
-                <textarea class="textarea-field" placeholder="Any special requests for the seller..."></textarea>
-                
-                <div class="default-prefs">
-                    <input type="checkbox" id="defaultPrefs" class="custom-checkbox">
-                    <label for="defaultPrefs" class="default-label">Save these as my default pickup preferences</label>
+
+            <div class="prompt-section">
+                <div class="prompt-container">
+                    <div class="prompt-header">Your Availability</div>
+                    <div class="prompt-info">Select which time windows work for you. We will propose specific times based on you and seller's availability.</div>
+                    
+                    <!-- Compact grid of availability -->
+                    <div style="margin: 16px 0 20px 0;">
+                        <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%; font-size: 12px; text-align: left; padding: 8px 2px; color: #666; font-weight: 500;"></th>
+                                    <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">8-11a</th>
+                                    <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">11a-2p</th>
+                                    <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">2-5p</th>
+                                    <th style="width: 21%; font-size: 12px; text-align: center; padding: 8px 2px; color: #666; font-weight: 500;">5-8p</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Mon</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="mon" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Tue</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="tue" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Wed</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="wed" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Thu</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="thu" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="thu" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="thu" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Fri</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="fri" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sat</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sat" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle selected" data-day="sat" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid var(--sage-green); background: var(--sage-green); display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-check" style="color: white; font-size: 14px;"></i></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600; font-size: 13px; padding: 8px 2px;">Sun</td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="morning" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="midday" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="afternoon" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                    <td style="padding: 4px 2px;"><div class="time-toggle" data-day="sun" data-time="evening" style="height: 32px; border-radius: 6px; border: 1px solid #E5E7EB; background: #f9f9f9; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="prompt-info" style="font-size: 13px; color: var(--sage-green); font-style: italic; margin: -10px 0 16px 0;">
+                        <i class="fas fa-info-circle"></i> Tap a box to select when you're available.
+                    </div>
+                    
+                    <div class="default-prefs">
+                        <input type="checkbox" id="defaultPrefs" class="custom-checkbox" checked>
+                        <label for="defaultPrefs" class="default-label">Save these as my default availability preferences</label>
+                    </div>
+
+                    <button id="continueToStep2" class="btn-primary" style="margin-top: 24px;">Continue</button>
                 </div>
             </div>
         </div>
-        
-        <form action="buyer-pickup.html" method="GET">
-            <button type="submit" class="btn-primary">Continue to Scheduling</button>
-        </form>
+
+        <!-- Step 2: Meetup Preferences -->
+        <div id="step2" style="display: none;">
+            <div class="ai-container">
+                <div class="ai-avatar">
+                    <span style="font-weight: bold; font-size: 20px;">M</span>
+                </div>
+                <div class="ai-message">
+                    <div class="ai-badge">Mina AI Assistant</div>
+                    <div class="ai-text">
+                        <strong>One more thing!</strong> Let's set up your location preferences. I will save this for your future selling activities!
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-container">
+                    <div class="prompt-header">Meetup Method</div>
+                    <div class="prompt-info">Select where you typically prefer to meet up for items.</div>
+                    
+                    <div class="radio-wrapper">
+                        <input type="radio" id="pickup1" name="pickup" class="radio-input" checked>
+                        <label for="pickup1" class="radio-label">Meet at my location</label>
+                    </div>
+                    <div class="safety-message">
+                        <i class="fas fa-shield-alt"></i> Your address will only be shared after payment confirmation.
+                    </div>
+                    
+                    <div class="radio-wrapper">
+                        <input type="radio" id="pickup2" name="pickup" class="radio-input">
+                        <label for="pickup2" class="radio-label">Meet at public place</label>
+                    </div>
+                    <div id="publicPlaceSection" style="display:none;">
+                        <div class="prompt-header" style="font-size:15px;margin-top:12px;">Select a public meeting place:</div>
+                        <input type="text" id="publicPlaceInput" class="input-field" placeholder="Search or select a nearby location" readonly>
+                    </div>
+
+                    <div class="default-prefs">
+                        <input type="checkbox" id="defaultMeetupPrefs" class="custom-checkbox" checked>
+                        <label for="defaultMeetupPrefs" class="default-label">Save these as my default meetup preferences</label>
+                    </div>
+
+                    <div class="button-group" style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+                        <form action="buyer-pickup.html" method="GET">
+                            <button type="submit" class="btn-primary">Continue to Scheduling</button>
+                        </form>
+                        <button onclick="window.location.href='buyer-pickup.html'" class="btn-secondary" style="width: 100%; padding: 16px; border-radius: 24px; border: 1px solid #E5E7EB; background: white; font-weight: 500; font-size: 18px;">
+                            Set up later
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- iOS Tab Bar -->
@@ -654,6 +712,13 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Add event listener for the continue button
+            document.getElementById('continueToStep2').addEventListener('click', function() {
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('step2').style.display = 'block';
+                window.scrollTo(0, 0);
+            });
+
             // Pickup method selection
             const pickup1 = document.getElementById('pickup1');
             const pickup2 = document.getElementById('pickup2');

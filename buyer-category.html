@@ -91,7 +91,7 @@
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
+            padding: 12px;
             padding-bottom: 100px; /* Add space for fixed tab bar */
         }
         .screen-header {
@@ -179,9 +179,10 @@
             margin-bottom: 12px;
         }
         .feed-title {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--charcoal);
+            margin-bottom: 4px;
         }
         .see-all {
             color: var(--terracotta);
@@ -725,7 +726,423 @@
                 opacity: 1;
             }
         }
+
+        .kid-filter {
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .kid-filter:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .kid-filter.active {
+            border-color: var(--terracotta) !important;
+            background-color: rgba(183, 94, 69, 0.05) !important;
+        }
+        .kid-filter.active .age {
+            color: var(--terracotta) !important;
+        }
+        .age-range-option:hover, .condition-option:hover {
+            background-color: #f8f8f8;
+        }
+        .age-range-option:active, .condition-option:active {
+            background-color: var(--light-sage);
+        }
+        .age-range-option.active, .condition-option.active {
+            background-color: var(--terracotta);
+            color: white !important;
+        }
+        .dropdown-option-selected {
+            background-color: var(--terracotta);
+            color: white !important;
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all category cards and subcategory cards separately
+            const mainCategories = document.querySelectorAll('.product-feed > div > div > [style*="scroll-snap-align: start"]');
+            const subCategories = document.querySelectorAll('#gearSubcategories [style*="scroll-snap-align: start"]');
+            const gearSubcategories = document.getElementById('gearSubcategories');
+            let activeCategory = null;
+            let activeSubcategory = null;
+
+            // Function to reset all cards to default style
+            function resetCards(cards) {
+                cards.forEach(card => {
+                    const cardDiv = card.querySelector('div');
+                    if (cardDiv) {
+                        cardDiv.style.backgroundColor = 'white';
+                        const iconDiv = cardDiv.querySelector('div[style*="border-radius: 50%"]');
+                        const textDiv = cardDiv.querySelector('div[style*="font-weight: 600"]');
+                        if (iconDiv) {
+                            iconDiv.style.backgroundColor = 'rgba(183, 94, 69, 0.1)';
+                            iconDiv.style.color = 'var(--terracotta)';
+                        }
+                        if (textDiv) {
+                            textDiv.style.color = 'var(--charcoal)';
+                        }
+                    }
+                });
+            }
+
+            // Function to highlight a card
+            function highlightCard(card) {
+                const cardDiv = card.querySelector('div');
+                if (cardDiv) {
+                    cardDiv.style.backgroundColor = 'var(--terracotta)';
+                    const iconDiv = cardDiv.querySelector('div[style*="border-radius: 50%"]');
+                    const textDiv = cardDiv.querySelector('div[style*="font-weight: 600"]');
+                    if (iconDiv) {
+                        iconDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                        iconDiv.style.color = 'white';
+                    }
+                    if (textDiv) {
+                        textDiv.style.color = 'white';
+                    }
+                }
+            }
+
+            // Add hover effect
+            function addHoverEffect(card) {
+                card.addEventListener('mouseover', function() {
+                    const cardDiv = this.querySelector('div');
+                    if (cardDiv && cardDiv.style.backgroundColor !== 'var(--terracotta)') {
+                        cardDiv.style.backgroundColor = '#f8f8f8';
+                    }
+                });
+
+                card.addEventListener('mouseout', function() {
+                    const cardDiv = this.querySelector('div');
+                    if (cardDiv && cardDiv.style.backgroundColor !== 'var(--terracotta)') {
+                        cardDiv.style.backgroundColor = 'white';
+                    }
+                });
+            }
+
+            // Handle main category clicks
+            mainCategories.forEach(card => {
+                addHoverEffect(card);
+                
+                card.addEventListener('click', function() {
+                    const titleElement = this.querySelector('[style*="font-weight: 600"]');
+                    if (titleElement && titleElement.textContent === 'Gear') {
+                        if (activeCategory === this) {
+                            // If clicking the active category, hide subcategories
+                            gearSubcategories.style.display = 'none';
+                            resetCards(mainCategories);
+                            activeCategory = null;
+                            activeSubcategory = null;
+                        } else {
+                            // Show subcategories and highlight the category
+                            gearSubcategories.style.display = 'block';
+                            resetCards(mainCategories);
+                            highlightCard(this);
+                            activeCategory = this;
+                            
+                            // Reset subcategories
+                            resetCards(subCategories);
+                            activeSubcategory = null;
+                            
+                            // Scroll the subcategories into view
+                            gearSubcategories.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    } else {
+                        // If clicking a different category
+                        gearSubcategories.style.display = 'none';
+                        resetCards(mainCategories);
+                        highlightCard(this);
+                        activeCategory = this;
+                        activeSubcategory = null;
+                    }
+                });
+            });
+
+            // Handle subcategory clicks
+            subCategories.forEach(card => {
+                addHoverEffect(card);
+                
+                card.addEventListener('click', function() {
+                    resetCards(subCategories);
+                    highlightCard(this);
+                    activeSubcategory = this;
+                });
+            });
+
+            // Handle kid filters
+            const kidFilters = document.querySelectorAll('.kid-filter');
+            let activeFilters = new Set();
+            const allFilter = document.getElementById('allFilter'); // "All" filter
+
+            function updateFilterStyle(filter, isActive) {
+                filter.style.backgroundColor = isActive ? 'var(--terracotta)' : 'white';
+                const iconDiv = filter.querySelector('[style*="border-radius: 50%"]');
+                if (iconDiv) {
+                    iconDiv.style.backgroundColor = isActive ? 'rgba(255, 255, 255, 0.2)' : 'rgba(183, 94, 69, 0.1)';
+                    iconDiv.style.color = isActive ? 'white' : 'var(--sage-green)';
+                }
+                const textDiv = filter.querySelector('[style*="font-weight: 600"]');
+                if (textDiv) {
+                    textDiv.style.color = isActive ? 'white' : 'var(--charcoal)';
+                }
+                const subtitleDiv = textDiv.nextElementSibling;
+                if (subtitleDiv) {
+                    subtitleDiv.style.color = isActive ? 'rgba(255, 255, 255, 0.8)' : '#666';
+                }
+            }
+
+            kidFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    const isAllFilter = this === allFilter;
+                    
+                    if (isAllFilter) {
+                        // If clicking "All"
+                        kidFilters.forEach(f => {
+                            f.classList.remove('active');
+                            updateFilterStyle(f, false);
+                        });
+                        this.classList.add('active');
+                        updateFilterStyle(this, true);
+                        activeFilters.clear();
+                        activeFilters.add('all');
+                    } else {
+                        // Remove "All" selection
+                        allFilter.classList.remove('active');
+                        updateFilterStyle(allFilter, false);
+                        activeFilters.delete('all');
+                        
+                        // Toggle this filter
+                        this.classList.toggle('active');
+                        const isActive = this.classList.contains('active');
+                        updateFilterStyle(this, isActive);
+                        
+                        const kidName = this.querySelector('[style*="font-weight: 600"]').textContent;
+                        if (isActive) {
+                            activeFilters.add(kidName);
+                        } else {
+                            activeFilters.delete(kidName);
+                        }
+                        
+                        // If no filters selected, activate "All"
+                        if (activeFilters.size === 0) {
+                            allFilter.classList.add('active');
+                            updateFilterStyle(allFilter, true);
+                            activeFilters.add('all');
+                        }
+                    }
+                    
+                    // Here you would update the product feed based on activeFilters
+                    console.log('Active filters:', Array.from(activeFilters));
+                });
+            });
+
+            // Start with "All" selected
+            allFilter.classList.add('active');
+            updateFilterStyle(allFilter, true);
+            activeFilters.add('all');
+
+            // Handle age range dropdown
+            const ageRangeFilter = document.getElementById('ageRangeFilter');
+            const ageRangeDropdown = document.getElementById('ageRangeDropdown');
+            const ageRangeOptions = document.querySelectorAll('.age-range-option');
+            let isAgeDropdownOpen = false;
+
+            function showDropdown() {
+                const rect = ageRangeFilter.getBoundingClientRect();
+                ageRangeDropdown.style.position = 'fixed';
+                ageRangeDropdown.style.top = `${rect.bottom + 4}px`;
+                ageRangeDropdown.style.left = `${rect.left}px`;
+                ageRangeDropdown.style.display = 'block';
+                isAgeDropdownOpen = true;
+                
+                // Update chevron
+                const chevron = ageRangeFilter.querySelector('.fa-chevron-down');
+                chevron.style.transform = 'rotate(180deg)';
+            }
+
+            function hideDropdown() {
+                ageRangeDropdown.style.display = 'none';
+                isAgeDropdownOpen = false;
+                
+                // Reset chevron
+                const chevron = ageRangeFilter.querySelector('.fa-chevron-down');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+
+            // Toggle dropdown
+            ageRangeFilter.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (isAgeDropdownOpen) {
+                    hideDropdown();
+                } else {
+                    showDropdown();
+                }
+            });
+
+            // Handle option selection
+            let selectedAgeRanges = new Set();
+            let selectedConditions = new Set();
+
+            ageRangeOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const selectedAge = this.textContent;
+                    
+                    // Toggle selection
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedAgeRanges.delete(selectedAge);
+                    } else {
+                        this.classList.add('active');
+                        selectedAgeRanges.add(selectedAge);
+                    }
+                    
+                    // Update filter appearance
+                    if (selectedAgeRanges.size > 0) {
+                        ageRangeFilter.classList.add('active');
+                        const titleElement = ageRangeFilter.querySelector('[style*="font-weight: 600"]');
+                        titleElement.innerHTML = `Age Range <span style="color: var(--terracotta); background-color: rgba(183, 94, 69, 0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 4px;">${selectedAgeRanges.size}</span>`;
+                        ageRangeFilter.style.backgroundColor = 'rgba(183, 94, 69, 0.05)';
+                        ageRangeFilter.style.borderColor = 'var(--terracotta)';
+                    } else {
+                        resetAgeRangeFilter();
+                    }
+
+                    // Update filter appearance
+                    if (selectedConditions.size > 0) {
+                        conditionFilter.classList.add('active');
+                        const titleElement = conditionFilter.querySelector('[style*="font-weight: 600"]');
+                        titleElement.innerHTML = `Condition <span style="color: var(--terracotta); background-color: rgba(183, 94, 69, 0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 4px;">${selectedConditions.size}</span>`;
+                        conditionFilter.style.backgroundColor = 'rgba(183, 94, 69, 0.05)';
+                        conditionFilter.style.borderColor = 'var(--terracotta)';
+                    } else {
+                        resetConditionFilter();
+                    }
+                });
+            });
+
+            // Handle condition filter
+            const conditionFilter = document.getElementById('conditionFilter');
+            const conditionDropdown = document.getElementById('conditionDropdown');
+            const conditionOptions = document.querySelectorAll('.condition-option');
+            let isConditionDropdownOpen = false;
+
+            function showConditionDropdown() {
+                const rect = conditionFilter.getBoundingClientRect();
+                conditionDropdown.style.position = 'fixed';
+                conditionDropdown.style.top = `${rect.bottom + 4}px`;
+                conditionDropdown.style.left = `${rect.left}px`;
+                conditionDropdown.style.display = 'block';
+                isConditionDropdownOpen = true;
+                
+                // Update chevron
+                const chevron = conditionFilter.querySelector('.fa-chevron-down');
+                chevron.style.transform = 'rotate(180deg)';
+            }
+
+            function hideConditionDropdown() {
+                conditionDropdown.style.display = 'none';
+                isConditionDropdownOpen = false;
+                
+                // Reset chevron
+                const chevron = conditionFilter.querySelector('.fa-chevron-down');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+
+            // Toggle condition dropdown
+            conditionFilter.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (isConditionDropdownOpen) {
+                    hideConditionDropdown();
+                } else {
+                    showConditionDropdown();
+                }
+            });
+
+            // Handle condition option selection
+            conditionOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const selectedCondition = this.textContent;
+                    
+                    // Toggle selection
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedConditions.delete(selectedCondition);
+                    } else {
+                        this.classList.add('active');
+                        selectedConditions.add(selectedCondition);
+                    }
+                    
+                    // Update filter appearance
+                    if (selectedConditions.size > 0) {
+                        conditionFilter.classList.add('active');
+                        const titleElement = conditionFilter.querySelector('[style*="font-weight: 600"]');
+                        titleElement.innerHTML = `Condition <span style="color: var(--terracotta); background-color: rgba(183, 94, 69, 0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 4px;">${selectedConditions.size}</span>`;
+                        conditionFilter.style.backgroundColor = 'rgba(183, 94, 69, 0.05)';
+                        conditionFilter.style.borderColor = 'var(--terracotta)';
+                    } else {
+                        resetConditionFilter();
+                    }
+                });
+            });
+
+            function resetAgeRangeFilter() {
+                ageRangeFilter.classList.remove('active');
+                ageRangeFilter.style.backgroundColor = 'white';
+                ageRangeFilter.style.borderColor = 'transparent';
+                const titleElement = ageRangeFilter.querySelector('[style*="font-weight: 600"]');
+                titleElement.textContent = 'Age Range';
+                ageRangeOptions.forEach(opt => opt.classList.remove('active'));
+                selectedAgeRanges.clear();
+            }
+
+            function resetConditionFilter() {
+                conditionFilter.classList.remove('active');
+                conditionFilter.style.backgroundColor = 'white';
+                conditionFilter.style.borderColor = 'transparent';
+                const titleElement = conditionFilter.querySelector('[style*="font-weight: 600"]');
+                titleElement.textContent = 'Condition';
+                conditionOptions.forEach(opt => opt.classList.remove('active'));
+                selectedConditions.clear();
+            }
+
+            // Initialize filters
+            resetAgeRangeFilter();
+            resetConditionFilter();
+
+            // Add reset functionality when clicking "All"
+            allFilter.addEventListener('click', function() {
+                resetAgeRangeFilter();
+                resetConditionFilter();
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function() {
+                if (isAgeDropdownOpen) {
+                    hideDropdown();
+                }
+                if (isConditionDropdownOpen) {
+                    hideConditionDropdown();
+                }
+            });
+
+            // Prevent dropdowns from closing when clicking inside them
+            ageRangeDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            conditionDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- iOS Status Bar -->
@@ -765,89 +1182,233 @@
         </div>
         
         <!-- Discover for Lucas section with link to car-seats-listing.html -->
-        <div class="product-feed" style="margin-top: 8px; margin-bottom: 16px;">
-            <div class="feed-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <div class="feed-title">Discover for Lucas</div>
-                <span class="ai-badge" style="display: inline-flex; align-items: center; background-color: rgba(155, 158, 138, 0.2); color: var(--sage-green); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 600;"><i class="fas fa-magic" style="margin-right: 2px;"></i>Personalized</span>
-            </div>
+                  <div class="product-feed" style="margin-bottom: 12px;">
+                <div class="feed-header" style="margin-bottom: 8px;">
+                    <div class="feed-title">Explore items</div>
+                </div>
             
             <div style="position: relative;">
                 <div style="overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: flex; gap: 8px; padding: 2px 0;">
-                    <a href="car-seats-listing.html" style="text-decoration: none; color: inherit; flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
-                                <i class="fas fa-car-side"></i>
+                    <a href="car-seats-listing.html" style="text-decoration: none; color: inherit; flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-border-all"></i>
                             </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Car Seats</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">6-12m • 43 items</div>
+                            <div style="font-size: 11px; font-weight: 600;">All</div>
                         </div>
                     </a>
                     
-                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
-                                <i class="fas fa-baby"></i>
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-baby-carriage"></i>
                             </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Activity</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Centers • 28 items</div>
+                            <div style="font-size: 11px; font-weight: 600;">Gear</div>
                         </div>
                     </div>
                     
-                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
-                                <i class="fas fa-chair"></i>
-                            </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">High Chairs</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Meals • 17 items</div>
-                        </div>
-                    </div>
-                    
-                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
-                                <i class="fas fa-tshirt"></i>
-                            </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Summer</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Clothes • 65 items</div>
-                        </div>
-                    </div>
-                    
-                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
                                 <i class="fas fa-utensils"></i>
                             </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Feeding</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Essentials • 31 items</div>
+                            <div style="font-size: 11px; font-weight: 600;">Feeding</div>
                         </div>
                     </div>
                     
-                    <div style="flex: 0 0 auto; width: 110px; scroll-snap-align: start;">
-                        <div style="background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 10px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 16px; margin-bottom: 6px;">
-                                <i class="fas fa-star"></i>
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-moon"></i>
                             </div>
-                            <div style="font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 2px;">Organic</div>
-                            <div style="font-size: 10px; color: #666; text-align: center; line-height: 1.1;">Finds • 22 items</div>
+                            <div style="font-size: 11px; font-weight: 600;">Sleep</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div style="font-size: 11px; font-weight: 600;">Clothing</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-bath"></i>
+                            </div>
+                            <div style="font-size: 11px; font-weight: 600;">Bath</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 0 auto; width: 120px; scroll-snap-align: start;">
+                        <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 8px; height: 35px; display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 12px; flex-shrink: 0;">
+                                <i class="fas fa-first-aid"></i>
+                            </div>
+                            <div style="font-size: 11px; font-weight: 600;">Health</div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Subcategories Section -->
+            <div id="gearSubcategories" style="display: none; margin-top: 8px;">
                 
-                <!-- Scroll indicator dots -->
-                <div style="display: flex; justify-content: center; gap: 4px; margin-top: 8px;">
-                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.8;"></div>
-                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.4;"></div>
-                    <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--sage-green); opacity: 0.4;"></div>
+                <div style="position: relative;">
+                    <div style="overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: flex; gap: 6px; padding: 2px 0;">
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-baby-carriage"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Strollers</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-car-side"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Car Seats</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-chair"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">High Chairs</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-couch"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Bouncers</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Play Yards</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-walking"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Walkers</div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 0 0 auto; width: 100px; scroll-snap-align: start;">
+                            <div style="background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); padding: 6px; height: 30px; display: flex; align-items: center; gap: 6px;">
+                                <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(183, 94, 69, 0.1); display: flex; justify-content: center; align-items: center; color: var(--terracotta); font-size: 10px; flex-shrink: 0;">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                                <div style="font-size: 10px; font-weight: 600;">Other</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Curated For You Feed -->
         <div class="product-feed">
-            <div class="feed-header">
-                <div class="feed-title">Curated for Lucas</div>
-                <a href="#" class="see-all">See all</a>
+                            <div class="feed-header" style="margin-bottom: 12px;">
+                <div class="feed-title">Curated for you</div>
+            </div>
+            
+            <!-- Kid Filters -->
+            <div style="position: relative; margin-bottom: 12px;">
+                <div style="overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: flex; gap: 6px;">
+                    <div class="kid-filter" style="flex: 0 0 auto; background-color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1.5px solid transparent;">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--light-sage); display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-child" style="color: var(--sage-green); font-size: 14px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--charcoal);">Lucas</div>
+                            <div style="font-size: 10px; color: #666;">2y 10m</div>
+                        </div>
+                    </div>
+
+                    <div class="kid-filter" style="flex: 0 0 auto; background-color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1.5px solid transparent;">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--light-sage); display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-baby" style="color: var(--sage-green); font-size: 14px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--charcoal);">Yulia</div>
+                            <div style="font-size: 10px; color: #666;">5m</div>
+                        </div>
+                    </div>
+
+                    <div id="allFilter" class="kid-filter" style="flex: 0 0 auto; background-color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1.5px solid transparent;">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--light-sage); display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-border-all" style="color: var(--sage-green); font-size: 12px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--charcoal);">All</div>
+                            <div style="font-size: 10px; color: #666;">Everything</div>
+                        </div>
+                    </div>
+
+                    <div id="ageRangeFilter" class="kid-filter age-range-filter" style="flex: 0 0 auto; background-color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1.5px solid transparent;">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--light-sage); display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-clock" style="color: var(--sage-green); font-size: 12px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--charcoal);">Age Range</div>
+                        </div>
+                        <i class="fas fa-chevron-down" style="font-size: 10px; color: #666; margin-left: 4px;"></i>
+                    </div>
+
+                    <div id="conditionFilter" class="kid-filter condition-filter" style="flex: 0 0 auto; background-color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1.5px solid transparent;">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--light-sage); display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-star" style="color: var(--sage-green); font-size: 12px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--charcoal);">Condition</div>
+                        </div>
+                        <i class="fas fa-chevron-down" style="font-size: 10px; color: #666; margin-left: 4px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Age Range Dropdown (moved outside) -->
+            <div id="ageRangeDropdown" style="display: none; position: absolute; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 140px; z-index: 9999; max-height: 300px; overflow-y: auto;">
+                <div style="padding: 8px; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #eee;">Select Age Range</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">0-3 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">3-6 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">6-9 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">9-12 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">12-18 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">18-24 months</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">2-3 years</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">3-4 years</div>
+                <div class="age-range-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">4-5 years</div>
+            </div>
+
+            <!-- Condition Dropdown -->
+            <div id="conditionDropdown" style="display: none; position: absolute; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 140px; z-index: 9999; max-height: 300px; overflow-y: auto;">
+                <div style="padding: 8px; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #eee;">Select Condition</div>
+                <div class="condition-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">New</div>
+                <div class="condition-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">Like New</div>
+                <div class="condition-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">Very Good</div>
+                <div class="condition-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">Good</div>
+                <div class="condition-option" style="padding: 8px; font-size: 11px; cursor: pointer; color: var(--charcoal); transition: all 0.2s ease;">Acceptable</div>
             </div>
             
             <!-- Product Cards -->

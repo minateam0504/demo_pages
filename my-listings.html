@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities - Mina</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --soft-cream: #FAF4F0;
+            --charcoal: #4A4656;
+            --white: #FFFFFF;
+            --light-grey: #E5E5E5;
+            --ios-bottom: 83px;
+            --status-bar-height: 44px;
+            --header-height: 160px; /* Increased to accommodate tabs */
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--soft-cream);
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: var(--ios-bottom);
+        }
+        .ios-status-bar {
+            height: var(--status-bar-height);
+            background-color: var(--soft-cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .header {
+            position: fixed;
+            top: var(--status-bar-height);
+            left: 0;
+            right: 0;
+            background-color: var(--soft-cream);
+            padding: 16px;
+            z-index: 99;
+            height: calc(var(--header-height) - var(--status-bar-height));
+            box-sizing: border-box;
+        }
+        .main-content {
+            padding-top: calc(var(--status-bar-height) + var(--header-height) + 16px); /* Added extra padding */
+            padding-bottom: calc(var(--ios-bottom) + 32px);
+            padding-left: 16px;
+            padding-right: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 0;
+            margin-bottom: 16px;
+        }
+        .section-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .section-tab {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--charcoal);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            text-decoration: none;
+        }
+        .section-tab:hover {
+            opacity: 0.8;
+        }
+        .section-tab.active {
+            opacity: 1;
+            border-bottom-color: var(--terracotta);
+        }
+        /* Ensure link styling matches div styling */
+        a.section-tab {
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .category-tab {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            background-color: var(--white);
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .category-tab.active {
+            background-color: var(--terracotta);
+            color: var(--white);
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .product-content {
+            position: relative;
+            padding: 16px;
+        }
+        .product-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: var(--charcoal);
+        }
+        .product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            width: fit-content;
+        }
+
+        .status-pill.urgent {
+            background-color: rgba(183, 94, 69, 0.1);
+            color: var(--terracotta);
+        }
+
+        .status-pill.warning {
+            background-color: rgba(255, 166, 0, 0.1);
+            color: #FF9900;
+        }
+
+        .status-pill.info {
+            background-color: rgba(155, 158, 138, 0.1);
+            color: var(--sage-green);
+        }
+        .timeline {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background-color: var(--light-grey);
+            z-index: 1;
+        }
+        .timeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--light-grey);
+            margin-bottom: 8px;
+        }
+        .step-dot.completed {
+            background-color: var(--sage-green);
+        }
+        .step-dot.current {
+            background-color: var(--terracotta);
+            box-shadow: 0 0 0 4px rgba(183, 94, 69, 0.2);
+        }
+        .step-label {
+            font-size: 11px;
+            color: var(--charcoal);
+            text-align: center;
+            max-width: 60px;
+            line-height: 1.2;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .action-buttons.vertical {
+            flex-direction: column;
+        }
+
+        .action-buttons .button-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-height: 32px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .action-button i {
+            font-size: 10px;
+        }
+
+        .action-button.primary {
+            background-color: var(--terracotta);
+            color: var(--white);
+            border-color: var(--terracotta);
+        }
+
+        .action-button.primary:hover {
+            background-color: #a54d35;
+            border-color: #a54d35;
+        }
+
+        .action-button.secondary {
+            background-color: var(--white);
+            color: var(--charcoal);
+            border-color: rgba(74, 70, 86, 0.2);
+        }
+
+        .action-button.secondary:hover {
+            background-color: #f5f5f5;
+        }
+
+        .action-button.danger {
+            background-color: var(--white);
+            color: var(--terracotta);
+            border-color: var(--terracotta);
+        }
+
+        .action-button.danger:hover {
+            background-color: rgba(183, 94, 69, 0.1);
+        }
+
+        .ios-tab-bar {
+            height: var(--ios-bottom);
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+            padding: 8px 16px;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .tab-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .tab-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #purchases-section {
+            padding-top: 8px; /* Added padding to first section */
+        }
+        .pickup-info {
+            background-color: rgba(155, 158, 138, 0.1);
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin: 12px 0;
+            font-size: 11px;
+            color: var(--charcoal);
+        }
+
+        .pickup-info i {
+            font-size: 10px;
+            margin-right: 4px;
+        }
+
+        .pickup-info.alert {
+            background-color: rgba(183, 94, 69, 0.1);
+            border-left: 2px solid var(--terracotta);
+        }
+
+        .pickup-info.alert .alert-header {
+            color: var(--terracotta);
+            font-weight: 500;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .pickup-info .time-change {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-top: 4px;
+            font-size: 11px;
+        }
+
+        .pickup-info .time-original {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .pickup-info .time-new {
+            color: var(--terracotta);
+            font-weight: 500;
+        }
+
+        .pickup-info .arrow-icon {
+            font-size: 9px;
+            color: var(--terracotta);
+        }
+    </style>
+</head>
+<body>
+    <!-- Update header structure -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+
+    <div class="header-background"></div>
+    <div class="header">
+        <div class="header-content">
+            <h1>Activities</h1>
+            <!-- Update the section tabs -->
+            <div class="section-tabs">
+                <div class="section-tab active">Live</div>
+                <a href="account-active-listings.html" class="section-tab" style="text-decoration: none;">My Listings</a>
+            </div>
+            <div class="category-tabs">
+                <div class="category-tab active">My Purchases</div>
+                <div class="category-tab">My Sales</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- My Purchases Section -->
+        <div id="purchases-section">
+            <!-- New Purchase - Booking Request Sent -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Britax one4life.jpg" alt="Britax Car Seat">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Britax One4Life Car Seat</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Seller: Emma W.
+                                </div>
+                                <div class="status-pill info">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due Tomorrow
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update all pickup info sections -->
+
+                    <!-- For Britax Car Seat -->
+                    <div class="pickup-info">
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at seller's location</div>
+                        <div><i class="fas fa-clock"></i>Requested: Jul 21, 2:30 PM</div>
+                    </div>
+
+                    <!-- Update all timeline sections -->
+
+                    <!-- For Britax Car Seat -->
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <!-- Update all button groups to use consistent structure -->
+
+                    <!-- For Britax Car Seat -->
+                    <div class="action-buttons">
+                        <button class="action-button secondary">
+                            <i class="fas fa-clock"></i>
+                            Reschedule
+                        </button>
+                        <button class="action-button danger">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase with Pickup Scheduled -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Nuna PIPA RX Infant Car Seat</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Seller: Sarah K.
+                                </div>
+                                <div class="status-pill warning">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due Today
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update all pickup info sections -->
+
+                    <!-- For Nuna PIPA -->
+                    <div class="pickup-info">
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at: 123 Main St, San Francisco</div>
+                        <div><i class="fas fa-clock"></i>Scheduled: Jul 20, 2:30 PM</div>
+                    </div>
+
+                    <!-- For Nuna PIPA -->
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <!-- For Nuna PIPA -->
+                    <div class="action-buttons">
+                        <button class="action-button primary">
+                            <i class="fas fa-calendar-check"></i>
+                            View Details
+                        </button>
+                        <button class="action-button secondary">
+                            <i class="fas fa-clock"></i>
+                            Reschedule
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase with Survey Needed -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Bjorn Bouncer">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Baby Bjorn Bouncer Bliss</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Seller: Lisa T.
+                                </div>
+                                <div class="status-pill urgent">
+                                    <i class="fas fa-exclamation-circle" style="font-size: 9px;"></i>
+                                    Action Required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update all pickup info sections -->
+
+                    <!-- For Baby Bjorn -->
+                    <div class="pickup-info">
+                        <div><i class="fas fa-map-marker-alt"></i>Picked up at: 456 Oak St, San Francisco</div>
+                        <div><i class="fas fa-clock"></i>Completed: Jul 18, 3:00 PM</div>
+                    </div>
+
+                    <!-- For Baby Bjorn -->
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <!-- For Baby Bjorn -->
+                    <div class="action-buttons">
+                        <button class="action-button primary">
+                            <i class="fas fa-star"></i>
+                            Complete
+                        </button>
+                        <button class="action-button secondary">
+                            <i class="fas fa-clock"></i>
+                            Remind Later
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase with Seller's Proposed New Time -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Chicco keyfit.jpg" alt="Chicco Keyfit">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Chicco KeyFit 30 Car Seat</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Seller: Rachel T.
+                                </div>
+                                <div class="status-pill urgent">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due in 2 Hours
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update all pickup info sections -->
+
+                    <!-- For Chicco KeyFit -->
+                    <div class="pickup-info alert">
+                        <div class="alert-header">New Time Proposed by Seller</div>
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at: 789 Pine St, San Francisco</div>
+                        <div class="time-change">
+                            <div class="time-original">
+                                <i class="fas fa-clock"></i>Originally: Jul 22, 2:00 PM
+                            </div>
+                            <i class="fas fa-arrow-right arrow-icon"></i>
+                            <div class="time-new">
+                                <i class="fas fa-clock"></i>Proposed: Jul 22, 4:30 PM
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- For Chicco KeyFit -->
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <!-- For Chicco KeyFit -->
+                    <div class="action-buttons vertical">
+                        <div class="button-row">
+                            <button class="action-button primary">
+                                <i class="fas fa-check"></i>
+                                Accept Time
+                            </button>
+                            <button class="action-button secondary">
+                                <i class="fas fa-clock"></i>
+                                New Time
+                            </button>
+                        </div>
+                        <button class="action-button danger">
+                            <i class="fas fa-times"></i>
+                            Cancel Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Sales Section (initially hidden) -->
+        <div id="sales-section" style="display: none;">
+            <!-- Sale with New Booking Request -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Britax one4life.jpg" alt="Britax Car Seat">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Britax One4Life Car Seat</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Buyer: Michael P.
+                                </div>
+                                <div class="status-pill urgent">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due in 2 Hours
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pickup-info">
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at your location</div>
+                        <div><i class="fas fa-clock"></i>Requested: Jul 22, 3:00 PM</div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-button primary">
+                            <i class="fas fa-check"></i>
+                            Accept Request
+                        </button>
+                        <button class="action-button secondary">
+                            <i class="fas fa-clock"></i>
+                            Suggest Time
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sale with Rescheduling Request -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/OXO Tot Sprout High Chair.jpg" alt="OXO Tot High Chair">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">OXO Tot Sprout High Chair</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Buyer: Sarah K.
+                                </div>
+                                <div class="status-pill warning">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due Today
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pickup-info alert">
+                        <div class="alert-header">New Time Requested by Buyer</div>
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at your location</div>
+                        <div class="time-change">
+                            <div class="time-original">
+                                <i class="fas fa-clock"></i>Originally: Jul 21, 2:00 PM
+                            </div>
+                            <i class="fas fa-arrow-right arrow-icon"></i>
+                            <div class="time-new">
+                                <i class="fas fa-clock"></i>Requested: Jul 21, 4:30 PM
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons vertical">
+                        <div class="button-row">
+                            <button class="action-button primary">
+                                <i class="fas fa-check"></i>
+                                Accept Time
+                            </button>
+                            <button class="action-button secondary">
+                                <i class="fas fa-clock"></i>
+                                New Time
+                            </button>
+                        </div>
+                        <button class="action-button danger">
+                            <i class="fas fa-times"></i>
+                            Cancel Sale
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sale with Upcoming Pickup -->
+            <div class="product-card">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <img src="images/Used Product Image/Baby Swim Floaties.jpg" alt="Baby Swim Floaties">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Baby Swim Floaties</div>
+                            <div class="product-meta">
+                                <div class="seller-info">
+                                    <i class="fas fa-user" style="font-size: 12px;"></i>
+                                    Buyer: Emma W.
+                                </div>
+                                <div class="status-pill info">
+                                    <i class="fas fa-clock" style="font-size: 9px;"></i>
+                                    Due Tomorrow
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pickup-info">
+                        <div><i class="fas fa-map-marker-alt"></i>Pickup at your location</div>
+                        <div><i class="fas fa-clock"></i>Scheduled: Jul 21, 1:30 PM</div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Send Request</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot completed"></div>
+                            <div class="step-label">Confirm Booking</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot current"></div>
+                            <div class="step-label">Pickup Day</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Complete Survey</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-dot"></div>
+                            <div class="step-label">Payment Complete</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-button primary">
+                            <i class="fas fa-calendar-check"></i>
+                            View Details
+                        </button>
+                        <button class="action-button secondary">
+                            <i class="fas fa-clock"></i>
+                            Reschedule
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="buyer-category.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon">
+                <i class="fas fa-comments"></i>
+                <span class="tab-badge">2</span>
+            </div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="my-listings.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-list"></i></div>
+            <div class="tab-label">Listings</div>
+        </a>
+        <a href="account-management.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section tabs switching
+            const sectionTabs = document.querySelectorAll('.section-tab');
+            sectionTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    sectionTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Category tabs switching
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const purchasesSection = document.getElementById('purchases-section');
+            const salesSection = document.getElementById('sales-section');
+
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (this.textContent === 'My Purchases') {
+                        purchasesSection.style.display = 'block';
+                        salesSection.style.display = 'none';
+                    } else {
+                        purchasesSection.style.display = 'none';
+                        salesSection.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

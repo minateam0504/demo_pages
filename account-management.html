@@ -270,33 +270,6 @@
             <div class="chevron"><i class="fas fa-chevron-right"></i></div>
         </a>
         
-        <!-- Manage Your Meetups Section -->
-        <div class="section-title">Manage Your Meetups</div>
-        
-        <a href="account-pending-pickups.html" class="action-card">
-            <div class="action-icon" style="background-color: rgba(246, 192, 80, 0.1); color: #b87503;">
-                <i class="fas fa-clock"></i>
-            </div>
-            <div class="action-details">
-                <div class="action-title">Pending Confirmations</div>
-                <div class="action-description">Respond to pickup requests and time suggestions</div>
-            </div>
-            <div class="action-badge" style="background-color: #b87503;">5</div>
-            <div class="chevron"><i class="fas fa-chevron-right"></i></div>
-        </a>
-
-        <a href="account-pickup-calendar.html" class="action-card">
-            <div class="action-icon" style="background-color: rgba(155, 158, 138, 0.1);">
-                <i class="fas fa-calendar-check"></i>
-            </div>
-            <div class="action-details">
-                <div class="action-title">Meetup Schedule</div>
-                <div class="action-description">View your confirmed pickup appointments</div>
-            </div>
-            <div class="action-badge">2</div>
-            <div class="chevron"><i class="fas fa-chevron-right"></i></div>
-        </a>
-        
         <!-- Activity Management Section -->
         <div class="section-title">Manage Your Activity</div>
         
@@ -386,26 +359,87 @@
     
     <!-- iOS Tab Bar -->
     <div class="ios-tab-bar">
-        <a href="home.html" class="tab-item">
+        <a href="buyer-category.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-home"></i></div>
             <div class="tab-label">Home</div>
         </a>
-        <a href="#" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-search"></i></div>
-            <div class="tab-label">Search</div>
-        </a>
-        <a href="seller-flow.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
-            <div class="tab-label">Sell</div>
-        </a>
         <a href="messaging.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-icon">
+                <i class="fas fa-comments"></i>
+                <span class="tab-badge">2</span>
+            </div>
             <div class="tab-label">Messages</div>
         </a>
-        <a href="profile.html" class="tab-item active">
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="my-listings.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-list"></i></div>
+            <div class="tab-label">Listings</div>
+        </a>
+        <a href="account-management.html" class="tab-item active">
             <div class="tab-icon"><i class="fas fa-user"></i></div>
             <div class="tab-label">Profile</div>
         </a>
     </div>
+
+    <style>
+        .ios-tab-bar {
+            height: 83px;
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+            padding: 8px 16px;
+        }
+
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+
+        .tab-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tab-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </body>
 </html> 

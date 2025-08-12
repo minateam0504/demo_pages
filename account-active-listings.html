@@ -35,12 +35,17 @@
         }
         .ios-tab-bar {
             height: 83px;
-            background-color: var(--cream);
+            background-color: white;
             border-top: 1px solid rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding-bottom: 30px; /* For iPhone home indicator */
+            padding-bottom: 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
         .tab-item {
             display: flex;
@@ -48,6 +53,7 @@
             align-items: center;
             color: var(--charcoal);
             text-decoration: none;
+            padding: 8px 16px;
         }
         .tab-item.active {
             color: var(--terracotta);
@@ -55,9 +61,27 @@
         .tab-icon {
             font-size: 24px;
             margin-bottom: 4px;
+            position: relative;
         }
         .tab-label {
-            font-size: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .tab-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .main-content {
             flex: 1;
@@ -242,30 +266,6 @@
             font-size: 16px;
             display: inline-block;
             text-decoration: none;
-        }
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            background-color: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .stat-item {
-            text-align: center;
-            flex: 1;
-        }
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--terracotta);
-        }
-        .stat-label {
-            font-size: 12px;
-            color: rgba(0,0,0,0.6);
-            text-transform: uppercase;
         }
         .info-banner {
             background-color: rgba(155, 158, 138, 0.1);
@@ -562,26 +562,6 @@
             <div class="page-title">Active Listings</div>
         </div>
         
-        <!-- Stats -->
-        <div class="stats-row">
-            <div class="stat-item">
-                <div class="stat-value">4</div>
-                <div class="stat-label">Active</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">2</div>
-                <div class="stat-label">Paused</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">1</div>
-                <div class="stat-label">Expired</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">547</div>
-                <div class="stat-label">Views</div>
-            </div>
-        </div>
-        
         <!-- Info Banner -->
         <div class="info-banner">
             <i class="fas fa-lightbulb"></i>
@@ -597,7 +577,7 @@
             <div class="filter-pill">Paused (2)</div>
             <div class="filter-pill">Expired (1)</div>
         </div>
-        
+
         <!-- Listings -->
         <div class="listing-card">
             <div class="listing-content">
@@ -622,15 +602,12 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-pause"></i> Pause
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
-        
+
         <div class="listing-card">
             <div class="listing-content">
                 <div class="listing-image">
@@ -654,15 +631,12 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-play"></i> Activate
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
-        
+
         <div class="listing-card">
             <div class="listing-content">
                 <div class="listing-image">
@@ -686,15 +660,12 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-pause"></i> Pause
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
-        
+
         <div class="listing-card">
             <div class="listing-content">
                 <div class="listing-image">
@@ -718,15 +689,12 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-play"></i> Activate
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
-        
+
         <div class="listing-card">
             <div class="listing-content">
                 <div class="listing-image">
@@ -750,15 +718,12 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-pause"></i> Pause
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
-        
+
         <!-- Add an example of an expired listing -->
         <div class="listing-card">
             <div class="listing-content">
@@ -783,11 +748,8 @@
                 <a href="#" class="listing-action">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="#" class="listing-action">
-                    <i class="fas fa-pause"></i> Pause
-                </a>
                 <a href="#" class="listing-action remove-action">
-                    <i class="fas fa-trash-alt"></i> Remove
+                    <i class="fas fa-archive"></i> Archive
                 </a>
             </div>
         </div>
@@ -795,23 +757,26 @@
     
     <!-- iOS Tab Bar -->
     <div class="ios-tab-bar">
-        <a href="home.html" class="tab-item">
+        <a href="buyer-category.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-home"></i></div>
             <div class="tab-label">Home</div>
         </a>
-        <a href="#" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-search"></i></div>
-            <div class="tab-label">Search</div>
-        </a>
-        <a href="seller-flow.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
-            <div class="tab-label">Sell</div>
-        </a>
         <a href="messaging.html" class="tab-item">
-            <div class="tab-icon"><i class="fas fa-comments"></i></div>
+            <div class="tab-icon">
+                <i class="fas fa-comments"></i>
+                <span class="tab-badge">2</span>
+            </div>
             <div class="tab-label">Messages</div>
         </a>
-        <a href="profile.html" class="tab-item active">
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="my-listings.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-list"></i></div>
+            <div class="tab-label">Listings</div>
+        </a>
+        <a href="account-management.html" class="tab-item">
             <div class="tab-icon"><i class="fas fa-user"></i></div>
             <div class="tab-label">Profile</div>
         </a>
@@ -901,7 +866,7 @@
             // Get all filter pills and listing cards
             const filterPills = document.querySelectorAll('.filter-pill');
             const listingCards = document.querySelectorAll('.listing-card');
-            
+
             // Add click event to each filter pill
             filterPills.forEach(pill => {
                 pill.addEventListener('click', function() {
@@ -910,7 +875,7 @@
                     
                     // Add active class to clicked pill
                     this.classList.add('active');
-                    
+
                     // Get the filter type from the pill text
                     const filterType = this.textContent.split(' ')[0].toLowerCase();
                     
@@ -948,25 +913,68 @@
                     const action = this.textContent.trim();
                     const listingName = this.closest('.listing-card').querySelector('.listing-name').textContent;
                     
-                    switch(action) {
-                        case 'Pause':
-                            handlePauseAction(listingName);
-                            break;
-                        case 'Activate':
-                            handleActivateAction(listingName);
-                            break;
-                        case 'Edit':
-                            handleEditAction(listingName);
-                            break;
-                        case 'Extend':
-                            handleExtendAction(listingName);
-                            break;
-                        case 'Remove':
-                            handleRemoveAction(listingName);
-                            break;
+                    if (action === 'Edit') {
+                        handleEditAction(listingName);
+                    } else if (action === 'Archive') {
+                        handleArchiveAction(listingName);
                     }
                 });
             });
+
+            function handleEditAction(listingName) {
+                // Implement edit functionality
+                console.log('Edit:', listingName);
+            }
+
+            function handleArchiveAction(listingName) {
+                const card = findListingCard(listingName);
+                if (confirm(`Are you sure you want to archive "${listingName}"?`)) {
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        card.remove();
+                        updateCounts();
+                    }, 300);
+                }
+            }
+
+            function findListingCard(listingName) {
+                return Array.from(listingCards).find(card => 
+                    card.querySelector('.listing-name').textContent === listingName
+                );
+            }
+
+            function updateCounts() {
+                const activeCount = document.querySelectorAll('.status-active').length;
+                const pausedCount = document.querySelectorAll('.status-paused').length;
+                const expiredCount = document.querySelectorAll('.status-expired').length;
+
+                // The stats row is removed, so we don't update it here.
+                // The filter pills will reflect the current counts.
+
+                // Update filter pills
+                filterPills.forEach(pill => {
+                    const type = pill.textContent.split(' ')[0].toLowerCase();
+                    let count = 0;
+                    switch(type) {
+                        case 'all':
+                            count = activeCount + pausedCount + expiredCount;
+                            break;
+                        case 'active':
+                            count = activeCount;
+                            break;
+                        case 'paused':
+                            count = pausedCount;
+                            break;
+                        case 'expired':
+                            count = expiredCount;
+                            break;
+                    }
+                    pill.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} (${count})`;
+                });
+            }
+
+            // Initial count update
+            updateCounts();
 
             // Add click handlers for remove buttons
             const removeButtons = document.querySelectorAll('.remove-action');
@@ -978,193 +986,6 @@
                     showRemoveConfirmation(itemName, card);
                 });
             });
-
-            // Action handlers
-            function handlePauseAction(listingName) {
-                const card = findListingCard(listingName);
-                const statusElement = card.querySelector('.listing-status');
-                statusElement.textContent = 'Paused';
-                statusElement.className = 'listing-status status-paused';
-                updateActionButtons(card, 'paused');
-            }
-
-            function handleActivateAction(listingName) {
-                const card = findListingCard(listingName);
-                const statusElement = card.querySelector('.listing-status');
-                statusElement.textContent = 'Active';
-                statusElement.className = 'listing-status status-active';
-                updateActionButtons(card, 'active');
-            }
-
-            function handleEditAction(listingName) {
-                const card = findListingCard(listingName);
-                openEditModal(card);
-            }
-
-            function openEditModal(card) {
-                const modal = document.getElementById('editModal');
-                const overlay = document.getElementById('editModalOverlay');
-                
-                // Store reference to current editing item
-                window.currentEditingItem = card.querySelector('.listing-name').textContent;
-                
-                // Populate form with current values
-                document.getElementById('editTitle').value = card.querySelector('.listing-name').textContent;
-                document.getElementById('editPrice').value = card.querySelector('.listing-price').textContent.replace('$', '');
-                
-                // Show modal and overlay
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-                
-                // Add animation in next frame
-                requestAnimationFrame(() => {
-                    modal.style.opacity = '1';
-                    overlay.style.opacity = '1';
-                });
-                
-                // Prevent body scroll
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeEditModal() {
-                const modal = document.getElementById('editModal');
-                const overlay = document.getElementById('editModalOverlay');
-                
-                // Reset form
-                document.getElementById('editListingForm').reset();
-                
-                // Start fade out animation
-                modal.style.opacity = '0';
-                overlay.style.opacity = '0';
-                
-                // Hide after animation
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    overlay.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }, 300);
-            }
-
-            function saveEditChanges() {
-                // Get all form values
-                const title = document.getElementById('editTitle').value;
-                const price = document.getElementById('editPrice').value;
-                const condition = document.getElementById('editCondition').value;
-                const description = document.getElementById('editDescription').value;
-                const category = document.getElementById('editCategory').value;
-                const brand = document.getElementById('editBrand').value;
-                const location = document.getElementById('editLocation').value;
-
-                // Validate required fields
-                if (!title || !price) {
-                    showToast('Please fill in all required fields', 'error');
-                    return;
-                }
-
-                // Find the card we're editing
-                const card = findListingCard(window.currentEditingItem);
-                if (!card) {
-                    showToast('Error updating listing', 'error');
-                    return;
-                }
-
-                // Update card content
-                card.querySelector('.listing-name').textContent = title;
-                card.querySelector('.listing-price').textContent = `$${price}`;
-
-                // Show success message
-                showToast('Changes saved successfully');
-
-                // Close modal
-                closeEditModal();
-            }
-
-            function handleExtendAction(listingName) {
-                const card = findListingCard(listingName);
-                const statusElement = card.querySelector('.listing-status');
-                statusElement.textContent = 'Active';
-                statusElement.className = 'listing-status status-active';
-                updateActionButtons(card, 'active');
-            }
-
-            function handleRemoveAction(listingName) {
-                if (confirm(`Are you sure you want to remove "${listingName}"?`)) {
-                    const card = findListingCard(listingName);
-                    card.style.opacity = '0';
-                    setTimeout(() => {
-                        card.remove();
-                        updateFilterCounts();
-                    }, 300);
-                }
-            }
-
-            function findListingCard(listingName) {
-                return Array.from(listingCards).find(card => 
-                    card.querySelector('.listing-name').textContent === listingName
-                );
-            }
-
-            function updateActionButtons(card, status) {
-                const actionsDiv = card.querySelector('.listing-actions');
-                switch(status) {
-                    case 'active':
-                        actionsDiv.innerHTML = `
-                            <a href="#" class="listing-action">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="#" class="listing-action">
-                                <i class="fas fa-pause"></i> Pause
-                            </a>
-                        `;
-                        break;
-                    case 'paused':
-                        actionsDiv.innerHTML = `
-                            <a href="#" class="listing-action">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="#" class="listing-action">
-                                <i class="fas fa-play"></i> Activate
-                            </a>
-                        `;
-                        break;
-                }
-                // Reattach event listeners to new buttons
-                attachActionListeners(actionsDiv);
-            }
-
-            function attachActionListeners(actionsDiv) {
-                actionsDiv.querySelectorAll('.listing-action').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const action = this.textContent.trim();
-                        const listingName = this.closest('.listing-card').querySelector('.listing-name').textContent;
-                        
-                        switch(action) {
-                            case 'Pause':
-                                handlePauseAction(listingName);
-                                break;
-                            case 'Activate':
-                                handleActivateAction(listingName);
-                                break;
-                            case 'Edit':
-                                handleEditAction(listingName);
-                                break;
-                        }
-                    });
-                });
-            }
-
-            function updateFilterCounts() {
-                const activeCount = document.querySelectorAll('.status-active').length;
-                const pausedCount = document.querySelectorAll('.status-paused').length;
-                const expiredCount = document.querySelectorAll('.status-expired').length;
-                const totalCount = activeCount + pausedCount + expiredCount;
-
-                filterPills[0].textContent = `All (${totalCount})`;
-                filterPills[1].textContent = `Active (${activeCount})`;
-                filterPills[2].textContent = `Paused (${pausedCount})`;
-                filterPills[3].textContent = `Expired (${expiredCount})`;
-            }
 
             // Add event listeners for modal buttons
             document.getElementById('saveEditBtn').addEventListener('click', saveEditChanges);
@@ -1308,10 +1129,9 @@
             const pausedCount = document.querySelectorAll('.status-paused').length;
             const expiredCount = document.querySelectorAll('.status-expired').length;
             
-            document.querySelector('.stat-value').textContent = activeCount;
-            document.querySelectorAll('.stat-value')[1].textContent = pausedCount;
-            document.querySelectorAll('.stat-value')[2].textContent = expiredCount;
-            
+            // The stats row is removed, so we don't update it here.
+            // The filter pills will reflect the current counts.
+
             // Update filter pills
             const totalCount = activeCount + pausedCount + expiredCount;
             document.querySelector('.filter-pill').textContent = `All (${totalCount})`;

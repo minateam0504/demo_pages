@@ -209,19 +209,20 @@
         }
         .timeline {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Changed from center to flex-start */
             margin: 20px 0;
             position: relative;
+            padding-top: 6px; /* Added padding to account for dot shadow */
         }
         .timeline::before {
             content: '';
             position: absolute;
             left: 0;
             right: 0;
-            top: 50%;
+            top: 12px; /* Adjusted to align with dots */
             height: 1px;
             background-color: var(--light-grey);
-            z-index: 1;
+            z-index: 2;
         }
         .timeline-step {
             flex: 1;
@@ -229,7 +230,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
         .step-dot {
             width: 12px;
@@ -237,12 +238,17 @@
             border-radius: 50%;
             background-color: var(--light-grey);
             margin-bottom: 8px;
+            position: relative;
+            border: 2px solid var(--soft-cream);
+            box-sizing: border-box;
         }
         .step-dot.completed {
             background-color: var(--sage-green);
+            border-color: var(--soft-cream);
         }
         .step-dot.current {
             background-color: var(--terracotta);
+            border-color: var(--soft-cream);
             box-shadow: 0 0 0 4px rgba(183, 94, 69, 0.2);
         }
         .step-label {
@@ -251,6 +257,11 @@
             text-align: center;
             max-width: 60px;
             line-height: 1.2;
+            margin-top: 4px;
+            height: 28px; /* Added fixed height to ensure consistent spacing */
+            display: flex;
+            align-items: flex-start; /* Align text to top */
+            justify-content: center;
         }
         .action-buttons {
             display: flex;

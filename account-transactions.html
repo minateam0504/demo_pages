@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Transactions & Payment - Mina</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #9B9E8A;
+            --terracotta: #B75E45;
+            --cream: #FAF4F0;
+            --charcoal: #4A4656;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            min-height: 100vh;
+            padding-bottom: 83px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .ios-status-bar {
+            height: 44px;
+            background-color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 600;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .main-content {
+            padding: 60px 16px 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-right: 16px;
+        }
+        .back-button {
+            margin-right: 8px;
+            color: var(--charcoal);
+            text-decoration: none;
+            padding: 8px;
+            margin: -8px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            flex: 1;
+        }
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding: 4px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .filter-pills::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-pill {
+            background: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: var(--charcoal);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .filter-pill.active {
+            background: var(--terracotta);
+            color: white;
+        }
+        .transaction-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .transaction-header {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+        }
+        .transaction-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .transaction-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .transaction-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .transaction-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: var(--charcoal);
+        }
+        .transaction-meta {
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .transaction-meta i {
+            margin-right: 6px;
+            font-size: 12px;
+            width: 14px;
+            text-align: center;
+        }
+        .transaction-price {
+            font-weight: 600;
+            color: var(--terracotta);
+            font-size: 16px;
+            margin-top: 4px;
+        }
+        .transaction-status {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .status-completed {
+            background-color: rgba(155, 158, 138, 0.1);
+            color: var(--sage-green);
+        }
+        .status-pending {
+            background-color: rgba(246, 192, 80, 0.1);
+            color: #b87503;
+        }
+        .ios-tab-bar {
+            height: 83px;
+            background-color: white;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--charcoal);
+            text-decoration: none;
+            padding: 8px 16px;
+        }
+        .tab-item.active {
+            color: var(--terracotta);
+        }
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .tab-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .tab-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: var(--terracotta);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .transaction-amount {
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .amount-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .amount-row.platform-fee {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .amount-row.platform-fee .amount {
+            color: #666;
+        }
+
+        .amount-row.total {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+
+        .amount-row .amount {
+            color: var(--terracotta);
+        }
+
+        .amount-row.total .amount {
+            color: var(--sage-green);
+        }
+
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .payment-status.completed {
+            background-color: rgba(155, 158, 138, 0.1);
+            color: var(--sage-green);
+        }
+
+        .payment-status.processing {
+            background-color: rgba(246, 192, 80, 0.1);
+            color: #b87503;
+        }
+
+        .payment-status i {
+            font-size: 10px;
+        }
+
+        .status-info {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .transaction-refund {
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .refund-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .refund-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            gap: 4px;
+            margin-top: 8px;
+            background-color: rgba(183, 94, 69, 0.1);
+            color: var(--terracotta);
+        }
+
+        .refund-status i {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div>9:41</div>
+        <div>
+            <span class="mr-1"><i class="fas fa-signal"></i></span>
+            <span class="mr-1"><i class="fas fa-wifi"></i></span>
+            <span><i class="fas fa-battery-full"></i></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="account-management.html" class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <div class="page-title">Transactions & Payment</div>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="filter-pills">
+            <div class="filter-pill active" data-filter="purchases">
+                My Purchases
+            </div>
+            <div class="filter-pill" data-filter="sales">
+                My Sales
+            </div>
+        </div>
+
+        <!-- My Purchases Section -->
+        <div id="purchases-section">
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-image">
+                        <img src="images/Used Product Image/Nuna PIPA RX Infant Car Seat.jpg" alt="Nuna PIPA">
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-title">Nuna PIPA RX Infant Car Seat</div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-user"></i> Seller: @sarahK
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-calendar"></i> Pickup Scheduled: Aug 12, 2023
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-credit-card"></i> Visa •••• 9834
+                        </div>
+                        <div class="transaction-price">$250.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-image">
+                        <img src="images/Used Product Image/OXO Tot Sprout High Chair.jpg" alt="OXO High Chair">
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-title">OXO Tot Sprout High Chair</div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-user"></i> Seller: @michaelP
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-calendar-check"></i> Pickup Completed: Aug 5, 2023
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-credit-card"></i> Visa •••• 9834
+                        </div>
+                        <div class="transaction-price">$180.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refunded Purchase Example -->
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-image">
+                        <img src="images/Used Product Image/Britax one4life.jpg" alt="Britax Car Seat">
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-title">Britax One4Life Car Seat</div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-user"></i> Seller: @rachelT
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-calendar-times"></i> Pickup Cancelled: Aug 3, 2023
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-credit-card"></i> Visa •••• 9834
+                        </div>
+                        <div class="transaction-refund">
+                            <div class="refund-row">
+                                <span>Original Amount:</span>
+                                <span>$300.00</span>
+                            </div>
+                            <div class="refund-row">
+                                <span>Refund Amount:</span>
+                                <span style="color: var(--terracotta);">-$300.00</span>
+                            </div>
+                            <div class="refund-status">
+                                <i class="fas fa-undo"></i>
+                                Refunded
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Sales Section -->
+        <div id="sales-section" style="display: none;">
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-image">
+                        <img src="images/CHICCO.JPG" alt="Graco Car Seat">
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-title">Graco Infant Car Seat</div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-user"></i> Buyer: @juliaR
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-calendar-check"></i> Pickup Completed: Aug 9, 2023
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-credit-card"></i> Visa •••• 9834
+                        </div>
+                        <div class="transaction-amount">
+                            <div class="amount-row">
+                                <span>Amount Received:</span>
+                                <span class="amount">$50.00</span>
+                            </div>
+                            <div class="amount-row platform-fee">
+                                <span>Platform Fee (20%):</span>
+                                <span class="amount">-$10.00</span>
+                            </div>
+                            <div class="amount-row total">
+                                <span>Net Earnings:</span>
+                                <span class="amount">$40.00</span>
+                            </div>
+                        </div>
+                        <div class="payment-status completed">
+                            <i class="fas fa-check-circle"></i>
+                            Payment Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-image">
+                        <img src="images/Used Product Image/Baby Björn Bouncer.jpg" alt="Baby Bjorn Bouncer">
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-title">Baby Bjorn Bouncer Bliss</div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-user"></i> Buyer: @emmaW
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-calendar-check"></i> Pickup Completed: Aug 10, 2023
+                        </div>
+                        <div class="transaction-meta">
+                            <i class="fas fa-credit-card"></i> Visa •••• 4567
+                        </div>
+                        <div class="transaction-amount">
+                            <div class="amount-row">
+                                <span>Amount:</span>
+                                <span class="amount">$120.00</span>
+                            </div>
+                            <div class="amount-row platform-fee">
+                                <span>Platform Fee (20%):</span>
+                                <span class="amount">-$24.00</span>
+                            </div>
+                            <div class="amount-row total">
+                                <span>Net Earnings:</span>
+                                <span class="amount">$96.00</span>
+                            </div>
+                        </div>
+                        <div class="payment-status processing">
+                            <i class="fas fa-clock"></i>
+                            Processing
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- iOS Tab Bar -->
+    <div class="ios-tab-bar">
+        <a href="buyer-category.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div class="tab-label">Home</div>
+        </a>
+        <a href="messaging.html" class="tab-item">
+            <div class="tab-icon">
+                <i class="fas fa-comments"></i>
+                <span class="tab-badge">2</span>
+            </div>
+            <div class="tab-label">Messages</div>
+        </a>
+        <a href="seller-flow.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-plus-circle" style="font-size: 28px; margin-top: -4px;"></i></div>
+            <div class="tab-label">Sell</div>
+        </a>
+        <a href="my-listings.html" class="tab-item">
+            <div class="tab-icon"><i class="fas fa-list"></i></div>
+            <div class="tab-label">Listings</div>
+        </a>
+        <a href="account-management.html" class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div class="tab-label">Profile</div>
+        </a>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterPills = document.querySelectorAll('.filter-pill');
+        const purchasesSection = document.getElementById('purchases-section');
+        const salesSection = document.getElementById('sales-section');
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', function() {
+                // Remove active class from all pills
+                filterPills.forEach(p => p.classList.remove('active'));
+                // Add active class to clicked pill
+                this.classList.add('active');
+
+                // Show/hide appropriate section
+                if (this.dataset.filter === 'purchases') {
+                    purchasesSection.style.display = 'block';
+                    salesSection.style.display = 'none';
+                } else {
+                    purchasesSection.style.display = 'none';
+                    salesSection.style.display = 'block';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html> 
